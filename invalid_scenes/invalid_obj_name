@@ -1,0 +1,32 @@
+camera {
+    position: 0, 2, -40
+    rotation: 0, 0, 0
+}
+
+cylinde {
+    position: 20, 0, 100
+    radius: 20
+    vector: 0, 1, 0
+    rotation: 0, 0, 0
+    color: 170, 10, 98, 255
+    specular: 60
+}
+
+sphere {
+    center: -70, -20, 100
+    radius: 20
+    rotation: 0, 0, 0
+    color: 100, 150, 4, 255
+    specular: 50
+}
+
+light {
+    type: point
+    position: 100, 10, -20
+    intensity: 0.4
+}
+
+light {
+    type: ambient
+    intensity: 0.2
+}

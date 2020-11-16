@@ -1,0 +1,23 @@
+light {
+    type: point
+    position: 100, 10, -20
+    intensity: 0.4
+}
+
+sphere cone {
+    center: 0, 0, 0
+    radius: 300
+    rotation: 0, 0, 0
+    color: 255, 0, 0, 255
+    specular: 100
+}
+
+light {
+    type: ambient
+    intensity: 0.2
+}
+
+camera {
+    position: 0, 2, -1000
+    rotation: 0, 0, 0
+}

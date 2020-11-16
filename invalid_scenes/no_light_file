@@ -1,0 +1,13 @@
+cone {
+    position: 20, 0, 100
+    vector: 0, 1, 0
+    angle: 0.3
+    rotation: 1.57, 0, 0.2
+    color: 200, 50, 60, 255
+    specular: 100
+}
+
+camera {
+    position: 0, 2, -1000
+    rotation: 0, 0, 0
+}

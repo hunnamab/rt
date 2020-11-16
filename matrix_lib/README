@@ -1,0 +1,50 @@
+1) float      **create_matrix(int numRows, int numCols) 
+Создает матрицу указанного размера.
+
+2) void      matr_swap_rows(float **matr, int numRows, int numCols, int row1, int row2)
+Меняет местами указанные в row1 и row2 строки.
+
+3) void     matr_swap_cols(float **matr, int numRows, int numCols, int col1, int col2)
+Меняет местами указанные в col1 и col2 столбцы.
+
+4) void        print_matrix(float **matrix, int numRows, int numCols)
+Печатает матрицу.
+
+5) float      **matr_mul(float **matrix1, float **matrix2, int numRows1, int numCols1, int numRows2, int numCols2)
+Умножение указанных матриц, в случае ошибки возвращает NULL и сообщает об ошибке в стандартный вывод, в случае успеха возвращает указатель на матрицу-результат умножения.
+
+6) void        matr_mul_by_scalar(float **matrix, int numRows, int numCols, int scalar)
+Умножает матрицу на скаляр.
+
+7) void        matr_div_by_scalar(float **matrix, int numRows, int numCols, int scalar)
+Делит матрицу на скаляр.
+
+8) void        matr_add_scalar(float **matrix, int numRows, int numCols, int scalar)
+Прибавляет к матрице скаляр.
+
+9) void        matr_sub_scalar(float **matrix, int numRows, int numCols, int scalar)
+Вычитает из матрицы скаляр.
+
+10) void        matr_add_matr(float **matrix1, float **matrix2, int numRows, int numCols)
+Прибавляет к матрице матрицу, размеры матриц должны быть одинаковы.
+
+11) void        matr_sub_matr(float **matrix1, float **matrix2, int numRows, int numCols)
+Вычитает из матрицы матрицу, размеры матриц должны быть одинаковы.
+
+12) float      matr_trace(float **matrix, int numRows, int numCols)
+Вычисляет след матрицы (сумму диагональных элементов), матрицы должна быть квадратной, в случае ошибки возвращает -1 и пишет об ошибке в стандартный вывод.
+
+13)float      **matr_transpose(float **matr, int numRows, int numCols)
+Выполняет транспонирование матрицы и возвращает указатель на матрицу-результат транспонирования.
+
+14) void        matr_resize(float ***matrix, int numRows, int numCols, int newRows, int newCols)
+Изменяет размер указанной матрицы, содержимое матрицы при этом сохраняется. Принимает указатель на матрицу.
+
+15) void        matr_copy(float **srcMatrix, float **dstMatrix, int numRows, int numCols)
+Копирует содержимое матрицы src в матрицу dst, в случае указания некорректных размеров поведение не определено.
+
+16) void        matr_free(float **matrix, int numRows)
+Освобождает память, выделенную под матрицу.
+
+17) int         *matr_to_line(float **matrix, int numRows, int numCols)
+Переводит матрицу в одномерный массив из целых чисел, округляет в меньшую сторону.

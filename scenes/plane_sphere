@@ -1,0 +1,37 @@
+sphere {
+    center: 0, 0, 120
+    radius: 30
+    rotation: 0, 0, 0
+    color: 100, 50, 200, 255
+    specular: 60
+}
+
+plane {
+    point: 0, 1, 0
+    normal: 0, 1, 0
+    rotation: 0, 0, 0
+    color: 123, 33, 56, 255
+    specular: -1
+}
+
+light {
+    type: point
+    position: 100, 10, -20
+    intensity: 0.4
+}
+
+light {
+    type: point
+    position: 0, 2, 85
+    intensity: 0.4
+}
+
+light {
+    type: ambient
+    intensity: 0.2
+}
+
+camera {
+    position: 0, 2, -40
+    rotation: 0, 0, 0
+}
