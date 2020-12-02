@@ -16,6 +16,17 @@
 
 typedef	struct		s_scene t_scene;
 
+typedef	struct 		s_cl_data
+{
+	cl_device_id		device_id;// compute device id
+	cl_context			context;// compute context
+	cl_command_queue	commands; // compute command queue
+	cl_program			*programs;
+	cl_kernel 			*kernels; // compute kernel
+	cl_mem				input;// device memory used for the input array
+    cl_mem				output;// device memory used for the output array
+}					t_cl_data;
+
 typedef struct		s_sdl
 {
 	SDL_Window		*win;
@@ -111,6 +122,7 @@ typedef	struct		s_object3d
 
 struct		s_scene
 {
+	t_cl_data		cl_data;
 	t_object		**objs;
 	int				obj_nmb;
 	t_point			*normal_buf;

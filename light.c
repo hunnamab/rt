@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "rt.h"
 
 t_light		*new_light(t_point *pos_dir, const char *type, double intensity)
 {

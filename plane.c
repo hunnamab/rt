@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "rt.h"
 
 t_object	*new_plane(t_point *poi_nor, double specular, t_color color, \
 						double *rotation)

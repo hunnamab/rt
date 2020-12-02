@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "rt.h"
 
 static void	init_norme(double *r, t_point *v, double *rt, t_point *vt)
 {

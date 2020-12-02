@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "rt.h"
 
 t_object	*new_cone(t_point *pos_vec, double *ang_spec, t_color color, \
 						double *rotation)

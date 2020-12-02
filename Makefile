@@ -10,13 +10,13 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME = rtv1
-NAME_LINUX = rtv1_linux
+NAME = rt
+NAME_LINUX = rt_linux
 LIB_FLAGS = -Wall -Wextra
 MAC_FLAGS = -I SDL2.framework/Headers -F ./ -framework SDL2
-LINUX_FLAGS = -lSDL2 -lm
+LINUX_FLAGS = -lSDL2 -lm -lOpenCL
 LIBRARY = ./libft/libft.a
-HEADER = rtv1.h
+HEADER = rt.h
 SRC = main.c sphere.c vector.c utils.c \
 	light.c triangle.c scenes_reader.c draw.c ftoi.c \
 	objects_parameters.c plane.c cylinder.c cone.c \
@@ -30,7 +30,7 @@ SRC = main.c sphere.c vector.c utils.c \
 	buffers.c scene.c color.c vector_second.c transform_matrix.c \
 	keyboard.c clean.c errors_management.c light_parameters.c \
 	parameters_utils.c camera_parameters.c define_object.c \
-	scenes_reader_util.c
+	scenes_reader_util.c cl_init.c
 OBJ = $(SRC:.c=.o)
 
 all: $(NAME)
@@ -47,18 +47,11 @@ $(NAME): $(LIBRARY) $(OBJ)
 
 linux: $(NAME_LINUX) 
 
-$(OBJ): %.o: %.c $(HEADER)
-	gcc -c $(LIB_FLAGS) -I libft/ -I matrix_lib/ -o $@ $<
-
-$(LIBRARY):
-		@make -C libft/
-
 $(NAME_LINUX): $(LIBRARY) $(OBJ)
 		@gcc $(OBJ) $(LIBRARY) -o $(NAME_LINUX) $(LINUX_FLAGS) -I $(HEADER)
-		@make clean
 clean:
-	@rm -f $(OBJ)
-	@make -C libft clean
+	@rm $(OBJ)
+	@make -C libft clean\
 
 fclean: clean
 	@rm -f $(NAME)

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "rt.h"
 
 t_object	*new_sphere(t_point center, double *rad_spec, t_color color, \
 						double *rotation)

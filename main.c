@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "rt.h"
 
 void	check_mode(int as, char **av, t_scene *scene)
 {
@@ -52,12 +52,13 @@ void	args_check(t_scene *scene, char **argv, int args)
 
 int		main(int args, char **argv)
 {
-	t_sdl		sdl;
+ 	t_sdl		sdl;
 	t_scene		*scene;
 	int			k;
 
 	k = 1;
 	scene = (t_scene *)protected_malloc(sizeof(t_scene), 1);
+	cl_init(scene->cl_data);
 	args_check(scene, argv, args);
 	SDL_Init(SDL_INIT_EVERYTHING);
 	SDL_CreateWindowAndRenderer(WID, HEI, 0, &sdl.win, &sdl.renderer);
