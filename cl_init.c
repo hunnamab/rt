@@ -12,7 +12,7 @@ const char *KernelSource = "\n" \
 "}                                                                      \n" \
 "\n";
 
-void    cl_init(t_cl_data cl_data)
+int    cl_init(t_cl_data cl_data)
 {
     int err;
     float data[1024];              // original data set given to device

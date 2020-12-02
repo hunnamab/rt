@@ -13,10 +13,10 @@
 #ifndef RT_H
 # define RT_H
 
-# include <SDL2/SDL.h> //for linux
-# include <CL/cl.h> //for linux
-//# include <OpenCL/opencl.h> //MacOS
-//# include "SDL2.framework/Headers/SDL.h" //for macOS
+//# include <SDL2/SDL.h> //for linux
+//# include <CL/cl.h> //for linux
+# include <OpenCL/opencl.h> //for macOS
+# include "SDL2.framework/Headers/SDL.h" //for macOS
 # include <stdio.h>
 # include <math.h>
 # include <fcntl.h>
@@ -157,6 +157,6 @@ void		clean_scene(t_scene *scene);
 // errors_management.c
 void		output_description(void);
 void		output_error(int tag);
-void    	cl_init(t_cl_data cl_data);
+int    		cl_init(t_cl_data cl_data);
 
 #endif

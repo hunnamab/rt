@@ -13,7 +13,7 @@
 NAME = rt
 NAME_LINUX = rt_linux
 LIB_FLAGS = -Wall -Wextra
-MAC_FLAGS = -I SDL2.framework/Headers -F ./ -framework SDL2
+MAC_FLAGS = -I SDL2.framework/Headers -F ./ -framework SDL2 -framework OpenCL
 LINUX_FLAGS = -lSDL2 -lm -lOpenCL
 LIBRARY = ./libft/libft.a
 HEADER = rt.h
