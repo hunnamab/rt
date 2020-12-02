@@ -13,10 +13,13 @@
 #ifndef RT_H
 # define RT_H
 
-//# include <SDL2/SDL.h> //for linux
-//# include <CL/cl.h> //for linux
-# include <OpenCL/opencl.h> //for macOS
-# include "SDL2.framework/Headers/SDL.h" //for macOS
+#ifdef __APPLE__
+	# include <OpenCL/opencl.h> //for macOS
+	# include "SDL2.framework/Headers/SDL.h" //for macOS
+#else
+	# include <SDL2/SDL.h> //for linux
+	# include <CL/cl.h> //for linux
+#endif
 # include <stdio.h>
 # include <math.h>
 # include <fcntl.h>
