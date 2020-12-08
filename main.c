@@ -58,7 +58,7 @@ int		main(int args, char **argv)
 
 	k = 1;
 	scene = (t_scene *)protected_malloc(sizeof(t_scene), 1);
-	cl_init(scene->cl_data);
+	//cl_init(scene->cl_data);
 	args_check(scene, argv, args);
 	SDL_Init(SDL_INIT_EVERYTHING);
 	SDL_CreateWindowAndRenderer(WID, HEI, 0, &sdl.win, &sdl.renderer);
