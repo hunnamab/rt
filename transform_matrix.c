@@ -12,9 +12,9 @@
 
 #include "rt.h"
 
-double	**get_translate_matrix(double *move)
+float	**get_translate_matrix(float *move)
 {
-	double **t_matrix;
+	float **t_matrix;
 
 	t_matrix = create_matrix(4, 4);
 	matrix_identity(t_matrix, 4);
@@ -24,9 +24,9 @@ double	**get_translate_matrix(double *move)
 	return (t_matrix);
 }
 
-double	**get_scale_matrix(double *scale)
+float	**get_scale_matrix(float *scale)
 {
-	double **s_matrix;
+	float **s_matrix;
 
 	s_matrix = create_matrix(4, 4);
 	s_matrix[0][0] = scale[0];
@@ -36,9 +36,9 @@ double	**get_scale_matrix(double *scale)
 	return (s_matrix);
 }
 
-double	**rotate_x(double x)
+float	**rotate_x(float x)
 {
-	double **matrix;
+	float **matrix;
 
 	matrix = create_matrix(4, 4);
 	matrix[0][0] = 1;
@@ -51,9 +51,9 @@ double	**rotate_x(double x)
 	return (matrix);
 }
 
-double	**rotate_z(double z)
+float	**rotate_z(float z)
 {
-	double **matrix;
+	float **matrix;
 
 	matrix = create_matrix(4, 4);
 	matrix[0][0] = cosf(z);
@@ -65,9 +65,9 @@ double	**rotate_z(double z)
 	return (matrix);
 }
 
-double	**rotate_y(double y)
+float	**rotate_y(float y)
 {
-	double **matrix;
+	float **matrix;
 
 	matrix = create_matrix(4, 4);
 	matrix[0][0] = cosf(y);

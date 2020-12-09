@@ -12,7 +12,7 @@
 
 #include "rt.h"
 
-t_light		*new_light(t_point *pos_dir, const char *type, double intensity)
+t_light		*new_light(cl_float3 *pos_dir, const char *type, float intensity)
 {
 	t_light *new_light;
 
@@ -25,9 +25,9 @@ t_light		*new_light(t_point *pos_dir, const char *type, double intensity)
 	return (new_light);
 }
 
-t_point		get_light_vec(t_scene *scene, int index, int j)
+cl_float3		get_light_vec(t_scene *scene, int index, int j)
 {
-	t_point light_vec;
+	cl_float3 light_vec;
 
 	light_vec = get_point(0, 0, 0);
 	if (ft_strequ(scene->light[j]->type, "point"))
@@ -38,11 +38,11 @@ t_point		get_light_vec(t_scene *scene, int index, int j)
 	return (light_vec);
 }
 
-int			in_shadow(t_scene *scene, int index, t_point l)
+int			in_shadow(t_scene *scene, int index, cl_float3 l)
 {
 	t_ray	ray;
 	int		i;
-	double	t;
+	float	t;
 
 	i = 0;
 	ray.dir = l;
@@ -60,12 +60,12 @@ int			in_shadow(t_scene *scene, int index, t_point l)
 	return (0);
 }
 
-double		get_specular(t_scene *scene, int index, int j, t_point *l)
+float		get_specular(t_scene *scene, int index, int j, cl_float3 *l)
 {
-	double		nri[3];
-	t_point		r;
-	t_point		d;
-	t_point		lb;
+	float		nri[3];
+	cl_float3		r;
+	cl_float3		d;
+	cl_float3		lb;
 
 	lb = vector_div_by_scalar(l, vector_length(l));
 	nri[2] = 0;
@@ -78,7 +78,7 @@ double		get_specular(t_scene *scene, int index, int j, t_point *l)
 	d.z = -scene->ray_buf[index].dir.z;
 	nri[1] = vector_dot(&r, &d);
 	if (nri[1] > 0)
-		nri[2] += scene->light[j]->intensity * pow((double)nri[1] / \
+		nri[2] += scene->light[j]->intensity * pow((float)nri[1] / \
 		(vector_length(&r) * vector_length(&d)), \
 		scene->material_buf[index].specular);
 	return (nri[2]);
@@ -86,9 +86,9 @@ double		get_specular(t_scene *scene, int index, int j, t_point *l)
 
 t_color		reflection_color(t_scene *scene, int index)
 {
-	double	i;
-	t_point	l;
-	double	n_dot_l;
+	float	i;
+	cl_float3	l;
+	float	n_dot_l;
 	int		j;
 
 	j = -1;

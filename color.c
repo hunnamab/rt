@@ -39,12 +39,12 @@ void		copy_color(t_color *dst, t_color *src)
 	dst->alpha = src->alpha;
 }
 
-t_color		color_mul_by_scalar(t_color *color, double scalar)
+t_color		color_mul_by_scalar(t_color *color, float scalar)
 {
 	t_color result_color;
 
-	result_color.red = (double)color->red * scalar;
-	result_color.blue = (double)color->blue * scalar;
-	result_color.green = (double)color->green * scalar;
+	result_color.red = (float)color->red * scalar;
+	result_color.blue = (float)color->blue * scalar;
+	result_color.green = (float)color->green * scalar;
 	return (result_color);
 }

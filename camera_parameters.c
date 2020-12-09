@@ -15,7 +15,7 @@
 t_camera	get_camera(char **description)
 {
 	t_camera	camera;
-	t_point		buf;
+	cl_float3		buf;
 
 	camera.position = get_points(description[0]);
 	buf = get_points(description[1]);

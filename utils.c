@@ -24,9 +24,9 @@ void		*protected_malloc(unsigned int size, unsigned int nmb)
 	return (result);
 }
 
-t_point		get_point(double x, double y, double z)
+cl_float3		get_point(float x, float y, float z)
 {
-	t_point result;
+	cl_float3 result;
 
 	result.x = x;
 	result.y = y;
@@ -34,16 +34,16 @@ t_point		get_point(double x, double y, double z)
 	return (result);
 }
 
-void		copy_point(t_point *dst, t_point *src)
+void		copy_point(cl_float3 *dst, cl_float3 *src)
 {
 	dst->x = src->x;
 	dst->y = src->y;
 	dst->z = src->z;
 }
 
-double		choose_t(double t0, double t1)
+float		choose_t(float t0, float t1)
 {
-	double result;
+	float result;
 
 	result = 0;
 	if ((t1 < t0 && t1 > 0) || (t0 < 0 && t1 >= 0))
@@ -59,19 +59,19 @@ void		get_viewport(t_scene *scene)
 {
 	int		x;
 	int		y;
-	double	k;
+	float	k;
 
-	k = (double)WID / (double)HEI;
+	k = (float)WID / (float)HEI;
 	x = 0;
 	y = 0;
 	while (y < HEI)
 	{
 		while (x < WID)
 		{
-			scene->viewport[y * WID + x].y = -(y - (double)HEI / 2) *\
-			(1 / (double)HEI) + scene->camera.position.y;
-			scene->viewport[y * WID + x].x = (x - (double)WID / 2) *\
-			(k / (double)WID) + scene->camera.position.x;
+			scene->viewport[y * WID + x].y = -(y - (float)HEI / 2) *\
+			(1 / (float)HEI) + scene->camera.position.y;
+			scene->viewport[y * WID + x].x = (x - (float)WID / 2) *\
+			(k / (float)WID) + scene->camera.position.x;
 			scene->viewport[y * WID + x].z = scene->camera.position.z + 1;
 			x++;
 		}

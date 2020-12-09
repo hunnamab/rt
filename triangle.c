@@ -12,7 +12,7 @@
 
 #include "rt.h"
 
-static void	init_norme(double *r, t_point *v, double *rt, t_point *vt)
+static void	init_norme(float *r, cl_float3 *v, float *rt, cl_float3 *vt)
 {
 	rt[0] = r[0];
 	rt[1] = r[1];
@@ -22,18 +22,18 @@ static void	init_norme(double *r, t_point *v, double *rt, t_point *vt)
 	vt[2] = v[2];
 }
 
-t_object	*new_triangle(t_point *vertex, double specular, t_color color, \
-							double *rotation)
+t_object	*new_triangle(cl_float3 *vertex, float specular, t_color color, \
+							float *rotation)
 {
 	t_triangle	*new_triangle;
 	t_object	*new_object;
-	t_point		edge1;
-	t_point		edge2;
-	double		**matrix;
+	cl_float3		edge1;
+	cl_float3		edge2;
+	float		**matrix;
 
 	new_object = protected_malloc(sizeof(t_object), 1);
 	new_triangle = protected_malloc(sizeof(t_triangle), 1);
-	new_triangle->vertex = protected_malloc(sizeof(t_point), 3);
+	new_triangle->vertex = protected_malloc(sizeof(cl_float3), 3);
 	init_norme(rotation, vertex, new_object->rotation, new_triangle->vertex);
 	matrix = get_rotation_matrix(new_object->rotation);
 	transform(new_triangle->vertex, matrix, 3);
@@ -73,13 +73,13 @@ void		get_triangle_normal(t_scene *scene, int index, int obj_num)
 		scene->normal_buf[index] = vector_scale(&scene->normal_buf[index], -1);
 }
 
-double		intersect_ray_triangle(t_ray *r, t_object *object)
+float		intersect_ray_triangle(t_ray *r, t_object *object)
 {
 	t_triangle	*triangle;
-	t_point		edge[2];
-	t_point		vec[3];
-	double		det;
-	double		uv[2];
+	cl_float3		edge[2];
+	cl_float3		vec[3];
+	float		det;
+	float		uv[2];
 
 	triangle = (t_triangle *)object->data;
 	edge[0] = vector_sub(&triangle->vertex[1], &triangle->vertex[0]);

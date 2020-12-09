@@ -12,8 +12,8 @@
 
 #include "rt.h"
 
-t_object	*new_sphere(t_point center, double *rad_spec, t_color color, \
-						double *rotation)
+t_object	*new_sphere(cl_float3 center, float *rad_spec, t_color color, \
+						float *rotation)
 {
 	t_sphere *new_sphere;
 	t_object *new_object;
@@ -49,12 +49,12 @@ void		get_sphere_normal(t_scene *scene, int index, int obj_num)
 		scene->normal_buf[index] = vector_scale(&scene->normal_buf[index], -1);
 }
 
-double		intersect_ray_sphere(t_ray *r, t_object *object)
+float		intersect_ray_sphere(t_ray *r, t_object *object)
 {
-	double		a;
-	double		b;
-	double		c;
-	t_point		dist;
+	float		a;
+	float		b;
+	float		c;
+	cl_float3		dist;
 	t_sphere	*s;
 
 	s = (t_sphere *)object->data;

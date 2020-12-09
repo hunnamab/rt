@@ -12,7 +12,7 @@
 
 #include "matrix.h"
 
-void	matrix_identity(double **matrix, int num_rows)
+void	matrix_identity(float **matrix, int num_rows)
 {
 	int i;
 

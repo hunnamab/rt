@@ -88,7 +88,7 @@ int				is_odd(long long int num);
 long long int	ft_pow(long long int num, long long int pow);
 int				get_last_digit(long long int num, int precision);
 char			*ft_strcpy_alloc(char *dst, char *src);
-void			ft_memdel_double(void **p);
+void			ft_memdel_float(void **p);
 int				brackets(char *str);
 
 #endif

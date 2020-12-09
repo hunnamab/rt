@@ -52,15 +52,15 @@ t_color		get_color(char *description)
 	color.green = ft_atoi(coordinates[1]);
 	color.blue = ft_atoi(coordinates[2]);
 	color.alpha = ft_atoi(coordinates[3]);
-	ft_memdel_double((void **)coordinates);
+	ft_memdel_float((void **)coordinates);
 	return (color);
 }
 
-t_point		get_points(char *description)
+cl_float3		get_points(char *description)
 {
 	char	*coord_buf;
 	char	**coordinates;
-	t_point	points;
+	cl_float3	points;
 
 	if (!description)
 		output_error(5);
@@ -77,6 +77,6 @@ t_point		get_points(char *description)
 	printf("y = %f\n", points.y);
 	points.z = ftoi(ft_strtrim(coordinates[2]));
 	printf("z = %f\n", points.z);
-	ft_memdel_double((void **)coordinates);
+	ft_memdel_float((void **)coordinates);
 	return (points);
 }

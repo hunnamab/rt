@@ -33,7 +33,7 @@ static void	scene_objects(int *snmi, t_scene *scene, char *buf)
 		snmi[2]++;
 	}
 	ft_memdel((void **)&obj_name); // освобождаем строки
-	ft_memdel_double((void **)obj_desc);
+	ft_memdel_float((void **)obj_desc);
 	while (buf[snmi[3]] != '}') // переходим к описанию следующего объекта
 		snmi[3]++;
 	snmi[0] = snmi[3] + 3;

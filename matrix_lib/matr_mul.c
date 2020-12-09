@@ -12,9 +12,9 @@
 
 #include "matrix.h"
 
-double	get_sum(double **matrix1, double **matrix2, int i, int j)
+float	get_sum(float **matrix1, float **matrix2, int i, int j)
 {
-	double	sum;
+	float	sum;
 	int		k;
 
 	k = 0;
@@ -27,12 +27,12 @@ double	get_sum(double **matrix1, double **matrix2, int i, int j)
 	return (sum);
 }
 
-void	matr_mul_void(double *matrix1, double **matrix2)
+void	matr_mul_void(float *matrix1, float **matrix2)
 {
 	int		i;
 	int		j;
-	double	buf;
-	double	m_buf[4];
+	float	buf;
+	float	m_buf[4];
 
 	i = -1;
 	while (i++ < 4)
@@ -54,9 +54,9 @@ void	matr_mul_void(double *matrix1, double **matrix2)
 	}
 }
 
-double	**matr_mul(double **matrix1, double **matrix2)
+float	**matr_mul(float **matrix1, float **matrix2)
 {
-	double	**result;
+	float	**result;
 	int		result_rows;
 	int		result_cols;
 	int		i;

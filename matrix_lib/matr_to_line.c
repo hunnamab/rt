@@ -12,7 +12,7 @@
 
 #include "matrix.h"
 
-int		*matr_to_line(double **matrix, int num_rows, int num_cols)
+int		*matr_to_line(float **matrix, int num_rows, int num_cols)
 {
 	int *line;
 	int i;

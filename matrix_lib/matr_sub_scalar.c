@@ -12,7 +12,7 @@
 
 #include "matrix.h"
 
-void	matr_sub_scalar(double **matrix, int num_rows, int num_cols, int scalar)
+void	matr_sub_scalar(float **matrix, int num_rows, int num_cols, int scalar)
 {
 	int i;
 	int j;

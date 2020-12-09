@@ -12,12 +12,12 @@
 
 #include "rt.h"
 
-t_object	*new_plane(t_point *poi_nor, double specular, t_color color, \
-						double *rotation)
+t_object	*new_plane(cl_float3 *poi_nor, float specular, t_color color, \
+						float *rotation)
 {
 	t_plane		*new_plane;
 	t_object	*new_object;
-	double		**matrix;
+	float		**matrix;
 
 	new_object = protected_malloc(sizeof(t_object), 1);
 	new_plane = protected_malloc(sizeof(t_plane), 1);
@@ -53,10 +53,10 @@ void		get_plane_normal(t_scene *scene, int index, int obj_num)
 		scene->normal_buf[index] = vector_scale(&scene->normal_buf[index], -1);
 }
 
-double		intersect_ray_plane(t_ray *r, t_object *object)
+float		intersect_ray_plane(t_ray *r, t_object *object)
 {
-	double	k1;
-	double	k2;
+	float	k1;
+	float	k2;
 	t_plane	*plane;
 
 	plane = (t_plane *)object->data;

@@ -12,12 +12,12 @@
 
 #include "rt.h"
 
-t_object	*new_cone(t_point *pos_vec, double *ang_spec, t_color color, \
-						double *rotation)
+t_object	*new_cone(cl_float3 *pos_vec, float *ang_spec, t_color color, \
+						float *rotation)
 {
 	t_cone		*new_cone;
 	t_object	*new_object;
-	double		**matrix;
+	float		**matrix;
 
 	new_object = malloc(sizeof(t_object));
 	new_cone = malloc(sizeof(t_cone));
@@ -43,9 +43,9 @@ t_object	*new_cone(t_point *pos_vec, double *ang_spec, t_color color, \
 void		get_cone_normal(t_scene *scene, int index, int obj_num)
 {
 	t_cone	*cone;
-	double	m;
-	t_point	*normal;
-	t_point buf;
+	float	m;
+	cl_float3	*normal;
+	cl_float3 buf;
 
 	normal = &scene->normal_buf[index];
 	cone = (t_cone *)scene->objs[obj_num]->data;
@@ -62,12 +62,12 @@ void		get_cone_normal(t_scene *scene, int index, int obj_num)
 		*normal = vector_scale(normal, -1);
 }
 
-double		intersect_ray_cone(t_ray *r, t_object *object)
+float		intersect_ray_cone(t_ray *r, t_object *object)
 {
-	double	a;
-	double	b;
-	double	c;
-	t_point	dist;
+	float	a;
+	float	b;
+	float	c;
+	cl_float3	dist;
 	t_cone	*cone;
 
 	cone = (t_cone *)object->data;

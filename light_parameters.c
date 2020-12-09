@@ -32,7 +32,7 @@ char		*get_light_type(char *description)
 	return (buf);
 }
 
-static void	init_norme(t_point *pos_dir, double *intensity)
+static void	init_norme(cl_float3 *pos_dir, float *intensity)
 {
 	*intensity = 0.0;
 	pos_dir[0].x = 0.0;
@@ -46,8 +46,8 @@ static void	init_norme(t_point *pos_dir, double *intensity)
 t_light		*get_light(char **description)
 {
 	t_light		*light;
-	t_point		pos_dir[2];
-	double		intensity;
+	cl_float3		pos_dir[2];
+	float		intensity;
 	char		*type;
 
 	light = NULL;

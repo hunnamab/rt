@@ -15,10 +15,10 @@
 t_object	*get_sphere(char **description)
 {
 	t_object	*sphere;
-	t_point		cen_buf[2];
+	cl_float3		cen_buf[2];
 	t_color		color;
-	double		rotation[3];
-	double		rad_spec[2];
+	float		rotation[3];
+	float		rad_spec[2];
 
 	cen_buf[0] = get_points(description[0]);
 	rad_spec[0] = ftoi(get_coordinates(description[1]));
@@ -36,9 +36,9 @@ t_object	*get_cylinder(char **description)
 {
 	t_object	*cylinder;
 	t_color		color;
-	t_point		pos_vec_buf[3];
-	double		rotation[3];
-	double		rad_spec[2];
+	cl_float3		pos_vec_buf[3];
+	float		rotation[3];
+	float		rad_spec[2];
 
 	pos_vec_buf[0] = get_points(description[0]);
 	rad_spec[0] = ftoi(get_coordinates(description[1]));
@@ -57,9 +57,9 @@ t_object	*get_cone(char **description)
 {
 	t_object	*cone;
 	t_color		color;
-	t_point		pos_vec_buf[3];
-	double		rotation[3];
-	double		ang_spec[2];
+	cl_float3		pos_vec_buf[3];
+	float		rotation[3];
+	float		ang_spec[2];
 
 	pos_vec_buf[0] = get_points(description[0]);
 	pos_vec_buf[1] = get_points(description[1]);
@@ -74,13 +74,13 @@ t_object	*get_cone(char **description)
 	return (cone);
 }
 
-t_object	*get_triangle(char **description, double specular)
+t_object	*get_triangle(char **description, float specular)
 {
 	t_object	*triangle;
-	t_point		vertex[3];
+	cl_float3		vertex[3];
 	t_color		color;
-	t_point		buf;
-	double		rotation[3];
+	cl_float3		buf;
+	float		rotation[3];
 
 	vertex[0] = get_points(description[0]);
 	vertex[1] = get_points(description[1]);
@@ -99,9 +99,9 @@ t_object	*get_plane(char **description)
 {
 	t_object	*plane;
 	t_color		color;
-	t_point		poi_nor_buf[3];
-	double		specular;
-	double		rotation[3];
+	cl_float3		poi_nor_buf[3];
+	float		specular;
+	float		rotation[3];
 
 	poi_nor_buf[0] = get_points(description[0]);
 	poi_nor_buf[1] = get_points(description[1]);

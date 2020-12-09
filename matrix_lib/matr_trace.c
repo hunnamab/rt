@@ -12,10 +12,10 @@
 
 #include "matrix.h"
 
-double	matr_trace(double **matrix, int num_rows, int num_cols)
+float	matr_trace(float **matrix, int num_rows, int num_cols)
 {
 	int		i;
-	double	result;
+	float	result;
 
 	i = 0;
 	result = 0;

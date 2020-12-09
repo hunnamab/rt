@@ -12,9 +12,9 @@
 
 #include "rt.h"
 
-t_point		vector_add(const t_point *v1, const t_point *v2)
+cl_float3		vector_add(const cl_float3 *v1, const cl_float3 *v2)
 {
-	t_point res;
+	cl_float3 res;
 
 	res.x = v1->x + v2->x;
 	res.y = v1->y + v2->y;
@@ -22,9 +22,9 @@ t_point		vector_add(const t_point *v1, const t_point *v2)
 	return (res);
 }
 
-t_point		vector_scale(t_point *v, double c)
+cl_float3		vector_scale(cl_float3 *v, float c)
 {
-	t_point res;
+	cl_float3 res;
 
 	res.x = v->x * c;
 	res.y = v->y * c;
@@ -32,9 +32,9 @@ t_point		vector_scale(t_point *v, double c)
 	return (res);
 }
 
-t_point		vector_sub(t_point *v1, t_point *v2)
+cl_float3		vector_sub(cl_float3 *v1, cl_float3 *v2)
 {
-	t_point res;
+	cl_float3 res;
 
 	res.x = v1->x - v2->x;
 	res.y = v1->y - v2->y;
@@ -42,14 +42,14 @@ t_point		vector_sub(t_point *v1, t_point *v2)
 	return (res);
 }
 
-double		vector_dot(t_point *v1, t_point *v2)
+float		vector_dot(cl_float3 *v1, cl_float3 *v2)
 {
 	return (v1->x * v2->x + v1->y * v2->y + v1->z * v2->z);
 }
 
-t_point		vector_sub_by_scalar(t_point *vector, double scalar)
+cl_float3		vector_sub_by_scalar(cl_float3 *vector, float scalar)
 {
-	t_point result;
+	cl_float3 result;
 
 	result.x = vector->x + scalar;
 	result.y = vector->y + scalar;

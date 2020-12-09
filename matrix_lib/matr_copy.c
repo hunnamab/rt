@@ -12,7 +12,7 @@
 
 #include "matrix.h"
 
-void	matr_copy(double **src_matrix, double **dst_matrix, \
+void	matr_copy(float **src_matrix, float **dst_matrix, \
 int num_rows, int num_cols)
 {
 	int i;

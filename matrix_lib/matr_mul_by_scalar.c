@@ -12,7 +12,7 @@
 
 #include "matrix.h"
 
-void	matr_mul_by_scalar(double **matrix, int num_rows, \
+void	matr_mul_by_scalar(float **matrix, int num_rows, \
 int num_cols, int scalar)
 {
 	int i;

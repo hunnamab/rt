@@ -14,15 +14,15 @@
 
 void	init_deepth(t_scene *scene)
 {
-	double	**matrix;
+	float	**matrix;
 	int		x;
 
 	x = -1;
-	scene->viewport = protected_malloc(sizeof(t_point), (WID * HEI));
+	scene->viewport = protected_malloc(sizeof(cl_float3), (WID * HEI));
 	get_viewport(scene);
 	scene->ray_buf = protected_malloc(sizeof(t_ray), (WID * HEI));
 	get_rays_arr(scene);
-	scene->depth_buf = protected_malloc(sizeof(double), WID * HEI);
+	scene->depth_buf = protected_malloc(sizeof(float), WID * HEI);
 	scene->index_buf = protected_malloc(sizeof(int), WID * HEI);
 	matrix = get_rotation_matrix(scene->camera.rotation);
 	while (++x < WID * HEI)
@@ -33,19 +33,19 @@ void	init_deepth(t_scene *scene)
 
 void	init_default(t_scene *scene)
 {
-	double	**matrix;
+	float	**matrix;
 	int		x;
 
 	x = -1;
-	scene->viewport = protected_malloc(sizeof(t_point), (WID * HEI));
+	scene->viewport = protected_malloc(sizeof(cl_float3), (WID * HEI));
 	get_viewport(scene);
 	scene->ray_buf = protected_malloc(sizeof(t_ray), (WID * HEI));
 	get_rays_arr(scene);
-	scene->normal_buf = protected_malloc(sizeof(t_point), WID * HEI);
+	scene->normal_buf = protected_malloc(sizeof(cl_float3), WID * HEI);
 	scene->material_buf = protected_malloc(sizeof(t_material), WID * HEI);
-	scene->intersection_buf = protected_malloc(sizeof(t_point), WID * HEI);
+	scene->intersection_buf = protected_malloc(sizeof(cl_float3), WID * HEI);
 	scene->index_buf = protected_malloc(sizeof(int), WID * HEI);
-	scene->depth_buf = protected_malloc(sizeof(double), WID * HEI);
+	scene->depth_buf = protected_malloc(sizeof(float), WID * HEI);
 	matrix = get_rotation_matrix(scene->camera.rotation);
 	while (++x < WID * HEI)
 		transform(&scene->ray_buf[x].dir, matrix, 1);
@@ -58,18 +58,18 @@ void	init_default(t_scene *scene)
 
 void	init_raycast(t_scene *scene)
 {
-	double	**matrix;
+	float	**matrix;
 	int		x;
 
 	x = -1;
-	scene->viewport = protected_malloc(sizeof(t_point), (WID * HEI));
+	scene->viewport = protected_malloc(sizeof(cl_float3), (WID * HEI));
 	get_viewport(scene);
 	scene->ray_buf = protected_malloc(sizeof(t_ray), (WID * HEI));
 	get_rays_arr(scene);
-	scene->depth_buf = protected_malloc(sizeof(double), WID * HEI);
+	scene->depth_buf = protected_malloc(sizeof(float), WID * HEI);
 	scene->material_buf = protected_malloc(sizeof(t_material), WID * HEI);
 	scene->index_buf = protected_malloc(sizeof(int), WID * HEI);
-	scene->intersection_buf = protected_malloc(sizeof(t_point), WID * HEI);
+	scene->intersection_buf = protected_malloc(sizeof(cl_float3), WID * HEI);
 	matrix = get_rotation_matrix(scene->camera.rotation);
 	while (++x < WID * HEI)
 		transform(&scene->ray_buf[x].dir, matrix, 1);
@@ -81,7 +81,7 @@ void	init_raycast(t_scene *scene)
 
 void	refresh_scene(t_scene *scene)
 {
-	double	**matrix;
+	float	**matrix;
 	int		x;
 
 	x = -1;

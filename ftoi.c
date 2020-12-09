@@ -12,12 +12,12 @@
 
 #include "rt.h"
 
-double	ftoi(char *str)
+float	ftoi(char *str)
 {
 	size_t	i;
-	double	n;
-	double	sign;
-	double	buf;
+	float	n;
+	float	sign;
+	float	buf;
 
 	n = 0;
 	buf = 1;

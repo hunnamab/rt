@@ -12,12 +12,12 @@
 
 #include "rt.h"
 
-t_object	*new_cylinder(t_point *pos_vec, double *rad_spec, t_color color, \
-							double *rotation)
+t_object	*new_cylinder(cl_float3 *pos_vec, float *rad_spec, t_color color, \
+							float *rotation)
 {
 	t_cylinder	*new_cylinder;
 	t_object	*new_object;
-	double		**matrix;
+	float		**matrix;
 
 	new_object = protected_malloc(sizeof(t_object), 1);
 	new_cylinder = protected_malloc(sizeof(t_cylinder), 1);
@@ -43,10 +43,10 @@ t_object	*new_cylinder(t_point *pos_vec, double *rad_spec, t_color color, \
 void		get_cylinder_normal(t_scene *scene, int index, int obj_num)
 {
 	t_cylinder	*cylinder;
-	t_point		*normal;
-	double		m;
-	t_point		p;
-	t_point		buf[2];
+	cl_float3		*normal;
+	float		m;
+	cl_float3		p;
+	cl_float3		buf[2];
 
 	normal = &scene->normal_buf[index];
 	cylinder = (t_cylinder *)scene->objs[obj_num]->data;
@@ -64,12 +64,12 @@ void		get_cylinder_normal(t_scene *scene, int index, int obj_num)
 		*normal = vector_scale(normal, -1);
 }
 
-double		intersect_ray_cylinder(t_ray *r, t_object *object)
+float		intersect_ray_cylinder(t_ray *r, t_object *object)
 {
-	double		a;
-	double		b;
-	double		c;
-	t_point		dist;
+	float		a;
+	float		b;
+	float		c;
+	cl_float3	dist;
 	t_cylinder	*cylinder;
 
 	cylinder = (t_cylinder *)object->data;

@@ -12,11 +12,11 @@
 
 #include "matrix.h"
 
-double	**matr_transpose(double **matr)
+float	**matr_transpose(float **matr)
 {
 	int		new_rows;
 	int		new_cols;
-	double	**trans_matrix;
+	float	**trans_matrix;
 	int		i;
 	int		j;
 

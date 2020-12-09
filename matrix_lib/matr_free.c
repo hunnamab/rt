@@ -12,7 +12,7 @@
 
 #include "matrix.h"
 
-void	matr_free(double **matrix, int num_rows)
+void	matr_free(float **matrix, int num_rows)
 {
 	int i;
 

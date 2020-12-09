@@ -12,23 +12,23 @@
 
 #include "rt.h"
 
-double	*get_three_doubles(double x, double y, double z)
+float	*get_three_floats(float x, float y, float z)
 {
-	double	*angles;
+	float	*angles;
 
-	angles = protected_malloc(sizeof(double), 3);
+	angles = protected_malloc(sizeof(float), 3);
 	angles[0] = x;
 	angles[1] = y;
 	angles[2] = z;
 	return (angles);
 }
 
-double	**get_rotation_matrix_euler(double *angle)
+float	**get_rotation_matrix_euler(float *angle)
 {
-	double **rotation_matrix;
-	double x;
-	double y;
-	double z;
+	float **rotation_matrix;
+	float x;
+	float y;
+	float z;
 
 	x = angle[0];
 	y = angle[1];
@@ -47,11 +47,11 @@ double	**get_rotation_matrix_euler(double *angle)
 	return (rotation_matrix);
 }
 
-double	**get_rotation_matrix(double *angle)
+float	**get_rotation_matrix(float *angle)
 {
-	double **rotation_matrix;
-	double **rotation_buf;
-	double **rotation_buf_second;
+	float **rotation_matrix;
+	float **rotation_buf;
+	float **rotation_buf_second;
 
 	rotation_buf = rotate_z(angle[2]);
 	rotation_buf_second = rotate_y(angle[1]);
@@ -65,10 +65,10 @@ double	**get_rotation_matrix(double *angle)
 	return (rotation_buf_second);
 }
 
-void	transform(t_point *point, double **matrix, int point_nmb)
+void	transform(cl_float3 *point, float **matrix, int point_nmb)
 {
 	int		i;
-	double	coord_matrix[4];
+	float	coord_matrix[4];
 
 	i = 0;
 	while (i < point_nmb)
@@ -85,13 +85,13 @@ void	transform(t_point *point, double **matrix, int point_nmb)
 	}
 }
 
-double	**get_transform_matrix(double *angle, double *move, double *scale)
+float	**get_transform_matrix(float *angle, float *move, float *scale)
 {
-	double **t_matrix;
-	double **s_matrix;
-	double **rotation_matrix;
-	double **result_matrix;
-	double **result;
+	float **t_matrix;
+	float **s_matrix;
+	float **rotation_matrix;
+	float **result_matrix;
+	float **result;
 
 	t_matrix = get_translate_matrix(move);
 	s_matrix = get_scale_matrix(scale);

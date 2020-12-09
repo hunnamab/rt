@@ -171,7 +171,7 @@ void	get_rays_arr(t_scene *scene)
 	}
 }
 
-void	get_closest_points(t_scene *scene, double t)
+void	get_closest_points(t_scene *scene, float t)
 {
 	int		ixyj[4];
 
