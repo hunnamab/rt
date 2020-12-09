@@ -102,6 +102,11 @@ void	get_rays_arr(t_scene *scene)
 	cl_mem kernel_viewport;
 	cl_mem kernel_camera_start;
 	cl_mem kernel_ray_arr;
+	cl_float3 test;
+	test.x = 1;
+	test.y = 2;
+	test.z = 3;
+	printf("test x y z == %f, %f, %f\n", test.x, test.y, test.z);
     int i;
     err = 0;
     err = clGetDeviceIDs(NULL, CL_DEVICE_TYPE_GPU, 1, &scene->cl_data.device_id, NULL);
