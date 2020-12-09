@@ -12,7 +12,7 @@
 
 #include "rt.h"
 
-const char *KernelSource = "\n" \
+const char *get_ray_arr = "\n" \
 "__kernel void square(                                                  \n" \
 "   __global float* ray_arr,                                            \n" \
 "   __global float* camera_start,                                       \n" \
@@ -21,12 +21,9 @@ const char *KernelSource = "\n" \
 "{                                                                      \n" \
 "   int i = get_global_id(0);                                           \n" \
 "   int k = i * 3;                                 						\n" \
-"   if(i < count)                                                       \n" \
-"   {                                                                   \n" \
-"       ray_arr[k] = viewport[k] - camera_start[0];                     \n" \
-"       ray_arr[k + 1] = viewport[k + 1] - camera_start[1];             \n" \
-"       ray_arr[k + 2] = viewport[k + 2] - camera_start[2];             \n" \
-"   }                                                                   \n" \
+"   ray_arr[k] = viewport[k] - camera_start[0];                     	\n" \
+"   ray_arr[k + 1] = viewport[k + 1] - camera_start[1];             	\n" \
+"   ray_arr[k + 2] = viewport[k + 2] - camera_start[2];             	\n" \
 "}                                                                      \n" \
 "\n";
 
@@ -36,18 +33,13 @@ void	check_funk(float *ray_arr, float *camera_start, float *viewport, int count)
 	int y = 0;
 	int j = 0;
 	int k = 0;
-	while(y < HEI)
+	while(x < HEI * WID)
 	{
-		while(x < WID)
-		{
-			k = y * (WID * 3) + (x * 3);
-			ray_arr[k] = viewport[k] - camera_start[0];
-			ray_arr[k + 1] = viewport[k + 1] - camera_start[1];
-			ray_arr[k + 2] = viewport[k + 2] - camera_start[2]; 
-			x++;
-		}
-		x = 0;
-		y++;
+		k = x * 3;
+		ray_arr[k] = viewport[k] - camera_start[0];
+		ray_arr[k + 1] = viewport[k + 1] - camera_start[1];
+		ray_arr[k + 2] = viewport[k + 2] - camera_start[2]; 
+		x++;
 	}
 }
 
@@ -117,18 +109,18 @@ void	get_rays_arr(t_scene *scene)
     scene->cl_data.kernels = malloc(sizeof(cl_kernel) * 1);
     scene->cl_data.context = clCreateContext(0, 1, &scene->cl_data.device_id, NULL, NULL, &err);
     scene->cl_data.commands = clCreateCommandQueue(scene->cl_data.context, scene->cl_data.device_id, 0, &err);
-    scene->cl_data.programs[0] = clCreateProgramWithSource(scene->cl_data.context, 1, (const char **)&KernelSource, NULL, &err);
+    scene->cl_data.programs[0] = clCreateProgramWithSource(scene->cl_data.context, 1, (const char **)&get_ray_arr, NULL, &err);
     err = clBuildProgram(scene->cl_data.programs[0], 0, NULL, NULL, NULL, NULL);
     scene->cl_data.kernels[0] = clCreateKernel(scene->cl_data.programs[0], "square", &err);
     kernel_ray_arr = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(float) * count, NULL, NULL);
 	kernel_viewport = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(float) * count, NULL, NULL);
 	kernel_camera_start = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(float) * 3, NULL, NULL);
-	clEnqueueWriteBuffer(scene->cl_data.commands, kernel_camera_start, CL_TRUE, 0, sizeof(float) * 3, camera_start, 0, NULL, NULL);
-	clEnqueueWriteBuffer(scene->cl_data.commands, kernel_viewport, CL_TRUE, 0, sizeof(float) * count, viewport, 0, NULL, NULL);
-    clEnqueueWriteBuffer(scene->cl_data.commands, kernel_ray_arr, CL_TRUE, 0, sizeof(float) * count, ray_arr, 0, NULL, NULL);
+	clEnqueueWriteBuffer(scene->cl_data.commands, kernel_camera_start, CL_FALSE, 0, sizeof(float) * 3, camera_start, 0, NULL, NULL);
+	clEnqueueWriteBuffer(scene->cl_data.commands, kernel_viewport, CL_FALSE, 0, sizeof(float) * count, viewport, 0, NULL, NULL);
+    clEnqueueWriteBuffer(scene->cl_data.commands, kernel_ray_arr, CL_FALSE, 0, sizeof(float) * count, ray_arr, 0, NULL, NULL);
     err = 0;
 	count = WID * HEI;
-	global = count;
+	global = WID * HEI;
     err  = clSetKernelArg(scene->cl_data.kernels[0], 0, sizeof(cl_mem), &kernel_ray_arr);
     err |= clSetKernelArg(scene->cl_data.kernels[0], 1, sizeof(cl_mem), &kernel_camera_start);
     err |= clSetKernelArg(scene->cl_data.kernels[0], 2, sizeof(cl_mem), &kernel_viewport);
@@ -147,7 +139,7 @@ void	get_rays_arr(t_scene *scene)
     clFinish(scene->cl_data.commands);
     // Read back the results from the device to verify the output
     //
-    err = clEnqueueReadBuffer(scene->cl_data.commands, kernel_ray_arr, CL_TRUE, 0, sizeof(float) * count, ray_arr, 0, NULL, NULL );   
+    err = clEnqueueReadBuffer(scene->cl_data.commands, kernel_ray_arr, CL_TRUE, 0, sizeof(float) * count * 3, ray_arr, 0, NULL, NULL);   
     // Shutdown and cleanup
     //
     clReleaseMemObject(kernel_ray_arr);
