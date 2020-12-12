@@ -1,146 +1,91 @@
 #include "rt.h"
 
-const char *KernelSource = "\n" \
-"__kernel void square(                                                       \n" \
-"   __global float* input,                                              \n" \
-"   __global float* output,                                             \n" \
+const char *get_ray_arr = "\n" \
+"__kernel void get_ray_arr(                                             \n" \
+"   __global float3* ray_arr,                                           \n" \
+"   __global float3 *camera_start,                                       \n" \
+"    __global float3* viewport,                                         \n" \
 "   const unsigned int count)                                           \n" \
 "{                                                                      \n" \
 "   int i = get_global_id(0);                                           \n" \
-"   if(i < count)                                                       \n" \
-"       output[i] = input[i] * input[i];                                \n" \
+"   ray_arr[i] = viewport[i] - camera_start[0];                         \n" \
 "}                                                                      \n" \
 "\n";
 
-int    cl_init(t_cl_data cl_data)
+const char *get_ray = "\n" \
+"__kernel void get_ray(                                             \n" \
+"   __global float3* ray_arr,                                           \n" \
+"   __global float3 *camera_start,                                       \n" \
+"    __global float3* viewport,                                         \n" \
+"   const unsigned int count)                                           \n" \
+"{                                                                      \n" \
+"   int i = get_global_id(0);                                           \n" \
+"   ray_arr[i] = viewport[i] - camera_start[0];                         \n" \
+"}                                                                      \n" \
+"\n";
+
+const char *get_closest_point = "\n" \
+"__kernel void get_closest_point(                                       \n"\
+"   __global float3 *ray_arr,                                           \n"\
+"   __global float3 *camera_start,                                      \n"\
+"   __global float3 *s_center,                                      	\n"\
+"   __global float3 *s_radius,                                      	\n"\
+"    __global float3 *depth_buf)                                        \n"\
+"{                                                                      \n"\
+"   int i = get_global_id(0);                                           \n"\
+"   float a = dot(ray_arr[i], ray_arr[i]);                              \n"\
+"   float b;                                                            \n"\
+"   float c;                                                            \n"\
+"   float t1;                                                           \n"\
+"   float t2;                                                           \n"\
+"   float3 dist = camera_start[0] - s_center[0];                        \n"\
+"   b = 2 * dot(dist, ray_arr[i]);                                      \n"\
+"   c = dot(dist, dist) - (s_radius[0] * s_radius[0]);                  \n"\
+"   c = b * b - 4 * a * c;                                              \n"\
+"   if (c >= 0)                                                         \n"\
+"   {                                                                   \n"\
+"    	c = sqrt(c);                                                    \n"\
+"    	t1 = (-b + c) / (2 * a);                                        \n"\
+"    	t2 = (-b - c) / (2 * a);                                        \n"\
+"    	depth_buf[i] = t1 < t2 ? t1 : t2;                               \n"\
+"   }                                                                   \n"\
+"}                                                                      \n"\
+"\n";
+
+int    cl_init(t_scene *scene)
 {
     int err;
-    float data[1024];              // original data set given to device
-    float results[1024];           // results returned from device
-    unsigned int correct;               // number of correct results returned
-    unsigned int count = 1024;
+    unsigned int correct;             // number of correct results returned
+    unsigned int count = WID * HEI;
     size_t global;                      // global domain size for our calculation
     size_t local;                       // local domain size for our calculation
     int i;
     err = 0;
-    err = clGetDeviceIDs(NULL, CL_DEVICE_TYPE_GPU, 1, &cl_data.device_id, NULL);
-    cl_data.programs = malloc(sizeof(cl_program) * 1);
-    cl_data.kernels = malloc(sizeof(cl_kernel) * 1);
-    if (err != CL_SUCCESS)
-    {
-        printf("Error: Failed to create a device group!\n");
-        return EXIT_FAILURE;
-    }
-    cl_data.context = clCreateContext(0, 1, &cl_data.device_id, NULL, NULL, &err);
-    if (!cl_data.context)
-    {
-        printf("Error: Failed to create a compute context!\n");
-        return EXIT_FAILURE;
-    }
-    cl_data.commands = clCreateCommandQueue(cl_data.context, cl_data.device_id, 0, &err);
-    if (!cl_data.commands)
-    {
-        printf("Error: Failed to create a command commands!\n");
-        return EXIT_FAILURE;
-    }
-    cl_data.programs[0] = clCreateProgramWithSource(cl_data.context, 1, (const char **)&KernelSource, NULL, &err);
-    if (!cl_data.programs[0])
-    {
-        printf("Error: Failed to create compute program!\n");
-        return EXIT_FAILURE;
-    }
-    err = clBuildProgram(cl_data.programs[0], 0, NULL, NULL, NULL, NULL);
-    if (err != CL_SUCCESS)
-    {
-        size_t len;
-        char buffer[2048];
-
-        printf("Error: Failed to build program executable!\n");
-        clGetProgramBuildInfo(cl_data.programs[0], cl_data.device_id, CL_PROGRAM_BUILD_LOG, sizeof(buffer), buffer, &len);
-        printf("%s\n", buffer);
-        exit(1);
-    }
-    cl_data.kernels[0] = clCreateKernel(cl_data.programs[0], "square", &err);
-    if (!cl_data.kernels[0] || err != CL_SUCCESS)
-    {
-        printf("Error: Failed to create compute kernel!\n");
-        exit(1);
-    }
-    cl_data.input = clCreateBuffer(cl_data.context,  CL_MEM_READ_ONLY,  sizeof(float) * 1024, NULL, NULL);
-    cl_data.output = clCreateBuffer(cl_data.context, CL_MEM_WRITE_ONLY, sizeof(float) * 1024, NULL, NULL);
-    if (!cl_data.input || ! cl_data.output)
-    {
-        printf("Error: Failed to allocate device memory!\n");
-        exit(1);
-    }
-    err = clEnqueueWriteBuffer(cl_data.commands, cl_data.input, CL_TRUE, 0, sizeof(float) * count, data, 0, NULL, NULL);
-    if (err != CL_SUCCESS)
-    {
-        printf("Error: Failed to write to source array!\n");
-        exit(1);
-    }
-    err = 0;
-    err  = clSetKernelArg(cl_data.kernels[0], 0, sizeof(cl_mem), &cl_data.input);
-    err |= clSetKernelArg(cl_data.kernels[0], 1, sizeof(cl_mem), &cl_data.output);
-    err |= clSetKernelArg(cl_data.kernels[0], 2, sizeof(unsigned int), &count);
-    if (err != CL_SUCCESS)
-    {
-        printf("Error: Failed to set kernel arguments! %d\n", err);
-        exit(1);
-    }
-
-    // Get the maximum work group size for executing the kernel on the device
-    //
-    err = clGetKernelWorkGroupInfo(cl_data.kernels[0], cl_data.device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
-    if (err != CL_SUCCESS)
-    {
-        printf("Error: Failed to retrieve kernel work group info! %d\n", err);
-        exit(1);
-    }
-
-    // Execute the kernel over the entire range of our 1d input data set
-    // using the maximum number of work group items for this device
-    //
-    global = count;
-    err = clEnqueueNDRangeKernel(cl_data.commands, cl_data.kernels[0], 1, NULL, &global, &local, 0, NULL, NULL);
-    if (err)
-    {
-        printf("Error: Failed to execute kernel!\n");
-        return EXIT_FAILURE;
-    }
-
-    // Wait for the command commands to get serviced before reading back results
-    //
-    clFinish(cl_data.commands);
-
-    // Read back the results from the device to verify the output
-    //
-    err = clEnqueueReadBuffer(cl_data.commands, cl_data.output, CL_TRUE, 0, sizeof(float) * count, results, 0, NULL, NULL );  
-    if (err != CL_SUCCESS)
-    {
-        printf("Error: Failed to read output array! %d\n", err);
-        exit(1);
-    }
     
-    // Validate our results
-    //
-    correct = 0;
-    for(i = 0; i < count; i++)
-    {
-        if(results[i] == data[i] * data[i])
-            correct++;
-    }
-    
-    // Print a brief summary detailing the results
-    //
-    printf("Computed '%d/%d' correct values!\n", correct, count);
-    
-    // Shutdown and cleanup
-    //
-    clReleaseMemObject(cl_data.input);
-    clReleaseMemObject(cl_data.output);
-    clReleaseProgram(cl_data.programs[0]);
-    clReleaseKernel(cl_data.kernels[0]);
-    clReleaseCommandQueue(cl_data.commands);
-    clReleaseContext(cl_data.context);
+    err = clGetDeviceIDs(NULL, CL_DEVICE_TYPE_GPU, 1, &scene->cl_data.device_id, NULL);
+    scene->cl_data.programs = malloc(sizeof(cl_program) * KERNEL_NUM);
+    scene->cl_data.kernels = malloc(sizeof(cl_kernel) * KERNEL_NUM);
+    scene->cl_data.context = clCreateContext(0, 1, &scene->cl_data.device_id, NULL, NULL, &err);
+    scene->cl_data.commands = clCreateCommandQueue(scene->cl_data.context, scene->cl_data.device_id, 0, &err);
+    scene->cl_data.programs[0] = clCreateProgramWithSource(scene->cl_data.context, 1, (const char **)&get_ray_arr, NULL, &err);
+    err = clBuildProgram(scene->cl_data.programs[0], 0, NULL, NULL, NULL, NULL);
+    scene->cl_data.kernels[0] = clCreateKernel(scene->cl_data.programs[0], "get_ray_arr", &err);
+    char info[1024];
+    clGetDeviceInfo(scene->cl_data.device_id, CL_DEVICE_NAME, 1024, info, NULL);
+    printf("%s\n", info);
+/*     if((scene->cl_data.programs[1] = clCreateProgramWithSource(scene->cl_data.context, 1, (const char **)&get_ray, NULL, &err)))
+		printf("cоздана программа\n");
+	if((clBuildProgram(scene->cl_data.programs[1], 0, NULL, NULL, NULL, &err)))
+		printf("собрана программа\n");
+    if(!(scene->cl_data.kernels[1] = clCreateKernel(scene->cl_data.programs[1], "get_ray", &err)))
+		printf("не собрана программа 1, error %d\n", err); */
+	//Создание буферов на гпу
+    scene->cl_data.scene.ray_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, NULL);
+	scene->cl_data.scene.viewport = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, NULL);
+	scene->cl_data.scene.camera = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3), NULL, NULL);
+	scene->cl_data.scene.intersection_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, NULL);
+	scene->cl_data.scene.index_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(int) * count, NULL, NULL);
+	scene->cl_data.scene.depth_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(float) * count, NULL, NULL);
+	scene->cl_data.scene.normal_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, NULL);
+    return(0);
 }

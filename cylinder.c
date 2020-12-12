@@ -50,21 +50,21 @@ void		get_cylinder_normal(t_scene *scene, int index, int obj_num)
 
 	normal = &scene->normal_buf[index];
 	cylinder = (t_cylinder *)scene->objs[obj_num]->data;
-	buf[0] = vector_sub(&scene->ray_buf[index].start, &cylinder->position);
-	m = vector_dot(&scene->ray_buf[index].dir, &cylinder->vec) * \
+	buf[0] = vector_sub(&scene->camera.position, &cylinder->position);
+	m = vector_dot(&scene->ray_buf[index], &cylinder->vec) * \
 		scene->depth_buf[index] + vector_dot(&buf[0], &cylinder->vec);
-	buf[0] = vector_scale(&scene->ray_buf[index].dir, scene->depth_buf[index]);
-	p = vector_add(&scene->ray_buf[index].start, &buf[0]);
+	buf[0] = vector_scale(&scene->ray_buf[index], scene->depth_buf[index]);
+	p = vector_add(&scene->camera.position, &buf[0]);
 	buf[0] = vector_sub(&p, &cylinder->position);
 	buf[1] = vector_scale(&cylinder->vec, m);
 	*normal = vector_sub(&buf[0], &buf[1]);
 	scene->normal_buf[index] = vector_div_by_scalar(&scene->normal_buf[index], \
 								vector_length(&scene->normal_buf[index]));
-	if (vector_dot(&scene->ray_buf[index].dir, normal) > 0.0001)
+	if (vector_dot(&scene->ray_buf[index], normal) > 0.0001)
 		*normal = vector_scale(normal, -1);
 }
 
-float		intersect_ray_cylinder(t_ray *r, t_object *object)
+float		intersect_ray_cylinder(t_scene *scene, int index, cl_float3 *start, cl_float3 *dir)
 {
 	float		a;
 	float		b;
@@ -72,12 +72,12 @@ float		intersect_ray_cylinder(t_ray *r, t_object *object)
 	cl_float3	dist;
 	t_cylinder	*cylinder;
 
-	cylinder = (t_cylinder *)object->data;
-	dist = vector_sub(&r->start, &cylinder->position);
-	a = vector_dot(&r->dir, &cylinder->vec);
-	a = vector_dot(&r->dir, &r->dir) - a * a;
-	b = 2 * (vector_dot(&r->dir, &dist) - \
-				vector_dot(&r->dir, &cylinder->vec) * \
+	cylinder = (t_cylinder *)scene->objs[index]->data;
+	dist = vector_sub(start, &cylinder->position);
+	a = vector_dot(dir, &cylinder->vec);
+	a = vector_dot(dir, dir) - a * a;
+	b = 2 * (vector_dot(dir, &dist) - \
+				vector_dot(dir, &cylinder->vec) * \
 				vector_dot(&dist, &cylinder->vec));
 	c = vector_dot(&dist, &cylinder->vec);
 	c = vector_dot(&dist, &dist) - c * c - cylinder->radius * cylinder->radius;

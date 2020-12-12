@@ -40,17 +40,18 @@ cl_float3		get_light_vec(t_scene *scene, int index, int j)
 
 int			in_shadow(t_scene *scene, int index, cl_float3 l)
 {
-	t_ray	ray;
+	cl_float3	ray_dir;
+	cl_float3	ray_start;
 	int		i;
 	float	t;
 
 	i = 0;
-	ray.dir = l;
-	ray.start = vector_scale(&ray.dir, 0.0001);
-	ray.start = vector_add(&ray.start, &scene->intersection_buf[index]);
+	ray_dir = l;
+	ray_start = vector_scale(&ray_dir, 0.0001);
+	ray_start = vector_add(&ray_start, &scene->intersection_buf[index]);
 	while (i < scene->obj_nmb)
 	{
-		t = scene->objs[i]->intersect(&ray, scene->objs[i]);
+		t = scene->objs[i]->intersect(scene, i, &ray_start, &ray_dir);
 		if (t < 1 && t > 0.0001)
 			break ;
 		i++;
@@ -73,9 +74,9 @@ float		get_specular(t_scene *scene, int index, int j, cl_float3 *l)
 	r = vector_scale(&scene->normal_buf[index], 2.0);
 	r = vector_scale(&r, nri[0]);
 	r = vector_sub(&r, &lb);
-	d.x = -scene->ray_buf[index].dir.x;
-	d.y = -scene->ray_buf[index].dir.y;
-	d.z = -scene->ray_buf[index].dir.z;
+	d.x = -scene->ray_buf[index].x;
+	d.y = -scene->ray_buf[index].y;
+	d.z = -scene->ray_buf[index].z;
 	nri[1] = vector_dot(&r, &d);
 	if (nri[1] > 0)
 		nri[2] += scene->light[j]->intensity * pow((float)nri[1] / \

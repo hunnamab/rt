@@ -63,6 +63,7 @@ int		main(int args, char **argv)
 	SDL_Init(SDL_INIT_EVERYTHING);
 	SDL_CreateWindowAndRenderer(WID, HEI, 0, &sdl.win, &sdl.renderer);
 	SDL_RenderClear(sdl.renderer);
+	cl_init(scene);
 	init_scene(scene);
 	scene->draw[scene->mode](&sdl, scene);
 	while (k)

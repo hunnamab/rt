@@ -30,6 +30,17 @@ void	clean_scene(t_scene *scene)
 	ft_memdel((void **)&scene->viewport);
 	ft_memdel((void **)&scene->index_buf);
 	ft_memdel((void **)&scene->depth_buf);
+	clReleaseMemObject(scene->cl_data.scene.ray_buf);
+    clReleaseMemObject(scene->cl_data.scene.intersection_buf);
+	clReleaseMemObject(scene->cl_data.scene.viewport);
+	clReleaseMemObject(scene->cl_data.scene.index_buf);
+	clReleaseMemObject(scene->cl_data.scene.depth_buf);
+	clReleaseMemObject(scene->cl_data.scene.normal_buf);
+	clReleaseMemObject(scene->cl_data.scene.camera);
+    clReleaseProgram(scene->cl_data.programs[0]);
+    clReleaseKernel(scene->cl_data.kernels[0]);
+    clReleaseCommandQueue(scene->cl_data.commands);
+    clReleaseContext(scene->cl_data.context);
 	while (i < scene->obj_nmb)
 	{
 		scene->objs[i]->clear_obj(scene->objs[i]);

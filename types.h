@@ -16,6 +16,18 @@
 
 typedef	struct		s_scene t_scene;
 
+typedef struct 		s_scene_device
+{
+	cl_mem	ray_buf;
+	cl_mem	intersection_buf;
+	cl_mem	viewport;
+	cl_mem	index_buf;
+	cl_mem	depth_buf;
+	cl_mem	normal_buf;
+	cl_mem	material_buf;
+	cl_mem	camera;
+}					t_scene_device;
+
 typedef	struct 		s_cl_data
 {
 	cl_device_id		device_id;// compute device id
@@ -23,8 +35,7 @@ typedef	struct 		s_cl_data
 	cl_command_queue	commands; // compute command queue
 	cl_program			*programs;
 	cl_kernel 			*kernels; // compute kernel
-	cl_mem				input;// device memory used for the input array
-    cl_mem				output;// device memory used for the output array
+	t_scene_device		scene;
 }					t_cl_data;
 
 typedef struct		s_sdl
@@ -109,19 +120,19 @@ typedef	struct		s_object3d
 	t_color			color;
 	float			specular;
 	void			(*get_normal)(struct s_scene *, int, int);
-	float			(*intersect)(t_ray *, struct s_object3d *);
+	float			(*intersect)(t_scene *, int, cl_float3 *, cl_float3 *);
 	void			(*clear_obj)(struct s_object3d *);
 }					t_object;
 
 struct		s_scene
 {
 	t_cl_data		cl_data;
-	t_object		**objs;
+	t_object		**objs;	
 	int				obj_nmb;
 	cl_float3		*normal_buf;
 	t_material		*material_buf;
 	cl_float3		*intersection_buf;
-	t_ray			*ray_buf;
+	cl_float3		*ray_buf;
 	t_light			**light;
 	int				light_nmb;
 	t_camera		camera;

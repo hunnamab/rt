@@ -49,8 +49,8 @@ void		get_cone_normal(t_scene *scene, int index, int obj_num)
 
 	normal = &scene->normal_buf[index];
 	cone = (t_cone *)scene->objs[obj_num]->data;
-	buf = vector_sub(&scene->ray_buf[index].start, &cone->position);
-	m = vector_dot(&scene->ray_buf[index].dir, &cone->vec) * \
+	buf = vector_sub(&scene->camera.position, &cone->position);
+	m = vector_dot(&scene->ray_buf[index], &cone->vec) * \
 					scene->depth_buf[index] + vector_dot(&buf, &cone->vec);
 	buf = vector_scale(&cone->vec, m);
 	*normal = vector_scale(&buf, (1 + cone->angle * cone->angle));
@@ -58,11 +58,11 @@ void		get_cone_normal(t_scene *scene, int index, int obj_num)
 	*normal = vector_sub(&buf, normal);
 	scene->normal_buf[index] = vector_div_by_scalar(&scene->normal_buf[index], \
 								vector_length(&scene->normal_buf[index]));
-	if (vector_dot(&scene->ray_buf[index].dir, normal) > 0.0001)
+	if (vector_dot(&scene->ray_buf[index], normal) > 0.0001)
 		*normal = vector_scale(normal, -1);
 }
 
-float		intersect_ray_cone(t_ray *r, t_object *object)
+float		intersect_ray_cone(t_scene *scene, int index, cl_float3 *start, cl_float3 *dir)
 {
 	float	a;
 	float	b;
@@ -70,12 +70,12 @@ float		intersect_ray_cone(t_ray *r, t_object *object)
 	cl_float3	dist;
 	t_cone	*cone;
 
-	cone = (t_cone *)object->data;
-	dist = vector_sub(&r->start, &cone->position);
-	a = vector_dot(&r->dir, &cone->vec);
-	a = vector_dot(&r->dir, &r->dir) - (1 + cone->angle * cone->angle) * a * a;
-	b = 2 * (vector_dot(&r->dir, &dist) - (1 + cone->angle * cone->angle) * \
-		vector_dot(&r->dir, &cone->vec) * vector_dot(&dist, &cone->vec));
+	cone = (t_cone *)scene->objs[index]->data;
+	dist = vector_sub(start, &cone->position);
+	a = vector_dot(dir, &cone->vec);
+	a = vector_dot(dir, dir) - (1 + cone->angle * cone->angle) * a * a;
+	b = 2 * (vector_dot(dir, &dist) - (1 + cone->angle * cone->angle) * \
+		vector_dot(dir, &cone->vec) * vector_dot(&dist, &cone->vec));
 	c = vector_dot(&dist, &cone->vec);
 	c = vector_dot(&dist, &dist) - (1 + cone->angle * cone->angle) * c * c;
 	c = b * b - 4 * a * c;

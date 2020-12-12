@@ -48,22 +48,22 @@ void		get_plane_normal(t_scene *scene, int index, int obj_num)
 
 	p = (t_plane *)scene->objs[obj_num]->data;
 	copy_point(&scene->normal_buf[index], &p->normal);
-	if (vector_dot(&scene->ray_buf[index].dir, \
+	if (vector_dot(&scene->ray_buf[index], \
 		&scene->normal_buf[index]) > 0.0001)
 		scene->normal_buf[index] = vector_scale(&scene->normal_buf[index], -1);
 }
 
-float		intersect_ray_plane(t_ray *r, t_object *object)
+float		intersect_ray_plane(t_scene *scene, int index, cl_float3 *start, cl_float3 *dir)
 {
 	float	k1;
 	float	k2;
 	t_plane	*plane;
 
-	plane = (t_plane *)object->data;
-	if ((vector_dot(&r->dir, &plane->normal)) == 0)
+	plane = (t_plane *)scene->objs[index]->data;
+	if ((vector_dot(dir, &plane->normal)) == 0)
 		return (0);
-	k1 = vector_dot(&r->start, &plane->normal) + plane->d;
-	k2 = vector_dot(&r->dir, &plane->normal);
+	k1 = vector_dot(start, &plane->normal) + plane->d;
+	k2 = vector_dot(dir, &plane->normal);
 	if (k1 == 0 || (k1 < 0 && k2 < 0) || (k1 > 0 && k2 > 0))
 		return (0);
 	return (-k1 / k2);
