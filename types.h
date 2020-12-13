@@ -14,29 +14,29 @@
 # define TYPES_H
 # include <stdint.h>
 
-typedef	struct		s_scene t_scene;
+typedef	struct			s_scene t_scene;
 
-typedef struct 		s_scene_device
+typedef struct 			s_scene_device
 {
-	cl_mem	ray_buf;
-	cl_mem	intersection_buf;
-	cl_mem	viewport;
-	cl_mem	index_buf;
-	cl_mem	depth_buf;
-	cl_mem	normal_buf;
-	cl_mem	material_buf;
-	cl_mem	camera;
-}					t_scene_device;
+	cl_mem				ray_buf;
+	cl_mem				intersection_buf;
+	cl_mem				viewport;
+	cl_mem				index_buf;
+	cl_mem				depth_buf;
+	cl_mem				normal_buf;
+	cl_mem				material_buf;
+	cl_mem				camera;
+}						t_scene_device;
 
-typedef	struct 		s_cl_data
+typedef	struct 			s_cl_data
 {
-	cl_device_id		device_id;// compute device id
-	cl_context			context;// compute context
+	cl_device_id		device_id; // compute device id
+	cl_context			context; // compute context
 	cl_command_queue	commands; // compute command queue
 	cl_program			*programs;
 	cl_kernel 			*kernels; // compute kernel
 	t_scene_device		scene;
-}					t_cl_data;
+}						t_cl_data;
 
 typedef struct		s_sdl
 {
@@ -96,8 +96,8 @@ typedef	struct		s_cone
 
 typedef	struct		s_triangle
 {
-	cl_float3			*vertex;
-	cl_float3			normal;
+	cl_float3		*vertex;
+	cl_float3		normal;
 }					t_triangle;
 
 typedef struct		s_camera

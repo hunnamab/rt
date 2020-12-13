@@ -54,38 +54,45 @@ const char *get_closest_point = "\n" \
 
 int    cl_init(t_scene *scene)
 {
-    int err;
-    unsigned int correct;             // number of correct results returned
-    unsigned int count = WID * HEI;
-    size_t global;                      // global domain size for our calculation
-    size_t local;                       // local domain size for our calculation
-    int i;
-    err = 0;
-    
-    err = clGetDeviceIDs(NULL, CL_DEVICE_TYPE_GPU, 1, &scene->cl_data.device_id, NULL);
-    scene->cl_data.programs = malloc(sizeof(cl_program) * KERNEL_NUM);
-    scene->cl_data.kernels = malloc(sizeof(cl_kernel) * KERNEL_NUM);
-    scene->cl_data.context = clCreateContext(0, 1, &scene->cl_data.device_id, NULL, NULL, &err);
-    scene->cl_data.commands = clCreateCommandQueue(scene->cl_data.context, scene->cl_data.device_id, 0, &err);
-    scene->cl_data.programs[0] = clCreateProgramWithSource(scene->cl_data.context, 1, (const char **)&get_ray_arr, NULL, &err);
-    err = clBuildProgram(scene->cl_data.programs[0], 0, NULL, NULL, NULL, NULL);
-    scene->cl_data.kernels[0] = clCreateKernel(scene->cl_data.programs[0], "get_ray_arr", &err);
-    char info[1024];
-    clGetDeviceInfo(scene->cl_data.device_id, CL_DEVICE_NAME, 1024, info, NULL);
-    printf("%s\n", info);
-    if((scene->cl_data.programs[1] = clCreateProgramWithSource(scene->cl_data.context, 1, (const char **)&get_ray, NULL, &err)))
+	int err;
+	unsigned int correct; // number of correct results returned
+	unsigned int count = WID * HEI;
+	size_t global; // global domain size for our calculation
+	size_t local; // local domain size for our calculation
+	int i;
+	err = 0;
+
+	err = clGetDeviceIDs(NULL, CL_DEVICE_TYPE_GPU, 1, &scene->cl_data.device_id, NULL);
+	// выделение памяти
+	scene->cl_data.programs = malloc(sizeof(cl_program) * KERNEL_NUM);
+	scene->cl_data.kernels = malloc(sizeof(cl_kernel) * KERNEL_NUM);
+	
+	scene->cl_data.context = clCreateContext(0, 1, &scene->cl_data.device_id, NULL, NULL, &err);
+	scene->cl_data.commands = clCreateCommandQueue(scene->cl_data.context, scene->cl_data.device_id, 0, &err);
+	scene->cl_data.programs[0] = clCreateProgramWithSource(scene->cl_data.context, 1, (const char **)&get_ray_arr, NULL, &err);
+	
+	err = clBuildProgram(scene->cl_data.programs[0], 0, NULL, NULL, NULL, NULL);
+	
+	scene->cl_data.kernels[0] = clCreateKernel(scene->cl_data.programs[0], "get_ray_arr", &err);
+	
+	char info[1024];
+	clGetDeviceInfo(scene->cl_data.device_id, CL_DEVICE_NAME, 1024, info, NULL);
+	printf("%s\n", info);
+	
+	if ((scene->cl_data.programs[1] = clCreateProgramWithSource(scene->cl_data.context, 1, (const char **)&get_ray, NULL, &err)))
 		printf("cоздана программа\n");
-	if((clBuildProgram(scene->cl_data.programs[1], 0, NULL, NULL, NULL, &err)))
+	if ((clBuildProgram(scene->cl_data.programs[1], 0, NULL, NULL, NULL, &err)))
 		printf("собрана программа\n");
-    if(!(scene->cl_data.kernels[1] = clCreateKernel(scene->cl_data.programs[1], "get_ray", &err)))
+	if (!(scene->cl_data.kernels[1] = clCreateKernel(scene->cl_data.programs[1], "get_ray", &err)))
 		printf("не собрана программа 1, error %d\n", err);
+	
 	//Создание буферов на гпу
-    scene->cl_data.scene.ray_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, NULL);
+	scene->cl_data.scene.ray_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, NULL);
 	scene->cl_data.scene.viewport = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, NULL);
 	scene->cl_data.scene.camera = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3), NULL, NULL);
 	scene->cl_data.scene.intersection_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, NULL);
 	scene->cl_data.scene.index_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(int) * count, NULL, NULL);
 	scene->cl_data.scene.depth_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(float) * count, NULL, NULL);
 	scene->cl_data.scene.normal_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, NULL);
-    return(0);
+	return (0);
 }
