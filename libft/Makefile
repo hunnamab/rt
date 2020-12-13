@@ -27,7 +27,7 @@ SRC = ft_atoi.c ft_bzero.c ft_isalnum.c ft_isalpha.c ft_isascii.c \
 		get_double_arr.c ft_bzero_int.c ft_strnew_int.c ft_strnew_double.c \
 		itoa_u_ll.c itoa_oct_ll.c \
 		itoa_bin.c is_even.c is_odd.c ft_pow.c get_last_digit.c \
-		ft_strcpy_alloc.c ft_memdel_double.c ft_brackets.c
+		ft_strcpy_alloc.c ft_memdel_double.c ft_brackets.c ftoi.c
 
 OBJ = $(subst .c,.o,$(SRC))
 

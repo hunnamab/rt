@@ -35,6 +35,7 @@
 # define WID 1280
 # define HEI 720
 # define KERNEL_NUM 10
+
 // scenes_reader.c
 void		read_scene(int fd, t_scene *scene);
 // scenes_reader.c
@@ -100,8 +101,6 @@ t_object	*new_cylinder(cl_float3 *pos_vec, float *rad_spec, t_color color, \
 float		intersect_ray_cone(t_scene *scene, int index, cl_float3 *start, cl_float3 *dir);
 t_object	*new_cone(cl_float3 *pos_vec, float *ang_spec, t_color color, \
 						float *rotation);
-// ftoi.c
-float		ftoi(char *str);
 // objects_parameters.c
 t_object	*get_sphere(char **description);
 t_object	*get_triangle(char **description, float specular);

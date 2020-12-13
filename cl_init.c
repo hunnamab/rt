@@ -73,12 +73,12 @@ int    cl_init(t_scene *scene)
     char info[1024];
     clGetDeviceInfo(scene->cl_data.device_id, CL_DEVICE_NAME, 1024, info, NULL);
     printf("%s\n", info);
-/*     if((scene->cl_data.programs[1] = clCreateProgramWithSource(scene->cl_data.context, 1, (const char **)&get_ray, NULL, &err)))
+    if((scene->cl_data.programs[1] = clCreateProgramWithSource(scene->cl_data.context, 1, (const char **)&get_ray, NULL, &err)))
 		printf("cоздана программа\n");
 	if((clBuildProgram(scene->cl_data.programs[1], 0, NULL, NULL, NULL, &err)))
 		printf("собрана программа\n");
     if(!(scene->cl_data.kernels[1] = clCreateKernel(scene->cl_data.programs[1], "get_ray", &err)))
-		printf("не собрана программа 1, error %d\n", err); */
+		printf("не собрана программа 1, error %d\n", err);
 	//Создание буферов на гпу
     scene->cl_data.scene.ray_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, NULL);
 	scene->cl_data.scene.viewport = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, NULL);

@@ -90,5 +90,6 @@ int				get_last_digit(long long int num, int precision);
 char			*ft_strcpy_alloc(char *dst, char *src);
 void			ft_memdel_float(void **p);
 int				brackets(char *str);
+float	        ftoi(char *str);
 
 #endif

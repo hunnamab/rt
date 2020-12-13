@@ -18,7 +18,7 @@ LINUX_FLAGS = -lSDL2 -lm -lOpenCL
 LIBRARY = ./libft/libft.a
 HEADER = rt.h
 SRC = main.c sphere.c vector.c utils.c \
-	light.c triangle.c scenes_reader.c draw.c ftoi.c \
+	light.c triangle.c scenes_reader.c draw.c \
 	objects_parameters.c plane.c cylinder.c cone.c \
 	./matrix_lib/matr_add_matr.c ./matrix_lib/create_matrix.c \
 	./matrix_lib/matr_copy.c ./matrix_lib/matr_div_by_scalar.c \
@@ -50,8 +50,8 @@ linux: $(NAME_LINUX)
 $(NAME_LINUX): $(LIBRARY) $(OBJ)
 		@gcc $(OBJ) $(LIBRARY) -o $(NAME_LINUX) $(LINUX_FLAGS) -I $(HEADER)
 clean:
-	@rm $(OBJ)
-	@make -C libft clean\
+	@rm -f $(OBJ)
+	@make -C libft clean
 
 fclean: clean
 	@rm -f $(NAME)
