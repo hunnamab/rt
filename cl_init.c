@@ -61,31 +61,35 @@ int    cl_init(t_scene *scene)
 	size_t local; // local domain size for our calculation
 	int i;
 	err = 0;
-
+    cl_uint nP;
+    cl_uint status = clGetPlatformIDs(0, NULL, &nP);
+    cl_platform_id pfs;
+    status = clGetPlatformIDs(nP, &pfs, NULL);
+    size_t size;
+    char *str;
+    clGetPlatformInfo(pfs, CL_PLATFORM_NAME, 0, NULL, &size);
+    str = malloc(sizeof(char) * size);
+    clGetPlatformInfo(pfs, CL_PLATFORM_NAME, size, str, NULL);
+    printf("%s\n", str);
 	err = clGetDeviceIDs(NULL, CL_DEVICE_TYPE_GPU, 1, &scene->cl_data.device_id, NULL);
 	// выделение памяти
 	scene->cl_data.programs = malloc(sizeof(cl_program) * KERNEL_NUM);
 	scene->cl_data.kernels = malloc(sizeof(cl_kernel) * KERNEL_NUM);
 	
 	scene->cl_data.context = clCreateContext(0, 1, &scene->cl_data.device_id, NULL, NULL, &err);
-	scene->cl_data.commands = clCreateCommandQueue(scene->cl_data.context, scene->cl_data.device_id, 0, &err);
+	scene->cl_data.commands = clCreateCommandQueue(scene->cl_data.context, scene->cl_data.device_id, CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE, &err);
 	scene->cl_data.programs[0] = clCreateProgramWithSource(scene->cl_data.context, 1, (const char **)&get_ray_arr, NULL, &err);
-	
 	err = clBuildProgram(scene->cl_data.programs[0], 0, NULL, NULL, NULL, NULL);
-	
-	scene->cl_data.kernels[0] = clCreateKernel(scene->cl_data.programs[0], "get_ray_arr", &err);
-	
 	char info[1024];
 	clGetDeviceInfo(scene->cl_data.device_id, CL_DEVICE_NAME, 1024, info, NULL);
 	printf("%s\n", info);
-	
 	if ((scene->cl_data.programs[1] = clCreateProgramWithSource(scene->cl_data.context, 1, (const char **)&get_ray, NULL, &err)))
 		printf("cоздана программа\n");
 	if ((clBuildProgram(scene->cl_data.programs[1], 0, NULL, NULL, NULL, &err)))
 		printf("собрана программа\n");
 	if (!(scene->cl_data.kernels[1] = clCreateKernel(scene->cl_data.programs[1], "get_ray", &err)))
 		printf("не собрана программа 1, error %d\n", err);
-	
+    scene->cl_data.kernels[0] = clCreateKernel(scene->cl_data.programs[0], "get_ray_arr", &err);
 	//Создание буферов на гпу
 	scene->cl_data.scene.ray_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, NULL);
 	scene->cl_data.scene.viewport = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, NULL);
