@@ -49,20 +49,23 @@ void	get_rays_arr(t_scene *scene)
 
 void	get_closest_points(t_scene *scene, float t)
 {
-	size_t global = WID * HEI;
+	/* size_t global = WID * HEI;
 	cl_mem s_center;
 	cl_mem s_radius;
 	size_t local;
 	t_sphere *s = (t_sphere *)scene->objs[0]->data;
 	s_center = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3), NULL, NULL);
 	s_radius = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(float), NULL, NULL);
+
 	clEnqueueWriteBuffer(scene->cl_data.commands, s_center, CL_FALSE, 0, sizeof(cl_float3), &s->center, 0, NULL, NULL);
 	clEnqueueWriteBuffer(scene->cl_data.commands, s_radius, CL_FALSE, 0, sizeof(float), &s->radius, 0, NULL, NULL);
+
 	clSetKernelArg(scene->cl_data.kernels[1], 0, sizeof(cl_mem), &scene->cl_data.scene.ray_buf);
 	clSetKernelArg(scene->cl_data.kernels[1], 1, sizeof(cl_mem), &scene->cl_data.scene.camera);
     clSetKernelArg(scene->cl_data.kernels[1], 2, sizeof(cl_mem), &s_center);
 	clSetKernelArg(scene->cl_data.kernels[1], 3, sizeof(cl_mem), &s_radius);
 	clSetKernelArg(scene->cl_data.kernels[1], 4, sizeof(cl_mem), &scene->cl_data.scene.depth_buf);
+
     clGetKernelWorkGroupInfo(scene->cl_data.kernels[1], scene->cl_data.device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
 	printf("local == max work group size == %ld\n", local);
     clEnqueueNDRangeKernel(scene->cl_data.commands, scene->cl_data.kernels[1], 1, NULL, &global, &local, 0, NULL, NULL);
@@ -73,25 +76,26 @@ void	get_closest_points(t_scene *scene, float t)
 	{
 		scene->index_buf[x] = 0;
 		x++;
-	}
-	// int x = -1;
-	// int i = 0;
-	// while(++x < WID * HEI)
-	// {
-	// 	t = 0;
-	// 	i = -1;
-	// 	scene->index_buf[x] = - 1;
-	// 	scene->depth_buf[x] = 100000000;
-	// 	while (++i < scene->obj_nmb)
-	// 	{
-	// 		t = scene->objs[i]->intersect(scene, i, &scene->camera.position, &scene->ray_buf[x]);
-	// 		if (t < scene->depth_buf[x] && t != 0)
-	// 		{
-	// 			scene->depth_buf[x] = t;
-	// 			scene->index_buf[x] = i;
-	// 		}
-	// 	}
-	// } 
+	} */
+	
+	int x = -1;
+	int i = 0;
+	while(++x < WID * HEI)
+	{
+		t = 0;
+		i = -1;
+		scene->index_buf[x] = - 1;
+		scene->depth_buf[x] = 100000000;
+		while (++i < scene->obj_nmb)
+		{
+			t = scene->objs[i]->intersect(scene, i, &scene->camera.position, &scene->ray_buf[x]);
+			if (t < scene->depth_buf[x] && t != 0)
+			{
+				scene->depth_buf[x] = t;
+				scene->index_buf[x] = i;
+			}
+		}
+	} 
 	/* scene->objs[i]->intersect(scene, i, &scene->camera.position, &scene->ray_buf[x]);
 	while(++x < WID * HEI)
 	{

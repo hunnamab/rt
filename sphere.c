@@ -56,27 +56,8 @@ float		intersect_ray_sphere(t_scene *scene, int index, cl_float3 *start, cl_floa
 	float		c;
 	cl_float3	dist;
 	t_sphere	*s;
-	cl_mem		s_center;
-	cl_mem		s_radius;
-	size_t global = WID * HEI;
-	size_t local;
+	
 	s = (t_sphere *)scene->objs[index]->data;
-	int err;
-	/* clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.depth_buf, CL_FALSE, 0, sizeof(cl_float3) * global, scene->depth_buf, 0, NULL, NULL);
-	s_center = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3), NULL, NULL);
-	s_radius = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3), NULL, NULL);
-	clEnqueueWriteBuffer(scene->cl_data.commands, s_center, CL_FALSE, 0, sizeof(cl_float3), &s->center, 0, NULL, NULL);
-	clEnqueueWriteBuffer(scene->cl_data.commands, s_radius, CL_FALSE, 0, sizeof(cl_float3), &s->radius, 0, NULL, NULL);
-	clSetKernelArg(scene->cl_data.kernels[1], 0, sizeof(cl_mem), &scene->cl_data.scene.ray_buf);
-	clSetKernelArg(scene->cl_data.kernels[1], 1, sizeof(cl_mem), &scene->cl_data.scene.camera);
-	clSetKernelArg(scene->cl_data.kernels[1], 2, sizeof(cl_mem), &s_center);
-	clSetKernelArg(scene->cl_data.kernels[1], 3, sizeof(cl_mem), &s_radius);
-	clSetKernelArg(scene->cl_data.kernels[1], 4, sizeof(cl_mem), &scene->cl_data.scene.depth_buf);
-    clGetKernelWorkGroupInfo(scene->cl_data.kernels[1], scene->cl_data.device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
-	printf("local == max work group size == %ld\n", local);
-    clEnqueueNDRangeKernel(scene->cl_data.commands, scene->cl_data.kernels[1], 1, NULL, &global, &local, 0, NULL, NULL);
-    clFinish(scene->cl_data.commands);
-    clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.depth_buf, CL_TRUE, 0, sizeof(cl_float3) * global, scene->depth_buf, 0, NULL, NULL); */
 	a = vector_dot(dir, dir);
 	dist = vector_sub(start, &s->center);
 	b = 2 * vector_dot(&dist, dir);

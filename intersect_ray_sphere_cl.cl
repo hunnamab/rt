@@ -1,4 +1,4 @@
-__kernel void get_closest_point(__global float3 *ray_arr, \
+__kernel void intersect_ray_sphere_cl(__global float3 *ray_arr, \
                                 __global float3 *camera_start, \
                                 __global float3 *s_center, \
                                 __global float *s_radius, \
