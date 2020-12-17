@@ -24,7 +24,7 @@ int    cl_init(t_scene *scene)
 	// выделение памяти
 	scene->cl_data.programs = malloc(sizeof(cl_program) * KERNEL_NUM);
 	scene->cl_data.kernels = malloc(sizeof(cl_kernel) * KERNEL_NUM);
-	
+
 	int		ret1;
 	char	*get_ray_arr;
 	int fd1 = open("get_ray_arr.cl", O_RDONLY);
@@ -33,7 +33,7 @@ int    cl_init(t_scene *scene)
 	get_ray_arr[ret1] = '\0';
 
 	scene->cl_data.context = clCreateContext(0, 1, &scene->cl_data.device_id, NULL, NULL, &err);
-	scene->cl_data.commands = clCreateCommandQueue(scene->cl_data.context, scene->cl_data.device_id, CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE, &err);
+	scene->cl_data.commands = clCreateCommandQueue(scene->cl_data.context, scene->cl_data.device_id, 0, &err);
 	if ((scene->cl_data.programs[0] = clCreateProgramWithSource(scene->cl_data.context, 1, (const char **)&get_ray_arr, NULL, &err)))
 		printf("created\n");
 	if ((clBuildProgram(scene->cl_data.programs[0], 0, NULL, NULL, NULL, &err)))
@@ -45,18 +45,19 @@ int    cl_init(t_scene *scene)
 	clGetDeviceInfo(scene->cl_data.device_id, CL_DEVICE_NAME, 1024, info, NULL);
 	printf("%s\n", info);
 	
-	/* int		ret2;
+	int		ret2;
 	char	*intersect_ray_sphere_cl;
 	int fd2 = open("intersect_ray_sphere_cl.cl", O_RDONLY);
 	intersect_ray_sphere_cl = protected_malloc(sizeof(char), 256000);
 	ret2 = read(fd2, intersect_ray_sphere_cl, 64000);
 	intersect_ray_sphere_cl[ret2] = '\0';
+	
 	if ((scene->cl_data.programs[1] = clCreateProgramWithSource(scene->cl_data.context, 1, (const char **)&intersect_ray_sphere_cl, NULL, &err)))
 		printf("cоздана программа\n");
 	if ((clBuildProgram(scene->cl_data.programs[1], 0, NULL, NULL, NULL, &err)))
 		printf("собрана программа\n");
 	if (!(scene->cl_data.kernels[1] = clCreateKernel(scene->cl_data.programs[1], "intersect_ray_sphere_cl", &err)))
-		printf("не собрана программа 1, error %d\n", err); */
+		printf("не собрана программа 1, error %d\n", err);
 
 	//Создание буферов на гпу
 	scene->cl_data.scene.ray_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, NULL);

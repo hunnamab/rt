@@ -44,12 +44,31 @@ void	get_rays_arr(t_scene *scene)
 	printf("local == max work group size == %ld\n", local);
     clEnqueueNDRangeKernel(scene->cl_data.commands, scene->cl_data.kernels[0], 1, NULL, &global, &local, 0, NULL, NULL);
     clFinish(scene->cl_data.commands);
-    clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.ray_buf, CL_TRUE, 0, sizeof(cl_float3) * global, scene->ray_buf, 0, NULL, NULL);   
+    clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.ray_buf, CL_TRUE, 0, sizeof(cl_float3) * global, scene->ray_buf, 0, NULL, NULL);
 }
 
 void	get_closest_points(t_scene *scene, float t)
 {
-	/* size_t global = WID * HEI;
+	/* int x = -1;
+	int i = 0;
+	while(++x < WID * HEI)
+	{
+		t = 0;
+		i = -1;
+		scene->index_buf[x] = - 1;
+		scene->depth_buf[x] = 100000000;
+		while (++i < scene->obj_nmb)
+		{
+			t = scene->objs[i]->intersect(scene, i, &scene->camera.position, &scene->ray_buf[x]);
+			if (t < scene->depth_buf[x] && t != 0)
+			{
+				scene->depth_buf[x] = t;
+				scene->index_buf[x] = i;
+			}
+		}
+	}  */
+
+	size_t global = WID * HEI;
 	cl_mem s_center;
 	cl_mem s_radius;
 	size_t local;
@@ -76,27 +95,8 @@ void	get_closest_points(t_scene *scene, float t)
 	{
 		scene->index_buf[x] = 0;
 		x++;
-	} */
-	
-	int x = -1;
-	int i = 0;
-	while(++x < WID * HEI)
-	{
-		t = 0;
-		i = -1;
-		scene->index_buf[x] = - 1;
-		scene->depth_buf[x] = 100000000;
-		while (++i < scene->obj_nmb)
-		{
-			t = scene->objs[i]->intersect(scene, i, &scene->camera.position, &scene->ray_buf[x]);
-			if (t < scene->depth_buf[x] && t != 0)
-			{
-				scene->depth_buf[x] = t;
-				scene->index_buf[x] = i;
-			}
-		}
-	} 
-	/* scene->objs[i]->intersect(scene, i, &scene->camera.position, &scene->ray_buf[x]);
+	}
+	x = -1;
 	while(++x < WID * HEI)
 	{
 		if (scene->depth_buf[x])
@@ -106,7 +106,7 @@ void	get_closest_points(t_scene *scene, float t)
 			scene->index_buf[x] = -1;
 		}
 		
-	} */
+	}
 }
 
 void	get_intersection_buf(t_scene *scene)

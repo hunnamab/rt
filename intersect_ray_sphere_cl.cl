@@ -2,7 +2,7 @@ __kernel void intersect_ray_sphere_cl(__global float3 *ray_arr, \
                                 __global float3 *camera_start, \
                                 __global float3 *s_center, \
                                 __global float *s_radius, \
-                                __global float3 *depth_buf)
+                                __global float *depth_buf)
 {
     int i = get_global_id(0);
     float a = dot(ray_arr[i], ray_arr[i]);
