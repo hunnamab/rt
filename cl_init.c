@@ -27,7 +27,7 @@ int    cl_init(t_scene *scene)
 
 	int		ret1;
 	char	*get_ray_arr;
-	int fd1 = open("get_ray_arr.cl", O_RDONLY);
+	int fd1 = open("./kernels/get_ray_arr.cl", O_RDONLY);
 	get_ray_arr = protected_malloc(sizeof(char), 256000);
 	ret1 = read(fd1, get_ray_arr, 64000);
 	get_ray_arr[ret1] = '\0';
@@ -47,17 +47,31 @@ int    cl_init(t_scene *scene)
 	
 	int		ret2;
 	char	*intersect_ray_sphere_cl;
-	int fd2 = open("intersect_ray_sphere_cl.cl", O_RDONLY);
+	int fd2 = open("./kernels/intersect_ray_sphere_cl.cl", O_RDONLY);
 	intersect_ray_sphere_cl = protected_malloc(sizeof(char), 256000);
 	ret2 = read(fd2, intersect_ray_sphere_cl, 64000);
 	intersect_ray_sphere_cl[ret2] = '\0';
 	
 	if ((scene->cl_data.programs[1] = clCreateProgramWithSource(scene->cl_data.context, 1, (const char **)&intersect_ray_sphere_cl, NULL, &err)))
-		printf("cоздана программа\n");
+		printf("cоздана программа sphere\n");
 	if ((clBuildProgram(scene->cl_data.programs[1], 0, NULL, NULL, NULL, &err)))
-		printf("собрана программа\n");
+		printf("собрана программа sphere\n");
 	if (!(scene->cl_data.kernels[1] = clCreateKernel(scene->cl_data.programs[1], "intersect_ray_sphere_cl", &err)))
-		printf("не собрана программа 1, error %d\n", err);
+		printf("не собрана программа 1, error %d sphere\n", err);
+
+	int		ret3;
+	char	*intersect_ray_cone_cl;
+	int fd3 = open("./kernels/intersect_ray_cone_cl.cl", O_RDONLY);
+	intersect_ray_cone_cl = protected_malloc(sizeof(char), 256000);
+	ret3 = read(fd3, intersect_ray_cone_cl, 64000);
+	intersect_ray_cone_cl[ret3] = '\0';
+	
+	if ((scene->cl_data.programs[2] = clCreateProgramWithSource(scene->cl_data.context, 1, (const char **)&intersect_ray_cone_cl, NULL, &err)))
+		printf("cоздана программа cone\n");
+	if ((clBuildProgram(scene->cl_data.programs[2], 0, NULL, NULL, NULL, &err)))
+		printf("собрана программа cone\n");
+	if (!(scene->cl_data.kernels[2] = clCreateKernel(scene->cl_data.programs[2], "intersect_ray_cone_cl", &err)))
+		printf("не собрана программа 1, error %d cone\n", err);
 
 	//Создание буферов на гпу
 	scene->cl_data.scene.ray_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, NULL);

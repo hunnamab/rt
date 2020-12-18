@@ -40,7 +40,7 @@ cl_float3		get_light_vec(t_scene *scene, int index, int j)
 
 int			in_shadow(t_scene *scene, int index, cl_float3 l)
 {
-	/* cl_float3	ray_dir;
+	cl_float3	ray_dir;
 	cl_float3	ray_start;
 	int		i;
 	float	t;
@@ -57,7 +57,7 @@ int			in_shadow(t_scene *scene, int index, cl_float3 l)
 		i++;
 	}
 	if (t < 1 && t > 0.0001)
-		return (1); */
+		return (1);
 	return (0);
 }
 

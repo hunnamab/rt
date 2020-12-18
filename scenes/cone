@@ -12,6 +12,12 @@ light {
     intensity: 0.2
 }
 
+light {
+    type: point
+    position: 10, 10, -10
+    intensity: 0.8
+}
+
 camera {
     position: 0, 2, -40
     rotation: 0, 0, 0
