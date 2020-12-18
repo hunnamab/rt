@@ -14,7 +14,7 @@ NAME = rt
 NAME_LINUX = rt_linux
 LIB_FLAGS = -Wall -Wextra
 MAC_FLAGS = -I SDL2.framework/Headers -F ./ -framework SDL2 -framework OpenCL
-LINUX_FLAGS = -lSDL2 -lm -lOpenCL
+LINUX_FLAGS = -lSDL2 -lm -lXext -lcuda -lcudart
 LIBRARY = ./libft/libft.a
 HEADER = rt.h
 SRC = main.c sphere.c vector.c utils.c \
@@ -45,21 +45,12 @@ $(NAME): $(LIBRARY) $(OBJ)
 		@cp -r SDL2.framework ~/Library/Frameworks/
 		@gcc $(OBJ) $(LIBRARY) -o $(NAME) $(MAC_FLAGS) -I $(HEADER)
 
-linux: $(NAME_LINUX) 
-
-$(NAME_LINUX): $(LIBRARY) $(OBJ)
-		@gcc $(OBJ) $(LIBRARY) -o $(NAME_LINUX) $(LINUX_FLAGS) -I $(HEADER)
 clean:
 	@rm -f $(OBJ)
 	@make -C libft clean
-
 fclean: clean
 	@rm -f $(NAME)
 	@rm -rf ~/Library/Frameworks/SDL2.framework
-	@make -C libft fclean
-
-fclean_linux: clean
-	@rm -f $(NAME_LINUX)
 	@make -C libft fclean
 
 re: fclean all

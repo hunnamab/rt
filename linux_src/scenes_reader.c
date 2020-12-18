@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt.h"
+#include "rt_cuda.h"
 
 static void	scene_objects(int *snmi, t_scene *scene, char *buf)
 {
