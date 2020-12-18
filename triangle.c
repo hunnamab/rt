@@ -76,8 +76,8 @@ void		get_triangle_normal(t_scene *scene, int index, int obj_num)
 float		intersect_ray_triangle(t_scene *scene, int index, cl_float3 *start, cl_float3 *dir)
 {
 	t_triangle	*triangle;
-	cl_float3		edge[2];
-	cl_float3		vec[3];
+	cl_float3	edge[2];
+	cl_float3	vec[3];
 	float		det;
 	float		uv[2];
 

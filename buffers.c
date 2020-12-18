@@ -91,7 +91,7 @@ void	get_closest_points(t_scene *scene, float t)
     clFinish(scene->cl_data.commands);
     clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.depth_buf, CL_TRUE, 0, sizeof(float) * global, scene->depth_buf, 0, NULL, NULL); */
 	
-	size_t global = WID * HEI;
+	/* size_t global = WID * HEI;
 
 	cl_mem position;
 	cl_mem vector;
@@ -119,8 +119,38 @@ void	get_closest_points(t_scene *scene, float t)
 	printf("local == max work group size == %ld\n", local);
     clEnqueueNDRangeKernel(scene->cl_data.commands, scene->cl_data.kernels[2], 1, NULL, &global, &local, 0, NULL, NULL);
     clFinish(scene->cl_data.commands);
-    clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.depth_buf, CL_TRUE, 0, sizeof(float) * global, scene->depth_buf, 0, NULL, NULL);
+    clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.depth_buf, CL_TRUE, 0, sizeof(float) * global, scene->depth_buf, 0, NULL, NULL); */
 	
+	size_t global = WID * HEI;
+
+	cl_mem position;
+	cl_mem vector;
+	cl_mem radius;
+
+	size_t local;
+	t_cylinder *cyl = (t_cylinder *)scene->objs[0]->data;
+
+	position = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3), NULL, NULL);
+	vector = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3), NULL, NULL);
+	radius = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(float), NULL, NULL);
+
+	clEnqueueWriteBuffer(scene->cl_data.commands, position, CL_FALSE, 0, sizeof(cl_float3), &cyl->position, 0, NULL, NULL);
+	clEnqueueWriteBuffer(scene->cl_data.commands, vector, CL_FALSE, 0, sizeof(cl_float3), &cyl->vec, 0, NULL, NULL);
+	clEnqueueWriteBuffer(scene->cl_data.commands, radius, CL_FALSE, 0, sizeof(float), &cyl->radius, 0, NULL, NULL);
+
+	clSetKernelArg(scene->cl_data.kernels[3], 0, sizeof(cl_mem), &scene->cl_data.scene.ray_buf);
+	clSetKernelArg(scene->cl_data.kernels[3], 1, sizeof(cl_mem), &scene->cl_data.scene.camera);
+    clSetKernelArg(scene->cl_data.kernels[3], 2, sizeof(cl_mem), &position);
+	clSetKernelArg(scene->cl_data.kernels[3], 3, sizeof(cl_mem), &scene->cl_data.scene.depth_buf);
+	clSetKernelArg(scene->cl_data.kernels[3], 4, sizeof(cl_mem), &vector);
+	clSetKernelArg(scene->cl_data.kernels[3], 5, sizeof(cl_mem), &radius);
+
+    clGetKernelWorkGroupInfo(scene->cl_data.kernels[3], scene->cl_data.device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
+	printf("local == max work group size == %ld\n", local);
+    clEnqueueNDRangeKernel(scene->cl_data.commands, scene->cl_data.kernels[3], 1, NULL, &global, &local, 0, NULL, NULL);
+    clFinish(scene->cl_data.commands);
+    clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.depth_buf, CL_TRUE, 0, sizeof(float) * global, scene->depth_buf, 0, NULL, NULL);
+
 	int x = 0;
 	while(x < (WID * HEI))
 	{
@@ -136,7 +166,6 @@ void	get_closest_points(t_scene *scene, float t)
 		{
 			scene->index_buf[x] = -1;
 		}
-		
 	}
 }
 

@@ -73,6 +73,34 @@ int    cl_init(t_scene *scene)
 	if (!(scene->cl_data.kernels[2] = clCreateKernel(scene->cl_data.programs[2], "intersect_ray_cone_cl", &err)))
 		printf("не собрана программа 1, error %d cone\n", err);
 
+	int		ret4;
+	char	*intersect_ray_cylinder_cl;
+	int fd4 = open("./kernels/intersect_ray_cylinder_cl.cl", O_RDONLY);
+	intersect_ray_cylinder_cl = protected_malloc(sizeof(char), 256000);
+	ret4 = read(fd4, intersect_ray_cylinder_cl, 64000);
+	intersect_ray_cylinder_cl[ret4] = '\0';
+	
+	if ((scene->cl_data.programs[3] = clCreateProgramWithSource(scene->cl_data.context, 1, (const char **)&intersect_ray_cylinder_cl, NULL, &err)))
+		printf("cоздана программа cylinder\n");
+	if ((clBuildProgram(scene->cl_data.programs[3], 0, NULL, NULL, NULL, &err)))
+		printf("собрана программа cylinder\n");
+	if (!(scene->cl_data.kernels[3] = clCreateKernel(scene->cl_data.programs[3], "intersect_ray_cylinder_cl", &err)))
+		printf("не собрана программа 1, error %d cylinder\n", err);
+
+	int		ret5;
+	char	*intersect_ray_triangle_cl;
+	int fd5 = open("./kernels/intersect_ray_triangle_cl.cl", O_RDONLY);
+	intersect_ray_triangle_cl = protected_malloc(sizeof(char), 256000);
+	ret5 = read(fd5, intersect_ray_triangle_cl, 64000);
+	intersect_ray_triangle_cl[ret5] = '\0';
+	
+	if ((scene->cl_data.programs[4] = clCreateProgramWithSource(scene->cl_data.context, 1, (const char **)&intersect_ray_triangle_cl, NULL, &err)))
+		printf("cоздана программа triangle\n");
+	if ((clBuildProgram(scene->cl_data.programs[4], 0, NULL, NULL, NULL, &err)))
+		printf("собрана программа triangle\n");
+	if (!(scene->cl_data.kernels[4] = clCreateKernel(scene->cl_data.programs[4], "intersect_ray_triangle_cl", &err)))
+		printf("не собрана программа 1, error %d triangle\n", err);
+
 	//Создание буферов на гпу
 	scene->cl_data.scene.ray_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, NULL);
 	scene->cl_data.scene.viewport = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, NULL);
