@@ -9,11 +9,11 @@
 /*   Updated: 2020/11/10 17:28:32 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 extern "C"{
-	#include "rt_cuda.h"
+#include "rt_cuda.h"
 }
-# include "rt.cuh"
+#include "rt.cuh"
+
 void	check_funk(float3 *ray_arr, float3 *camera_start, float3 *viewport, int count)
 {
 	int x = 0;
@@ -31,34 +31,14 @@ __host__ void	get_rays_arr(t_scene *scene)
 	dim3     gridSize;
     dim3     blockSize;
 
-	gridSize.x = 1;
-	gridSize.y = HEI;
-	gridSize.z = 1;
-    blockSize.x = WID;
-	blockSize.y = 1;
-	blockSize.z = 1;
-	cudaMemcpy(scene->viewport, scene->device_data.viewport, sizeof(float3) * WID * HEI, cudaMemcpyHostToDevice);
-	cudaMemcpy(&scene->camera.position, scene->device_data.camera, sizeof(float3), cudaMemcpyHostToDevice);
-	kernel_getray<<<gridSize, blockSize>>>(scene->device_data.viewport, scene->device_data.camera, scene->device_data.ray_buf);
-	cudaMemcpy(scene->ray_buf, scene->device_data.ray_buf, sizeof(float3) * WID * HEI, cudaMemcpyDeviceToHost);
-	/* int x;
-	int y;
-	int j;
+	gridSize = WID * HEI / 256;
+    blockSize = 256;
 
-	x = 0;
-	y = 0;
-	while (y < HEI)
-	{
-		while (x < WID)
-		{
-			j = y * WID + x;
-			scene->ray_buf[j] = vector_sub(&scene->viewport[j], \
-												&scene->camera.position);
-			x++;
-		}
-		x = 0;
-		y++;
-	} */
+	if((cudaMemcpy(scene->device_data->viewport, scene->viewport, sizeof(float3) * WID * HEI, cudaMemcpyHostToDevice)) == CUDA_SUCCESS)
+		printf("copy to device success\n");
+	kernel_getray<<<gridSize, blockSize>>>(scene->device_data->viewport, scene->camera.position, scene->device_data->ray_buf);
+	if((cudaMemcpy(scene->ray_buf, scene->device_data->ray_buf, sizeof(float3) * WID * HEI, cudaMemcpyDeviceToHost)) == CUDA_SUCCESS)
+		printf("copy from device success\n");
 }
 
 void	get_closest_points(t_scene *scene, float t)

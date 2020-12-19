@@ -9,7 +9,6 @@
 /*   Updated: 2020/11/10 17:59:39 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "rt_cuda.h"
 
 t_object	*new_plane(float3 *poi_nor, float specular, t_color color, \

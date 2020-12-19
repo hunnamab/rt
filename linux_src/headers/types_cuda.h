@@ -27,7 +27,6 @@ typedef struct 			s_scene_device
 	int					*index_buf;
 	float				*depth_buf;
 	float3				*normal_buf;
-	//cl_mem			*material_buf;
 	float3				*camera;
 }						t_scene_device;
 
@@ -119,17 +118,17 @@ typedef	struct		s_object3d
 
 struct		s_scene
 {
-	t_scene_device	device_data;
+	t_scene_device	*device_data;
 	t_object		**objs;	
 	int				obj_nmb;
-	float3		*normal_buf;
+	float3			*normal_buf;
 	t_material		*material_buf;
-	float3		*intersection_buf;
-	float3		*ray_buf;
+	float3			*intersection_buf;
+	float3			*ray_buf;
 	t_light			**light;
 	int				light_nmb;
 	t_camera		camera;
-	float3		*viewport;
+	float3			*viewport;
 	int				*index_buf;
 	float			*depth_buf;
 	int				mode; // 0 - default, 1 - normal, 2 - depth, 3 - flat_light

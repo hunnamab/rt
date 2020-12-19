@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "rt_cuda.h"
-
 void	draw_scene(t_sdl *sdl, t_scene *scene)
 {
 	int		x;

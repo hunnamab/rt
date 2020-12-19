@@ -10,8 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+extern "C"{
 #include "rt_cuda.h"
-
+}
 void	check_mode(int as, char **av, t_scene *scene)
 {
 	if (as == 2 || (as == 3 && (ft_strequ(av[2], "default"))))
@@ -50,7 +51,7 @@ void	args_check(t_scene *scene, char **argv, int args)
 	}
 }
 
-__host__ int		main(int args, char **argv)
+int	main(int args, char **argv)
 {
  	t_sdl		sdl;
 	t_scene		*scene;

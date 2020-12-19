@@ -11,7 +11,8 @@
 /* ************************************************************************** */
 
 #include "rt_cuda.h"
-
+# include "libft.h"
+# include "matrix.h"
 void	clear_default(t_object *obj)
 {
 	free(obj->data);

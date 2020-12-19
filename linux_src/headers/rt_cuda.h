@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RT_CUDA_H
-# define RT_CUDA_H
+#ifndef RT_CUDA_CUH
+# define RT_CUDA_CUH
 
 # include <cuda_runtime_api.h>
 # include <vector_types.h>
@@ -21,19 +21,16 @@
 # include <math.h>
 # include <fcntl.h>
 # include <stdint.h>
-# include "./libft/libft.h"
 # include <unistd.h>
-# include "./matrix_lib/matrix.h"
 # include "types_cuda.h"
 # include "device_launch_parameters.h"
-# include "rt.cuh"
+# include "libft.h"
+# include "matrix.h"
 # define ABS(x)		(x) > 0 ? (x) : -(x)
 # define DROUND(d)	ABS(d) < 0.00001 ? 0 : (d)
-
-# define WID 1280
-# define HEI 720
+# define WID 1024
+# define HEI 1024
 # define KERNEL_NUM 10
-
 // scenes_reader.c
 void		read_scene(int fd, t_scene *scene);
 // scenes_reader.c
@@ -67,7 +64,8 @@ float3	vector_sub_by_scalar(float3 *vector, float scalar);
 void		normalize_vector(float3 *v1);
 float3	vector_add_scalar(const float3 *v1, const float scalar);
 // utils.c
-float3	get_point(float x, float y, float z);
+void		print_gpu_info(void);
+float3		get_point(float x, float y, float z);
 void		get_viewport(t_scene *scene);
 void		copy_point(float3 *dst, float3 *src);
 float		choose_t(float t0, float t1);
@@ -158,5 +156,5 @@ void		clean_scene(t_scene *scene);
 void		output_description(void);
 void		output_error(int tag);
 int    		cuda_init(t_scene *scene);
-
+void		print_gpu_info(void);
 #endif

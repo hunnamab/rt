@@ -54,3 +54,9 @@ fclean: clean
 	@make -C libft fclean
 
 re: fclean all
+
+linux: $(NAME_LINUX)
+
+$(NAME_LINUX): $(OBJ_LINUX)
+	nvcc -c ./linux_src/*.cu ./linux_src/*.c ./matrix_lib/*.c -lSDL2 -lm -lXext -lcuda -lcudart -I ./linux_src/headers/
+	nvcc *.o $(LIBRARY) -o $(NAME_LINUX) $(LINUX_FLAGS)

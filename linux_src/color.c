@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "rt_cuda.h"
-
 void		set_color_zero(t_color *color)
 {
 	color->red = 0;

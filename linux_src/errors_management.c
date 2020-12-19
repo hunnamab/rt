@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "rt_cuda.h"
-
 void	output_description(void)
 {
 	ft_putstr("usage: ./rtv1 [scene_file] [mode]*\n\n");
