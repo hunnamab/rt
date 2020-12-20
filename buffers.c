@@ -121,7 +121,7 @@ void	get_closest_points(t_scene *scene, float t)
     clFinish(scene->cl_data.commands);
     clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.depth_buf, CL_TRUE, 0, sizeof(float) * global, scene->depth_buf, 0, NULL, NULL); */
 	
-	size_t global = WID * HEI;
+	/* size_t global = WID * HEI;
 
 	cl_mem position;
 	cl_mem vector;
@@ -148,6 +148,28 @@ void	get_closest_points(t_scene *scene, float t)
     clGetKernelWorkGroupInfo(scene->cl_data.kernels[3], scene->cl_data.device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
 	printf("local == max work group size == %ld\n", local);
     clEnqueueNDRangeKernel(scene->cl_data.commands, scene->cl_data.kernels[3], 1, NULL, &global, &local, 0, NULL, NULL);
+    clFinish(scene->cl_data.commands);
+    clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.depth_buf, CL_TRUE, 0, sizeof(float) * global, scene->depth_buf, 0, NULL, NULL); */
+
+	size_t global = WID * HEI;
+
+	cl_mem vertex;
+
+	size_t local;
+	t_triangle *tri = (t_triangle *)scene->objs[0]->data;
+
+	vertex = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  (sizeof(cl_float3) * 4), NULL, NULL);
+
+	clEnqueueWriteBuffer(scene->cl_data.commands, vertex, CL_FALSE, 0, (sizeof(cl_float3) * 4), &tri->vertex, 0, NULL, NULL);
+
+	clSetKernelArg(scene->cl_data.kernels[4], 0, sizeof(cl_mem), &scene->cl_data.scene.ray_buf);
+	clSetKernelArg(scene->cl_data.kernels[4], 1, sizeof(cl_mem), &scene->cl_data.scene.camera);
+	clSetKernelArg(scene->cl_data.kernels[4], 2, sizeof(cl_mem), &scene->cl_data.scene.depth_buf);
+	clSetKernelArg(scene->cl_data.kernels[4], 3, sizeof(cl_mem), &vertex);
+
+    clGetKernelWorkGroupInfo(scene->cl_data.kernels[4], scene->cl_data.device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
+	printf("local == max work group size == %ld\n", local);
+    clEnqueueNDRangeKernel(scene->cl_data.commands, scene->cl_data.kernels[4], 1, NULL, &global, &local, 0, NULL, NULL);
     clFinish(scene->cl_data.commands);
     clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.depth_buf, CL_TRUE, 0, sizeof(float) * global, scene->depth_buf, 0, NULL, NULL);
 

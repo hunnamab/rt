@@ -1,0 +1,24 @@
+triangle {
+    vertex: -25, -15, 20
+    vertex: 40, 30, 140
+    vertex: -50, 40, 140
+    rotation: 0, 0.5, 0
+    color: 45, 205, 10, 255
+    specular: 50
+}
+
+camera {
+    position: 0, 2, -40
+    rotation: 0, 0, 0
+}
+
+light {
+    type: point
+    position: 100, 10, -20
+    intensity: 0.4
+}
+
+light {
+    type: ambient
+    intensity: 0.2
+}
