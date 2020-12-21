@@ -22,20 +22,23 @@ void	print_gpu_info(void)
 	printf("maxGridSize[3] (%d,%d,%d)\n", prop->maxGridSize[0],prop->maxGridSize[1],prop->maxGridSize[2]);
 }
 
-void prepare(t_scene *scene, t_sphere *sphere)
+__host__ void 	intersect_ray_sphere(t_scene *scene, int index, float3 *start, float3 *dir)
 {
     dim3     gridSize;
     dim3     blockSize;
-
+	t_sphere *sphere;
 	gridSize = WID * HEI / 256;
 	blockSize = 256;
-    intersect_ray_sphere_cl<<<gridSize,blockSize>>>(scene->device_data->ray_buf,scene->camera.position,sphere->center,sphere->radius,scene->device_data->depth_buf);
-    cudaMemcpy(scene->depth_buf, scene->device_data->depth_buf, sizeof(float) * WID * HEI,cudaMemcpyDeviceToHost);
+	sphere = reinterpret_cast<t_sphere *>(scene->objs[index]->data);
+    intersect_ray_sphere_c<<<gridSize,blockSize>>>(scene->device_data->ray_buf,scene->camera.position,sphere->center,sphere->radius,scene->device_data->depth_buf, scene->device_data->index_buf, index);
 }
 
-void prepare_t(t_scene *scene, t_triangle *t)
+__host__ void	intersect_ray_triangle(t_scene *scene, int index, float3 *start, float3 *dir)
 {
-    dim3     gridSize;
+	t_triangle	*t;
+
+	t = reinterpret_cast<t_triangle *>(scene->objs[index]->data);
+	dim3     gridSize;
     dim3     blockSize;
 
 	gridSize = WID * HEI / 256;
@@ -43,6 +46,6 @@ void prepare_t(t_scene *scene, t_triangle *t)
 	float3 *vertex;
 	cudaMalloc(&vertex, sizeof(float3) * 3);
 	cudaMemcpy(vertex, t->vertex,sizeof(float3) * 3, cudaMemcpyHostToDevice);
-    intersect_ray_triangle_cl<<<gridSize,blockSize>>>(scene->device_data->ray_buf,scene->camera.position,scene->device_data->depth_buf,vertex, t->normal);
-    cudaMemcpy(scene->depth_buf, scene->device_data->depth_buf, sizeof(float) * WID * HEI,cudaMemcpyDeviceToHost);
+    intersect_ray_triangle_c<<<gridSize,blockSize>>>(scene->device_data->ray_buf,scene->camera.position,scene->device_data->depth_buf, vertex, scene->device_data->index_buf, index);
+	cudaFree(vertex);
 }

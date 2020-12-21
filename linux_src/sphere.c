@@ -48,26 +48,3 @@ void		get_sphere_normal(t_scene *scene, int index, int obj_num)
 	&scene->normal_buf[index]) > 0.0001)
 		scene->normal_buf[index] = vector_scale(&scene->normal_buf[index], -1);
 }
-
-float		intersect_ray_sphere(t_scene *scene, int index, float3 *start, float3 *dir)
-{
-	float		a;
-	float		b;
-	float		c;
-	float3	dist;
-	t_sphere	*s;
-	
-	s = (t_sphere *)scene->objs[index]->data;
-	prepare(scene, s);
-	/* a = vector_dot(dir, dir);
-	dist = vector_sub(start, &s->center);
-	b = 2 * vector_dot(&dist, dir);
-	c = vector_dot(&dist, &dist) - (s->radius * s->radius);
-	c = b * b - 4 * a * c;
-	if (c >= 0)
-	{
-		c = sqrt(c);
-		return (choose_t((-b + c) / (2 * a), (-b - c) / (2 * a)));
-	} */
-	return (0);
-}
