@@ -61,24 +61,23 @@ void	get_closest_points(t_scene *scene, float t)
 			}
 		}
 	} */
-	int x = 0;
-	scene->objs[0]->intersect(scene, 0, &scene->camera.position, &scene->ray_buf[x]);
-	x = -1;
-	while(x < (WID * HEI))
-	{
-		scene->index_buf[x] = 0;
-		x++;
-	}
-	x = -1;
+	int x = -1;
+	int i = 0;
 	while(++x < WID * HEI)
 	{
-		if (scene->depth_buf[x])
-			scene->index_buf[x] = 0;
-		else
-		{
-			scene->index_buf[x] = -1;
-		}
+		scene->index_buf[x] = -1;
+		scene->depth_buf[x] = 100000000;
 	}
+	cudaMemcpy(scene->device_data->index_buf, scene->index_buf, sizeof(int) * WID * HEI, cudaMemcpyHostToDevice);
+	cudaMemcpy(scene->device_data->depth_buf, scene->depth_buf, sizeof(float) * WID * HEI, cudaMemcpyHostToDevice);
+	i = 0;
+	while(i < scene->obj_nmb)
+	{
+		scene->objs[i]->intersect(scene, i, &scene->camera.position, &scene->ray_buf[x]);
+		i++;
+	}
+	cudaMemcpy(scene->index_buf, scene->device_data->index_buf, sizeof(int) * WID * HEI, cudaMemcpyDeviceToHost);
+	cudaMemcpy(scene->depth_buf, scene->device_data->depth_buf, sizeof(float) * WID * HEI, cudaMemcpyDeviceToHost);
 }
 
 void	get_intersection_buf(t_scene *scene)

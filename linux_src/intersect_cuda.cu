@@ -26,11 +26,11 @@ __device__ float3		cross(float3 v1, float3 v2)
 	return (result);
 }
 
-__global__ void intersect_ray_sphere_cl(float3 *ray_arr, \
+__global__ void intersect_ray_sphere_c(float3 *ray_arr, \
      float3 camera_start, \
      float3 s_center, \
      float s_radius, \
-     float *depth_buf)
+     float *depth_buf, int *index_buf, int index)
 {
     int i = blockDim.x * blockIdx.x + threadIdx.x;
     float a = dot(ray_arr[i], ray_arr[i]);
@@ -49,13 +49,11 @@ __global__ void intersect_ray_sphere_cl(float3 *ray_arr, \
         t2 = (-b - c) / (2 * a);
         depth_buf[i] = t1 < t2 ? t1 : t2;
     }
-/*     if(depth_buf[i] != 0)
-        printf("depth_buf[%d] == %f\n", i, depth_buf[i]); */
 }
-__global__ void intersect_ray_triangle_cl(float3 *ray_arr, \
+__global__ void intersect_ray_triangle_c(float3 *ray_arr, \
      float3 camera_start, \
      float *depth_buf, \
-     float3 *vertex, float3 normal)
+     float3 *vertex, int *index_buf, int index)
 {
     int i = blockDim.x * blockIdx.x + threadIdx.x;
 
@@ -63,41 +61,28 @@ __global__ void intersect_ray_triangle_cl(float3 *ray_arr, \
     float3 vec[3];
     float det;
     float uv[2];
-    float3 ver[3];
-    ver[0] = vertex[0];
-    ver[1] = vertex[1];
-    ver[2] = vertex[2];
 
-    edge[0] = sub(ver[1],ver[0]);
-    edge[1] = sub(ver[2],ver[0]);
+    edge[0] = sub(vertex[1],vertex[0]);
+    edge[1] = sub(vertex[2],vertex[0]);
     vec[0] = cross(ray_arr[i], edge[1]);
     det = dot(edge[0], vec[0]);
     if (det < 1e-8 && det > -1e-8)
-    {
-    depth_buf[i] = 0;
-    return ;
-    }
+        return ;
     det = 1 / det;
-    vec[1] = sub(camera_start,ver[0]);
+    vec[1] = sub(camera_start,vertex[0]);
     uv[0] = dot(vec[1], vec[0]) * det;
     if (uv[0] < 0 || uv[0] > 1)
-    {
-    depth_buf[i] = 0;
-    return ;
-    }
+        return ;
     vec[2] = cross(vec[1], edge[0]);
     uv[1] = dot(ray_arr[i], vec[2]) * det;
     if (uv[1] < 0 || uv[0] + uv[1] > 1)
-    {
-    depth_buf[i] = 0;
-    return ;
-    }
+        return ;
     float res;
     res = dot(edge[1], vec[2]) * det;
-    if (res > 0)
+    if (res > 0 && res < depth_buf[i])
     {
-    depth_buf[i] = res;
-    return ;
+        depth_buf[i] = res;
+        index_buf[i] = index;
+        return ;
     }
-    depth_buf[i] = 0;
 }

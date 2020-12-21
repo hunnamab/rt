@@ -91,6 +91,7 @@ void	refresh_scene(t_scene *scene)
 	while (++x < WID * HEI)
 		transform(&scene->ray_buf[x], matrix, 1);
 	matr_free(matrix, 4);
+	cudaMemcpy(scene->device_data->ray_buf, scene->ray_buf, sizeof(float3) * WID * HEI, cudaMemcpyHostToDevice);
 	scene->depth_buf != NULL ? get_closest_points(scene, 0) : NULL;
 	scene->intersection_buf != NULL ? get_intersection_buf(scene) : NULL;
 	scene->normal_buf != NULL ? get_normal_buf(scene) : NULL;
