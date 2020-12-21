@@ -173,6 +173,32 @@ void	get_closest_points(t_scene *scene, float t)
     clFinish(scene->cl_data.commands);
     clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.depth_buf, CL_TRUE, 0, sizeof(float) * global, scene->depth_buf, 0, NULL, NULL);
 
+	/* size_t global = WID * HEI;
+
+	cl_mem normal;
+	cl_mem d;
+
+	size_t local;
+	t_plane *p = (t_plane *)scene->objs[0]->data;
+
+	normal = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3), NULL, NULL);
+	d = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(float), NULL, NULL);
+
+	clEnqueueWriteBuffer(scene->cl_data.commands, normal, CL_FALSE, 0, sizeof(cl_float3), &p->normal, 0, NULL, NULL);
+	clEnqueueWriteBuffer(scene->cl_data.commands, d, CL_FALSE, 0, sizeof(float), &p->d, 0, NULL, NULL);
+
+	clSetKernelArg(scene->cl_data.kernels[5], 0, sizeof(cl_mem), &scene->cl_data.scene.ray_buf);
+	clSetKernelArg(scene->cl_data.kernels[5], 1, sizeof(cl_mem), &scene->cl_data.scene.camera);
+	clSetKernelArg(scene->cl_data.kernels[5], 2, sizeof(cl_mem), &scene->cl_data.scene.depth_buf);
+	clSetKernelArg(scene->cl_data.kernels[5], 3, sizeof(cl_mem), &normal);
+	clSetKernelArg(scene->cl_data.kernels[5], 4, sizeof(cl_mem), &d);
+
+    clGetKernelWorkGroupInfo(scene->cl_data.kernels[5], scene->cl_data.device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
+	printf("local == max work group size == %ld\n", local);
+    clEnqueueNDRangeKernel(scene->cl_data.commands, scene->cl_data.kernels[5], 1, NULL, &global, &local, 0, NULL, NULL);
+    clFinish(scene->cl_data.commands);
+    clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.depth_buf, CL_TRUE, 0, sizeof(float) * global, scene->depth_buf, 0, NULL, NULL); */
+
 	int x = 0;
 	while(x < (WID * HEI))
 	{

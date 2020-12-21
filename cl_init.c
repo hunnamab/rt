@@ -40,7 +40,8 @@ int    cl_init(t_scene *scene)
 		printf("built\n");
 	if (!(scene->cl_data.kernels[0] = clCreateKernel(scene->cl_data.programs[0], "get_ray_arr", &err)))
 		printf("error %d\n", err);
-	
+	close(fd1);
+
 	char info[1024];
 	clGetDeviceInfo(scene->cl_data.device_id, CL_DEVICE_NAME, 1024, info, NULL);
 	printf("%s\n", info);
@@ -58,6 +59,7 @@ int    cl_init(t_scene *scene)
 		printf("собрана программа sphere\n");
 	if (!(scene->cl_data.kernels[1] = clCreateKernel(scene->cl_data.programs[1], "intersect_ray_sphere_cl", &err)))
 		printf("не собрана программа 1, error %d sphere\n", err);
+	close(fd2);
 
 	int		ret3;
 	char	*intersect_ray_cone_cl;
@@ -72,6 +74,7 @@ int    cl_init(t_scene *scene)
 		printf("собрана программа cone\n");
 	if (!(scene->cl_data.kernels[2] = clCreateKernel(scene->cl_data.programs[2], "intersect_ray_cone_cl", &err)))
 		printf("не собрана программа 1, error %d cone\n", err);
+	close(fd3);
 
 	int		ret4;
 	char	*intersect_ray_cylinder_cl;
@@ -86,6 +89,7 @@ int    cl_init(t_scene *scene)
 		printf("собрана программа cylinder\n");
 	if (!(scene->cl_data.kernels[3] = clCreateKernel(scene->cl_data.programs[3], "intersect_ray_cylinder_cl", &err)))
 		printf("не собрана программа 1, error %d cylinder\n", err);
+	close(fd4);
 
 	int		ret5;
 	char	*intersect_ray_triangle_cl;
@@ -100,6 +104,22 @@ int    cl_init(t_scene *scene)
 		printf("собрана программа triangle\n");
 	if (!(scene->cl_data.kernels[4] = clCreateKernel(scene->cl_data.programs[4], "intersect_ray_triangle_cl", &err)))
 		printf("не собрана программа 1, error %d triangle\n", err);
+	close(fd5);
+
+	int		ret6;
+	char	*intersect_ray_plane_cl;
+	int fd6 = open("./kernels/intersect_ray_plane_cl.cl", O_RDONLY);
+	intersect_ray_plane_cl = protected_malloc(sizeof(char), 256000);
+	ret6 = read(fd6, intersect_ray_plane_cl, 64000);
+	intersect_ray_plane_cl[ret6] = '\0';
+	
+	if ((scene->cl_data.programs[5] = clCreateProgramWithSource(scene->cl_data.context, 1, (const char **)&intersect_ray_plane_cl, NULL, &err)))
+		printf("cоздана программа plane\n");
+	if ((clBuildProgram(scene->cl_data.programs[5], 0, NULL, NULL, NULL, &err)))
+		printf("собрана программа plane\n");
+	if (!(scene->cl_data.kernels[5] = clCreateKernel(scene->cl_data.programs[5], "intersect_ray_plane_cl", &err)))
+		printf("не собрана программа 1, error %d plane\n", err);
+	close(fd6);
 
 	//Создание буферов на гпу
 	scene->cl_data.scene.ray_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, NULL);

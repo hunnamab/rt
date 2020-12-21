@@ -10,11 +10,11 @@ __kernel void intersect_ray_triangle_cl(__global float3 *ray_arr, \
     float det;
     float uv[2];
     float3 ver[3];
+
     ver[0] = vertex[0];
     ver[1] = vertex[1];
     ver[2] = vertex[2];
 	ver[3] = vertex[3];
-	int x = 1;
     edge[0] = ver[1] - ver[0];
 	edge[1] = ver[2] - ver[0];
 	vec[0] = cross(ray_arr[i], edge[1]);
