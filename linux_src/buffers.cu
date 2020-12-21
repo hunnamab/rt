@@ -31,8 +31,8 @@ __host__ void	get_rays_arr(t_scene *scene)
 	dim3     gridSize;
     dim3     blockSize;
 
-	gridSize = WID * HEI / 256;
-    blockSize = 256;
+	gridSize = WID * HEI / 1024;
+    blockSize = 1024;
 
 	if((cudaMemcpy(scene->device_data->viewport, scene->viewport, sizeof(float3) * WID * HEI, cudaMemcpyHostToDevice)) == CUDA_SUCCESS)
 		printf("copy to device success\n");
@@ -43,7 +43,7 @@ __host__ void	get_rays_arr(t_scene *scene)
 
 void	get_closest_points(t_scene *scene, float t)
 {
-	int x = -1;
+/* 	int x = -1;
 	int i = 0;
 	while(++x < WID * HEI)
 	{
@@ -60,7 +60,25 @@ void	get_closest_points(t_scene *scene, float t)
 				scene->index_buf[x] = i;
 			}
 		}
-	} 
+	} */
+	int x = 0;
+	scene->objs[0]->intersect(scene, 0, &scene->camera.position, &scene->ray_buf[x]);
+	x = -1;
+	while(x < (WID * HEI))
+	{
+		scene->index_buf[x] = 0;
+		x++;
+	}
+	x = -1;
+	while(++x < WID * HEI)
+	{
+		if (scene->depth_buf[x])
+			scene->index_buf[x] = 0;
+		else
+		{
+			scene->index_buf[x] = -1;
+		}
+	}
 }
 
 void	get_intersection_buf(t_scene *scene)
