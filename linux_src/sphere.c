@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "rt_cuda.h"
-
+#include "rt.cuh"
 t_object	*new_sphere(float3 center, float *rad_spec, t_color color, \
 						float *rotation)
 {
@@ -58,7 +58,8 @@ float		intersect_ray_sphere(t_scene *scene, int index, float3 *start, float3 *di
 	t_sphere	*s;
 	
 	s = (t_sphere *)scene->objs[index]->data;
-	a = vector_dot(dir, dir);
+	prepare(scene, s);
+	/* a = vector_dot(dir, dir);
 	dist = vector_sub(start, &s->center);
 	b = 2 * vector_dot(&dist, dir);
 	c = vector_dot(&dist, &dist) - (s->radius * s->radius);
@@ -67,6 +68,6 @@ float		intersect_ray_sphere(t_scene *scene, int index, float3 *start, float3 *di
 	{
 		c = sqrt(c);
 		return (choose_t((-b + c) / (2 * a), (-b - c) / (2 * a)));
-	}
+	} */
 	return (0);
 }

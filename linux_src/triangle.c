@@ -82,7 +82,7 @@ float		intersect_ray_triangle(t_scene *scene, int index, float3 *start, float3 *
 	float		uv[2];
 
 	triangle = (t_triangle *)scene->objs[index]->data;
-	edge[0] = vector_sub(&triangle->vertex[1], &triangle->vertex[0]);
+	/* edge[0] = vector_sub(&triangle->vertex[1], &triangle->vertex[0]);
 	edge[1] = vector_sub(&triangle->vertex[2], &triangle->vertex[0]);
 	vec[0] = vector_cross(dir, &edge[1]);
 	det = vector_dot(&edge[0], &vec[0]);
@@ -98,6 +98,7 @@ float		intersect_ray_triangle(t_scene *scene, int index, float3 *start, float3 *
 	if (uv[1] < 0 || uv[0] + uv[1] > 1)
 		return (0);
 	if ((vector_dot(&edge[1], &vec[2]) * det) > 0)
-		return (vector_dot(&edge[1], &vec[2]) * det);
+		return (vector_dot(&edge[1], &vec[2]) * det); */
+	prepare_t(scene, triangle);
 	return (0);
 }

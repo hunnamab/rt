@@ -28,8 +28,8 @@
 # include "matrix.h"
 # define ABS(x)		(x) > 0 ? (x) : -(x)
 # define DROUND(d)	ABS(d) < 0.00001 ? 0 : (d)
-# define WID 1024
-# define HEI 1024
+# define WID 1280
+# define HEI 720
 # define KERNEL_NUM 10
 // scenes_reader.c
 void		read_scene(int fd, t_scene *scene);
@@ -157,4 +157,6 @@ void		output_description(void);
 void		output_error(int tag);
 int    		cuda_init(t_scene *scene);
 void		print_gpu_info(void);
+void 		prepare(t_scene *scene, t_sphere *sphere);
+void 		prepare_t(t_scene *scene, t_triangle *t);
 #endif
