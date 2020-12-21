@@ -158,9 +158,9 @@ void	get_closest_points(t_scene *scene, float t)
 	size_t local;
 	t_triangle *tri = (t_triangle *)scene->objs[0]->data;
 
-	vertex = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  (sizeof(cl_float3) * 4), NULL, NULL);
+	vertex = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  (sizeof(cl_float3) * 3), NULL, NULL);
 
-	clEnqueueWriteBuffer(scene->cl_data.commands, vertex, CL_FALSE, 0, (sizeof(cl_float3) * 4), &tri->vertex, 0, NULL, NULL);
+	clEnqueueWriteBuffer(scene->cl_data.commands, vertex, CL_FALSE, 0, (sizeof(cl_float3) * 3), &tri->vertex, 0, NULL, NULL);
 
 	clSetKernelArg(scene->cl_data.kernels[4], 0, sizeof(cl_mem), &scene->cl_data.scene.ray_buf);
 	clSetKernelArg(scene->cl_data.kernels[4], 1, sizeof(cl_mem), &scene->cl_data.scene.camera);
