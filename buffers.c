@@ -42,7 +42,6 @@ void	get_closest_points(t_scene *scene, float t)
 		scene->index_buf[x] = -1;
 		scene->depth_buf[x] = 100000000;
 	}
-	//нужно тут?
 	clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.index_buf, CL_FALSE, 0, sizeof(int) * global, scene->index_buf, 0, NULL, NULL);
 	clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.depth_buf, CL_FALSE, 0, sizeof(float) * global, scene->depth_buf, 0, NULL, NULL);
 	while (i < scene->obj_nmb)
@@ -50,11 +49,8 @@ void	get_closest_points(t_scene *scene, float t)
 		scene->objs[i]->intersect(scene, i);
 		i++;
 	}
-	// и это где лучше? в интерсекте с каждой фигурой или общий?
-
-	// clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.depth_buf, CL_TRUE, 0, sizeof(float) * global, scene->depth_buf, 0, NULL, NULL);
-	// clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.index_buf, CL_TRUE, 0, sizeof(int) * global, scene->index_buf, 0, NULL, NULL);
-	
+	clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.depth_buf, CL_TRUE, 0, sizeof(float) * global, scene->depth_buf, 0, NULL, NULL);
+	clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.index_buf, CL_TRUE, 0, sizeof(int) * global, scene->index_buf, 0, NULL, NULL);
 	
 	/* size_t global = WID * HEI;
 	cl_mem s_center;

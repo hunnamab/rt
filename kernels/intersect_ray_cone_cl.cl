@@ -27,7 +27,10 @@ __kernel void intersect_ray_cone_cl(__global float3 *ray_arr, \
 		c = sqrt(c);
 		t1 = (-b + c) / (2 * a);
         t2 = (-b - c) / (2 * a);
-        depth_buf[i] = t1 < t2 ? t1 : t2;
-        index_buf[i] = index;
+        if (t1 < depth_buf[i] || t2 < depth_buf[i])
+        {
+            depth_buf[i] = t1 < t2 ? t1 : t2;
+            index_buf[i] = index;
+        }
 	}
 }
