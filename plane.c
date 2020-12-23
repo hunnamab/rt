@@ -53,7 +53,7 @@ void		get_plane_normal(t_scene *scene, int index, int obj_num)
 		scene->normal_buf[index] = vector_scale(&scene->normal_buf[index], -1);
 }
 
-float		intersect_ray_plane(t_scene *scene, int index, cl_float3 *start, cl_float3 *dir)
+/* float		intersect_ray_plane(t_scene *scene, int index, cl_float3 *start, cl_float3 *dir)
 {
 	float	k1;
 	float	k2;
@@ -67,4 +67,39 @@ float		intersect_ray_plane(t_scene *scene, int index, cl_float3 *start, cl_float
 	if (k1 == 0 || (k1 < 0 && k2 < 0) || (k1 > 0 && k2 > 0))
 		return (0);
 	return (-k1 / k2);
+} */
+
+void		intersect_ray_plane(t_scene *scene, int index)
+{
+	size_t global = WID * HEI;
+
+	cl_mem normal;
+	cl_mem d;
+	cl_mem ind;
+
+	size_t local;
+	t_plane *p = (t_plane *)scene->objs[index]->data;
+
+	normal = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3), NULL, NULL);
+	d = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(float), NULL, NULL);
+	ind = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(int), NULL, NULL);
+
+	clEnqueueWriteBuffer(scene->cl_data.commands, normal, CL_FALSE, 0, sizeof(cl_float3), &p->normal, 0, NULL, NULL);
+	clEnqueueWriteBuffer(scene->cl_data.commands, d, CL_FALSE, 0, sizeof(float), &p->d, 0, NULL, NULL);
+	clEnqueueWriteBuffer(scene->cl_data.commands, ind, CL_FALSE, 0, sizeof(int), &index, 0, NULL, NULL);
+
+	clSetKernelArg(scene->cl_data.kernels[5], 0, sizeof(cl_mem), &scene->cl_data.scene.ray_buf);
+	clSetKernelArg(scene->cl_data.kernels[5], 1, sizeof(cl_mem), &scene->cl_data.scene.camera);
+	clSetKernelArg(scene->cl_data.kernels[5], 2, sizeof(cl_mem), &scene->cl_data.scene.depth_buf);
+	clSetKernelArg(scene->cl_data.kernels[5], 3, sizeof(cl_mem), &normal);
+	clSetKernelArg(scene->cl_data.kernels[5], 4, sizeof(cl_mem), &d);
+	clSetKernelArg(scene->cl_data.kernels[5], 5, sizeof(cl_mem), &scene->cl_data.scene.index_buf);
+	clSetKernelArg(scene->cl_data.kernels[5], 6, sizeof(cl_mem), &ind);
+
+    clGetKernelWorkGroupInfo(scene->cl_data.kernels[5], scene->cl_data.device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
+	printf("local == max work group size == %ld\n", local);
+    clEnqueueNDRangeKernel(scene->cl_data.commands, scene->cl_data.kernels[5], 1, NULL, &global, &local, 0, NULL, NULL);
+    clFinish(scene->cl_data.commands);
+    clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.depth_buf, CL_TRUE, 0, sizeof(float) * global, scene->depth_buf, 0, NULL, NULL);
+	clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.index_buf, CL_TRUE, 0, sizeof(int) * global, scene->index_buf, 0, NULL, NULL);
 }

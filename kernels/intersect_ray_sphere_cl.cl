@@ -2,7 +2,9 @@ __kernel void intersect_ray_sphere_cl(__global float3 *ray_arr, \
                                 __global float3 *camera_start, \
                                 __global float3 *s_center, \
                                 __global float *s_radius, \
-                                __global float *depth_buf)
+                                __global float *depth_buf, \
+                                __global int *index_buf, \
+                                __global int *index)
 {
     int i = get_global_id(0);
     float a = dot(ray_arr[i], ray_arr[i]);
@@ -20,5 +22,6 @@ __kernel void intersect_ray_sphere_cl(__global float3 *ray_arr, \
         t1 = (-b + c) / (2 * a);
         t2 = (-b - c) / (2 * a);
         depth_buf[i] = t1 < t2 ? t1 : t2;
+        index_buf[i] = index;
     }
 }

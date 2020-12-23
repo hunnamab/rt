@@ -81,24 +81,24 @@ t_color		set_color(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha);
 void		set_color_zero(t_color *color);
 t_color		color_mul_by_scalar(t_color *color, float scalar);
 // sphere.c
-float		intersect_ray_sphere(t_scene *scene, int index, cl_float3 *start, cl_float3 *dir);
+void		intersect_ray_sphere(t_scene *scene, int index);
 t_object	*new_sphere(cl_float3 center, float *rad_spec, t_color color, \
 							float *rotation);
 // triangle.c
-float		intersect_ray_triangle(t_scene *scene, int index, cl_float3 *start, cl_float3 *dir);
+void		intersect_ray_triangle(t_scene *scene, int index);
 t_object	*new_triangle(cl_float3 *vertex, float specular, t_color color, \
 							float *rotation);
 void		clear_triangle(t_object *obj);
 // plane.c
-float		intersect_ray_plane(t_scene *scene, int index, cl_float3 *start, cl_float3 *dir);
+void		intersect_ray_plane(t_scene *scene, int index);
 t_object	*new_plane(cl_float3 *poi_nor, float specular, t_color color, \
 						float *rotation);
 // cylinder.c
-float		intersect_ray_cylinder(t_scene *scene, int index, cl_float3 *start, cl_float3 *dir);
+void		intersect_ray_cylinder(t_scene *scene, int index);
 t_object	*new_cylinder(cl_float3 *pos_vec, float *rad_spec, t_color color, \
 							float *rotation);
 // cone.c
-float		intersect_ray_cone(t_scene *scene, int index, cl_float3 *start, cl_float3 *dir);
+void		intersect_ray_cone(t_scene *scene, int index);
 t_object	*new_cone(cl_float3 *pos_vec, float *ang_spec, t_color color, \
 						float *rotation);
 // objects_parameters.c

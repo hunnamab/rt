@@ -3,7 +3,9 @@ __kernel void intersect_ray_cone_cl(__global float3 *ray_arr, \
                                 __global float3 *position, \
                                 __global float *depth_buf, \
                                 __global float3 *vector, \
-                                __global float *angle)
+                                __global float *angle, \
+                                __global int *index_buf, \
+                                __global int *index)
 {
     int i = get_global_id(0);
     float t1;
@@ -26,5 +28,6 @@ __kernel void intersect_ray_cone_cl(__global float3 *ray_arr, \
 		t1 = (-b + c) / (2 * a);
         t2 = (-b - c) / (2 * a);
         depth_buf[i] = t1 < t2 ? t1 : t2;
+        index_buf[i] = index;
 	}
 }

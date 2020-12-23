@@ -51,7 +51,7 @@ int			in_shadow(t_scene *scene, int index, cl_float3 l)
 	ray_start = vector_add(&ray_start, &scene->intersection_buf[index]);
 	while (i < scene->obj_nmb)
 	{
-		t = scene->objs[i]->intersect(scene, i, &ray_start, &ray_dir);
+		//t = scene->objs[i]->intersect(scene, i, &ray_start, &ray_dir);
 		if (t < 1 && t > 0.0001)
 			break ;
 		i++;
@@ -98,7 +98,7 @@ t_color		reflection_color(t_scene *scene, int index)
 	{
 		if (ft_strequ(scene->light[j]->type, "ambient"))
 			i += scene->light[j]->intensity;
-		else
+		/* else
 		{
 			l = get_light_vec(scene, index, j);
 			n_dot_l = vector_dot(&scene->normal_buf[index], &l);
@@ -108,7 +108,7 @@ t_color		reflection_color(t_scene *scene, int index)
 					i += get_specular(scene, index, j, &l);
 				i += (scene->light[j]->intensity * n_dot_l) / vector_length(&l);
 			}
-		}
+		} */
 	}
 	i = i > 1 ? 1 : i;
 	return (color_mul_by_scalar(&scene->material_buf[index].color, i));

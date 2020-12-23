@@ -73,7 +73,7 @@ void		get_triangle_normal(t_scene *scene, int index, int obj_num)
 		scene->normal_buf[index] = vector_scale(&scene->normal_buf[index], -1);
 }
 
-float		intersect_ray_triangle(t_scene *scene, int index, cl_float3 *start, cl_float3 *dir)
+/* float		intersect_ray_triangle(t_scene *scene, int index, cl_float3 *start, cl_float3 *dir)
 {
 	t_triangle	*triangle;
 	cl_float3	edge[2];
@@ -100,4 +100,36 @@ float		intersect_ray_triangle(t_scene *scene, int index, cl_float3 *start, cl_fl
 	if ((vector_dot(&edge[1], &vec[2]) * det) > 0)
 		return (vector_dot(&edge[1], &vec[2]) * det);
 	return (0);
+} */
+
+void		intersect_ray_triangle(t_scene *scene, int index)
+{
+	size_t global = WID * HEI;
+
+	cl_mem vertex;
+	cl_mem ind;
+
+	size_t local;
+
+	t_triangle *tri = (t_triangle *)scene->objs[index]->data;
+
+	vertex = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  (sizeof(cl_float3) * 3), NULL, NULL);
+	ind = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(int), NULL, NULL);
+
+	clEnqueueWriteBuffer(scene->cl_data.commands, vertex, CL_FALSE, 0, (sizeof(cl_float3) * 3), &tri->vertex, 0, NULL, NULL);
+	clEnqueueWriteBuffer(scene->cl_data.commands, ind, CL_FALSE, 0, sizeof(int), &index, 0, NULL, NULL);
+
+	clSetKernelArg(scene->cl_data.kernels[4], 0, sizeof(cl_mem), &scene->cl_data.scene.ray_buf);
+	clSetKernelArg(scene->cl_data.kernels[4], 1, sizeof(cl_mem), &scene->cl_data.scene.camera);
+	clSetKernelArg(scene->cl_data.kernels[4], 2, sizeof(cl_mem), &scene->cl_data.scene.depth_buf);
+	clSetKernelArg(scene->cl_data.kernels[4], 3, sizeof(cl_mem), &vertex);
+	clSetKernelArg(scene->cl_data.kernels[4], 4, sizeof(cl_mem), &scene->cl_data.scene.index_buf);
+	clSetKernelArg(scene->cl_data.kernels[4], 5, sizeof(cl_mem), &ind);
+
+    clGetKernelWorkGroupInfo(scene->cl_data.kernels[4], scene->cl_data.device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
+	printf("local == max work group size == %ld\n", local);
+    clEnqueueNDRangeKernel(scene->cl_data.commands, scene->cl_data.kernels[4], 1, NULL, &global, &local, 0, NULL, NULL);
+    clFinish(scene->cl_data.commands);
+    clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.depth_buf, CL_TRUE, 0, sizeof(float) * global, scene->depth_buf, 0, NULL, NULL);
+	clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.index_buf, CL_TRUE, 0, sizeof(int) * global, scene->index_buf, 0, NULL, NULL);
 }

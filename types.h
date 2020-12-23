@@ -120,7 +120,7 @@ typedef	struct		s_object3d
 	t_color			color;
 	float			specular;
 	void			(*get_normal)(struct s_scene *, int, int);
-	float			(*intersect)(t_scene *, int, cl_float3 *, cl_float3 *);
+	void			(*intersect)(t_scene *, int);
 	void			(*clear_obj)(struct s_object3d *);
 }					t_object;
 
