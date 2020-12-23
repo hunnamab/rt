@@ -12,21 +12,6 @@
 
 #include "rt.h"
 
-void	check_funk(cl_float3 *ray_arr, cl_float3 *camera_start, cl_float3 *viewport, int count)
-{
-	int x = 0;
-	int y = 0;
-	int j = 0;
-	int k = 0;
-	while(x < HEI * WID)
-	{
-		ray_arr[x].x = viewport[x].x - camera_start[0].x;
-		ray_arr[x].y = viewport[x].y - camera_start[0].y;
-		ray_arr[x].z = viewport[x].z - camera_start[0].z; 
-		x++;
-	}
-}
-
 void	get_rays_arr(t_scene *scene)
 {
 	size_t global;
@@ -47,57 +32,17 @@ void	get_rays_arr(t_scene *scene)
     clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.ray_buf, CL_TRUE, 0, sizeof(cl_float3) * global, scene->ray_buf, 0, NULL, NULL);
 }
 
-void intersect_ray_triangle_cl(cl_float3 *ray_arr, \
-                                cl_float3 *camera_start, \
-                                float *depth_buf, \
-                                cl_float3 *vertex, int i)
-{  
-    cl_float3 edge[2];
-    cl_float3 vec[3];
-    float det;
-    float uv[2];
-    cl_float3 ver[3];
-
-    ver[0] = vertex[0];
-    ver[1] = vertex[1];
-    ver[2] = vertex[2];
-
-    edge[0] = vector_sub(&ver[1], &ver[0]);
-	edge[1] = vector_sub(&ver[2], &ver[0]);
-	vec[0] = vector_cross(&ray_arr[i], &edge[1]);
-	det = vector_dot(&edge[0], &vec[0]);
-	if (det < 1e-8 && det > -1e-8)
-	{
-		depth_buf[i] = 0;
-		return ;
-	}
-	det = 1 / det;
-	vec[1] = vector_sub(&camera_start[0], &ver[0]);
-	uv[0] = vector_dot(&vec[1], &vec[0]) * det;
-	if (uv[0] < 0 || uv[0] > 1)
-	{
-		depth_buf[i] = 0;
-		return ;
-	}
-	vec[2] = vector_cross(&vec[1], &edge[0]);
-	uv[1] = vector_dot(&ray_arr[i], &vec[2]) * det;
-	if (uv[1] < 0 || uv[0] + uv[1] > 1)
-	{
-		depth_buf[i] = 0;
-		return ;
-	}
-	float res;
-	res = vector_dot(&edge[1], &vec[2]) * det;
-	if (res > 0)
-	{
-		depth_buf[i] = res;
-		return ;
-	}
-	depth_buf[i] = 0;
-}
-
 void	get_closest_points(t_scene *scene, float t)
 {
+	/* t_triangle *tri = (t_triangle *)scene->objs[0]->data;
+
+	int i = 0;
+	while (i < (WID * HEI))
+	{
+		intersect_ray_triangle_cl(scene->ray_buf, &scene->camera.position, scene->depth_buf, tri->vertex, i);
+		i++;
+	} */
+
 	/* int x = -1;
 	int i = 0;
 	while(++x < WID * HEI)
@@ -200,21 +145,15 @@ void	get_closest_points(t_scene *scene, float t)
     clFinish(scene->cl_data.commands);
     clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.depth_buf, CL_TRUE, 0, sizeof(float) * global, scene->depth_buf, 0, NULL, NULL); */
 
-	/* size_t global = WID * HEI;
+	size_t global = WID * HEI;
 
 	cl_mem vertex;
 
-	size_t local; */
+	size_t local;
+
 	t_triangle *tri = (t_triangle *)scene->objs[0]->data;
 
-	int i = 0;
-	while (i < (WID * HEI))
-	{
-		intersect_ray_triangle_cl(&scene->ray_buf, &scene->camera, &scene->depth_buf, &tri->vertex, i);
-		i++;
-	}
-
-	/* vertex = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  (sizeof(cl_float3) * 3), NULL, NULL);
+	vertex = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  (sizeof(cl_float3) * 3), NULL, NULL);
 
 	clEnqueueWriteBuffer(scene->cl_data.commands, vertex, CL_FALSE, 0, (sizeof(cl_float3) * 3), &tri->vertex, 0, NULL, NULL);
 
@@ -224,11 +163,10 @@ void	get_closest_points(t_scene *scene, float t)
 	clSetKernelArg(scene->cl_data.kernels[4], 3, sizeof(cl_mem), &vertex);
 
     clGetKernelWorkGroupInfo(scene->cl_data.kernels[4], scene->cl_data.device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
-	local = 16;
 	printf("local == max work group size == %ld\n", local);
     clEnqueueNDRangeKernel(scene->cl_data.commands, scene->cl_data.kernels[4], 1, NULL, &global, &local, 0, NULL, NULL);
     clFinish(scene->cl_data.commands);
-    clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.depth_buf, CL_TRUE, 0, sizeof(float) * global, scene->depth_buf, 0, NULL, NULL); */
+    clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.depth_buf, CL_TRUE, 0, sizeof(float) * global, scene->depth_buf, 0, NULL, NULL);
 
 	/* size_t global = WID * HEI;
 

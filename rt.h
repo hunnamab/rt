@@ -32,8 +32,8 @@
 # define ABS(x)		(x) > 0 ? (x) : -(x)
 # define DROUND(d)	ABS(d) < 0.00001 ? 0 : (d)
 
-# define WID 1280
-# define HEI 720
+# define WID 640
+# define HEI 480
 # define KERNEL_NUM 10
 
 // scenes_reader.c

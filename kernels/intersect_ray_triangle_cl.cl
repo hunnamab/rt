@@ -5,42 +5,44 @@ __kernel void intersect_ray_triangle_cl(__global float3 *ray_arr, \
 {
     int i = get_global_id(0);
     
-    float3 edge[2];
-    float3 vec[3];
+    float3 edge1;
+	float3 edge2;
+    float3 vec1;
+	float3 vec2;
+	float3 vec3;
     float det;
-    float uv[2];
-    float3 ver[3];
+    float uv1;
+	float uv2;
+	float3 ver1 = vertex[0];
+	float3 ver2 = vertex[1];
+	float3 ver3 = vertex[2];
 
-    ver[0] = vertex[0];
-    ver[1] = vertex[1];
-    ver[2] = vertex[2];
-
-    edge[0] = ver[1] - ver[0];
-	edge[1] = ver[2] - ver[0];
-	vec[0] = cross(ray_arr[i], edge[1]);
-	det = dot(edge[0], vec[0]);
+    edge1 = ver2 - ver1;
+	edge2 = ver3 - ver1;
+	vec1 = cross(ray_arr[i], edge2);
+	det = dot(edge1, vec1);
 	if (det < 1e-8 && det > -1e-8)
 	{
 		depth_buf[i] = 0;
 		return ;
 	}
 	det = 1 / det;
-	vec[1] = camera_start[0] - ver[0];
-	uv[0] = dot(vec[1], vec[0]) * det;
-	if (uv[0] < 0 || uv[0] > 1)
+	vec2 = camera_start[0] - ver1;
+	uv1 = dot(vec2, vec1) * det;
+	if (uv1 < 0 || uv1 > 1)
 	{
 		depth_buf[i] = 0;
 		return ;
 	}
-	vec[2] = cross(vec[1], edge[0]);
-	uv[1] = dot(ray_arr[i], vec[2]) * det;
-	if (uv[1] < 0 || uv[0] + uv[1] > 1)
+	vec3 = cross(vec2, edge1);
+	uv2 = dot(ray_arr[i], vec3) * det;
+	if (uv2 < 0 || uv1 + uv2 > 1)
 	{
 		depth_buf[i] = 0;
 		return ;
 	}
 	float res;
-	res = dot(edge[1], vec[2]) * det;
+	res = dot(edge2, vec3) * det;
 	if (res > 0)
 	{
 		depth_buf[i] = res;
