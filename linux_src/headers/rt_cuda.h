@@ -86,15 +86,15 @@ t_object	*new_triangle(float3 *vertex, float specular, t_color color, \
 							float *rotation);
 void		clear_triangle(t_object *obj);
 // plane.c
-float		intersect_ray_plane(t_scene *scene, int index, float3 *start, float3 *dir);
+__host__ void	intersect_ray_plane(t_scene *scene, int index, float3 *start, float3 *dir);
 t_object	*new_plane(float3 *poi_nor, float specular, t_color color, \
 						float *rotation);
 // cylinder.c
-float		intersect_ray_cylinder(t_scene *scene, int index, float3 *start, float3 *dir);
+__host__ void	intersect_ray_cylinder(t_scene *scene, int index, float3 *start, float3 *dir);
 t_object	*new_cylinder(float3 *pos_vec, float *rad_spec, t_color color, \
 							float *rotation);
 // cone.c
-float		intersect_ray_cone(t_scene *scene, int index, float3 *start, float3 *dir);
+__host__ void	intersect_ray_cone(t_scene *scene, int index, float3 *start, float3 *dir);
 t_object	*new_cone(float3 *pos_vec, float *ang_spec, t_color color, \
 						float *rotation);
 // objects_parameters.c

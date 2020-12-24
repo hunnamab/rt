@@ -14,18 +14,6 @@ extern "C"{
 }
 #include "rt.cuh"
 
-void	check_funk(float3 *ray_arr, float3 *camera_start, float3 *viewport, int count)
-{
-	int x = 0;
-	while(x < HEI * WID)
-	{
-		ray_arr[x].x = viewport[x].x - camera_start[0].x;
-		ray_arr[x].y = viewport[x].y - camera_start[0].y;
-		ray_arr[x].z = viewport[x].z - camera_start[0].z; 
-		x++;
-	}
-}
-
 __host__ void	get_rays_arr(t_scene *scene)
 {
 	dim3     gridSize;
@@ -43,24 +31,6 @@ __host__ void	get_rays_arr(t_scene *scene)
 
 void	get_closest_points(t_scene *scene, float t)
 {
-/* 	int x = -1;
-	int i = 0;
-	while(++x < WID * HEI)
-	{
-		t = 0;
-		i = -1;
-		scene->index_buf[x] = - 1;
-		scene->depth_buf[x] = 100000000;
-		while (++i < scene->obj_nmb)
-		{
-			t = scene->objs[i]->intersect(scene, i, &scene->camera.position, &scene->ray_buf[x]);
-			if (t < scene->depth_buf[x] && t != 0)
-			{
-				scene->depth_buf[x] = t;
-				scene->index_buf[x] = i;
-			}
-		}
-	} */
 	int x = -1;
 	int i = 0;
 	while(++x < WID * HEI)

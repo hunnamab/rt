@@ -27,8 +27,8 @@ __host__ void 	intersect_ray_sphere(t_scene *scene, int index, float3 *start, fl
     dim3     gridSize;
     dim3     blockSize;
 	t_sphere *sphere;
-	gridSize = WID * HEI / 256;
-	blockSize = 256;
+	gridSize = WID * HEI / 1024;
+	blockSize = 1024;
 	sphere = reinterpret_cast<t_sphere *>(scene->objs[index]->data);
     intersect_ray_sphere_c<<<gridSize,blockSize>>>(scene->device_data->ray_buf,scene->camera.position,sphere->center,sphere->radius,scene->device_data->depth_buf, scene->device_data->index_buf, index);
 }
@@ -41,11 +41,47 @@ __host__ void	intersect_ray_triangle(t_scene *scene, int index, float3 *start, f
 	dim3     gridSize;
     dim3     blockSize;
 
-	gridSize = WID * HEI / 256;
-	blockSize = 256;
+	gridSize = WID * HEI / 1024;
+	blockSize = 1024;
 	float3 *vertex;
 	cudaMalloc(&vertex, sizeof(float3) * 3);
 	cudaMemcpy(vertex, t->vertex,sizeof(float3) * 3, cudaMemcpyHostToDevice);
     intersect_ray_triangle_c<<<gridSize,blockSize>>>(scene->device_data->ray_buf,scene->camera.position,scene->device_data->depth_buf, vertex, scene->device_data->index_buf, index);
 	cudaFree(vertex);
+}
+
+
+__host__ void	intersect_ray_cone(t_scene *scene, int index, float3 *start, float3 *dir)
+{
+	t_cone *c;
+	dim3     gridSize;
+    dim3     blockSize;
+	c = reinterpret_cast<t_cone *>(scene->objs[index]->data);
+	gridSize = WID * HEI / 1024;
+	blockSize = 1024;
+    intersect_ray_cone_c<<<gridSize,blockSize>>>(scene->device_data->ray_buf,scene->camera.position,c->position, c->vec, c->angle, scene->device_data->depth_buf, scene->device_data->index_buf, index);
+}
+
+__host__ void	intersect_ray_cylinder(t_scene *scene, int index, float3 *start, float3 *dir)
+{
+	t_cylinder *c;
+
+	dim3     gridSize;
+    dim3     blockSize;
+	c = reinterpret_cast<t_cylinder *>(scene->objs[index]->data);
+	gridSize = WID * HEI / 1024;
+	blockSize = 1024;
+    intersect_ray_cylinder_c<<<gridSize,blockSize>>>(scene->device_data->ray_buf,scene->camera.position,c->position, scene->device_data->depth_buf, c->vec, c->radius, scene->device_data->index_buf, index);
+}
+
+__host__ void	intersect_ray_plane(t_scene *scene, int index, float3 *start, float3 *dir)
+{
+	t_plane *p;
+	dim3     gridSize;
+	dim3     blockSize;
+	
+	p = reinterpret_cast<t_plane *>(scene->objs[index]->data);
+	gridSize = WID * HEI / 1024;
+	blockSize = 1024;
+    intersect_ray_plane_c<<<gridSize,blockSize>>>(scene->device_data->ray_buf,scene->camera.position, scene->device_data->depth_buf, p->normal, p->d, scene->device_data->index_buf, index);
 }

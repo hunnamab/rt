@@ -131,7 +131,7 @@ struct		s_scene
 	float3			*viewport;
 	int				*index_buf;
 	float			*depth_buf;
-	int				mode; // 0 - default, 1 - normal, 2 - depth, 3 - flat_light
+	int				mode;
 	void			(*init[4])(struct s_scene *);
 	void			(*draw[4])(t_sdl *, struct s_scene *);
 };

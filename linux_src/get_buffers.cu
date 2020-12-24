@@ -7,8 +7,7 @@ __global__ void helloCUDA(float f)
 
 __global__ void kernel_getray(float3 *viewport, float3 camera, float3 *ray_buf)
 {
-    int x = blockDim.x * blockIdx.x + threadIdx.x;
-    int i = x;
+    int i = blockDim.x * blockIdx.x + threadIdx.x;
     
     ray_buf[i].x = viewport[i].x - camera.x;
     ray_buf[i].y = viewport[i].y - camera.y;
