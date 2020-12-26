@@ -2,8 +2,8 @@ __kernel void intersect_ray_cone_cl(__global float3 *ray_arr, \
                                 __global float3 *camera_start, \
                                 __global float3 *position, \
                                 __global float *depth_buf, \
-                                __global float3 *vector, \
-                                __global float *angle, \
+                                float3 vector, \
+                                float angle, \
                                 __global int *index_buf, \
                                 int index)
 {
@@ -12,15 +12,14 @@ __kernel void intersect_ray_cone_cl(__global float3 *ray_arr, \
     float t2;
     float b;
     float c;
-    float ang = *angle;
-    float3 vec = *vector;
+
     float3 dist = camera_start[0] - position[0];
-	float a = dot(ray_arr[i], vec);
-	a = dot(ray_arr[i], ray_arr[i]) - (1 + ang * ang) * a * a;
-    b = 2 * (dot(ray_arr[i], dist) - (1 + ang * ang) * \
-		dot(ray_arr[i], vec) * dot(dist, vec));
-    c = dot(dist, vec);
-	c = dot(dist, dist) - (1 + ang * ang) * c * c;
+	float a = dot(ray_arr[i], vector);
+	a = dot(ray_arr[i], ray_arr[i]) - (1 + angle * angle) * a * a;
+    b = 2 * (dot(ray_arr[i], dist) - (1 + angle * angle) * \
+		dot(ray_arr[i], vector) * dot(dist, vector));
+    c = dot(dist, vector);
+	c = dot(dist, dist) - (1 + angle * angle) * c * c;
 	c = b * b - 4 * a * c;
 	if (c >= 0)
 	{

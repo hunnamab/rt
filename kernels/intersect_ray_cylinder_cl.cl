@@ -2,8 +2,8 @@ __kernel void intersect_ray_cylinder_cl(__global float3 *ray_arr, \
                                 __global float3 *camera_start, \
                                 __global float3 *position, \
                                 __global float *depth_buf, \
-                                __global float3 *vector, \
-                                __global float *radius, \
+                                float3 vector, \
+                                float radius, \
                                 __global int *index_buf, \
                                 int index)
 {
@@ -12,15 +12,14 @@ __kernel void intersect_ray_cylinder_cl(__global float3 *ray_arr, \
     float t2;
     float b;
     float c;
-    float rad = *radius;
-    float3 vec = *vector;
+
     float3 dist = camera_start[0] - position[0];
-	float a = dot(ray_arr[i], vec);
+	float a = dot(ray_arr[i], vector);
 	a = dot(ray_arr[i], ray_arr[i]) - a * a;
-    b = 2 * (dot(ray_arr[i], dist) - dot(ray_arr[i], vec) * \
-		dot(dist, vec));
-    c = dot(dist, vec);
-	c = dot(dist, dist) - c * c - rad * rad;
+    b = 2 * (dot(ray_arr[i], dist) - dot(ray_arr[i], vector) * \
+		dot(dist, vector));
+    c = dot(dist, vector);
+	c = dot(dist, dist) - c * c - radius * radius;
     c = b * b - 4 * a * c;
 	if (c >= 0)
 	{

@@ -106,18 +106,9 @@ void		intersect_ray_triangle(t_scene *scene, int index)
 {
 	size_t global = WID * HEI;
 
-	//cl_mem vertex;
-	//cl_mem ind;
-
 	size_t local;
 
 	t_triangle *tri = (t_triangle *)scene->objs[index]->data;
-
-	//vertex0 = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3), NULL, NULL);
-	//ind = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(int), NULL, NULL);
-
-	//clEnqueueWriteBuffer(scene->cl_data.commands, vertex, CL_FALSE, 0, sizeof(cl_float3), &tri->vertex[0], 0, NULL, NULL);
-	//clEnqueueWriteBuffer(scene->cl_data.commands, ind, CL_FALSE, 0, sizeof(int), &index, 0, NULL, NULL);
 
 	clSetKernelArg(scene->cl_data.kernels[4], 0, sizeof(cl_mem), &scene->cl_data.scene.ray_buf);
 	clSetKernelArg(scene->cl_data.kernels[4], 1, sizeof(cl_mem), &scene->cl_data.scene.camera);

@@ -1,5 +1,8 @@
 {
     "files.associations": {
-        "__config": "cpp"
+        "__config": "cpp",
+        "vector": "c",
+        "iosfwd": "c",
+        "iterator": "c"
     }
 }

@@ -73,26 +73,14 @@ void		intersect_ray_plane(t_scene *scene, int index)
 {
 	size_t global = WID * HEI;
 
-	cl_mem normal;
-	cl_mem d;
-	//cl_mem ind;
-
 	size_t local;
 	t_plane *p = (t_plane *)scene->objs[index]->data;
-
-	normal = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3), NULL, NULL);
-	d = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(float), NULL, NULL);
-	//ind = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(int), NULL, NULL);
-
-	clEnqueueWriteBuffer(scene->cl_data.commands, normal, CL_FALSE, 0, sizeof(cl_float3), &p->normal, 0, NULL, NULL);
-	clEnqueueWriteBuffer(scene->cl_data.commands, d, CL_FALSE, 0, sizeof(float), &p->d, 0, NULL, NULL);
-	//clEnqueueWriteBuffer(scene->cl_data.commands, ind, CL_FALSE, 0, sizeof(int), &index, 0, NULL, NULL);
 
 	clSetKernelArg(scene->cl_data.kernels[5], 0, sizeof(cl_mem), &scene->cl_data.scene.ray_buf);
 	clSetKernelArg(scene->cl_data.kernels[5], 1, sizeof(cl_mem), &scene->cl_data.scene.camera);
 	clSetKernelArg(scene->cl_data.kernels[5], 2, sizeof(cl_mem), &scene->cl_data.scene.depth_buf);
-	clSetKernelArg(scene->cl_data.kernels[5], 3, sizeof(cl_mem), &normal);
-	clSetKernelArg(scene->cl_data.kernels[5], 4, sizeof(cl_mem), &d);
+	clSetKernelArg(scene->cl_data.kernels[5], 3, sizeof(cl_float3), (void *)&p->normal);
+	clSetKernelArg(scene->cl_data.kernels[5], 4, sizeof(cl_float), (void *)&p->d);
 	clSetKernelArg(scene->cl_data.kernels[5], 5, sizeof(cl_mem), &scene->cl_data.scene.index_buf);
 	clSetKernelArg(scene->cl_data.kernels[5], 6, sizeof(cl_int), (void*)&index);
 
