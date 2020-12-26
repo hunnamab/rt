@@ -24,28 +24,16 @@ __kernel void intersect_ray_triangle_cl(__global float3 *ray_arr, \
 	vec1 = cross(ray_arr[i], edge2);
 	det = dot(edge1, vec1);
 	if (det < 1e-8 && det > -1e-8)
-	{
-		depth_buf[i] = 0;
-		index_buf[i] = index;
 		return ;
-	}
 	det = 1 / det;
 	vec2 = camera_start[0] - ver1;
 	uv1 = dot(vec2, vec1) * det;
 	if (uv1 < 0 || uv1 > 1)
-	{
-		depth_buf[i] = 0;
-		index_buf[i] = index;
 		return ;
-	}
 	vec3 = cross(vec2, edge1);
 	uv2 = dot(ray_arr[i], vec3) * det;
 	if (uv2 < 0 || uv1 + uv2 > 1)
-	{
-		depth_buf[i] = 0;
-		index_buf[i] = index;
 		return ;
-	}
 	float res;
 	res = dot(edge2, vec3) * det;
 	if (res > 0)
@@ -54,6 +42,4 @@ __kernel void intersect_ray_triangle_cl(__global float3 *ray_arr, \
 		index_buf[i] = index;
 		return ;
 	}
-	depth_buf[i] = 0;
-	index_buf[i] = index;
 }
