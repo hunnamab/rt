@@ -77,9 +77,9 @@ t_object	*get_cone(char **description)
 t_object	*get_triangle(char **description, float specular)
 {
 	t_object	*triangle;
-	cl_float3		vertex[3];
+	cl_float3	vertex[3];
 	t_color		color;
-	cl_float3		buf;
+	cl_float3	buf;
 	float		rotation[3];
 
 	vertex[0] = get_points(description[0]);

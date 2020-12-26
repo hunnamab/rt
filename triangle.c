@@ -106,25 +106,27 @@ void		intersect_ray_triangle(t_scene *scene, int index)
 {
 	size_t global = WID * HEI;
 
-	cl_mem vertex;
-	cl_mem ind;
+	//cl_mem vertex;
+	//cl_mem ind;
 
 	size_t local;
 
 	t_triangle *tri = (t_triangle *)scene->objs[index]->data;
 
-	vertex = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  (sizeof(cl_float3) * 3), NULL, NULL);
-	ind = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(int), NULL, NULL);
+	//vertex0 = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3), NULL, NULL);
+	//ind = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(int), NULL, NULL);
 
-	clEnqueueWriteBuffer(scene->cl_data.commands, vertex, CL_FALSE, 0, (sizeof(cl_float3) * 3), &tri->vertex, 0, NULL, NULL);
-	clEnqueueWriteBuffer(scene->cl_data.commands, ind, CL_FALSE, 0, sizeof(int), &index, 0, NULL, NULL);
+	//clEnqueueWriteBuffer(scene->cl_data.commands, vertex, CL_FALSE, 0, sizeof(cl_float3), &tri->vertex[0], 0, NULL, NULL);
+	//clEnqueueWriteBuffer(scene->cl_data.commands, ind, CL_FALSE, 0, sizeof(int), &index, 0, NULL, NULL);
 
 	clSetKernelArg(scene->cl_data.kernels[4], 0, sizeof(cl_mem), &scene->cl_data.scene.ray_buf);
 	clSetKernelArg(scene->cl_data.kernels[4], 1, sizeof(cl_mem), &scene->cl_data.scene.camera);
 	clSetKernelArg(scene->cl_data.kernels[4], 2, sizeof(cl_mem), &scene->cl_data.scene.depth_buf);
-	clSetKernelArg(scene->cl_data.kernels[4], 3, sizeof(cl_mem), &vertex);
-	clSetKernelArg(scene->cl_data.kernels[4], 4, sizeof(cl_mem), &scene->cl_data.scene.index_buf);
-	clSetKernelArg(scene->cl_data.kernels[4], 5, sizeof(cl_mem), &ind);
+	clSetKernelArg(scene->cl_data.kernels[4], 3, sizeof(cl_float3), (void*)&tri->vertex[0]);
+	clSetKernelArg(scene->cl_data.kernels[4], 4, sizeof(cl_float3), (void*)&tri->vertex[1]);
+	clSetKernelArg(scene->cl_data.kernels[4], 5, sizeof(cl_float3), (void*)&tri->vertex[2]);
+	clSetKernelArg(scene->cl_data.kernels[4], 6, sizeof(cl_mem), &scene->cl_data.scene.index_buf);
+	clSetKernelArg(scene->cl_data.kernels[4], 7, sizeof(cl_int), (void*)&index);
 
     clGetKernelWorkGroupInfo(scene->cl_data.kernels[4], scene->cl_data.device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
 	printf("local == max work group size == %ld\n", local);
