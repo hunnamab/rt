@@ -36,7 +36,7 @@ __kernel void intersect_ray_triangle_cl(__global float3 *ray_arr, \
 		return ;
 	float res;
 	res = dot(edge2, vec3) * det;
-	if (res > 0)
+	if (res > 0 && res < depth_buf[i])
 	{
 		depth_buf[i] = res;
 		index_buf[i] = index;
