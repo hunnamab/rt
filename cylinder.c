@@ -105,12 +105,12 @@ void		intersect_ray_cylinder(t_scene *scene, int index)
 	position = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3), NULL, NULL);
 	vector = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3), NULL, NULL);
 	radius = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(float), NULL, NULL);
-	ind = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(int), NULL, NULL);
+	//ind = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(int), NULL, NULL);
 
 	clEnqueueWriteBuffer(scene->cl_data.commands, position, CL_FALSE, 0, sizeof(cl_float3), &cyl->position, 0, NULL, NULL);
 	clEnqueueWriteBuffer(scene->cl_data.commands, vector, CL_FALSE, 0, sizeof(cl_float3), &cyl->vec, 0, NULL, NULL);
 	clEnqueueWriteBuffer(scene->cl_data.commands, radius, CL_FALSE, 0, sizeof(float), &cyl->radius, 0, NULL, NULL);
-	clEnqueueWriteBuffer(scene->cl_data.commands, ind, CL_FALSE, 0, sizeof(int), &index, 0, NULL, NULL);
+	//clEnqueueWriteBuffer(scene->cl_data.commands, ind, CL_FALSE, 0, sizeof(int), &index, 0, NULL, NULL);
 
 	clSetKernelArg(scene->cl_data.kernels[3], 0, sizeof(cl_mem), &scene->cl_data.scene.ray_buf);
 	clSetKernelArg(scene->cl_data.kernels[3], 1, sizeof(cl_mem), &scene->cl_data.scene.camera);
@@ -119,7 +119,7 @@ void		intersect_ray_cylinder(t_scene *scene, int index)
 	clSetKernelArg(scene->cl_data.kernels[3], 4, sizeof(cl_mem), &vector);
 	clSetKernelArg(scene->cl_data.kernels[3], 5, sizeof(cl_mem), &radius);
 	clSetKernelArg(scene->cl_data.kernels[3], 6, sizeof(cl_mem), &scene->cl_data.scene.index_buf);
-	clSetKernelArg(scene->cl_data.kernels[3], 7, sizeof(cl_mem), &ind);
+	clSetKernelArg(scene->cl_data.kernels[3], 7, sizeof(cl_int), (void*)&index);
 
     clGetKernelWorkGroupInfo(scene->cl_data.kernels[3], scene->cl_data.device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
 	printf("local == max work group size == %ld\n", local);

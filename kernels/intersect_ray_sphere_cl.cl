@@ -4,7 +4,7 @@ __kernel void intersect_ray_sphere_cl(__global float3 *ray_arr, \
                                 __global float *s_radius, \
                                 __global float *depth_buf, \
                                 __global int *index_buf, \
-                                __global int *index)
+                                int index)
 {
     int i = get_global_id(0);
     float a = dot(ray_arr[i], ray_arr[i]);
@@ -21,9 +21,17 @@ __kernel void intersect_ray_sphere_cl(__global float3 *ray_arr, \
         c = sqrt(c);
         t1 = (-b + c) / (2 * a);
         t2 = (-b - c) / (2 * a);
-        if (t1 < depth_buf[i] || t2 < depth_buf[i])
+        float result;
+        result = 0;
+        if ((t1 < t2 && t1 > 0) || (t2 < 0 && t1 >= 0))
+            result = t1;
+        if ((t2 < t1 && t2 > 0) || (t1 < 0 && t2 >= 0))
+            result = t2;
+        if (t2 == t1 && t2 >= 0)
+            result = t2;
+        if (result > 0 && result < depth_buf[i])
         {
-            depth_buf[i] = t1 < t2 ? t1 : t2;
+            depth_buf[i] = result;
             index_buf[i] = index;
         }
     }

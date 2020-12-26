@@ -95,7 +95,7 @@ void		intersect_ray_cone(t_scene *scene, int index)
 	cl_mem position;
 	cl_mem vector;
 	cl_mem angle;
-	cl_mem ind;
+	//cl_mem ind;
 
 	size_t local;
 	t_cone *c = (t_cone *)scene->objs[index]->data;
@@ -103,12 +103,12 @@ void		intersect_ray_cone(t_scene *scene, int index)
 	position = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3), NULL, NULL);
 	vector = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3), NULL, NULL);
 	angle = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(float), NULL, NULL);
-	ind = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(int), NULL, NULL);
+	//ind = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(int), NULL, NULL);
 
 	clEnqueueWriteBuffer(scene->cl_data.commands, position, CL_FALSE, 0, sizeof(cl_float3), &c->position, 0, NULL, NULL);
 	clEnqueueWriteBuffer(scene->cl_data.commands, vector, CL_FALSE, 0, sizeof(cl_float3), &c->vec, 0, NULL, NULL);
 	clEnqueueWriteBuffer(scene->cl_data.commands, angle, CL_FALSE, 0, sizeof(float), &c->angle, 0, NULL, NULL);
-	clEnqueueWriteBuffer(scene->cl_data.commands, ind, CL_FALSE, 0, sizeof(int), &index, 0, NULL, NULL);
+	//clEnqueueWriteBuffer(scene->cl_data.commands, ind, CL_FALSE, 0, sizeof(int), &index, 0, NULL, NULL);
 
 	clSetKernelArg(scene->cl_data.kernels[2], 0, sizeof(cl_mem), &scene->cl_data.scene.ray_buf);
 	clSetKernelArg(scene->cl_data.kernels[2], 1, sizeof(cl_mem), &scene->cl_data.scene.camera);
@@ -117,7 +117,7 @@ void		intersect_ray_cone(t_scene *scene, int index)
 	clSetKernelArg(scene->cl_data.kernels[2], 4, sizeof(cl_mem), &vector);
 	clSetKernelArg(scene->cl_data.kernels[2], 5, sizeof(cl_mem), &angle);
 	clSetKernelArg(scene->cl_data.kernels[2], 6, sizeof(cl_mem), &scene->cl_data.scene.index_buf);
-	clSetKernelArg(scene->cl_data.kernels[2], 7, sizeof(cl_mem), &ind);
+	clSetKernelArg(scene->cl_data.kernels[2], 7, sizeof(cl_int), (void*)&index);
 
     clGetKernelWorkGroupInfo(scene->cl_data.kernels[2], scene->cl_data.device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
 	printf("local == max work group size == %ld\n", local);
