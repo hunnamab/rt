@@ -133,6 +133,7 @@ void		get_intersection_buf(t_scene *scene);
 void		get_closest_points(t_scene *scene, float t);
 void		get_material_buf(t_scene *scene);
 // normal.c
+//__device__ void		get_sphere_normal(t_scene *scene, int index, int obj_num);
 void		get_sphere_normal(t_scene *scene, int index, int obj_num);
 void		get_plane_normal(t_scene *scene, int index, int obj_num);
 void		get_triangle_normal(t_scene *scene, int index, int obj_num);

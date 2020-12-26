@@ -19,17 +19,6 @@
 
 typedef	struct			s_scene t_scene;
 
-typedef struct 			s_scene_device
-{
-	float3				*ray_buf;
-	float3				*intersection_buf;
-	float3				*viewport;
-	int					*index_buf;
-	float				*depth_buf;
-	float3				*normal_buf;
-	float3				*camera;
-}						t_scene_device;
-
 typedef struct		s_sdl
 {
 	SDL_Window		*win;
@@ -54,8 +43,8 @@ typedef	struct		s_color
 typedef	struct		s_light
 {
 	float			intensity;
-	float3		position;
-	float3		direction;
+	float3			position;
+	float3			direction;
 	const char		*type;
 }					t_light;
 
@@ -94,7 +83,7 @@ typedef	struct		s_triangle
 
 typedef struct		s_camera
 {
-	float3		position;
+	float3			position;
 	float			rotation[3];
 }					t_camera;
 
@@ -107,6 +96,7 @@ typedef	struct		s_material
 typedef	struct		s_object3d
 {
 	void			*data;
+	int				data_size;
 	const char		*tag;
 	float			rotation[3];
 	t_color			color;
@@ -115,6 +105,30 @@ typedef	struct		s_object3d
 	float			(*intersect)(t_scene *, int, float3 *, float3 *);
 	void			(*clear_obj)(struct s_object3d *);
 }					t_object;
+typedef	struct		s_object3d_device
+{
+	void			*data;
+	int				data_size;
+	const char		*tag;
+	float			rotation[3];
+	t_color			color;
+	float			specular;
+	void			(*get_normal)(struct s_scene *, int, int);
+    void            (*lol_p)(void);
+	float			(*intersect)(t_scene *, int, float3 *, float3 *);
+	void			(*clear_obj)(struct s_object3d *);
+}					t_object_device;
+typedef struct 			s_scene_device
+{
+	float3				*ray_buf;
+	float3				*intersection_buf;
+	float3				*viewport;
+	int					*index_buf;
+	float				*depth_buf;
+	float3				*normal_buf;
+	float3				*camera;
+	t_object_device			*objs;
+}						t_scene_device;
 
 struct		s_scene
 {

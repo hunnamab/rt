@@ -21,7 +21,8 @@ __host__ void	get_rays_arr(t_scene *scene)
 
 	gridSize = WID * HEI / 1024;
     blockSize = 1024;
-
+	if((cudaMemcpy(scene->device_data->camera, &scene->camera.position, sizeof(float3), cudaMemcpyHostToDevice)) == CUDA_SUCCESS)
+		printf("camera copy to device success\n");
 	if((cudaMemcpy(scene->device_data->viewport, scene->viewport, sizeof(float3) * WID * HEI, cudaMemcpyHostToDevice)) == CUDA_SUCCESS)
 		printf("copy to device success\n");
 	kernel_getray<<<gridSize, blockSize>>>(scene->device_data->viewport, scene->camera.position, scene->device_data->ray_buf);
@@ -52,31 +53,13 @@ void	get_closest_points(t_scene *scene, float t)
 
 void	get_intersection_buf(t_scene *scene)
 {
-	int x;
-	int y;
-	int i;
+	dim3     gridSize;
+    dim3     blockSize;
 
-	x = 0;
-	y = 0;
-	while (y < HEI)
-	{
-		while (x < WID)
-		{
-			i = y * WID + x;
-			if (scene->index_buf[i] != -1)
-			{
-				scene->intersection_buf[i] = vector_scale(\
-				&scene->ray_buf[i], scene->depth_buf[i]);
-				scene->intersection_buf[i] = vector_add(\
-				&scene->intersection_buf[i], &scene->camera.position);
-			}
-			else
-				scene->intersection_buf[i] = get_point(0, 0, 0);
-			x++;
-		}
-		x = 0;
-		y++;
-	}
+	gridSize = WID * HEI / 1024;
+	blockSize = 1024;
+	kernel_get_intersection_point<<<gridSize, blockSize>>>(scene->device_data->intersection_buf,scene->device_data->ray_buf,scene->device_data->depth_buf, scene->camera.position, scene->device_data->index_buf);
+	cudaMemcpy(scene->intersection_buf, scene->device_data->intersection_buf, sizeof(float3) * WID * HEI, cudaMemcpyDeviceToHost);
 }
 
 void	get_normal_buf(t_scene *scene)
