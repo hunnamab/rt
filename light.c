@@ -40,7 +40,7 @@ cl_float3		get_light_vec(t_scene *scene, int index, int j)
 
 int			in_shadow(t_scene *scene, int index, cl_float3 l)
 {
-	cl_float3	ray_dir;
+	/* cl_float3	ray_dir;
 	cl_float3	ray_start;
 	int		i;
 	float	t;
@@ -57,7 +57,7 @@ int			in_shadow(t_scene *scene, int index, cl_float3 l)
 		i++;
 	}
 	if (t < 1 && t > 0.0001)
-		return (1);
+		return (1); */
 	return (0);
 }
 
@@ -98,7 +98,7 @@ t_color		reflection_color(t_scene *scene, int index)
 	{
 		if (ft_strequ(scene->light[j]->type, "ambient"))
 			i += scene->light[j]->intensity;
-		/* else
+		else
 		{
 			l = get_light_vec(scene, index, j);
 			n_dot_l = vector_dot(&scene->normal_buf[index], &l);
@@ -108,7 +108,7 @@ t_color		reflection_color(t_scene *scene, int index)
 					i += get_specular(scene, index, j, &l);
 				i += (scene->light[j]->intensity * n_dot_l) / vector_length(&l);
 			}
-		} */
+		}
 	}
 	i = i > 1 ? 1 : i;
 	return (color_mul_by_scalar(&scene->material_buf[index].color, i));
