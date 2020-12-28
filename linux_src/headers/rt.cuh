@@ -35,4 +35,6 @@ __global__ void intersect_ray_cylinder_c(float3 *ray_arr, float3 camera_start, \
 __global__ void kernel_get_intersection_point(float3 *intersection_buf, float3 *ray_buf, float *depth_buf, float3 camera, int *index_buf);
 //__global__ void		get_sphere_normal(t_scene *scene, int index, int obj_num);
 __device__ void lol(void);
+__device__ float3	div_by_scalar(float3 vector, float scalar);
+__device__ float	length(float3 vector);
 #endif

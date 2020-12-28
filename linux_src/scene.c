@@ -49,6 +49,7 @@ void	init_default(t_scene *scene)
 	matrix = get_rotation_matrix(scene->camera.rotation);
 	while (++x < WID * HEI)
 		transform(&scene->ray_buf[x], matrix, 1);
+	cudaMemcpy(scene->device_data->ray_buf, scene->ray_buf, sizeof(float3) * WID * HEI, cudaMemcpyHostToDevice);
 	matr_free(matrix, 4);
 	get_closest_points(scene, 0);
 	get_intersection_buf(scene);

@@ -105,19 +105,20 @@ typedef	struct		s_object3d
 	float			(*intersect)(t_scene *, int, float3 *, float3 *);
 	void			(*clear_obj)(struct s_object3d *);
 }					t_object;
+
 typedef	struct		s_object3d_device
 {
 	void			*data;
 	int				data_size;
 	const char		*tag;
-	float			rotation[3];
+	float			*rotation;
 	t_color			color;
 	float			specular;
-	void			(*get_normal)(struct s_scene *, int, int);
-    void            (*lol_p)(void);
+	void			(*get_normal)(void);
 	float			(*intersect)(t_scene *, int, float3 *, float3 *);
 	void			(*clear_obj)(struct s_object3d *);
 }					t_object_device;
+
 typedef struct 			s_scene_device
 {
 	float3				*ray_buf;

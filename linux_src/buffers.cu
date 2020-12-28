@@ -21,8 +21,6 @@ __host__ void	get_rays_arr(t_scene *scene)
 
 	gridSize = WID * HEI / 1024;
     blockSize = 1024;
-	if((cudaMemcpy(scene->device_data->camera, &scene->camera.position, sizeof(float3), cudaMemcpyHostToDevice)) == CUDA_SUCCESS)
-		printf("camera copy to device success\n");
 	if((cudaMemcpy(scene->device_data->viewport, scene->viewport, sizeof(float3) * WID * HEI, cudaMemcpyHostToDevice)) == CUDA_SUCCESS)
 		printf("copy to device success\n");
 	kernel_getray<<<gridSize, blockSize>>>(scene->device_data->viewport, scene->camera.position, scene->device_data->ray_buf);

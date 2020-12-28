@@ -18,6 +18,23 @@ __device__ float3	sub(float3 v1, float3 v2)
 	return (result);
 }
 
+__device__ float	length(float3 vector)
+{
+	float	dot;
+
+	dot = dot(vector, vector);
+	return (sqrt(dot));
+}
+__device__ float3	div_by_scalar(float3 vector, float scalar)
+{
+	float3 result;
+
+	result.x = vector.x / scalar;
+	result.y = vector.y / scalar;
+	result.z = vector.z / scalar;
+	return (result);
+}
+
  __device__ float3		scale(float3 v, float c)
 {
 	float3 res;
