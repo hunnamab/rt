@@ -62,7 +62,7 @@ void	get_intersection_buf(t_scene *scene)
 
 void	get_normal_buf(t_scene *scene)
 {
-	int x;
+/* 	int x;
 	int y;
 	int i;
 	int j;
@@ -86,7 +86,28 @@ void	get_normal_buf(t_scene *scene)
 		}
 		x = 0;
 		y++;
+	} */
+	cudaMalloc(&scene->device_data->obj, sizeof(t_object_d) * scene->obj_nmb);
+	t_object_d *buf;
+	buf = (t_object_d *)malloc(sizeof(t_object_d) * scene->obj_nmb);
+	int i = 0;
+	while(i < scene->obj_nmb)
+	{
+		/* if(scene->objs[i]->type == SPHERE) */
+		t_sphere *s;
+		s = reinterpret_cast<t_sphere *>(scene->objs[i]->data);
+		buf->sphere.center = s->center;
+		buf->sphere.radius = s->radius;
+		i++;
 	}
+	cudaMemcpy(scene->device_data->obj, buf, sizeof(t_object_d) * scene->obj_nmb, cudaMemcpyHostToDevice);
+	dim3     gridSize;
+    dim3     blockSize;
+
+	gridSize = WID * HEI / 1024;
+	blockSize = 1024;
+	get_normal_buf_device<<<gridSize, blockSize>>>(scene->device_data->obj, scene->device_data->ray_buf, scene->device_data->index_buf, scene->device_data->normal_buf, scene->device_data->intersection_buf); 
+	cudaMemcpy(scene->normal_buf, scene->device_data->normal_buf, sizeof(float3) * WID * HEI, cudaMemcpyDeviceToHost);
 }
 
 void	get_material_buf(t_scene *scene)

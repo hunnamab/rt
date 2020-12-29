@@ -119,6 +119,18 @@ typedef	struct		s_object3d_device
 	void			(*clear_obj)(struct s_object3d *);
 }					t_object_device;
 
+typedef	struct		s_object3d_d
+{
+	t_sphere		sphere;
+	t_plane			plane;
+	t_triangle		triangle;
+	t_cone			cone;
+	t_cylinder		cylinder;
+	int 			type;
+	t_color			color;
+	float			specular;
+}					t_object_d;
+
 typedef struct 			s_scene_device
 {
 	float3				*ray_buf;
@@ -128,7 +140,8 @@ typedef struct 			s_scene_device
 	float				*depth_buf;
 	float3				*normal_buf;
 	float3				*camera;
-	t_object_device			*objs;
+	t_object_device		*objs;
+	t_object_d			*obj;
 }						t_scene_device;
 
 struct		s_scene

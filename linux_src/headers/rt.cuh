@@ -37,4 +37,10 @@ __global__ void kernel_get_intersection_point(float3 *intersection_buf, float3 *
 __device__ void lol(void);
 __device__ float3	div_by_scalar(float3 vector, float scalar);
 __device__ float	length(float3 vector);
+//__global__ void	get_normal_buf_device(t_object_device *obj, float3 *ray_buf, int *index_buf, float3 *normal_buf, float3 *intersection_buf);
+__device__ void get_normal_sphere(t_object_d *obj, float3 *ray_buf, int *index_buf, float3 *normal_buf, float3 *intersection_buf, int index);
+__global__ void test(t_object_device *objs, int index);
+__global__ void new_sphere_device(t_object_device *obj, float3 center, float radius, t_color color, \
+    float *rotation, float specular, int index);
+__global__ void	get_normal_buf_device(t_object_d *obj, float3 *ray_buf, int *index_buf, float3 *normal_buf, float3 *intersection_buf);
 #endif

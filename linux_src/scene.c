@@ -116,5 +116,6 @@ void	init_scene(t_scene *scene)
 	scene->viewport = NULL;
 	scene->index_buf = NULL;
 	scene->depth_buf = NULL;
+	cuda_init(scene);
 	scene->init[scene->mode](scene);
 }

@@ -20,11 +20,12 @@ __device__ float3	sub(float3 v1, float3 v2)
 
 __device__ float	length(float3 vector)
 {
-	float	dot;
+	float	res;
 
-	dot = dot(vector, vector);
-	return (sqrt(dot));
+	res = dot(vector, vector);
+	return (sqrt(res));
 }
+
 __device__ float3	div_by_scalar(float3 vector, float scalar)
 {
 	float3 result;
