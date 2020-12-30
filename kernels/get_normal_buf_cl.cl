@@ -35,13 +35,13 @@ void get_normal_sphere(t_object_d *obj, \
 	int j;
 
 	j = index_buf[index];
-	/* normal_buf[index] = intersection_buf[index] - obj[j].sphere.center;
+	normal_buf[index] = intersection_buf[index] - obj[j].sphere.center;
 	//
-    l = length(normal_buf[index]);
+    //l = length(normal_buf[index]);
 	//
-    normal_buf[index] = normal_buf[index] / l;
+    /*normal_buf[index] = normal_buf[index] / l;
     if (dot(ray_buf[index], normal_buf[index]) > 0.0001)
-		normal_buf[index] = normal_buf[index] * -1; */
+		normal_buf[index] = normal_buf[index] * -1;*/
 }
 
 __kernel void get_normal_buf_cl(__global t_object_d *obj, \
@@ -55,6 +55,6 @@ __kernel void get_normal_buf_cl(__global t_object_d *obj, \
 	
  	if(/*obj[j].type == SPHERE && */j != -1)
  	{
-		get_normal_sphere(obj[j], ray_buf, index_buf, normal_buf,intersection_buf, i);
+		get_normal_sphere(&obj, &ray_buf, &index_buf, &normal_buf, &intersection_buf, i);
 	}
 }
