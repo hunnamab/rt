@@ -124,6 +124,18 @@ typedef	struct		s_object3d
 	void			(*clear_obj)(struct s_object3d *);
 }					t_object;
 
+typedef	struct		s_object3d_d
+{
+	t_sphere		sphere;
+	t_plane			plane;
+	t_triangle		triangle;
+	t_cone			cone;
+	t_cylinder		cylinder;
+	int 			type;
+	t_color			color;
+	float			specular;
+}					t_object_d;
+
 struct		s_scene
 {
 	t_cl_data		cl_data;

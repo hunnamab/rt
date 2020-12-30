@@ -136,6 +136,21 @@ int    cl_init(t_scene *scene)
 		printf("не собрана программа 1, error %d get_intersection_point\n", err);
 	close(fd7);
 
+	int		ret8;
+	char	*get_normal_buf_cl;
+	int fd8 = open("./kernels/get_normal_buf_cl.cl", O_RDONLY);
+	get_normal_buf_cl = protected_malloc(sizeof(char), 256000);
+	ret8 = read(fd8, get_normal_buf_cl, 64000);
+	get_normal_buf_cl[ret8] = '\0';
+	
+	if ((scene->cl_data.programs[7] = clCreateProgramWithSource(scene->cl_data.context, 1, (const char **)&get_normal_buf_cl, NULL, &err)))
+		printf("cоздана программа get_normal_buf_cl\n");
+	if ((clBuildProgram(scene->cl_data.programs[7], 0, NULL, NULL, NULL, &err)))
+		printf("собрана программа get_normal_buf_cl\n");
+	if (!(scene->cl_data.kernels[7] = clCreateKernel(scene->cl_data.programs[7], "get_normal_buf_cl", &err)))
+		printf("не собрана программа 1, error %d get_normal_buf_cl\n", err);
+	close(fd8);
+
 	//Создание буферов на гпу
 	scene->cl_data.scene.ray_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, NULL);
 	scene->cl_data.scene.viewport = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, NULL);

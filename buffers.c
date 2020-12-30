@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "rt.h"
+#include "types.h"
 
 void	get_rays_arr(t_scene *scene)
 {
@@ -71,37 +72,44 @@ void	get_intersection_buf(t_scene *scene)
     clFinish(scene->cl_data.commands);
 
 	clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.intersection_buf, CL_TRUE, 0, sizeof(cl_float3) * global, scene->intersection_buf, 0, NULL, NULL);
-
-/* 	int x;
-	int y;
-	int i;
-
-	x = 0;
-	y = 0;
-	while (y < HEI)
-	{
-		while (x < WID)
-		{
-			i = y * WID + x;
-			if (scene->index_buf[i] != -1)
-			{
-				scene->intersection_buf[i] = vector_scale(\
-				&scene->ray_buf[i], scene->depth_buf[i]);
-				scene->intersection_buf[i] = vector_add(\
-				&scene->intersection_buf[i], &scene->camera.position);
-			}
-			else
-				scene->intersection_buf[i] = get_point(0, 0, 0);
-			x++;
-		}
-		x = 0;
-		y++;
-	} */
 }
 
 void	get_normal_buf(t_scene *scene)
 {
-	int x;
+	size_t global = WID * HEI;
+	size_t local;
+
+	t_object_d *buf;
+	buf = (t_object_d *)malloc(sizeof(t_object_d) * scene->obj_nmb);
+	cl_mem buf_cl;
+	int i = 0;
+	while (i < scene->obj_nmb)
+	{
+		/* if(scene->objs[i]->type == SPHERE) */
+		t_sphere *s;
+		s = (t_sphere *)scene->objs[i]->data;
+		buf->sphere.center = s->center;
+		buf->sphere.radius = s->radius;
+		i++;
+	}
+
+	buf_cl = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(t_object_d) * scene->obj_nmb, NULL, NULL);
+
+	clEnqueueWriteBuffer(scene->cl_data.commands, buf_cl, CL_FALSE, 0, sizeof(t_object_d) * scene->obj_nmb, &buf, 0, NULL, NULL);
+
+	clSetKernelArg(scene->cl_data.kernels[7], 0, sizeof(cl_mem), &buf_cl);
+	clSetKernelArg(scene->cl_data.kernels[7], 1, sizeof(cl_mem), &scene->cl_data.scene.ray_buf);
+	clSetKernelArg(scene->cl_data.kernels[7], 2, sizeof(cl_mem), &scene->cl_data.scene.index_buf);
+	clSetKernelArg(scene->cl_data.kernels[7], 3, sizeof(cl_mem), &scene->cl_data.scene.normal_buf);
+	clSetKernelArg(scene->cl_data.kernels[7], 4, sizeof(cl_mem), &scene->cl_data.scene.intersection_buf);
+
+	clGetKernelWorkGroupInfo(scene->cl_data.kernels[7], scene->cl_data.device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
+    clEnqueueNDRangeKernel(scene->cl_data.commands, scene->cl_data.kernels[7], 1, NULL, &global, &local, 0, NULL, NULL);
+    clFinish(scene->cl_data.commands);
+
+	clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.normal_buf, CL_TRUE, 0, sizeof(cl_float3) * global, scene->normal_buf, 0, NULL, NULL);
+
+/* 	int x;
 	int y;
 	int i;
 	int j;
@@ -125,7 +133,7 @@ void	get_normal_buf(t_scene *scene)
 		}
 		x = 0;
 		y++;
-	}
+	} */
 }
 
 void	get_material_buf(t_scene *scene)
