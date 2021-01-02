@@ -34,30 +34,9 @@ t_object	*new_cone(float3 *pos_vec, float *ang_spec, t_color color, \
 	new_object->color = color;
 	new_object->data = (void *)new_cone;
 	new_object->tag = "cone";
+	new_object->type = CONE;
 	new_object->intersect = &intersect_ray_cone;
-	new_object->get_normal = &get_cone_normal;
 	new_object->clear_obj = &clear_default;
 	return (new_object);
 }
 
-void		get_cone_normal(t_scene *scene, int index, int obj_num)
-{
-	t_cone	*cone;
-	float	m;
-	float3	*normal;
-	float3 buf;
-
-	normal = &scene->normal_buf[index];
-	cone = (t_cone *)scene->objs[obj_num]->data;
-	buf = vector_sub(&scene->camera.position, &cone->position);
-	m = vector_dot(&scene->ray_buf[index], &cone->vec) * \
-					scene->depth_buf[index] + vector_dot(&buf, &cone->vec);
-	buf = vector_scale(&cone->vec, m);
-	*normal = vector_scale(&buf, (1 + cone->angle * cone->angle));
-	buf = vector_sub(&scene->intersection_buf[index], &cone->position);
-	*normal = vector_sub(&buf, normal);
-	scene->normal_buf[index] = vector_div_by_scalar(&scene->normal_buf[index], \
-								vector_length(&scene->normal_buf[index]));
-	if (vector_dot(&scene->ray_buf[index], normal) > 0.0001)
-		*normal = vector_scale(normal, -1);
-}

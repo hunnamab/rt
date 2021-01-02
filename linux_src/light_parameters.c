@@ -48,7 +48,7 @@ t_light		*get_light(char **description)
 	float3		pos_dir[2];
 	float		intensity;
 	char		*type;
-
+	int			type1;
 	light = NULL;
 	type = get_light_type(description[0]); // printf("light type = |%s|\n", type);
 	init_norme(pos_dir, &intensity);
@@ -56,17 +56,22 @@ t_light		*get_light(char **description)
 	{
 		pos_dir[0] = get_points(description[1]);
 		intensity = ftoi(get_coordinates(description[2]));
+		type1 = POINT;
 	}
 	else if (ft_strequ(type, "directional"))
 	{
 		pos_dir[1] = get_points(description[1]);
 		intensity = ftoi(get_coordinates(description[2]));
+		type1 = DIRECTIONAL;
 	}
 	else if (ft_strequ(type, "ambient"))
+	{
 		intensity = ftoi(get_coordinates(description[1]));
+		type1 = AMBIENT;
+	}
 	else
 		output_error(5);
-	light = new_light(pos_dir, type, intensity);
+	light = new_light(pos_dir, type1, intensity);
 	free(type);
 	return (light);
 }

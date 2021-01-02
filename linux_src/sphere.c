@@ -30,36 +30,8 @@ t_object	*new_sphere(float3 center, float *rad_spec, t_color color, \
 	new_object->data = (void *)new_sphere;
 	new_object->data_size = sizeof(t_sphere);
 	new_object->tag = "sphere";
-	new_object->intersect = &intersect_ray_sphere;
-	new_object->get_normal = &get_sphere_normal;
+	new_object->type = SPHERE;
 	new_object->clear_obj = &clear_default;
+	new_object->intersect = &intersect_ray_sphere;
 	return (new_object);
 }
-
-void		get_sphere_normal(t_scene *scene, int index, int obj_num)
-{
-	t_sphere *s;
-
-	s = (t_sphere *)scene->objs[obj_num]->data;
-	scene->normal_buf[index] = \
-	vector_sub(&scene->intersection_buf[index], &s->center);
-	scene->normal_buf[index] = vector_div_by_scalar(&scene->normal_buf[index], \
-	vector_length(&scene->normal_buf[index]));
-	if (vector_dot(&scene->ray_buf[index], \
-	&scene->normal_buf[index]) > 0.0001)
-		scene->normal_buf[index] = vector_scale(&scene->normal_buf[index], -1);
-}
-
-/* __device__ void		get_sphere_normal(t_scene *scene, int index, int obj_num)
-{
-	t_sphere *s;
-
-	s = (t_sphere *)scene->objs[obj_num]->data;
-	scene->normal_buf[index] = \
-	vector_sub(&scene->intersection_buf[index], &s->center);
-	scene->normal_buf[index] = vector_div_by_scalar(&scene->normal_buf[index], \
-	vector_length(&scene->normal_buf[index]));
-	if (vector_dot(&scene->ray_buf[index], \
-	&scene->normal_buf[index]) > 0.0001)
-		scene->normal_buf[index] = vector_scale(&scene->normal_buf[index], -1);
-} */

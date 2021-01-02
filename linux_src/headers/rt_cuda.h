@@ -47,11 +47,9 @@ void		draw_normal_buf(t_sdl *sdl, t_scene *scene);
 void		draw_deepth_buf(t_sdl *sdl, t_scene *scene);
 void		draw_raycast(t_sdl *sdl, t_scene *scene);
 // light.c
-t_color		reflection_color(t_scene *scene, int index);
-t_light		*new_light(float3 *pos_dir, const char *type, float intensity);
+t_light		*new_light(float3 *pos_dir, int type, float intensity);
 float3	get_light_vec(t_scene *scene, int index, int j);
 float		get_specular(t_scene *scene, int index, int j, float3 *l);
-int			in_shadow(t_scene *scene, int index, float3 l);
 // vector.c
 float3	vector_add(const float3 *v1, const float3 *v2);
 float3	vector_scale(float3 *v, float c);
@@ -75,26 +73,25 @@ void		*protected_malloc(unsigned int size, unsigned int nmb);
 void		copy_color(t_color *dst, t_color *src);
 t_color		set_color(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha);
 void		set_color_zero(t_color *color);
-t_color		color_mul_by_scalar(t_color *color, float scalar);
 // sphere.c
-__host__ void		intersect_ray_sphere(t_scene *scene, int index, float3 *start, float3 *dir);
+__host__ void		intersect_ray_sphere(t_scene *scene, int index);
 t_object	*new_sphere(float3 center, float *rad_spec, t_color color, \
 							float *rotation);
 // triangle.c
-__host__ void	intersect_ray_triangle(t_scene *scene, int index, float3 *start, float3 *dir);
+__host__ void	intersect_ray_triangle(t_scene *scene, int index);
 t_object	*new_triangle(float3 *vertex, float specular, t_color color, \
 							float *rotation);
 void		clear_triangle(t_object *obj);
 // plane.c
-__host__ void	intersect_ray_plane(t_scene *scene, int index, float3 *start, float3 *dir);
+__host__ void	intersect_ray_plane(t_scene *scene, int index);
 t_object	*new_plane(float3 *poi_nor, float specular, t_color color, \
 						float *rotation);
 // cylinder.c
-__host__ void	intersect_ray_cylinder(t_scene *scene, int index, float3 *start, float3 *dir);
+__host__ void	intersect_ray_cylinder(t_scene *scene, int index);
 t_object	*new_cylinder(float3 *pos_vec, float *rad_spec, t_color color, \
 							float *rotation);
 // cone.c
-__host__ void	intersect_ray_cone(t_scene *scene, int index, float3 *start, float3 *dir);
+__host__ void	intersect_ray_cone(t_scene *scene, int index);
 t_object	*new_cone(float3 *pos_vec, float *ang_spec, t_color color, \
 						float *rotation);
 // objects_parameters.c
@@ -110,7 +107,7 @@ t_camera	get_camera(char **description);
 // parameters_utils.c
 char		*get_coordinates(char *description);
 t_color		get_color(char *description);
-float3	get_points(char *description);
+float3		get_points(char *description);
 // transform.c
 float		**get_transform_matrix(float *angle, float *move, float *scale);
 float		**get_rotation_matrix(float *angle);
@@ -132,6 +129,7 @@ void		get_normal_buf(t_scene *scene);
 void		get_intersection_buf(t_scene *scene);
 void		get_closest_points(t_scene *scene, float t);
 void		get_material_buf(t_scene *scene);
+void		get_frame_buf(t_scene *scene);
 // normal.c
 //__device__ void		get_sphere_normal(t_scene *scene, int index, int obj_num);
 void		get_sphere_normal(t_scene *scene, int index, int obj_num);

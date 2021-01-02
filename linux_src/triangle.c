@@ -42,13 +42,13 @@ t_object	*new_triangle(float3 *vertex, float specular, t_color color, \
 	edge2 = vector_sub(&new_triangle->vertex[1], &new_triangle->vertex[2]);
 	new_triangle->normal = vector_cross(&edge1, &edge2);
 	normalize_vector(&new_triangle->normal);
+	new_object->type = TRIANGLE;
 	new_object->specular = specular;
 	new_object->color = color;
 	new_object->data = (void *)new_triangle;
 	new_object->tag = "triangle";
-	new_object->intersect = &intersect_ray_triangle;
-	new_object->get_normal = &get_triangle_normal;
 	new_object->clear_obj = &clear_triangle;
+	new_object->intersect = &intersect_ray_triangle;
 	return (new_object);
 }
 
@@ -61,15 +61,3 @@ void		clear_triangle(t_object *obj)
 	free(obj->data);
 	free(obj);
 }
-
-void		get_triangle_normal(t_scene *scene, int index, int obj_num)
-{
-	t_triangle *t;
-
-	t = (t_triangle *)scene->objs[obj_num]->data;
-	copy_point(&scene->normal_buf[index], &t->normal);
-	if (vector_dot(&scene->ray_buf[index], \
-	&scene->normal_buf[index]) > 0.0001)
-		scene->normal_buf[index] = vector_scale(&scene->normal_buf[index], -1);
-}
-

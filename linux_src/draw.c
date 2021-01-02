@@ -11,11 +11,11 @@
 /* ************************************************************************** */
 
 #include "rt_cuda.h"
+
 void	draw_scene(t_sdl *sdl, t_scene *scene)
 {
 	int		x;
 	int		y;
-	t_color	color;
 	int		i;
 
 	x = -1;
@@ -26,12 +26,8 @@ void	draw_scene(t_sdl *sdl, t_scene *scene)
 		while (++x < WID)
 		{
 			i = y * WID + x;
-			if (scene->index_buf[i] != -1)
-				color = reflection_color(scene, i);
-			else
-				set_color_zero(&color);
 			SDL_SetRenderDrawColor(sdl->renderer, \
-			color.red, color.green, color.blue, 255);
+			scene->frame_buf[i].red, scene->frame_buf[i].green, scene->frame_buf[i].blue, 255);
 			SDL_RenderDrawPoint(sdl->renderer, x, y);
 		}
 		x = -1;

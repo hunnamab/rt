@@ -33,21 +33,10 @@ t_object	*new_plane(float3 *poi_nor, float specular, t_color color, \
 	new_object->color = color;
 	new_object->data = (void *)new_plane;
 	new_object->tag = "plane";
-	new_object->intersect = &intersect_ray_plane;
-	new_object->get_normal = &get_plane_normal;
+	new_object->type = PLANE;
 	new_plane->d = -new_plane->normal.x * new_plane->point.x - new_plane->\
 	normal.y * new_plane->point.y - new_plane->normal.z * new_plane->point.z;
 	new_object->clear_obj = &clear_default;
+	new_object->intersect = &intersect_ray_plane;
 	return (new_object);
-}
-
-void		get_plane_normal(t_scene *scene, int index, int obj_num)
-{
-	t_plane *p;
-
-	p = (t_plane *)scene->objs[obj_num]->data;
-	copy_point(&scene->normal_buf[index], &p->normal);
-	if (vector_dot(&scene->ray_buf[index], \
-		&scene->normal_buf[index]) > 0.0001)
-		scene->normal_buf[index] = vector_scale(&scene->normal_buf[index], -1);
 }

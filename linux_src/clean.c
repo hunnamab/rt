@@ -50,7 +50,6 @@ void	clean_scene(t_scene *scene)
 	i = 0;
 	while (i < scene->light_nmb)
 	{
-		ft_memdel((void **)&scene->light[i]->type);
 		ft_memdel((void **)&scene->light[i]);
 		i++;
 	}
