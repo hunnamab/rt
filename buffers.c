@@ -89,11 +89,11 @@ void	get_normal_buf(t_scene *scene)
 		{
 			t_sphere *s;
 			s = (t_sphere *)scene->objs[i]->data;
-			buf->specular = scene->objs[i]->specular;
-			buf->color = scene->objs[i]->color;
-			buf->type = SPHERE;
-			buf->sphere.center = s->center;
-			buf->sphere.radius = s->radius;
+			buf[i].specular = scene->objs[i]->specular;
+			buf[i].color = scene->objs[i]->color;
+			buf[i].type = SPHERE;
+			buf[i].sphere.center = s->center;
+			buf[i].sphere.radius = s->radius;
 		}
 		// if (scene->objs[i]->type == CONE)
 		// {

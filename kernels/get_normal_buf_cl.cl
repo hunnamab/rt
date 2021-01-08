@@ -70,7 +70,7 @@ __kernel void get_normal_buf_cl(__global t_object_d *obj, \
 	
 	if (j != -1)
 	{
-		//printf("j = %d, obj[j].type = %d\n", j, obj[j].type);
+		printf("j = %d, obj[j].type = %d\n", j, obj[j].type);
 		//if (obj[j].type == 0)
 		//{
 			// normal_buf[index] = intersection_buf[index] - obj[j].sphere.center;
