@@ -1,7 +1,7 @@
-#include "rt.cuh"
 extern "C"{
-    #include "rt_cuda.h"
-    }
+	#include "rt_host.h"
+	}
+	#include "rt_device.cuh"
 
 __device__ float	dot(float3 v1, float3 v2)
 {

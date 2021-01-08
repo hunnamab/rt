@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RT_CUDA_CUH
-# define RT_CUDA_CUH
+#ifndef RT_HOST_CUH
+# define RT_HOST_CUH
 
 # include <cuda_runtime_api.h>
 # include <vector_types.h>
@@ -22,7 +22,7 @@
 # include <fcntl.h>
 # include <stdint.h>
 # include <unistd.h>
-# include "types_cuda.h"
+# include "types.h"
 # include "device_launch_parameters.h"
 # include "libft.h"
 # include "matrix.h"
@@ -74,26 +74,27 @@ void		copy_color(t_color *dst, t_color *src);
 t_color		set_color(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha);
 void		set_color_zero(t_color *color);
 // sphere.c
-__host__ void		intersect_ray_sphere(t_scene *scene, int index);
 t_object	*new_sphere(float3 center, float *rad_spec, t_color color, \
 							float *rotation);
-// triangle.c
-__host__ void	intersect_ray_triangle(t_scene *scene, int index);
+t_object	*new_ellipsoid(float3 *pos_vec, float *abc, t_color color, \
+						float *rotation);
 t_object	*new_triangle(float3 *vertex, float specular, t_color color, \
 							float *rotation);
 void		clear_triangle(t_object *obj);
-// plane.c
-__host__ void	intersect_ray_plane(t_scene *scene, int index);
 t_object	*new_plane(float3 *poi_nor, float specular, t_color color, \
 						float *rotation);
-// cylinder.c
 __host__ void	intersect_ray_cylinder(t_scene *scene, int index);
 t_object	*new_cylinder(float3 *pos_vec, float *rad_spec, t_color color, \
 							float *rotation);
-// cone.c
-__host__ void	intersect_ray_cone(t_scene *scene, int index);
 t_object	*new_cone(float3 *pos_vec, float *ang_spec, t_color color, \
 						float *rotation);
+__host__ void	intersect_ray_triangle(t_scene *scene, int index);
+__host__ void	intersect_ray_plane(t_scene *scene, int index);
+__host__ void	intersect_ray_cone(t_scene *scene, int index);
+__host__ void	intersect_ray_sphere(t_scene *scene, int index);
+__host__ void 	intersect_ray_ellipsoid(t_scene *scene, int index);
+__host__ void 	intersect_ray_hyperboloid(t_scene *scene, int index);
+__host__ void 	intersect_ray_paraboloid(t_scene *scene, int index);
 // objects_parameters.c
 t_object	*get_sphere(char **description);
 t_object	*get_triangle(char **description, float specular);

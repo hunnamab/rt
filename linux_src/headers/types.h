@@ -24,7 +24,10 @@ enum object_type{
 	CONE,
 	TRIANGLE,
 	CYLINDER,
-	PLANE
+	PLANE,
+	ELLIPSOID,
+	HYPERBOLOID,
+	PARABOLOID
 };
 
 enum light_type{
@@ -122,9 +125,32 @@ typedef	struct		s_object3d
 	int 			type;
 	float			specular;
 	void			(*get_normal)(struct s_scene *, int, int);
-	float			(*intersect)(t_scene *, int);
+	void			(*intersect)(t_scene *, int);
 	void			(*clear_obj)(struct s_object3d *);
 }					t_object;
+
+typedef struct 		s_ellipsoid
+{
+	float			a;
+	float			b;
+	float			c;
+	float3			center;
+}					t_ellipsoid;
+
+typedef struct 		s_hyperboloid
+{
+	float			a;
+	float			b;
+	float			c;
+	float3			center;
+}					t_hyperboloid;
+
+typedef struct 		s_paraboloid
+{
+	float 			p;
+	float 			q;
+	float3 			center;
+}					t_paraboloid;
 
 typedef	struct		s_object3d_d
 {
@@ -134,6 +160,9 @@ typedef	struct		s_object3d_d
 	t_triangle_d	triangle;
 	t_cone			cone;
 	t_cylinder		cylinder;
+	t_ellipsoid		ellipsoid;
+	t_paraboloid	paraboloid;
+	t_hyperboloid	hyperboloid;
 	t_color			color;
 	float			specular;
 }					t_object_d;

@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 extern "C"{
-#include "rt_cuda.h"
+#include "rt_host.h"
 }
-#include "rt.cuh"
+#include "rt_device.cuh"
 
 __host__ void	get_rays_arr(t_scene *scene)
 {
@@ -45,6 +45,11 @@ void	get_closest_points(t_scene *scene, float t)
 		scene->objs[i]->intersect(scene, i);
 		i++;
 	}
+	if(scene->mode == 2)
+	{
+		cudaMemcpy(scene->index_buf, scene->device_data->index_buf, sizeof(int) * WID * HEI, cudaMemcpyDeviceToHost);
+		cudaMemcpy(scene->depth_buf, scene->device_data->depth_buf, sizeof(float) * WID * HEI, cudaMemcpyDeviceToHost);
+	}
 }
 
 void	get_intersection_buf(t_scene *scene)
@@ -75,6 +80,11 @@ void	get_material_buf(t_scene *scene)
 	gridSize = WID * HEI / 1024;
 	blockSize = 1024;
 	get_material_buf_device<<<gridSize, blockSize>>>(scene->device_data->index_buf, scene->device_data->material_buf, scene->device_data->obj);
+	if(scene->mode == 3)
+	{
+		cudaMemcpy(scene->index_buf, scene->device_data->index_buf, sizeof(int) * WID * HEI, cudaMemcpyDeviceToHost);
+		cudaMemcpy(scene->material_buf, scene->device_data->material_buf, sizeof(t_material) * WID * HEI, cudaMemcpyDeviceToHost);
+	}
 }
 
  void	get_frame_buf(t_scene *scene)

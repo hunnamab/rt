@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt_cuda.h"
+#include "rt_host.h"
 
 t_object	*get_parameters(char *name, char **description)
 {

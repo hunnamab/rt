@@ -10,10 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt.cuh"
 extern "C"{
-    #include "rt_cuda.h"
-    }
+	#include "rt_host.h"
+	}
+	#include "rt_device.cuh"
 
 __device__ t_color	color_mul_by_scalar(t_color *color, float scalar)
 {

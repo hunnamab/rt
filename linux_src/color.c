@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt_cuda.h"
+#include "rt_host.h"
 void		set_color_zero(t_color *color)
 {
 	color->red = 0;

@@ -9,7 +9,7 @@
 /*   Updated: 2020/11/10 15:38:22 by hunnamab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "rt_cuda.h"
+#include "rt_host.h"
 
 char		*get_light_type(char *description)
 {

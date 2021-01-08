@@ -1,15 +1,13 @@
-#ifndef RT_CUH
-# define RT_CUH
+#ifndef RT_DEVICE_CUH
+# define RT_DEVICE_CUH
 # include <cuda_runtime_api.h>
 # include <vector_types.h>
 # include <cuda.h>
 # include <stdio.h>
 # include <math.h>
 # include "device_launch_parameters.h"
-# include "types_cuda.h"
+# include "types.h"
 
-# define WID 1280
-# define HEI 720
 #if defined(__CUDA_ARCH__) && (__CUDA_ARCH__ < 200)
     #define printf(f, ...) ((void)(f, __VA_ARGS__),0)
 #endif
@@ -33,7 +31,10 @@ __global__ void intersect_ray_plane_c(float3 *ray_arr, float3 camera_start, \
 __global__ void intersect_ray_cylinder_c(float3 *ray_arr, float3 camera_start, \
     float3 position, float *depth_buf, float3 vector, \
     float radius, int *index_buf, int index);
-__global__ void kernel_get_intersection_point(float3 *intersection_buf, float3 *ray_buf, float *depth_buf, float3 camera, int *index_buf);
+__global__  void    intersect_ray_ellipsoid_c(float3 *ray_arr, float3 camera_start, float3 e_center, float a, float b, float c, float *depth_buf, int *index_buf, int index);
+__global__  void    intersect_ray_hyperboloid_c(float3 *ray_arr, float3 camera_start, float3 e_center, float a, float b, float c, float *depth_buf, int *index_buf, int index);
+__global__  void    intersect_ray_paraboloid_c(float3 *ray_arr, float3 camera_start, float3 e_center,float p, float q, float *depth_buf, int *index_buf, int index);
+__global__ void     kernel_get_intersection_point(float3 *intersection_buf, float3 *ray_buf, float *depth_buf, float3 camera, int *index_buf);
 __device__ float3	div_by_scalar(float3 vector, float scalar);
 __device__ float	length(float3 vector);
 __global__ void test(t_object_d *objs, int index);
@@ -49,6 +50,7 @@ __device__ void get_normal_plane(t_object_d *obj, float3 *ray_buf, int *index_bu
 __device__ void get_normal_cone(t_object_d *obj, float3 *ray_buf, int *index_buf, float3 *normal_buf, float3 *intersection_buf, int index, float3 camera_position, float *depth_buf);
 __device__ void get_normal_cylinder(t_object_d *obj, float3 *ray_buf, int *index_buf, float3 *normal_buf, float3 *intersection_buf, int index, float3 camera_position, float *depth_buf);
 __device__ void get_normal_triangle(t_object_d *obj, float3 *ray_buf, int *index_buf, float3 *normal_buf, float3 *intersection_buf, int index);
+__device__ void get_normal_ellipsoid(t_object_d *obj, float3 *ray_buf, int *index_buf, float3 *normal_buf, float3 *intersection_buf, int index);
 __global__ void	get_frame_buf_device(t_color *frame_buf, float3	*ray_buf, float3 *intersection_buf,
 	int					*index_buf,
 	float3				*normal_buf,

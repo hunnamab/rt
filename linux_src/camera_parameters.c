@@ -9,7 +9,7 @@
 /*   Updated: 2020/11/09 12:34:17 by hunnamab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "rt_cuda.h"
+#include "rt_host.h"
 
 t_camera	get_camera(char **description)
 {

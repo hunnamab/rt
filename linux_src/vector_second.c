@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt_cuda.h"
+#include "rt_host.h"
 
 float3		vector_add(const float3 *v1, const float3 *v2)
 {

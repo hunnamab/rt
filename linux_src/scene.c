@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt_cuda.h"
+#include "rt_host.h"
 
 void	init_deepth(t_scene *scene)
 {

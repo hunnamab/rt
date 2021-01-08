@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt_cuda.h"
+#include "rt_host.h"
 
 float3		vector_div_by_scalar(float3 *vector, float scalar)
 {

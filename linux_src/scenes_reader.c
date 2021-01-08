@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt_cuda.h"
+#include "rt_host.h"
 
 static void	scene_objects(int *snmi, t_scene *scene, char *buf)
 {
@@ -50,6 +50,8 @@ static void	get_objects(char *buf, t_scene *scene, int len)
 	/* if (!brackets(buf))
 		output_error(6); */
 	scene->obj_nmb = count_objects(len, buf); // выясняем кол-во объектов сцены
+	//для тестового объекта
+	scene->obj_nmb += 1;
 	split_objects(len, scene, buf);
 	scene->objs = protected_malloc(sizeof(t_object *), scene->obj_nmb); // создаем массив структур для объектов
 	scene->light = protected_malloc(sizeof(t_light *), scene->light_nmb);

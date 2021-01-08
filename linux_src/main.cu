@@ -11,8 +11,10 @@
 /* ************************************************************************** */
 
 extern "C"{
-#include "rt_cuda.h"
-}
+	#include "rt_host.h"
+	}
+	#include "rt_device.cuh"
+
 void	check_mode(int as, char **av, t_scene *scene)
 {
 	if (as == 2 || (as == 3 && (ft_strequ(av[2], "default"))))
@@ -63,6 +65,49 @@ int	main(int args, char **argv)
 	SDL_Init(SDL_INIT_EVERYTHING);
 	SDL_CreateWindowAndRenderer(WID, HEI, 0, &sdl.win, &sdl.renderer);
 	SDL_RenderClear(sdl.renderer);
+ 	scene->objs[1] = (t_object *)malloc(sizeof(t_object));
+	t_ellipsoid *el;
+	el = (t_ellipsoid *)malloc(sizeof(t_ellipsoid));
+	el->a = 5;
+	el->b = 5;
+	el->c = 1;
+	el->center = get_point(0,0,0);
+	scene->objs[1]->data = (void *)el;
+	scene->objs[1]->color.red = 0;
+	scene->objs[1]->color.blue = 255;
+	scene->objs[1]->color.green = 0;
+	scene->objs[1]->color.alpha = 255;
+	scene->objs[1]->type = ELLIPSOID;
+	scene->objs[1]->specular = 100;
+	scene->objs[1]->intersect = &intersect_ray_ellipsoid;
+	//Создание гиперболоида
+	/* t_hyperboloid *p;
+	p = (t_hyperboloid *)malloc(sizeof(t_hyperboloid));
+	p->a = 1;
+	p->b = 1;
+	p->c = 3;
+	p->center = get_point(0,0,0);
+	scene->objs[1]->data = (void *)p;
+	scene->objs[1]->color.red = 0;
+	scene->objs[1]->color.blue = 255;
+	scene->objs[1]->color.green = 0;
+	scene->objs[1]->color.alpha = 255;
+	scene->objs[1]->type = HYPERBOLOID;
+	scene->objs[1]->specular = 100;
+	scene->objs[1]->intersect = &intersect_ray_hyperboloid; */
+/* 	t_paraboloid *p;
+	p = (t_paraboloid *)malloc(sizeof(t_paraboloid));
+	p->q = 1;
+	p->p = 5;
+	p->center = get_point(0,0,0);
+	scene->objs[1]->data = (void *)p;
+	scene->objs[1]->color.red = 0;
+	scene->objs[1]->color.blue = 255;
+	scene->objs[1]->color.green = 0;
+	scene->objs[1]->color.alpha = 255;
+	scene->objs[1]->type = PARABOLOID;
+	scene->objs[1]->specular = 100;
+	scene->objs[1]->intersect = &intersect_ray_paraboloid; */
 	init_scene(scene);
 	scene->draw[scene->mode](&sdl, scene);
 	while (k)

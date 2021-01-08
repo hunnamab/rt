@@ -9,7 +9,7 @@
 /*   Updated: 2020/11/10 13:17:56 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "rt_cuda.h"
+#include "rt_host.h"
 
 void		*protected_malloc(unsigned int size, unsigned int nmb)
 {

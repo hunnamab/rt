@@ -9,7 +9,7 @@
 /*   Updated: 2020/11/10 15:20:59 by hunnamab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "rt_cuda.h"
+#include "rt_host.h"
 
 t_object	*get_sphere(char **description)
 {

@@ -1,7 +1,7 @@
-#include "rt.cuh"
 extern "C"{
-    #include "rt_cuda.h"
+    #include "rt_host.h"
     }
+    #include "rt_device.cuh"
 
     __device__ void get_normal_sphere(t_object_d *obj, float3 *ray_buf, int *index_buf, float3 *normal_buf, float3 *intersection_buf, int index)
     {
@@ -15,7 +15,18 @@ extern "C"{
         if (dot(ray_buf[index], normal_buf[index]) > 0.0001)
             normal_buf[index] = scale(normal_buf[index], -1);
     }
-
+    __device__ void get_normal_ellipsoid(t_object_d *obj, float3 *ray_buf, int *index_buf, float3 *normal_buf, float3 *intersection_buf, int index)
+    {
+        float l;
+        int j;
+    
+        j = index_buf[index];
+        normal_buf[index] = sub(intersection_buf[index], obj[j].ellipsoid.center);
+        l = length(normal_buf[index]);
+        normal_buf[index] = div_by_scalar(normal_buf[index], l);
+        if (dot(ray_buf[index], normal_buf[index]) > 0.0001)
+            normal_buf[index] = scale(normal_buf[index], -1);
+    }
     __device__ void get_normal_plane(t_object_d *obj, float3 *ray_buf, int *index_buf, float3 *normal_buf, float3 *intersection_buf, int index)
     {
         int j;
@@ -95,5 +106,7 @@ extern "C"{
                 get_normal_plane(obj, ray_buf, index_buf, normal_buf,intersection_buf, i);
             else if (obj[j].type == TRIANGLE)
                 get_normal_triangle(obj, ray_buf, index_buf, normal_buf,intersection_buf, i);
+            else if (obj[j].type == ELLIPSOID)
+                get_normal_ellipsoid(obj, ray_buf, index_buf, normal_buf,intersection_buf, i);
         }
     }

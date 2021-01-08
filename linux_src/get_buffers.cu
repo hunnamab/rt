@@ -1,4 +1,4 @@
-#include "rt.cuh"
+#include "rt_device.cuh"
 
 __global__ void helloCUDA(float f)
 {

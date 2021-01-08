@@ -1,7 +1,7 @@
 extern "C"{
-    #include "rt_cuda.h"
+	#include "rt_host.h"
 	}
-#include "rt.cuh"
+	#include "rt_device.cuh"
 void	print_gpu_info(void)
 {
 	int val;
@@ -71,6 +71,32 @@ __host__ void	device_objects_init(t_scene *scene)
 			buf[i].plane.normal = p->normal;
 			buf[i].plane.point = p->point;
 			buf[i].plane.d = p->d;
+		}
+		if(scene->objs[i]->type == ELLIPSOID)
+		{
+			t_ellipsoid *el;
+			el = reinterpret_cast<t_ellipsoid *>(scene->objs[i]->data);
+			buf[i].ellipsoid.a = el->a;
+			buf[i].ellipsoid.b = el->b;
+			buf[i].ellipsoid.c = el->c;
+			buf[i].ellipsoid.center = el->center;
+		}
+		if(scene->objs[i]->type == HYPERBOLOID)
+		{
+			t_hyperboloid *hr;
+			hr = reinterpret_cast<t_hyperboloid *>(scene->objs[i]->data);
+			buf[i].hyperboloid.a = hr->a;
+			buf[i].hyperboloid.b = hr->b;
+			buf[i].hyperboloid.c = hr->c;
+			buf[i].hyperboloid.center = hr->center;
+		}
+		if(scene->objs[i]->type == PARABOLOID)
+		{
+			t_paraboloid *pr;
+			pr = reinterpret_cast<t_paraboloid *>(scene->objs[i]->data);
+			buf[i].paraboloid.p = pr->p;
+			buf[i].paraboloid.q = pr->q;
+			buf[i].paraboloid.center = pr->center;
 		}
 		buf[i].color.red = scene->objs[i]->color.red;
 		buf[i].color.blue = scene->objs[i]->color.blue;
@@ -167,4 +193,40 @@ __host__ void	intersect_ray_plane(t_scene *scene, int index)
 	gridSize = WID * HEI / 1024;
 	blockSize = 1024;
     intersect_ray_plane_c<<<gridSize,blockSize>>>(scene->device_data->ray_buf,scene->camera.position, scene->device_data->depth_buf, p->normal, p->d, scene->device_data->index_buf, index);
+}
+
+__host__ void 	intersect_ray_ellipsoid(t_scene *scene, int index)
+{
+    dim3     gridSize;
+    dim3     blockSize;
+	t_ellipsoid *el;
+
+	gridSize = WID * HEI / 1024;
+	blockSize = 1024;
+	el = reinterpret_cast<t_ellipsoid *>(scene->objs[index]->data);
+    intersect_ray_ellipsoid_c<<<gridSize,blockSize>>>(scene->device_data->ray_buf,scene->camera.position,el->center,el->a, el->b,el->c,scene->device_data->depth_buf, scene->device_data->index_buf, index);
+}
+
+__host__ void 	intersect_ray_hyperboloid(t_scene *scene, int index)
+{
+    dim3     gridSize;
+    dim3     blockSize;
+	t_hyperboloid *hr;
+
+	gridSize = WID * HEI / 1024;
+	blockSize = 1024;
+	hr = reinterpret_cast<t_hyperboloid *>(scene->objs[index]->data);
+    intersect_ray_hyperboloid_c<<<gridSize,blockSize>>>(scene->device_data->ray_buf,scene->camera.position,hr->center,hr->a, hr->b,hr->c,scene->device_data->depth_buf, scene->device_data->index_buf, index);
+}
+
+__host__ void 	intersect_ray_paraboloid(t_scene *scene, int index)
+{
+    dim3     gridSize;
+    dim3     blockSize;
+	t_paraboloid *pr;
+
+	gridSize = WID * HEI / 1024;
+	blockSize = 1024;
+	pr = reinterpret_cast<t_paraboloid *>(scene->objs[index]->data);
+    intersect_ray_paraboloid_c<<<gridSize,blockSize>>>(scene->device_data->ray_buf,scene->camera.position,pr->center,pr->p,pr->q,scene->device_data->depth_buf, scene->device_data->index_buf, index);
 }

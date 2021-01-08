@@ -1,7 +1,7 @@
-#include "rt.cuh"
 extern "C"{
-    #include "rt_cuda.h"
-    }
+	#include "rt_host.h"
+	}
+	#include "rt_device.cuh"
 
 __host__ int    cuda_init(t_scene *scene)
 {

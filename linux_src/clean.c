@@ -10,9 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt_cuda.h"
-# include "libft.h"
-# include "matrix.h"
+#include "rt_host.h"
+
 void	clear_default(t_object *obj)
 {
 	free(obj->data);

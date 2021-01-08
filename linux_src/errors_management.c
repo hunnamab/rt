@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt_cuda.h"
+#include "rt_host.h"
 void	output_description(void)
 {
 	ft_putstr("usage: ./rtv1 [scene_file] [mode]*\n\n");
