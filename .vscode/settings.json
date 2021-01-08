@@ -3,6 +3,7 @@
         "__config": "cpp",
         "vector": "c",
         "iosfwd": "c",
-        "iterator": "c"
+        "iterator": "c",
+        "*.cuh": "c"
     }
 }

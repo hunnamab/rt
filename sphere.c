@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "rt.h"
+#include "types.h"
 
 t_object	*new_sphere(cl_float3 center, float *rad_spec, t_color color, \
 						float *rotation)
@@ -29,6 +30,7 @@ t_object	*new_sphere(cl_float3 center, float *rad_spec, t_color color, \
 	new_object->color = color;
 	new_object->data = (void *)new_sphere;
 	new_object->tag = "sphere";
+	new_object->type = SPHERE;
 	new_object->intersect = &intersect_ray_sphere;
 	new_object->get_normal = &get_sphere_normal;
 	new_object->clear_obj = &clear_default;

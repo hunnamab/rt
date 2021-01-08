@@ -34,6 +34,7 @@ t_object	*new_cone(cl_float3 *pos_vec, float *ang_spec, t_color color, \
 	new_object->color = color;
 	new_object->data = (void *)new_cone;
 	new_object->tag = "cone";
+	new_object->type = CONE;
 	new_object->intersect = &intersect_ray_cone;
 	new_object->get_normal = &get_cone_normal;
 	new_object->clear_obj = &clear_default;

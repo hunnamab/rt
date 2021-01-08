@@ -16,6 +16,17 @@
 
 typedef	struct			s_scene t_scene;
 
+enum object_type {
+	SPHERE,
+	CONE,
+	TRIANGLE,
+	CYLINDER,
+	PLANE,
+	ELLIPSOID,
+	HYPERBOLOID,
+	PARABOLOID
+};
+
 typedef struct 			s_scene_device
 {
 	cl_mem				ray_buf;
@@ -119,6 +130,7 @@ typedef	struct		s_object3d
 	float			rotation[3];
 	t_color			color;
 	float			specular;
+	int 			type;
 	void			(*get_normal)(struct s_scene *, int, int);
 	void			(*intersect)(t_scene *, int);
 	void			(*clear_obj)(struct s_object3d *);

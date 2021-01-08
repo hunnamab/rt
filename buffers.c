@@ -85,15 +85,32 @@ void	get_normal_buf(t_scene *scene)
 	int i = 0;
 	while (i < scene->obj_nmb)
 	{
-		/* if(scene->objs[i]->type == SPHERE) */
-		t_sphere *s;
-		s = (t_sphere *)scene->objs[i]->data;
-		buf->sphere.center = s->center;
-		buf->sphere.radius = s->radius;
+		if (scene->objs[i]->type == SPHERE)
+		{
+			t_sphere *s;
+			s = (t_sphere *)scene->objs[i]->data;
+			buf->specular = scene->objs[i]->specular;
+			buf->color = scene->objs[i]->color;
+			buf->type = SPHERE;
+			buf->sphere.center = s->center;
+			buf->sphere.radius = s->radius;
+		}
+		// if (scene->objs[i]->type == CONE)
+		// {
+		// }
+		// if (scene->objs[i]->type == CYLINDER)
+		// {
+		// }
+		// if (scene->objs[i]->type == TRIANGLE)
+		// {
+		// }
+		// if (scene->objs[i]->type == PLANE)
+		// {
+		// }
 		i++;
 	}
 
-	buf_cl = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(t_object_d) * scene->obj_nmb, NULL, NULL);
+	buf_cl = clCreateBuffer(scene->cl_data.context, CL_MEM_READ_WRITE, sizeof(t_object_d) * scene->obj_nmb, NULL, NULL);
 
 	clEnqueueWriteBuffer(scene->cl_data.commands, buf_cl, CL_FALSE, 0, sizeof(t_object_d) * scene->obj_nmb, &buf, 0, NULL, NULL);
 
@@ -108,32 +125,6 @@ void	get_normal_buf(t_scene *scene)
     clFinish(scene->cl_data.commands);
 
 	clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.normal_buf, CL_TRUE, 0, sizeof(cl_float3) * global, scene->normal_buf, 0, NULL, NULL);
-
-/* 	int x;
-	int y;
-	int i;
-	int j;
-
-	j = 0;
-	x = 0;
-	y = 0;
-	while (y < HEI)
-	{
-		while (x < WID)
-		{
-			i = y * WID + x;
-			if (scene->index_buf[i] != -1)
-			{
-				j = scene->index_buf[i];
-				scene->objs[j]->get_normal(scene, i, j);
-			}
-			else
-				scene->normal_buf[j] = get_point(0, 0, 0);
-			x++;
-		}
-		x = 0;
-		y++;
-	} */
 }
 
 void	get_material_buf(t_scene *scene)

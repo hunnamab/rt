@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "rt.h"
+#include "types.h"
 
 static void	init_norme(float *r, cl_float3 *v, float *rt, cl_float3 *vt)
 {
@@ -46,6 +47,7 @@ t_object	*new_triangle(cl_float3 *vertex, float specular, t_color color, \
 	new_object->color = color;
 	new_object->data = (void *)new_triangle;
 	new_object->tag = "triangle";
+	new_object->type = TRIANGLE;
 	new_object->intersect = &intersect_ray_triangle;
 	new_object->get_normal = &get_triangle_normal;
 	new_object->clear_obj = &clear_triangle;
