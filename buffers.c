@@ -110,11 +110,12 @@ void	get_normal_buf(t_scene *scene)
 		i++;
 	}
 
-	buf_cl = clCreateBuffer(scene->cl_data.context, CL_MEM_READ_WRITE, sizeof(t_object_d) * scene->obj_nmb, NULL, NULL);
+	//buf_cl = clCreateBuffer(scene->cl_data.context, CL_MEM_READ_WRITE, sizeof(t_object_d) * scene->obj_nmb, NULL, NULL);
 
-	clEnqueueWriteBuffer(scene->cl_data.commands, buf_cl, CL_FALSE, 0, sizeof(t_object_d) * scene->obj_nmb, &buf, 0, NULL, NULL);
+	//clEnqueueWriteBuffer(scene->cl_data.commands, buf_cl, CL_FALSE, 0, sizeof(t_object_d) * scene->obj_nmb, &buf, 0, NULL, NULL);
 
-	clSetKernelArg(scene->cl_data.kernels[7], 0, sizeof(cl_mem), &buf_cl);
+	//printf("t_object_d = %lu", sizeof(t_object_d));
+	clSetKernelArg(scene->cl_data.kernels[7], 0, sizeof(t_object_d), (void *)&buf[0]);
 	clSetKernelArg(scene->cl_data.kernels[7], 1, sizeof(cl_mem), &scene->cl_data.scene.ray_buf);
 	clSetKernelArg(scene->cl_data.kernels[7], 2, sizeof(cl_mem), &scene->cl_data.scene.index_buf);
 	clSetKernelArg(scene->cl_data.kernels[7], 3, sizeof(cl_mem), &scene->cl_data.scene.normal_buf);
