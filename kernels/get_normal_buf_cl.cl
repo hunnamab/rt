@@ -9,7 +9,7 @@ enum object_type {
 	PARABOLOID
 };
 
-typedef	struct		s_color
+typedef struct __attribute__ ((aligned (256))) _s_color
 {
 	unsigned char	red;
 	unsigned char	green;
@@ -17,52 +17,52 @@ typedef	struct		s_color
 	unsigned char	alpha;
 }					t_color;
 
-typedef	struct		s_sphere
+typedef struct __attribute__ ((aligned (256))) _s_sphere
 {
-	float3			center;
 	float			radius;
+	float3			center;
 }					t_sphere;
 
-typedef struct		s_plane
+typedef struct __attribute__ ((aligned (256))) _s_plane
 {
+	float			d;
 	float3			normal;
 	float3			point;
-	float			d;
 }					t_plane;
 
-typedef	struct		s_cylinder
+typedef struct __attribute__ ((aligned (256))) _s_cylinder
 {
+	float			radius;
 	float3			position;
 	float3			vec;
-	float			radius;
 }					t_cylinder;
 
-typedef	struct		s_cone
+typedef struct __attribute__ ((aligned (256))) _s_cone
 {
+	float			angle;
 	float3			position;
 	float3			vec;
-	float			angle;
 }					t_cone;
 
-typedef	struct		s_triangle
+typedef struct __attribute__ ((aligned (256))) _s_triangle
 {
-	float3			*vertex;
 	float3			normal;
+	float3			*vertex;
 }					t_triangle;
 
-typedef	struct		s_object3d_d
+typedef struct __attribute__ ((aligned (256))) _s_object3d_d
 {
+	int 			type;
+	float			specular;
 	t_sphere		sphere;
 	t_plane			plane;
 	t_triangle		triangle;
 	t_cone			cone;
 	t_cylinder		cylinder;
-	int 			type;
 	t_color			color;
-	float			specular;
 }					t_object_d;
 
-void get_normal_sphere(t_object_d *obj, \
+/* void get_normal_sphere(t_object_d *obj, \
                         float3 *ray_buf, \
                         int *index_buf, \
                         float3 *normal_buf, \
@@ -73,18 +73,18 @@ void get_normal_sphere(t_object_d *obj, \
 
 	//printf("%d ", index_buf);
 	//printf("%f ", obj[0].sphere.radius);
-	// normal_buf[0] = intersection_buf[0] - obj[0].sphere.center;
-	// l = length(normal_buf[0]);
-	// normal_buf[0] = native_divide(normal_buf[0], l);
-    // if (dot(ray_buf[0], normal_buf[0]) > 0.0001)
-	// {
-	// 	normal_buf[0].x = normal_buf[0].x * -1;
-	// 	normal_buf[0].y = normal_buf[0].y * -1;
-	// 	normal_buf[0].z = normal_buf[0].z * -1;
-	// }
-}
+	normal_buf[0] = intersection_buf[0] - obj[0].sphere.center;
+	l = length(normal_buf[0]);
+	normal_buf[0] = native_divide(normal_buf[0], l);
+    if (dot(ray_buf[0], normal_buf[0]) > 0.0001)
+	{
+		normal_buf[0].x = normal_buf[0].x * -1;
+		normal_buf[0].y = normal_buf[0].y * -1;
+		normal_buf[0].z = normal_buf[0].z * -1;
+	}
+} */
 
-__kernel void get_normal_buf_cl(t_object_d obj, \
+__kernel void get_normal_buf_cl(__global t_object_d *obj, \
                                 __global float3 *ray_buf, \
                                 __global int *index_buf, \
                                 __global float3 *normal_buf, \
@@ -96,12 +96,12 @@ __kernel void get_normal_buf_cl(t_object_d obj, \
 
 	if (j != -1)
 	{
-		//printf("j = %d, obj[j].type = %d\n", j, obj.type);
-		//printf("t_object_d = %lu", sizeof(t_object_d));
-		//printf("%f", obj.sphere.radius);
-		if (obj.type == 0)
+		printf("j = %d, obj[j].type = %d\n", j, obj[j].type);
+		// printf("t_object_d = %lu", sizeof(t_object_d));
+		// printf("%f", obj.sphere.radius);
+		if (obj[j].type == SPHERE)
 		{
-			normal_buf[i] = intersection_buf[i] - obj.sphere.center;
+			normal_buf[i] = intersection_buf[i] - obj[j].sphere.center;
 			l = length(normal_buf[i]);
 			normal_buf[i] = native_divide(normal_buf[i], l);
 			if (dot(ray_buf[i], normal_buf[i]) > 0.0001)
@@ -111,6 +111,6 @@ __kernel void get_normal_buf_cl(t_object_d obj, \
 				normal_buf[i].z = normal_buf[i].z * -1;
 			}
 		}
-		//get_normal_sphere(&obj[j], &ray_buf[i], &index_buf[i], &normal_buf[i], &intersection_buf[i], i);
+		//get_normal_sphere(obj[j], ray_buf[i], index_buf[i], normal_buf[i], intersection_buf[i], i);
 	}
 }
