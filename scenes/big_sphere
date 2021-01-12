@@ -3,7 +3,7 @@ sphere {
     radius: 10
     rotation: 0, 0, 0
     color: 255, 0, 0, 255
-    specular: 100
+    specular: 100.0
 }
 
 light {

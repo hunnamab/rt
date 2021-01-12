@@ -62,12 +62,12 @@ typedef struct		s_ray
 	cl_float3		dir;
 }					t_ray;
 
-typedef struct __attribute__ ((aligned (256))) _s_color
+typedef struct 		s_color
 {
-	unsigned char			red;
-	unsigned char			green;
-	unsigned char			blue;
-	unsigned char			alpha;
+	unsigned char	red;
+	unsigned char	green;
+	unsigned char	blue;
+	unsigned char	alpha;
 }					t_color;
 
 typedef	struct		s_light
@@ -78,34 +78,34 @@ typedef	struct		s_light
 	const char		*type;
 }					t_light;
 
-typedef struct __attribute__ ((aligned (256))) _s_sphere
+typedef struct 		s_sphere
 {
 	float			radius;
 	cl_float3		center;
 }					t_sphere;
 
-typedef struct __attribute__ ((aligned (256))) _s_plane
+typedef struct 		s_plane
 {
 	float			d;
 	cl_float3		normal;
 	cl_float3		point;
 }					t_plane;
 
-typedef struct __attribute__ ((aligned (256))) _s_cylinder
+typedef struct 		s_cylinder
 {
 	float			radius;
 	cl_float3		position;
 	cl_float3		vec;
 }					t_cylinder;
 
-typedef struct __attribute__ ((aligned (256))) _s_cone
+typedef struct 		s_cone
 {
 	float			angle;
 	cl_float3		position;
 	cl_float3		vec;
 }					t_cone;
 
-typedef struct __attribute__ ((aligned (256))) _s_triangle
+typedef struct 		s_triangle
 {
 	cl_float3		normal;
 	cl_float3		*vertex;
@@ -136,16 +136,18 @@ typedef	struct		s_object3d
 	void			(*clear_obj)(struct s_object3d *);
 }					t_object;
 
-typedef struct __attribute__ ((aligned (256))) _s_object3d_d
+typedef struct 		s_object3d_d
 {
-	int 			type;
+	// int 			type;
 	float			specular;
-	t_sphere		sphere;
-	t_plane			plane;
-	t_triangle		triangle;
-	t_cone			cone;
-	t_cylinder		cylinder;
-	t_color			color;
+	float			radius;
+	// cl_float3		center;
+	// t_sphere			sphere;
+	// t_plane			plane;
+	// t_triangle		triangle;
+	// t_cone			cone;
+	// t_cylinder		cylinder;
+	// t_color			color;
 }					t_object_d;
 
 struct		s_scene
