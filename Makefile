@@ -3,20 +3,18 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+         #
+#    By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/07 15:39:13 by hunnamab          #+#    #+#              #
-#    Updated: 2021/01/12 18:41:10 by ldeirdre         ###   ########.fr        #
+#    Updated: 2021/01/12 19:46:00 by pmetron          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = rt
 NAME_LINUX = rt_linux
 LIB_FLAGS = -Wall -Wextra
-MAC_FLAGS = -I SDL2.framework/Headers -F ./ -framework SDL2 -framework OpenCL -lSDL2_image 
+MAC_FLAGS = -I SDL2.framework/Headers -F ./ -framework SDL2 -framework OpenCL -I SDL2_image.framework/Headers -framework SDL2_image
 LINUX_FLAGS = -lSDL2 -lm -lXext -lcuda -lcudart
-LSDLIMDIR = ./SDL_image/
-OTHER2 = ./lib_sdl_im/
 LIBRARY = ./libft/libft.a 
 HEADER = rt.h
 SRC = main.c sphere.c vector.c utils.c \
@@ -46,7 +44,8 @@ $(LIBRARY):
 
 $(NAME): $(LIBRARY) $(OBJ)
 		@cp -r SDL2.framework ~/Library/Frameworks/
-		@gcc $(OBJ) $(LIBRARY)  -L $(OTHER2) -o $(NAME) $(MAC_FLAGS) -I $(HEADER) -I $(LSDLIMDIR)
+		@cp -r SDL2_image.framework ~/Library/Frameworks/
+		@gcc $(OBJ) $(LIBRARY) -o $(NAME) $(MAC_FLAGS) -I $(HEADER)
 
 clean:
 	@rm -f $(OBJ)
@@ -54,6 +53,7 @@ clean:
 fclean: clean
 	@rm -f $(NAME)
 	@rm -rf ~/Library/Frameworks/SDL2.framework
+	@rm -rf SDL2_image.framework ~/Library/Frameworks/
 	@make -C libft fclean
 
 re: fclean all

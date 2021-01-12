@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:34 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/12 18:33:17 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/01/12 19:20:12 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #ifdef __APPLE__
 	# include <OpenCL/opencl.h> //for macOS
 	# include "SDL2.framework/Headers/SDL.h" //for macOS
+	# include "SDL_image/SDL_image.h"
 #else
 	# include <SDL2/SDL.h> //for linux
 	# include <CL/cl.h> //for linux
