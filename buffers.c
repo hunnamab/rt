@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   buffers.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:38:29 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/12 18:33:48 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/01/12 19:57:44 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,10 +90,12 @@ void	get_normal_buf(t_scene *scene)
 			t_sphere *s;
 			s = (t_sphere *)scene->objs[i]->data;
 			buf[i].specular = scene->objs[i]->specular;
-			//buf[i].color = scene->objs[i]->color;
-			// buf[i].type = SPHERE;
-			// buf[i].center = s->center;
-			buf[i].radius = s->radius;
+			buf[i].color = scene->objs[i]->color;
+			buf[i].type = SPHERE;
+			buf[i].sphere.center = s->center;
+			buf[i].sphere.radius = s->radius;
+			printf("sphere radius %f\n", buf[i].sphere.radius);
+			printf("sphere radius %f\n", s->radius);
 		}
 		// if (scene->objs[i]->type == CONE)
 		// {
@@ -117,7 +119,7 @@ void	get_normal_buf(t_scene *scene)
 
 	printf("t_object_d = %lu\n", sizeof(t_object_d));
 	printf("sizeof(cl_mem) == %d\n", sizeof(buf_cl));
-	clSetKernelArg(scene->cl_data.kernels[7], 0, sizeof(cl_mem) * scene->obj_nmb, &buf_cl);
+	clSetKernelArg(scene->cl_data.kernels[7], 0, sizeof(cl_mem), &buf_cl);
 	clSetKernelArg(scene->cl_data.kernels[7], 1, sizeof(cl_mem), &scene->cl_data.scene.ray_buf);
 	clSetKernelArg(scene->cl_data.kernels[7], 2, sizeof(cl_mem), &scene->cl_data.scene.index_buf);
 	clSetKernelArg(scene->cl_data.kernels[7], 3, sizeof(cl_mem), &scene->cl_data.scene.normal_buf);
@@ -130,7 +132,7 @@ void	get_normal_buf(t_scene *scene)
 	clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.normal_buf, CL_TRUE, 0, sizeof(cl_float3) * global, scene->normal_buf, 0, NULL, NULL);
 }
 
-void	get_material_buf(t_scene *scene)
+/* void	get_material_buf(t_scene *scene)
 {
 	int x;
 	int y;
@@ -155,6 +157,35 @@ void	get_material_buf(t_scene *scene)
 				else
 					col = scene->objs[scene->index_buf[i]]->color;
 				copy_color(&scene->material_buf[i].color,  &col);
+				scene->material_buf[i].specular = \
+				scene->objs[scene->index_buf[i]]->specular;
+			}
+			else
+			{
+				set_color_zero(&scene->material_buf[i].color);
+				scene->material_buf[i].specular = -1;
+			}
+		}
+	}
+} */
+
+void	get_material_buf(t_scene *scene)
+{
+	int x;
+	int y;
+	int i;
+
+	y = -1;
+	while (++y < HEI)
+	{
+		x = -1;
+		while (++x < WID)
+		{
+			i = y * WID + x;
+			if (scene->index_buf[i] != -1)
+			{
+				copy_color(&scene->material_buf[i].color, \
+							&scene->objs[scene->index_buf[i]]->color);
 				scene->material_buf[i].specular = \
 				scene->objs[scene->index_buf[i]]->specular;
 			}

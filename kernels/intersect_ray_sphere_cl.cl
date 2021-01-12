@@ -1,3 +1,57 @@
+typedef struct s_sphere
+{
+    float   radius;
+    float3  center;
+}              t_sphere;
+
+typedef struct 		s_plane
+{
+	float			d;
+	float3		normal;
+	float3		point;
+}					t_plane;
+
+typedef struct 		s_cylinder
+{
+	float			radius;
+	float3		position;
+	float3		vec;
+}					t_cylinder;
+
+typedef struct 		s_cone
+{
+	float			angle;
+	float3		position;
+	float3		vec;
+}					t_cone;
+
+typedef struct 		s_triangle
+{
+	float3		normal;
+	float3		vertex[3];
+}					t_triangle;
+
+typedef	struct		s_cutting_surface
+{
+    int 			type;
+	t_sphere		sphere;
+	t_plane			plane;
+	t_triangle		triangle;
+	t_cone			cone;
+	t_cylinder		cylinder;
+}					t_cutting_surface;
+
+enum object_type {
+	SPHERE,
+	CONE,
+	TRIANGLE,
+	CYLINDER,
+	PLANE,
+	ELLIPSOID,
+	HYPERBOLOID,
+	PARABOLOID
+};
+
 __kernel void intersect_ray_sphere_cl(__global float3 *ray_arr, \
                                 __global float3 *camera_start, \
                                 __global float3 *s_center, \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   types.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:58 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/12 18:19:13 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/01/12 19:54:39 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,19 +150,17 @@ typedef	struct		s_object3d
 	void			(*clear_obj)(struct s_object3d *);
 }					t_object;
 
-typedef struct 		s_object3d_d
+typedef struct 			s_object3d_d
 {
-	// int 			type;;
+	int 				type;
 	cl_float			specular;
-	cl_float			radius;
-	// cl_float3		center;
-	// t_sphere			sphere;
-	// t_plane			plane;
-	// t_triangle		triangle;
-	// t_cone			cone;
-	// t_cylinder		cylinder;
-	// t_color			color;
-}					t_object_d;
+	t_sphere			sphere;
+	t_plane				plane;
+	t_triangle			triangle;
+	t_cone				cone;
+	t_cylinder			cylinder;
+	t_color				color;
+}						t_object_d;
 
 struct		s_scene
 {

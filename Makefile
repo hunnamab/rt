@@ -6,7 +6,7 @@
 #    By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/07 15:39:13 by hunnamab          #+#    #+#              #
-#    Updated: 2021/01/12 19:46:00 by pmetron          ###   ########.fr        #
+#    Updated: 2021/01/12 19:51:05 by pmetron          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,7 +53,7 @@ clean:
 fclean: clean
 	@rm -f $(NAME)
 	@rm -rf ~/Library/Frameworks/SDL2.framework
-	@rm -rf SDL2_image.framework ~/Library/Frameworks/
+	@rm -rf ~/Library/Frameworks/SDL2_image.framework
 	@make -C libft fclean
 
 re: fclean all
