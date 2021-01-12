@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   types.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:58 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/12 13:56:52 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/12 18:19:13 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,19 @@ typedef	struct		s_material
 	float			specular;
 }					t_material;
 
+typedef	struct		s_texture
+{
+	SDL_Surface		*img;
+	char			*pixels;
+	int				bytes_per_pixel;
+	int				l_size;
+	int				size;
+	int				width;
+	int				height;
+	int				endian;
+	SDL_PixelFormat	*format;
+}					t_texture;
+
 typedef	struct		s_object3d
 {
 	void			*data;
@@ -130,6 +143,7 @@ typedef	struct		s_object3d
 	float			rotation[3];
 	t_color			color;
 	float			specular;
+	t_texture		*text;
 	int 			type;
 	void			(*get_normal)(struct s_scene *, int, int);
 	void			(*intersect)(t_scene *, int);

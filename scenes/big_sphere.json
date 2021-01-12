@@ -1,0 +1,25 @@
+{
+	"sphere": {
+		"center": [0, 0, 0],
+		"radius": 10,
+		"rotation": [0, 0, 0],
+		"color": [255, 0, 0, 255],
+		"specular": 100,
+		"texture": "textures/helper.jpg"
+	},
+	"light": [
+		{
+			"type": "point",
+			"position": [10, 10, -10],
+			"intensity": 0.8
+		},
+		{
+			"type": "ambient",
+			"intensity": 0.2
+		}
+	],
+	"camera": {
+		"position": [0, 0, -40],
+		"rotation": [0, 0, 0]
+	}
+}

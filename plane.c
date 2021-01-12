@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   plane.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 14:22:24 by pmetron           #+#    #+#             */
-/*   Updated: 2020/11/10 17:59:39 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/12 18:26:01 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_object	*new_plane(cl_float3 *poi_nor, float specular, t_color color, \
 	new_object->color = color;
 	new_object->data = (void *)new_plane;
 	new_object->tag = "plane";
-	new_object->type = PLANE;
+	new_object->text = NULL;
 	new_object->intersect = &intersect_ray_plane;
 	new_object->get_normal = &get_plane_normal;
 	new_plane->d = -new_plane->normal.x * new_plane->point.x - new_plane->\
@@ -90,4 +90,46 @@ void		intersect_ray_plane(t_scene *scene, int index)
 	printf("local == max work group size == %ld\n", local);
     clEnqueueNDRangeKernel(scene->cl_data.commands, scene->cl_data.kernels[5], 1, NULL, &global, &local, 0, NULL, NULL);
     clFinish(scene->cl_data.commands);
+}
+
+void	one_argument_plane(char **description, t_scene *scene, int *snmi)
+{
+	t_object	*plane;
+	t_color		color;
+	cl_float3	poi_nor_buf[3];
+	double		specular;
+	double		rotation[3];
+
+	poi_nor_buf[0] = get_points(description[1]);
+	poi_nor_buf[1] = get_points(description[2]);
+	poi_nor_buf[2] = get_points(description[3]);
+	rotation[0] = poi_nor_buf[2].x;
+	rotation[1] = poi_nor_buf[2].y;
+	rotation[2] = poi_nor_buf[2].z;
+	color = get_color(description[4]);
+	specular = ftoi(get_coordinates(description[5]));
+	plane = new_plane(poi_nor_buf, specular, color, rotation);
+	plane->text = tex_new_bmp(get_file(description[6]));
+	scene->objs[snmi[1]] = plane;
+	snmi[1]++;
+}
+
+t_object 	*multiple_planes(char **description, t_scene *scene, int *snmi, int i)
+{
+	t_object	*plane;
+	t_color		color;
+	cl_float3	poi_nor_buf[3];
+	double		specular;
+	double		rotation[3];
+
+	poi_nor_buf[0] = get_points(description[i + 1]);
+	poi_nor_buf[1] = get_points(description[i + 2]);
+	poi_nor_buf[2] = get_points(description[i + 3]);
+	rotation[0] = poi_nor_buf[2].x;
+	rotation[1] = poi_nor_buf[2].y;
+	rotation[2] = poi_nor_buf[2].z;
+	color = get_color(description[i + 4]);
+	specular = ftoi(get_coordinates(description[i + 5]));
+	plane = new_plane(poi_nor_buf, specular, color, rotation);
+	return (plane);
 }

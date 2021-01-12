@@ -1,0 +1,30 @@
+{
+	"plane": {
+		"point": [0, 1, 0],
+		"normal": [0, 1, 0],
+		"rotation": [0, 0, 0],
+		"color": [123, 33, 56, 255],
+		"specular": -1,
+		"texture": "textures/Bricks.jpg"
+	},
+	"light": [ 
+		{
+			"type": "point",
+			"position": [100, 10, -20],
+			"intensity": 0.4
+		},
+		{
+			"type": "point",
+			"position": [0, 2, 85],
+			"intensity": 0.4
+		},
+		{
+			"type": "ambient",
+			"intensity": 0.2
+		}
+	],
+	"camera": {
+		"position": [0, 0, -40],
+		"rotation": [0, 0, 0]
+	}
+}

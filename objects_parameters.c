@@ -3,114 +3,132 @@
 /*                                                        :::      ::::::::   */
 /*   objects_parameters.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:22 by hunnamab          #+#    #+#             */
-/*   Updated: 2020/11/10 15:20:59 by hunnamab         ###   ########.fr       */
+/*   Updated: 2021/01/12 18:05:51 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-t_object	*get_sphere(char **description)
+void	get_sphere(char **description, t_scene *scene, int *snmi)
 {
 	t_object	*sphere;
-	cl_float3		cen_buf[2];
-	t_color		color;
-	float		rotation[3];
-	float		rad_spec[2];
-
-	cen_buf[0] = get_points(description[0]);
-	rad_spec[0] = ftoi(get_coordinates(description[1]));
-	cen_buf[1] = get_points(description[2]);
-	rotation[0] = cen_buf[1].x;
-	rotation[1] = cen_buf[1].y;
-	rotation[2] = cen_buf[1].z;
-	color = get_color(description[3]);
-	rad_spec[1] = ftoi(get_coordinates(description[4]));
-	sphere = new_sphere(cen_buf[0], rad_spec, color, rotation);
-	return (sphere);
+	int i;
+	
+	i = 1;
+	if (description[0][0] == '[')
+	{
+		while (description[i][1] != ']')
+		{
+			if (description[i][2] == '{')
+			{
+				sphere = multiple_spheres(description, scene, snmi, i);
+				sphere->text = tex_new_bmp(get_file(description[i + 6]));
+				scene->objs[snmi[1]] = sphere;
+				snmi[1]++;
+				i += 8;
+			}
+		}
+	}
+	if (description[0][0] == '{')
+		one_argument_sphere(description, scene, snmi);
 }
 
-t_object	*get_cylinder(char **description)
+void	get_cylinder(char **description, t_scene *scene, int *snmi)
 {
 	t_object	*cylinder;
-	t_color		color;
-	cl_float3		pos_vec_buf[3];
-	float		rotation[3];
-	float		rad_spec[2];
+	int i;
 
-	pos_vec_buf[0] = get_points(description[0]);
-	rad_spec[0] = ftoi(get_coordinates(description[1]));
-	pos_vec_buf[1] = get_points(description[2]);
-	pos_vec_buf[2] = get_points(description[3]);
-	rotation[0] = pos_vec_buf[2].x;
-	rotation[1] = pos_vec_buf[2].y;
-	rotation[2] = pos_vec_buf[2].z;
-	color = get_color(description[4]);
-	rad_spec[1] = ftoi(get_coordinates(description[5]));
-	cylinder = new_cylinder(pos_vec_buf, rad_spec, color, rotation);
-	return (cylinder);
+	i = 1;
+	if (description[0][0] == '[')
+	{
+		while (description[i][1] != ']')
+		{
+			if (description[i][2] == '{')
+			{
+				cylinder = multiple_cylinders(description, scene, snmi, i);
+				cylinder->text = tex_new_bmp(get_file(description[i + 7]));
+				scene->objs[snmi[1]] = cylinder;
+				snmi[1]++;
+				i += 9;
+			}
+		}
+	}
+	if (description[0][0] == '{')
+		one_argument_cylinder(description, scene, snmi);
 }
 
-t_object	*get_cone(char **description)
+void	get_cone(char **description, t_scene *scene, int *snmi)
 {
 	t_object	*cone;
-	t_color		color;
-	cl_float3		pos_vec_buf[3];
-	float		rotation[3];
-	float		ang_spec[2];
+	int i;
 
-	pos_vec_buf[0] = get_points(description[0]);
-	pos_vec_buf[1] = get_points(description[1]);
-	ang_spec[0] = ftoi(get_coordinates(description[2]));
-	pos_vec_buf[2] = get_points(description[3]);
-	rotation[0] = pos_vec_buf[2].x;
-	rotation[1] = pos_vec_buf[2].y;
-	rotation[2] = pos_vec_buf[2].z;
-	color = get_color(description[4]);
-	ang_spec[1] = ftoi(get_coordinates(description[5]));
-	cone = new_cone(pos_vec_buf, ang_spec, color, rotation);
-	return (cone);
+	i = 1;
+	if (description[0][0] == '[')
+	{
+		while (description[i][1] != ']')
+		{
+			if (description[i][2] == '{')
+			{
+				cone = multiple_cones(description, scene, snmi, i);
+				cone->text = tex_new_bmp(get_file(description[i + 7]));
+				scene->objs[snmi[1]] = cone;
+				snmi[1]++;
+				i += 9;
+			}
+		}
+	}
+	if (description[0][0] == '{')
+		one_argument_cone(description, scene, snmi);
 }
 
-t_object	*get_triangle(char **description, float specular)
+
+void	get_triangle(char **description, double specular, t_scene *scene, int *snmi)
 {
 	t_object	*triangle;
-	cl_float3	vertex[3];
-	t_color		color;
-	cl_float3	buf;
-	float		rotation[3];
+	int i;
 
-	vertex[0] = get_points(description[0]);
-	vertex[1] = get_points(description[1]);
-	vertex[2] = get_points(description[2]);
-	buf = get_points(description[3]);
-	rotation[0] = buf.x;
-	rotation[1] = buf.y;
-	rotation[2] = buf.z;
-	color = get_color(description[4]);
-	specular = ftoi(get_coordinates(description[5]));
-	triangle = new_triangle(vertex, specular, color, rotation);
-	return (triangle);
+	i = 1;
+	if (description[0][0] == '[')
+	{
+		while (description[i][1] != ']')
+		{
+			if (description[i][2] == '{')
+			{
+				triangle = multiple_triangles(description, snmi, i, specular);
+				triangle->text = tex_new_bmp(get_file(description[i + 7]));
+				scene->objs[snmi[1]] = triangle;
+				snmi[1]++;
+				i += 9;
+			}
+		}
+	}
+	if (description[0][0] == '{')
+		one_argument_triangle(description, scene, snmi, specular);
 }
 
-t_object	*get_plane(char **description)
+void	get_plane(char **description,  t_scene *scene, int *snmi)
 {
 	t_object	*plane;
-	t_color		color;
-	cl_float3		poi_nor_buf[3];
-	float		specular;
-	float		rotation[3];
+	int i;
 
-	poi_nor_buf[0] = get_points(description[0]);
-	poi_nor_buf[1] = get_points(description[1]);
-	poi_nor_buf[2] = get_points(description[2]);
-	rotation[0] = poi_nor_buf[2].x;
-	rotation[1] = poi_nor_buf[2].y;
-	rotation[2] = poi_nor_buf[2].z;
-	color = get_color(description[3]);
-	specular = ftoi(get_coordinates(description[4]));
-	plane = new_plane(poi_nor_buf, specular, color, rotation);
-	return (plane);
+	i = 1;
+	if (description[0][0] == '[')
+	{
+		while (description[i][1] != ']')
+		{
+			if (description[i][2] == '{')
+			{
+				plane = multiple_planes(description, scene, snmi, i);
+				plane->text = tex_new_bmp(get_file(description[i + 6]));
+				scene->objs[snmi[1]] = plane;
+				snmi[1]++;
+				i += 6;
+			}
+		}
+	}
+	if (description[0][0] == '{')
+		one_argument_plane(description, scene, snmi);
 }

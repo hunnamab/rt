@@ -1,0 +1,37 @@
+{
+	"triangle": [
+		{
+			"ver_one": [-25, -15, 20],
+			"ver_two": [40, 30, 140],
+			"ver_three": [-50, 40, 140],
+			"rotation": [0, 0.5, 0],
+			"color": [45, 205, 10, 255],
+			"specular": 50,
+			"texture": "textures/helper.jpg"
+		},
+		{
+			"ver_one": [25, -15, 80],
+			"ver_two": [60, -40, 80],
+			"ver_three": [50, 40, 40],
+			"rotation": [0, 0, 0],
+			"color": [210, 205, 10, 255],
+			"specular": 50,
+			"texture": "textures/helper.jpg"
+		}
+	],
+	"camera": {
+		"position": [0, 2, -40],
+		"rotation": [0, 0, 0]
+	},
+	"light": [
+		{
+			"type": "point",
+			"position": [100, 10, -20],
+			"intensity": 0.4
+		},
+		{
+			"type": "ambient",
+			"intensity": 0.2
+		}
+	]
+}

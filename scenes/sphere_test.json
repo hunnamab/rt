@@ -1,0 +1,82 @@
+{
+	"sphere": [
+		{
+			"center": [20, 0, 40],
+			"radius": 10,
+			"rotation": [0, 0, 0],
+			"color": [255, 0, 0, 255],
+			"specular": 100,
+			"texture": "no"
+		},
+		{
+			"center": [0, -10, 30],
+			"radius": 10,
+			"rotation": [0, 0, 0],
+			"color": [0, 255, 0, 255],
+			"specular": 100,
+			"texture": "no"
+		},
+		{
+			"center": [-20, 0, 40],
+			"radius": 10,
+			"rotation": [0, 0, 0],
+			"color": [0, 0, 255, 255],
+			"specular": 100,
+			"texture": "no"
+		},
+		{
+			"center": [-30, 20, 30],
+			"radius": 10,
+			"rotation": [0, 0, 0],
+			"color": [255, 0, 255, 255],
+			"specular": 10,
+			"texture": "no"
+		}
+	],
+	"cone": {
+		"position": [30, 0, 50],
+		"vector": [0, 1, 0],
+		"angle": 0.4,
+		"rotation": [0, 0, 0],
+		"color": [79, 50, 180, 255],
+		"specular": 0.3,
+		"texture": "no"
+	},
+	"cylinder": {
+		"position": [-30, 15, 30],
+		"radius": 5,
+		"rotation": [0, 0, 0],
+		"vector": [0, 1, 0],
+		"color": [65, 20, 98, 255],
+		"specular": 60,
+		"texture": "no"
+	},
+	"plane": {
+		"point": [0, -10, 0],
+		"normal": [0, 10, 0],
+		"rotation": [0, 0, 0],
+		"color": [123, 133, 156, 255],
+		"specular": 50,
+		"texture": "no"
+	},
+	"light": [
+		{
+			"type": "ambient",
+			"intensity": 0.2
+		},
+		{
+			"type": "point",
+			"position": [30, 10, 0],
+			"intensity": 0.4
+		},
+		{
+			"type": "point",
+			"position": [-30, 10, 0],
+			"intensity": 0.4
+		}
+	],
+	"camera": {
+		"position": [0, 2, -40],
+		"rotation": [0.2, 0.2, -0.2]
+	}
+}

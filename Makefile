@@ -3,19 +3,21 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+         #
+#    By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/07 15:39:13 by hunnamab          #+#    #+#              #
-#    Updated: 2020/11/10 18:00:01 by pmetron          ###   ########.fr        #
+#    Updated: 2021/01/12 18:41:10 by ldeirdre         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = rt
 NAME_LINUX = rt_linux
 LIB_FLAGS = -Wall -Wextra
-MAC_FLAGS = -I SDL2.framework/Headers -F ./ -framework SDL2 -framework OpenCL
+MAC_FLAGS = -I SDL2.framework/Headers -F ./ -framework SDL2 -framework OpenCL -lSDL2_image 
 LINUX_FLAGS = -lSDL2 -lm -lXext -lcuda -lcudart
-LIBRARY = ./libft/libft.a
+LSDLIMDIR = ./SDL_image/
+OTHER2 = ./lib_sdl_im/
+LIBRARY = ./libft/libft.a 
 HEADER = rt.h
 SRC = main.c sphere.c vector.c utils.c \
 	light.c triangle.c scenes_reader.c draw.c \
@@ -30,7 +32,8 @@ SRC = main.c sphere.c vector.c utils.c \
 	buffers.c scene.c color.c vector_second.c transform_matrix.c \
 	keyboard.c clean.c errors_management.c light_parameters.c \
 	parameters_utils.c camera_parameters.c define_object.c \
-	scenes_reader_util.c cl_init.c
+	scenes_reader_util.c cl_init.c textures.c texture_mapping.c
+
 OBJ = $(SRC:.c=.o)
 
 all: $(NAME)
@@ -43,7 +46,7 @@ $(LIBRARY):
 
 $(NAME): $(LIBRARY) $(OBJ)
 		@cp -r SDL2.framework ~/Library/Frameworks/
-		@gcc $(OBJ) $(LIBRARY) -o $(NAME) $(MAC_FLAGS) -I $(HEADER)
+		@gcc $(OBJ) $(LIBRARY)  -L $(OTHER2) -o $(NAME) $(MAC_FLAGS) -I $(HEADER) -I $(LSDLIMDIR)
 
 clean:
 	@rm -f $(OBJ)

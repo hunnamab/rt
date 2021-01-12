@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   rtv1.h                                             :+:      :+:    :+:   */
+/*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:34 by hunnamab          #+#    #+#             */
-/*   Updated: 2020/11/11 12:08:18 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/12 18:33:17 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void		split_objects(int len, t_scene *scene, char *buf);
 int			count_objects(int len, char *buf);
 char		**get_description(char *scene, int i);
 // define_object.c
-t_object	*get_parameters(char *name, char **description);
+void		get_parameters(char *name, char **description, t_scene *scene, int *snmi);
 // settings.c
 void		sphere_settings(t_sphere *s, t_ray *r);
 // draw.c
@@ -101,16 +101,16 @@ t_object	*new_cylinder(cl_float3 *pos_vec, float *rad_spec, t_color color, \
 void		intersect_ray_cone(t_scene *scene, int index);
 t_object	*new_cone(cl_float3 *pos_vec, float *ang_spec, t_color color, \
 						float *rotation);
-// objects_parameters.c
-t_object	*get_sphere(char **description);
-t_object	*get_triangle(char **description, float specular);
-t_object	*get_plane(char **description);
-t_object	*get_cylinder(char **description);
-t_object	*get_cone(char **description);
+						
+void		get_sphere(char **description, t_scene *scene, int *snmi);
+void		get_triangle(char **description, double specular, t_scene *scene, int *snmi);
+void		get_plane(char **description, t_scene *scene, int *snmi);
+void		get_cylinder(char **description, t_scene *scene, int *snmi);
+void		get_cone(char **description, t_scene *scene, int *snmi);
 // light_parameters.c
-t_light		*get_light(char **description);
+void		get_light(char **description, t_scene *scene, int *snmi);
 // camera_parameters.c
-t_camera	get_camera(char **description);
+void		get_camera(char **description, t_scene *scene);
 // parameters_utils.c
 char		*get_coordinates(char *description);
 t_color		get_color(char *description);
@@ -160,5 +160,27 @@ void		clean_scene(t_scene *scene);
 void		output_description(void);
 void		output_error(int tag);
 int    		cl_init(t_scene *scene);
+
+t_texture	*tex_new_bmp(char *file);
+t_texture	*tex_new_surface(SDL_Surface *s);
+char		*get_file(char *description);
+t_color		get_color_tex(t_texture *texture, float x, float y);
+cl_float3		mapping_sphere(cl_float3 t, t_object *obj);
+cl_float3 	text_map_select(t_object *obj, cl_float3 t);
+cl_float3 	mapping_plane(cl_float3 t, t_object *obj);
+cl_float3		mapping_cylinder(cl_float3 t, t_object *obj);
+cl_float3		mapping_cone(cl_float3 t, t_object *obj);
+cl_float3		normalize(cl_float3 vec);
+cl_float3		mapping_triangle(cl_float3 t, t_object *obj);
+t_object 	*multiple_spheres(char **description, t_scene *scene, int *snmi, int i);
+void	one_argument_sphere(char **description, t_scene *scene, int *snmi);
+void	one_argument_cylinder(char **description, t_scene *scene, int *snmi);
+t_object 	*multiple_cylinders(char **description, t_scene *scene, int *snmi, int i);
+t_object 	*multiple_cones(char **description, t_scene *scene, int *snmi, int i);
+void	one_argument_cylinder(char **description, t_scene *scene, int *snmi);
+void	one_argument_plane(char **description, t_scene *scene, int *snmi);
+t_object 	*multiple_planes(char **description, t_scene *scene, int *snmi, int i);
+void	one_argument_triangle(char **description, t_scene *scene, int *snmi, double specular);
+t_object 	*multiple_triangles(char **description, int *snmi, int i, double specular);
 
 #endif

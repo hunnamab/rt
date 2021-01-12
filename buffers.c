@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   buffers.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:38:29 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/12 13:59:42 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/12 18:33:48 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,8 @@ void	get_material_buf(t_scene *scene)
 	int x;
 	int y;
 	int i;
+	t_color col;
+	cl_float3 t;
 
 	y = -1;
 	while (++y < HEI)
@@ -144,9 +146,15 @@ void	get_material_buf(t_scene *scene)
 		{
 			i = y * WID + x;
 			if (scene->index_buf[i] != -1)
-			{
-				copy_color(&scene->material_buf[i].color, \
-							&scene->objs[scene->index_buf[i]]->color);
+			{	
+				if (scene->objs[scene->index_buf[i]]->text != NULL)
+				{
+					t = text_map_select(scene->objs[scene->index_buf[i]], scene->intersection_buf[i]);
+					col = get_color_tex(scene->objs[scene->index_buf[i]]->text, t.x, t.y);
+				}
+				else
+					col = scene->objs[scene->index_buf[i]]->color;
+				copy_color(&scene->material_buf[i].color,  &col);
 				scene->material_buf[i].specular = \
 				scene->objs[scene->index_buf[i]]->specular;
 			}

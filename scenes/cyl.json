@@ -1,0 +1,26 @@
+{
+	"cylinder": {
+		"position": [0, 0, 100],
+		"radius": 30,
+		"vector": [0, 1, 0],
+		"rotation": [0, 0, 0],
+		"color": [170, 100, 98, 255],
+		"specular": 60,
+		"texture": "textures/helper.jpg"
+	},
+	"light": [
+		{
+			"type": "point",
+			"position": [100, 10, -20],
+			"intensity": 0.4
+		},
+		{
+			"type": "ambient",
+			"intensity": 0.2
+		}
+	],
+	"camera": {
+		"position": [0, 2, -40],
+		"rotation": [0, 0, 0]
+	}
+}

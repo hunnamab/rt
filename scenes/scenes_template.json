@@ -1,0 +1,65 @@
+{
+	"sphere": {
+		"center": [0, 0, 0],
+		"radius": 200,
+		"rotation": [0.2, 0.2, -0.2],
+		"color": [255, 0, 0, 255],
+		"specular": 50.0,
+		"texture": "no"
+	},
+	"plane": {
+		"point": [0, 0, 1],
+		"normal": [0, 0.3, 1],
+		"rotation": [0.2, 0.2, -0.2],
+		"color": [255, 255, 0, 255],
+		"specular": 0,
+		"texture": "no"
+	},
+	"cone": {
+		"position": [20, 0, 100],
+		"vector": [0, 1, 0],
+		"angle": 0.3,
+		"rotation": [0.2, 0.2, -0.2],
+		"color": [200, 50, 60, 255],
+		"specular": 100,
+		"texture": "no"
+	},
+	"cylinder": {
+		"position": [0, 0, 0],
+		"radius": 10,
+		"vector": [0, 1, 0],
+		"rotation": [0.2, 0.2, -0.2],
+		"color": [255, 255, 0, 255],
+		"specular": 0,
+		"texture": "no"
+	},
+	"triangle": {
+		"ver_one": [10, 10, 10],
+		"ver_two": [50, 100, 50],
+		"ver_three": [-20, -10, -10],
+		"rotation": [0.2, 0.2, -0.2],
+		"color": [0, 255, 0, 255],
+		"specular": 50.0,
+		"texture": "no"
+	},
+	"light": [
+		{
+			"type": "ambient",
+			"intensity": 0.2
+		},
+		{
+			"type": "point",
+			"position": [100, 10, -20],
+			"intensity": 0.4
+		},
+		{
+			"type": "directional",
+			"direction": [20, 20, 100],
+			"intensity": 0.4
+		}
+	],
+	"camera": {
+		"position": [0.2, 0, 0.5],
+		"rotation": [3.14, 0, 0]
+	}
+}

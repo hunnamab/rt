@@ -1,0 +1,115 @@
+{
+	"sphere": [
+		{
+			"center": [2, 0, 4],
+			"radius": 1,
+			"rotation": [0, 0, 0],
+			"color": [255, 0, 0, 255],
+			"specular": 100,
+			"texture": "no"
+		},
+		{
+			"center": [0, -1, 3],
+			"radius": 1,
+			"rotation": [0, 0, 0],
+			"color": [0, 255, 0, 255],
+			"specular": 100,
+			"texture": "no"
+		},
+		{
+			"center": [-2, 0, 4],
+			"radius": 1,
+			"rotation": [0, 0, 0],
+			"color": [0, 0, 255, 255],
+			"specular": 100,
+			"texture": "no"
+		},
+		{
+			"center": [0, 0, 0],
+			"radius": 300,
+			"rotation": [0, 0, 0],
+			"color": [255, 0, 0, 255],
+			"specular": 100,
+			"texture": "no"
+		},
+		{
+			"center": [-3, 2, 3],
+			"radius": 1,
+			"rotation": [0, 0, 0],
+			"color": [255, 0, 255, 255],
+			"specular": 10,
+			"texture": "no"
+		},
+		{
+			"center": [-3, 4, 3],
+			"radius": 1,
+			"rotation": [0, 0, 0],
+			"color": [37, 97, 76, 255],
+			"specular": 10,
+			"texture": "no"
+		},
+		{
+			"center": [-3, 6, 3],
+			"radius": 1,
+			"rotation": [0, 0, 0],
+			"color": [126, 32, 189, 255],
+			"specular": 10,
+			"texture": "no"
+		}
+	],
+	"cone": {
+		"position": [3, 0, 5],
+		"vector": [0, 1, 0],
+		"angle": 0.3,
+		"rotation": [0, 0, 0],
+		"color": [79, 50, 180, 255],
+		"specular": 100,
+		"texture": "no"
+	},
+	"triangle": {
+		"ver_one": [-7, 0, 5],
+		"ver_two": [-7, 5, 7],
+		"ver_three": [-5, 3, 5],
+		"rotation": [0, 0, 0],
+		"color": [210, 205, 10, 255],
+		"specular": 50,
+		"texture": "no"
+	},
+	"camera": {
+		"position": [2, 2, -40],
+		"rotation": [0, 0, 0]
+	},
+	"cylinder": {
+		"position": [-3, 1.5, 3],
+		"radius": 0.5,
+		"vector": [0, 1, 0],
+		"rotation": [0, 0, 0],
+		"color": [65, 20, 98, 255],
+		"specular": 60,
+		"texture": "no"
+	},
+	"plane": {
+		"point": [0, -1, 0],
+		"normal": [0, 1, 0],
+		"rotation": [0, 0, 0],
+		"color": [255, 255, 255, 255],
+		"specular": 50,
+		"texture": "no"
+	},
+	"light": [
+		{
+			"type": "point",
+			"position": [-40, 1, 0],
+			"intensity": 0.3
+		},
+		{
+			"type": "point",
+			"position": [3, 1, 0],
+			"intensity": 0.6
+		},
+		{
+			"type": "ambient",
+			"intensity": 0.2
+		}
+	]
+}

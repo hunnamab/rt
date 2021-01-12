@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cone.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:38:39 by hunnamab          #+#    #+#             */
-/*   Updated: 2020/11/10 15:14:07 by hunnamab         ###   ########.fr       */
+/*   Updated: 2021/01/12 18:26:21 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ t_object	*new_cone(cl_float3 *pos_vec, float *ang_spec, t_color color, \
 	matr_free(matrix, 4);
 	new_object->specular = ang_spec[1];
 	new_object->color = color;
+	new_object->text = NULL;
 	new_object->data = (void *)new_cone;
 	new_object->tag = "cone";
-	new_object->type = CONE;
 	new_object->intersect = &intersect_ray_cone;
 	new_object->get_normal = &get_cone_normal;
 	new_object->clear_obj = &clear_default;
@@ -115,4 +115,48 @@ void		intersect_ray_cone(t_scene *scene, int index)
 	printf("local == max work group size == %ld\n", local);
     clEnqueueNDRangeKernel(scene->cl_data.commands, scene->cl_data.kernels[2], 1, NULL, &global, &local, 0, NULL, NULL);
     clFinish(scene->cl_data.commands);
+}
+
+void	one_argument_cone(char **description, t_scene *scene, int *snmi)
+{
+	t_object	*cone;
+	t_color		color;
+	cl_float3	pos_vec_buf[3];
+	double		rotation[3];
+	double		ang_spec[2];
+	
+	pos_vec_buf[0] = get_points(description[1]);
+	pos_vec_buf[1] = get_points(description[2]);
+	ang_spec[0] = ftoi(get_coordinates(description[3]));
+	pos_vec_buf[2] = get_points(description[4]);
+	rotation[0] = pos_vec_buf[2].x;
+	rotation[1] = pos_vec_buf[2].y;
+	rotation[2] = pos_vec_buf[2].z;
+	color = get_color(description[5]);
+	ang_spec[1] = ftoi(get_coordinates(description[6]));
+	cone = new_cone(pos_vec_buf, ang_spec, color, rotation);
+	cone->text = tex_new_bmp(get_file(description[7]));
+	scene->objs[snmi[1]] = cone;
+	snmi[1]++;
+}
+
+t_object 	*multiple_cones(char **description, t_scene *scene, int *snmi, int i)
+{
+	t_object	*cone;
+	t_color		color;
+	cl_float3	pos_vec_buf[3];
+	double		rotation[3];
+	double		ang_spec[2];
+
+	pos_vec_buf[0] = get_points(description[i + 1]);
+	pos_vec_buf[1] = get_points(description[i + 2]);
+	ang_spec[0] = ftoi(get_coordinates(description[i + 3]));
+	pos_vec_buf[2] = get_points(description[i + 4]);
+	rotation[0] = pos_vec_buf[2].x;
+	rotation[1] = pos_vec_buf[2].y;
+	rotation[2] = pos_vec_buf[2].z;
+	color = get_color(description[i + 5]);
+	ang_spec[1] = ftoi(get_coordinates(description[i + 6]));
+	cone = new_cone(pos_vec_buf, ang_spec, color, rotation);
+	return (cone);
 }

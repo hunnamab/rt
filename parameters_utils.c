@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parameters_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 12:02:06 by hunnamab          #+#    #+#             */
-/*   Updated: 2020/11/09 12:56:47 by hunnamab         ###   ########.fr       */
+/*   Updated: 2021/01/12 18:16:51 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,10 @@ char		*get_coordinates(char *description)
 			output_error(5);
 		i++;
 	}
+	if (description[len - 2] == ']' || description[len - 1] == ']' )
+		len -= 2;
+	else if (description[len - 1] == ',')
+		len--;
 	if (!(coordinates = ft_strsub(description, i, len - i)))
 		output_error(5);
 	return (coordinates);
