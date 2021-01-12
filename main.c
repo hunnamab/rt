@@ -66,7 +66,7 @@ int		main(int args, char **argv)
 	/*инициализация секущих поверхностей
 	в будущем должна производиться из фаила*/
 	scene->objs[0]->cs_nmb = 0;
- 	scene->objs[0]->cutting_surfaces = malloc(sizeof(t_cutting_surface) * scene->objs[0]->cs_nmb);
+/*  	scene->objs[0]->cutting_surfaces = malloc(sizeof(t_cutting_surface) * scene->objs[0]->cs_nmb);
 	scene->objs[0]->cutting_surfaces[0].plane.normal = get_point(1,0,0);
 	scene->objs[0]->cutting_surfaces[0].plane.point = get_point(0,0,0);
 	scene->objs[0]->cutting_surfaces[0].plane.d = -scene->objs[0]->cutting_surfaces[0].plane.normal.x * scene->objs[0]->cutting_surfaces[0].plane.point.x - scene->objs[0]->cutting_surfaces[0].plane.\
@@ -76,7 +76,7 @@ int		main(int args, char **argv)
 	scene->objs[0]->cutting_surfaces[1].plane.point = get_point(0,0,0);
 	scene->objs[0]->cutting_surfaces[1].plane.d = -scene->objs[0]->cutting_surfaces[1].plane.normal.x * scene->objs[0]->cutting_surfaces[1].plane.point.x - scene->objs[0]->cutting_surfaces[1].plane.\
 	normal.y * scene->objs[0]->cutting_surfaces[1].plane.point.y - scene->objs[0]->cutting_surfaces[1].plane.normal.z * scene->objs[0]->cutting_surfaces[1].plane.point.z;
-	scene->objs[0]->cutting_surfaces[1].type = PLANE;
+	scene->objs[0]->cutting_surfaces[1].type = PLANE; */
 	/***********************************/
 	cl_init(scene);
 	init_scene(scene);

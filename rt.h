@@ -183,5 +183,6 @@ void	one_argument_plane(char **description, t_scene *scene, int *snmi);
 t_object 	*multiple_planes(char **description, t_scene *scene, int *snmi, int i);
 void	one_argument_triangle(char **description, t_scene *scene, int *snmi, float specular);
 t_object 	*multiple_triangles(char **description, int *snmi, int i, float specular);
+void	one_argument_cone(char **description, t_scene *scene, int *snmi);
 
 #endif

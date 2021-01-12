@@ -111,6 +111,12 @@ typedef struct 		s_triangle
 	cl_float3		*vertex;
 }					t_triangle;
 
+typedef struct 		s_tri
+{
+	cl_float3		normal;
+	cl_float3		vertex[3];
+}					t_tri;
+
 typedef struct		s_camera
 {
 	cl_float3		position;
@@ -168,7 +174,7 @@ typedef struct 			 s_object3d_d
 	cl_float			specular;
 	t_sphere			sphere;
 	t_plane				plane;
-	t_triangle			triangle;
+	t_tri				triangle;
 	t_cone				cone;
 	t_cylinder			cylinder;
 	t_color				color;
