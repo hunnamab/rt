@@ -52,16 +52,8 @@ typedef struct 		s_triangle
 
 typedef struct 		s_object3d_d
 {
-	// int 			type;
 	float			specular;
 	float			radius;
-	// float3			center;
-	// t_sphere			sphere;
-	// t_plane			plane;
-	// t_triangle		triangle;
-	// t_cone			cone;
-	// t_cylinder		cylinder;
-	// t_color			color;
 }					t_object_d;
 
 /* void get_normal_sphere(t_object_d *obj, \
@@ -98,9 +90,10 @@ __kernel void get_normal_buf_cl(__global t_object_d *obj, \
 
 	if (i == 242561)
 	{
+		printf("t_object_d = %lu", sizeof(t_object_d));
 		printf("j = %d, obj[j].specular = %f\n", j, obj[j].specular);
 		printf("obj[j].radius = %f\n", obj[j].radius);
-		// printf("t_object_d = %lu", sizeof(t_object_d));
+		// printf("t_object_d on device = %lu\n", sizeof(t_object_d));
 		// printf("%f", obj.sphere.radius);
 		// if (obj[j].type == SPHERE)
 		// {

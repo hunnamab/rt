@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:38:29 by hunnamab          #+#    #+#             */
-/*   Updated: 2020/11/10 17:28:32 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/12 13:59:42 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,12 +110,14 @@ void	get_normal_buf(t_scene *scene)
 		i++;
 	}
 
-	buf_cl = clCreateBuffer(scene->cl_data.context, CL_MEM_READ_WRITE, sizeof(t_object_d) * scene->obj_nmb, NULL, NULL);
+	buf_cl = clCreateBuffer(scene->cl_data.context, CL_MEM_READ_ONLY |
+		CL_MEM_HOST_WRITE_ONLY | CL_MEM_COPY_HOST_PTR, sizeof(t_object_d) * scene->obj_nmb, buf, NULL);
 
-	clEnqueueWriteBuffer(scene->cl_data.commands, buf_cl, CL_FALSE, 0, sizeof(t_object_d) * scene->obj_nmb, &buf, 0, NULL, NULL);
+	//clEnqueueWriteBuffer(scene->cl_data.commands, buf_cl, CL_FALSE, 0, sizeof(buf_cl), buf, 0, NULL, NULL);
 
-	//printf("t_object_d = %lu", sizeof(t_object_d));
-	clSetKernelArg(scene->cl_data.kernels[7], 0, sizeof(cl_mem), &buf_cl);
+	printf("t_object_d = %lu\n", sizeof(t_object_d));
+	printf("sizeof(cl_mem) == %d\n", sizeof(buf_cl));
+	clSetKernelArg(scene->cl_data.kernels[7], 0, sizeof(cl_mem) * scene->obj_nmb, &buf_cl);
 	clSetKernelArg(scene->cl_data.kernels[7], 1, sizeof(cl_mem), &scene->cl_data.scene.ray_buf);
 	clSetKernelArg(scene->cl_data.kernels[7], 2, sizeof(cl_mem), &scene->cl_data.scene.index_buf);
 	clSetKernelArg(scene->cl_data.kernels[7], 3, sizeof(cl_mem), &scene->cl_data.scene.normal_buf);

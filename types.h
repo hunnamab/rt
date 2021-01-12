@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:58 by hunnamab          #+#    #+#             */
-/*   Updated: 2020/11/10 13:36:22 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/12 13:56:52 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,9 +138,9 @@ typedef	struct		s_object3d
 
 typedef struct 		s_object3d_d
 {
-	// int 			type;
-	float			specular;
-	float			radius;
+	// int 			type;;
+	cl_float			specular;
+	cl_float			radius;
 	// cl_float3		center;
 	// t_sphere			sphere;
 	// t_plane			plane;
