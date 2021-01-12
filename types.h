@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:58 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/12 19:54:39 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/12 20:36:29 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,16 @@ typedef	struct		s_texture
 	SDL_PixelFormat	*format;
 }					t_texture;
 
+typedef	struct		 __attribute__((aligned(256))) s_cutting_surface
+{
+	cl_int			type;
+	t_sphere		sphere;
+	t_plane			plane;
+	t_triangle		triangle;
+	t_cone			cone;
+	t_cylinder		cylinder;
+}					t_cutting_surface;
+
 typedef	struct		s_object3d
 {
 	void			*data;
@@ -145,12 +155,14 @@ typedef	struct		s_object3d
 	float			specular;
 	t_texture		*text;
 	int 			type;
+	t_cutting_surface *cutting_surfaces;
+	int					cs_nmb; /*количество секущих поверхностей*/
 	void			(*get_normal)(struct s_scene *, int, int);
 	void			(*intersect)(t_scene *, int);
 	void			(*clear_obj)(struct s_object3d *);
 }					t_object;
 
-typedef struct 			s_object3d_d
+typedef struct 			 s_object3d_d
 {
 	int 				type;
 	cl_float			specular;

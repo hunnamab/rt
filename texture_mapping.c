@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture_mapping.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/19 19:15:41 by ldeirdre          #+#    #+#             */
-/*   Updated: 2021/01/12 18:24:23 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/01/12 20:13:21 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,8 +116,7 @@ cl_float3		mapping_cone(cl_float3 t, t_object *obj)
 
 cl_float3		mapping_cylinder(cl_float3 t, t_object *obj)
 {
-	cl_float3
- p;
+	cl_float3 p;
 	t_cylinder *lol;
 
 	/*float theta = atan2(t.x, t.z);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cone.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:38:39 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/12 18:26:21 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/01/12 20:07:19 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,8 +122,8 @@ void	one_argument_cone(char **description, t_scene *scene, int *snmi)
 	t_object	*cone;
 	t_color		color;
 	cl_float3	pos_vec_buf[3];
-	double		rotation[3];
-	double		ang_spec[2];
+	float		rotation[3];
+	float		ang_spec[2];
 	
 	pos_vec_buf[0] = get_points(description[1]);
 	pos_vec_buf[1] = get_points(description[2]);
@@ -145,8 +145,8 @@ t_object 	*multiple_cones(char **description, t_scene *scene, int *snmi, int i)
 	t_object	*cone;
 	t_color		color;
 	cl_float3	pos_vec_buf[3];
-	double		rotation[3];
-	double		ang_spec[2];
+	float		rotation[3];
+	float		ang_spec[2];
 
 	pos_vec_buf[0] = get_points(description[i + 1]);
 	pos_vec_buf[1] = get_points(description[i + 2]);

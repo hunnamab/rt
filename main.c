@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:02 by hunnamab          #+#    #+#             */
-/*   Updated: 2020/11/11 12:15:23 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/12 20:44:13 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,21 @@ int		main(int args, char **argv)
 	SDL_Init(SDL_INIT_EVERYTHING);
 	SDL_CreateWindowAndRenderer(WID, HEI, 0, &sdl.win, &sdl.renderer);
 	SDL_RenderClear(sdl.renderer);
+	/*инициализация секущих поверхностей
+	в будущем должна производиться из фаила*/
+	scene->objs[0]->cs_nmb = 0;
+ 	scene->objs[0]->cutting_surfaces = malloc(sizeof(t_cutting_surface) * scene->objs[0]->cs_nmb);
+	scene->objs[0]->cutting_surfaces[0].plane.normal = get_point(1,0,0);
+	scene->objs[0]->cutting_surfaces[0].plane.point = get_point(0,0,0);
+	scene->objs[0]->cutting_surfaces[0].plane.d = -scene->objs[0]->cutting_surfaces[0].plane.normal.x * scene->objs[0]->cutting_surfaces[0].plane.point.x - scene->objs[0]->cutting_surfaces[0].plane.\
+	normal.y * scene->objs[0]->cutting_surfaces[0].plane.point.y - scene->objs[0]->cutting_surfaces[0].plane.normal.z * scene->objs[0]->cutting_surfaces[0].plane.point.z;
+	scene->objs[0]->cutting_surfaces[0].type = PLANE;
+	scene->objs[0]->cutting_surfaces[1].plane.normal = get_point(0,1,0);
+	scene->objs[0]->cutting_surfaces[1].plane.point = get_point(0,0,0);
+	scene->objs[0]->cutting_surfaces[1].plane.d = -scene->objs[0]->cutting_surfaces[1].plane.normal.x * scene->objs[0]->cutting_surfaces[1].plane.point.x - scene->objs[0]->cutting_surfaces[1].plane.\
+	normal.y * scene->objs[0]->cutting_surfaces[1].plane.point.y - scene->objs[0]->cutting_surfaces[1].plane.normal.z * scene->objs[0]->cutting_surfaces[1].plane.point.z;
+	scene->objs[0]->cutting_surfaces[1].type = PLANE;
+	/***********************************/
 	cl_init(scene);
 	init_scene(scene);
 	scene->draw[scene->mode](&sdl, scene);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   define_object.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 13:54:29 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/12 18:31:18 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/01/12 20:04:18 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,13 @@ void	get_parameters(char *name, char **description, t_scene *scene, int *snmi)
 		output_error(4);
 }
 
-void	one_argument_triangle(char **description, t_scene *scene, int *snmi, double specular)
+void	one_argument_triangle(char **description, t_scene *scene, int *snmi, float specular)
 {
 	t_object	*triangle;
 	cl_float3	vertex[3];
 	t_color		color;
 	cl_float3	buf;
-	double		rotation[3];
+	float		rotation[3];
 
 	vertex[0] = get_points(description[1]);
 	vertex[1] = get_points(description[2]);
@@ -54,13 +54,13 @@ void	one_argument_triangle(char **description, t_scene *scene, int *snmi, double
 	snmi[1]++;
 }
 
-t_object 	*multiple_triangles(char **description, int *snmi, int i, double specular)
+t_object 	*multiple_triangles(char **description, int *snmi, int i, float specular)
 {
 	t_object	*triangle;
 	cl_float3	vertex[3];
 	t_color		color;
 	cl_float3	buf;
-	double		rotation[3];
+	float		rotation[3];
 	
 	vertex[0] = get_points(description[i + 1]);
 	vertex[1] = get_points(description[i + 2]);

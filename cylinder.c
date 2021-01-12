@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cylinder.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:11:46 by pmetron           #+#    #+#             */
-/*   Updated: 2021/01/12 18:26:32 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/01/12 20:07:29 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,8 +125,8 @@ void	one_argument_cylinder(char **description, t_scene *scene, int *snmi)
 	t_object	*cylinder;
 	t_color		color;
 	cl_float3	pos_vec_buf[3];
-	double		rotation[3];
-	double		rad_spec[2];
+	float		rotation[3];
+	float		rad_spec[2];
 	
 	pos_vec_buf[0] = get_points(description[1]);
 	rad_spec[0] = ftoi(get_coordinates(description[2]));
@@ -148,8 +148,8 @@ t_object 	*multiple_cylinders(char **description, t_scene *scene, int *snmi, int
 	t_object	*cylinder;
 	t_color		color;
 	cl_float3	pos_vec_buf[3];
-	double		rotation[3];
-	double		rad_spec[2];
+	float		rotation[3];
+	float		rad_spec[2];
 	
 	pos_vec_buf[0] = get_points(description[i + 1]);
 	rad_spec[0] = ftoi(get_coordinates(description[i + 2]));

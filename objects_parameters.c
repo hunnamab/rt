@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   objects_parameters.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:22 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/12 18:05:51 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/01/12 20:05:12 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	get_cone(char **description, t_scene *scene, int *snmi)
 }
 
 
-void	get_triangle(char **description, double specular, t_scene *scene, int *snmi)
+void	get_triangle(char **description, float specular, t_scene *scene, int *snmi)
 {
 	t_object	*triangle;
 	int i;

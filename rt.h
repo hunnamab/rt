@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:34 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/12 19:20:12 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/12 20:09:24 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 # define DROUND(d)	ABS(d) < 0.00001 ? 0 : (d)
 
 # define WID 1280
-# define HEI 758
+# define HEI 720
 # define KERNEL_NUM 10
 
 // scenes_reader.c
@@ -104,7 +104,7 @@ t_object	*new_cone(cl_float3 *pos_vec, float *ang_spec, t_color color, \
 						float *rotation);
 						
 void		get_sphere(char **description, t_scene *scene, int *snmi);
-void		get_triangle(char **description, double specular, t_scene *scene, int *snmi);
+void		get_triangle(char **description, float specular, t_scene *scene, int *snmi);
 void		get_plane(char **description, t_scene *scene, int *snmi);
 void		get_cylinder(char **description, t_scene *scene, int *snmi);
 void		get_cone(char **description, t_scene *scene, int *snmi);
@@ -181,7 +181,7 @@ t_object 	*multiple_cones(char **description, t_scene *scene, int *snmi, int i);
 void	one_argument_cylinder(char **description, t_scene *scene, int *snmi);
 void	one_argument_plane(char **description, t_scene *scene, int *snmi);
 t_object 	*multiple_planes(char **description, t_scene *scene, int *snmi, int i);
-void	one_argument_triangle(char **description, t_scene *scene, int *snmi, double specular);
-t_object 	*multiple_triangles(char **description, int *snmi, int i, double specular);
+void	one_argument_triangle(char **description, t_scene *scene, int *snmi, float specular);
+t_object 	*multiple_triangles(char **description, int *snmi, int i, float specular);
 
 #endif

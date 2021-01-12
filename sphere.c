@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sphere.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 22:45:20 by pmetron           #+#    #+#             */
-/*   Updated: 2021/01/12 18:26:02 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/01/12 20:22:39 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ t_object	*new_sphere(cl_float3 center, float *rad_spec, t_color color, \
 	new_object->intersect = &intersect_ray_sphere;
 	new_object->get_normal = &get_sphere_normal;
 	new_object->clear_obj = &clear_default;
+	printf("new sphere radius %f\n", new_sphere->radius);
 	return (new_object);
 }
 
@@ -76,37 +77,33 @@ void		get_sphere_normal(t_scene *scene, int index, int obj_num)
 void		intersect_ray_sphere(t_scene *scene, int index)
 {
 	size_t global = WID * HEI;
-	cl_mem s_center;
-	cl_mem s_radius;
 	size_t local;
-	t_sphere *s = (t_sphere *)scene->objs[index]->data;
-
-	s_center = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3), NULL, NULL);
-	s_radius = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(float), NULL, NULL);
-
-	clEnqueueWriteBuffer(scene->cl_data.commands, s_center, CL_FALSE, 0, sizeof(cl_float3), &s->center, 0, NULL, NULL);
-	clEnqueueWriteBuffer(scene->cl_data.commands, s_radius, CL_FALSE, 0, sizeof(float), &s->radius, 0, NULL, NULL);
-
+	cl_mem cs;
+	printf("objs.cs.type == %d\n", scene->objs[0][0].cutting_surfaces[0].type);
+	printf("sizeof(t_cs) == %lu\n", sizeof(t_cutting_surface));
+	cs = clCreateBuffer(scene->cl_data.context, CL_MEM_READ_ONLY |
+		CL_MEM_HOST_WRITE_ONLY | CL_MEM_COPY_HOST_PTR, sizeof(t_cutting_surface) * scene->objs[index]->cs_nmb, scene->objs[index]->cutting_surfaces, NULL);
 	clSetKernelArg(scene->cl_data.kernels[1], 0, sizeof(cl_mem), &scene->cl_data.scene.ray_buf);
 	clSetKernelArg(scene->cl_data.kernels[1], 1, sizeof(cl_mem), &scene->cl_data.scene.camera);
-    clSetKernelArg(scene->cl_data.kernels[1], 2, sizeof(cl_mem), &s_center);
-	clSetKernelArg(scene->cl_data.kernels[1], 3, sizeof(cl_mem), &s_radius);
-	clSetKernelArg(scene->cl_data.kernels[1], 4, sizeof(cl_mem), &scene->cl_data.scene.depth_buf);
-	clSetKernelArg(scene->cl_data.kernels[1], 5, sizeof(cl_mem), &scene->cl_data.scene.index_buf);
-	clSetKernelArg(scene->cl_data.kernels[1], 6, sizeof(cl_int), (void*)&index);
-
+	clSetKernelArg(scene->cl_data.kernels[1], 2, sizeof(t_sphere), scene->objs[index]->data);
+	clSetKernelArg(scene->cl_data.kernels[1], 3, sizeof(cl_mem), &scene->cl_data.scene.depth_buf);
+	clSetKernelArg(scene->cl_data.kernels[1], 4, sizeof(cl_mem), &scene->cl_data.scene.index_buf);
+	clSetKernelArg(scene->cl_data.kernels[1], 5, sizeof(cl_int), (void*)&index);
+	clSetKernelArg(scene->cl_data.kernels[1], 6, sizeof(cl_mem), &cs);
+	clSetKernelArg(scene->cl_data.kernels[1], 7, sizeof(cl_int), (void*)&scene->objs[index]->cs_nmb);
     clGetKernelWorkGroupInfo(scene->cl_data.kernels[1], scene->cl_data.device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
 	printf("sphere local == max work group size == %ld\n", local);
     clEnqueueNDRangeKernel(scene->cl_data.commands, scene->cl_data.kernels[1], 1, NULL, &global, &local, 0, NULL, NULL);
     clFinish(scene->cl_data.commands);
 }
 
+
 void	one_argument_sphere(char **description, t_scene *scene, int *snmi)
 {
 	t_object	*sphere;
 	cl_float3	cen_buf[2];
-	double		rotation[3];
-	double		rad_spec[2];
+	float		rotation[3];
+	float		rad_spec[2];
 	t_color		color;
 
 	cen_buf[0] = get_points(description[1]);
@@ -127,8 +124,8 @@ t_object 	*multiple_spheres(char **description, t_scene *scene, int *snmi, int i
 {
 	t_object	*sphere;
 	cl_float3	cen_buf[2];
-	double		rotation[3];
-	double		rad_spec[2];
+	float		rotation[3];
+	float		rad_spec[2];
 	t_color 	color;
 
 	cen_buf[0] = get_points(description[i + 1]);
