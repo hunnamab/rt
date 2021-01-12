@@ -94,7 +94,7 @@ __kernel void get_normal_buf_cl(__global t_object_d *obj, \
 	int j = index_buf[i];
 	float l;
 
-	if (i == 242561)
+	if (i == 242500)
 	{
 		printf("t_object_d device = %lu", sizeof(t_object_d));
 		printf("j = %d, obj[j].specular = %f\n", j, obj[j].specular);

@@ -81,8 +81,11 @@ void		intersect_ray_sphere(t_scene *scene, int index)
 	cl_mem cs;
 	printf("objs.cs.type == %d\n", scene->objs[0][0].cutting_surfaces[0].type);
 	printf("sizeof(t_cs) == %lu\n", sizeof(t_cutting_surface));
-	cs = clCreateBuffer(scene->cl_data.context, CL_MEM_READ_ONLY |
+	if (scene->objs[index]->cs_nmb > 0)
+	{
+		cs = clCreateBuffer(scene->cl_data.context, CL_MEM_READ_ONLY |
 		CL_MEM_HOST_WRITE_ONLY | CL_MEM_COPY_HOST_PTR, sizeof(t_cutting_surface) * scene->objs[index]->cs_nmb, scene->objs[index]->cutting_surfaces, NULL);
+	}
 	clSetKernelArg(scene->cl_data.kernels[1], 0, sizeof(cl_mem), &scene->cl_data.scene.ray_buf);
 	clSetKernelArg(scene->cl_data.kernels[1], 1, sizeof(cl_mem), &scene->cl_data.scene.camera);
 	clSetKernelArg(scene->cl_data.kernels[1], 2, sizeof(t_sphere), scene->objs[index]->data);
