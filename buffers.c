@@ -6,7 +6,7 @@
 /*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:38:29 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/13 16:11:20 by hunnamab         ###   ########.fr       */
+/*   Updated: 2021/01/13 17:37:01 by hunnamab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,16 +117,18 @@ void	get_normal_buf(t_scene *scene)
 			buf[i].cylinder.radius = cyl->radius;
 			buf[i].cylinder.vec = cyl->vec;
 		}
-		// if (scene->objs[i]->type == TRIANGLE)
-		// {
-		// 	t_triangle *t;
-		// 	t = (t_triangle *)scene->objs[i]->data;
-		// 	buf[i].specular = scene->objs[i]->specular;
-		// 	buf[i].color = scene->objs[i]->color;
-		// 	buf[i].type = TRIANGLE;
-		// 	buf[i].triangle.normal = t->normal;
-		// 	buf[i].triangle.vertex = t->vertex;
-		// }
+		if (scene->objs[i]->type == TRIANGLE)
+		{
+			t_triangle *t;
+			t = (t_triangle *)scene->objs[i]->data;
+			buf[i].specular = scene->objs[i]->specular;
+			buf[i].color = scene->objs[i]->color;
+			buf[i].type = TRIANGLE;
+			buf[i].triangle.normal = t->normal;
+			buf[i].triangle.vertex[0] = t->vertex[0];
+			buf[i].triangle.vertex[1] = t->vertex[1];
+			buf[i].triangle.vertex[2] = t->vertex[2];
+		}
 		if (scene->objs[i]->type == PLANE)
 		{
 			t_plane *p;
