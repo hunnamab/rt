@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 17:32:12 by pmetron           #+#    #+#             */
-/*   Updated: 2021/01/13 14:55:06 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/13 17:42:59 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	clean_scene(t_scene *scene)
 	clReleaseMemObject(scene->cl_data.scene.depth_buf);
 	clReleaseMemObject(scene->cl_data.scene.normal_buf);
 	clReleaseMemObject(scene->cl_data.scene.camera);
+	clReleaseMemObject(scene->cl_data.scene.obj);
     clReleaseProgram(scene->cl_data.programs[0]);
     clReleaseKernel(scene->cl_data.kernels[0]);
     clReleaseCommandQueue(scene->cl_data.commands);

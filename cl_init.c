@@ -1,5 +1,74 @@
 #include "rt.h"
 
+void	device_objects_init(t_scene *scene)
+{
+	t_object_d *buf;
+	buf = (t_object_d *)malloc(sizeof(t_object_d) * scene->obj_nmb);
+	int i = 0;
+	while (i < scene->obj_nmb)
+	{
+		if (scene->objs[i]->type == SPHERE)
+		{
+			t_sphere *s;
+			s = (t_sphere *)scene->objs[i]->data;
+			buf[i].specular = scene->objs[i]->specular;
+			buf[i].color = scene->objs[i]->color;
+			buf[i].type = SPHERE;
+			buf[i].primitive.sphere.center = s->center;
+			buf[i].primitive.sphere.radius = s->radius;
+		}
+		if (scene->objs[i]->type == CONE)
+		{
+			t_cone *cone;
+			cone = (t_cone *)scene->objs[i]->data;
+			buf[i].specular = scene->objs[i]->specular;
+			buf[i].color = scene->objs[i]->color;
+			buf[i].type = CONE;
+			buf[i].primitive.cone.angle = cone->angle;
+			buf[i].primitive.cone.position = cone->position;
+			buf[i].primitive.cone.vec = cone->vec;
+		}
+		if (scene->objs[i]->type == CYLINDER)
+		{
+			t_cylinder *cyl;
+			cyl = (t_cylinder *)scene->objs[i]->data;
+			buf[i].specular = scene->objs[i]->specular;
+			buf[i].color = scene->objs[i]->color;
+			buf[i].type = CYLINDER;
+			buf[i].primitive.cylinder.position = cyl->position;
+			buf[i].primitive.cylinder.radius = cyl->radius;
+			buf[i].primitive.cylinder.vec = cyl->vec;
+		}
+		if (scene->objs[i]->type == TRIANGLE)
+		{
+			t_triangle *t;
+			t = (t_triangle *)scene->objs[i]->data;
+			buf[i].specular = scene->objs[i]->specular;
+			buf[i].color = scene->objs[i]->color;
+			buf[i].type = TRIANGLE;
+			buf[i].primitive.triangle.normal = t->normal;
+			buf[i].primitive.triangle.vertex[0] = t->vertex[0];
+			buf[i].primitive.triangle.vertex[1] = t->vertex[1];
+			buf[i].primitive.triangle.vertex[2] = t->vertex[2];
+		}
+		if (scene->objs[i]->type == PLANE)
+		{
+			t_plane *p;
+			p = (t_plane *)scene->objs[i]->data;
+			buf[i].specular = scene->objs[i]->specular;
+			buf[i].color = scene->objs[i]->color;
+			buf[i].type = TRIANGLE;
+			buf[i].primitive.plane.normal = p->normal;
+			buf[i].primitive.plane.point = p->point;
+			buf[i].primitive.plane.d = p->d;
+		}
+		i++;
+	}
+	scene->cl_data.scene.obj = clCreateBuffer(scene->cl_data.context, CL_MEM_READ_ONLY |
+		CL_MEM_HOST_WRITE_ONLY | CL_MEM_COPY_HOST_PTR, sizeof(t_object_d) * scene->obj_nmb, buf, NULL);
+	printf("t_object_d host = %lu\n", sizeof(t_object_d));
+}
+
 int    cl_init(t_scene *scene)
 {
 	int err;
@@ -40,6 +109,7 @@ int    cl_init(t_scene *scene)
 		printf("built\n");
 	if (!(scene->cl_data.kernels[0] = clCreateKernel(scene->cl_data.programs[0], "get_ray_arr", &err)))
 		printf("error %d\n", err);
+	ft_strdel(&get_ray_arr);
 	close(fd1);
 
 	char info[1024];
@@ -59,6 +129,7 @@ int    cl_init(t_scene *scene)
 		printf("собрана программа sphere\n");
 	if (!(scene->cl_data.kernels[1] = clCreateKernel(scene->cl_data.programs[1], "intersect_ray_sphere_cl", &err)))
 		printf("не собрана программа 1, error %d sphere\n", err);
+	ft_strdel(&intersect_ray_sphere_cl);
 	close(fd2);
 
 	int		ret3;
@@ -74,6 +145,7 @@ int    cl_init(t_scene *scene)
 		printf("собрана программа cone\n");
 	if (!(scene->cl_data.kernels[2] = clCreateKernel(scene->cl_data.programs[2], "intersect_ray_cone_cl", &err)))
 		printf("не собрана программа 1, error %d cone\n", err);
+	ft_strdel(&intersect_ray_cone_cl);
 	close(fd3);
 
 	int		ret4;
@@ -89,6 +161,7 @@ int    cl_init(t_scene *scene)
 		printf("собрана программа cylinder\n");
 	if (!(scene->cl_data.kernels[3] = clCreateKernel(scene->cl_data.programs[3], "intersect_ray_cylinder_cl", &err)))
 		printf("не собрана программа 1, error %d cylinder\n", err);
+	ft_strdel(&intersect_ray_cylinder_cl);
 	close(fd4);
 
 	int		ret5;
@@ -104,6 +177,7 @@ int    cl_init(t_scene *scene)
 		printf("собрана программа triangle\n");
 	if (!(scene->cl_data.kernels[4] = clCreateKernel(scene->cl_data.programs[4], "intersect_ray_triangle_cl", &err)))
 		printf("не собрана программа 1, error %d triangle\n", err);
+	ft_strdel(&intersect_ray_triangle_cl);
 	close(fd5);
 
 	int		ret6;
@@ -119,6 +193,7 @@ int    cl_init(t_scene *scene)
 		printf("собрана программа plane\n");
 	if (!(scene->cl_data.kernels[5] = clCreateKernel(scene->cl_data.programs[5], "intersect_ray_plane_cl", &err)))
 		printf("не собрана программа 1, error %d plane\n", err);
+	ft_strdel(&intersect_ray_plane_cl);
 	close(fd6);
 
 	int		ret7;
@@ -134,6 +209,7 @@ int    cl_init(t_scene *scene)
 		printf("собрана программа get_intersection_point\n");
 	if (!(scene->cl_data.kernels[6] = clCreateKernel(scene->cl_data.programs[6], "get_intersection_point", &err)))
 		printf("не собрана программа 1, error %d get_intersection_point\n", err);
+	ft_strdel(&get_intersection_point);
 	close(fd7);
 
 	int		ret8;
@@ -149,6 +225,7 @@ int    cl_init(t_scene *scene)
 		printf("собрана программа get_normal_buf_cl\n");
 	if (!(scene->cl_data.kernels[7] = clCreateKernel(scene->cl_data.programs[7], "get_normal_buf_cl", &err)))
 		printf("не собрана программа 1, error %d get_normal_buf_cl\n", err);
+	ft_strdel(&get_normal_buf_cl);
 	close(fd8);
 
 	//Создание буферов на гпу
@@ -156,8 +233,9 @@ int    cl_init(t_scene *scene)
 	scene->cl_data.scene.viewport = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, NULL);
 	scene->cl_data.scene.camera = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3), NULL, NULL);
 	scene->cl_data.scene.intersection_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, NULL);
-	scene->cl_data.scene.index_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(int) * count, NULL, NULL);
-	scene->cl_data.scene.depth_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(float) * count, NULL, NULL);
+	scene->cl_data.scene.index_buf = clCreateBuffer(scene->cl_data.context,  0,  sizeof(int) * count, NULL, NULL);
+	scene->cl_data.scene.depth_buf = clCreateBuffer(scene->cl_data.context,  0,  sizeof(float) * count, NULL, NULL);
 	scene->cl_data.scene.normal_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, NULL);
+	device_objects_init(scene);
 	return (0);
 }

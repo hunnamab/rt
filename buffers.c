@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   buffers.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:38:29 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/13 17:37:01 by hunnamab         ###   ########.fr       */
+/*   Updated: 2021/01/13 18:27:52 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	get_closest_points(t_scene *scene, float t)
 	while (i < scene->obj_nmb)
 	{
 		scene->objs[i]->intersect(scene, i);
+		clFinish(scene->cl_data.commands);
 		i++;
 	}
 	clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.depth_buf, CL_TRUE, 0, sizeof(float) * global, scene->depth_buf, 0, NULL, NULL);
@@ -70,7 +71,6 @@ void	get_intersection_buf(t_scene *scene)
 	clGetKernelWorkGroupInfo(scene->cl_data.kernels[6], scene->cl_data.device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
     clEnqueueNDRangeKernel(scene->cl_data.commands, scene->cl_data.kernels[6], 1, NULL, &global, &local, 0, NULL, NULL);
     clFinish(scene->cl_data.commands);
-
 	clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.intersection_buf, CL_TRUE, 0, sizeof(cl_float3) * global, scene->intersection_buf, 0, NULL, NULL);
 }
 
@@ -79,73 +79,7 @@ void	get_normal_buf(t_scene *scene)
 	size_t global = WID * HEI;
 	size_t local;
 
-	t_object_d *buf;
-	buf = (t_object_d *)malloc(sizeof(t_object_d) * scene->obj_nmb);
-	cl_mem buf_cl;
-	int i = 0;
-	while (i < scene->obj_nmb)
-	{
-		if (scene->objs[i]->type == SPHERE)
-		{
-			t_sphere *s;
-			s = (t_sphere *)scene->objs[i]->data;
-			buf[i].specular = scene->objs[i]->specular;
-			buf[i].color = scene->objs[i]->color;
-			buf[i].type = SPHERE;
-			buf[i].sphere.center = s->center;
-			buf[i].sphere.radius = s->radius;
-		}
-		if (scene->objs[i]->type == CONE)
-		{
-			t_cone *cone;
-			cone = (t_cone *)scene->objs[i]->data;
-			buf[i].specular = scene->objs[i]->specular;
-			buf[i].color = scene->objs[i]->color;
-			buf[i].type = CONE;
-			buf[i].cone.angle = cone->angle;
-			buf[i].cone.position = cone->position;
-			buf[i].cone.vec = cone->vec;
-		}
-		if (scene->objs[i]->type == CYLINDER)
-		{
-			t_cylinder *cyl;
-			cyl = (t_cylinder *)scene->objs[i]->data;
-			buf[i].specular = scene->objs[i]->specular;
-			buf[i].color = scene->objs[i]->color;
-			buf[i].type = CYLINDER;
-			buf[i].cylinder.position = cyl->position;
-			buf[i].cylinder.radius = cyl->radius;
-			buf[i].cylinder.vec = cyl->vec;
-		}
-		if (scene->objs[i]->type == TRIANGLE)
-		{
-			t_triangle *t;
-			t = (t_triangle *)scene->objs[i]->data;
-			buf[i].specular = scene->objs[i]->specular;
-			buf[i].color = scene->objs[i]->color;
-			buf[i].type = TRIANGLE;
-			buf[i].triangle.normal = t->normal;
-			buf[i].triangle.vertex[0] = t->vertex[0];
-			buf[i].triangle.vertex[1] = t->vertex[1];
-			buf[i].triangle.vertex[2] = t->vertex[2];
-		}
-		if (scene->objs[i]->type == PLANE)
-		{
-			t_plane *p;
-			p = (t_plane *)scene->objs[i]->data;
-			buf[i].specular = scene->objs[i]->specular;
-			buf[i].color = scene->objs[i]->color;
-			buf[i].type = TRIANGLE;
-			buf[i].plane.normal = p->normal;
-			buf[i].plane.point = p->point;
-			buf[i].plane.d = p->d;
-		}
-		i++;
-	}
-	buf_cl = clCreateBuffer(scene->cl_data.context, CL_MEM_READ_ONLY |
-		CL_MEM_HOST_WRITE_ONLY | CL_MEM_COPY_HOST_PTR, sizeof(t_object_d) * scene->obj_nmb, buf, NULL);
-	printf("t_object_d host = %lu\n", sizeof(t_object_d));
-	clSetKernelArg(scene->cl_data.kernels[7], 0, sizeof(cl_mem), &buf_cl);
+	clSetKernelArg(scene->cl_data.kernels[7], 0, sizeof(cl_mem), &scene->cl_data.scene.obj);
 	clSetKernelArg(scene->cl_data.kernels[7], 1, sizeof(cl_mem), &scene->cl_data.scene.ray_buf);
 	clSetKernelArg(scene->cl_data.kernels[7], 2, sizeof(cl_mem), &scene->cl_data.scene.index_buf);
 	clSetKernelArg(scene->cl_data.kernels[7], 3, sizeof(cl_mem), &scene->cl_data.scene.normal_buf);
@@ -160,7 +94,7 @@ void	get_normal_buf(t_scene *scene)
 	clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.normal_buf, CL_TRUE, 0, sizeof(cl_float3) * global, scene->normal_buf, 0, NULL, NULL);
 }
 
-/* void	get_material_buf(t_scene *scene)
+void	get_material_buf(t_scene *scene)
 {
 	int x;
 	int y;
@@ -195,9 +129,9 @@ void	get_normal_buf(t_scene *scene)
 			}
 		}
 	}
-} */
+}
 
-void	get_material_buf(t_scene *scene)
+/* void	get_material_buf(t_scene *scene)
 {
 	int x;
 	int y;
@@ -224,4 +158,4 @@ void	get_material_buf(t_scene *scene)
 			}
 		}
 	}
-}
+} */

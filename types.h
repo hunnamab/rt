@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:58 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/13 14:45:17 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/13 19:02:47 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct 			s_scene_device
 	cl_mem				normal_buf;
 	cl_mem				material_buf;
 	cl_mem				camera;
+	cl_mem				obj;
 }						t_scene_device;
 
 typedef	struct 			s_cl_data
@@ -174,16 +175,21 @@ typedef	struct		s_object3d
 	void			(*clear_obj)(struct s_object3d *);
 }					t_object;
 
-typedef struct 			 s_object3d_d
+typedef	union			primitive
 {
-	int 				type;
-	cl_float			specular;
 	t_sphere			sphere;
 	t_plane				plane;
 	t_tri				triangle;
 	t_cone				cone;
 	t_cylinder			cylinder;
+}						t_primitive;
+
+typedef struct 			 s_object3d_d
+{
+	t_primitive			primitive;
+	int 				type;
 	t_color				color;
+	cl_float			specular;
 }						t_object_d;
 
 struct		s_scene

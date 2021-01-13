@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sphere.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 22:45:20 by pmetron           #+#    #+#             */
-/*   Updated: 2021/01/13 15:24:37 by hunnamab         ###   ########.fr       */
+/*   Updated: 2021/01/13 18:59:44 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ t_object	*new_sphere(cl_float3 center, float *rad_spec, t_color color, \
 	new_object->intersect = &intersect_ray_sphere;
 	new_object->get_normal = &get_sphere_normal;
 	new_object->clear_obj = &clear_default;
+	new_object->cs_nmb = 0; //cutting surfaces init
+	new_object->cutting_surfaces = NULL;
 	printf("new sphere radius %f\n", new_sphere->radius);
 	return (new_object);
 }
@@ -100,7 +102,6 @@ void		intersect_ray_sphere(t_scene *scene, int index)
     clGetKernelWorkGroupInfo(scene->cl_data.kernels[1], scene->cl_data.device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
 	printf("sphere local == max work group size == %ld\n", local);
     clEnqueueNDRangeKernel(scene->cl_data.commands, scene->cl_data.kernels[1], 1, NULL, &global, &local, 0, NULL, NULL);
-    clFinish(scene->cl_data.commands);
 }
 
 

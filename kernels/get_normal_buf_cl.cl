@@ -50,17 +50,22 @@ typedef struct 		s_triangle
 	float3			vertex[3];
 }					t_triangle;
 
-typedef struct 		s_object3d_d
+typedef	union			primitive
 {
-	int 			type;;
-	float			specular;
-	t_sphere		sphere;
-	t_plane			plane;
-	t_triangle		triangle;
-	t_cone			cone;
-	t_cylinder		cylinder;
-	t_color			color;
-}					t_object_d;
+	t_sphere			sphere;
+	t_plane				plane;
+	t_triangle				triangle;
+	t_cone				cone;
+	t_cylinder			cylinder;
+}						t_primitive;
+
+typedef struct 			 s_object3d_d
+{
+	t_primitive			primitive;
+	int 				type;
+	t_color				color;
+	float				specular;
+}						t_object_d;
 
 void get_normal_cylinder(__global t_object_d *obj, \
                         __global float3 *ray_buf, \
@@ -75,16 +80,16 @@ void get_normal_cylinder(__global t_object_d *obj, \
 	float3 buf2;
 	float3 p;
 
-    buf1 = camera_position - obj[0].cylinder.position;
-    m = dot(ray_buf[0],  obj[0].cylinder.vec) * depth_buf[0] + dot(buf1, obj[0].cylinder.vec);
+    buf1 = camera_position - obj[0].primitive.cylinder.position;
+    m = dot(ray_buf[0],  obj[0].primitive.cylinder.vec) * depth_buf[0] + dot(buf1, obj[0].primitive.cylinder.vec);
     buf1.x = ray_buf[0].x * depth_buf[0];
 	buf1.y = ray_buf[0].y * depth_buf[0];
 	buf1.z = ray_buf[0].z * depth_buf[0];
 	p = camera_position + buf1;
-	buf1 = p - obj[0].cylinder.position;
-	buf2.x = obj[0].cylinder.vec.x * m;
-	buf2.y = obj[0].cylinder.vec.y * m;
-	buf2.z = obj[0].cylinder.vec.z * m;
+	buf1 = p - obj[0].primitive.cylinder.position;
+	buf2.x = obj[0].primitive.cylinder.vec.x * m;
+	buf2.y = obj[0].primitive.cylinder.vec.y * m;
+	buf2.z = obj[0].primitive.cylinder.vec.z * m;
 	normal_buf[0] = buf1 - buf2;
 	normal_buf[0] = native_divide(normal_buf[0], length(normal_buf[0]));
     if (dot(ray_buf[0], normal_buf[0]) > 0.0001)
@@ -107,16 +112,16 @@ void get_normal_cone(__global t_object_d *obj, \
     float3 buf;
 	float n;
 
-    buf = camera_position - obj[0].cone.position;
-    m = dot(ray_buf[0],  obj[0].cone.vec) * depth_buf[0] + dot(buf, obj[0].cone.vec);
-    buf.x = obj[0].cone.vec.x * m;
-	buf.y = obj[0].cone.vec.y * m;
-	buf.z = obj[0].cone.vec.z * m;
-	n = 1 +  obj[0].cone.angle * obj[0].cone.angle;
+    buf = camera_position - obj[0].primitive.cone.position;
+    m = dot(ray_buf[0],  obj[0].primitive.cone.vec) * depth_buf[0] + dot(buf, obj[0].primitive.cone.vec);
+    buf.x = obj[0].primitive.cone.vec.x * m;
+	buf.y = obj[0].primitive.cone.vec.y * m;
+	buf.z = obj[0].primitive.cone.vec.z * m;
+	n = 1 +  obj[0].primitive.cone.angle * obj[0].primitive.cone.angle;
     normal_buf[0].x = buf.x * n;
 	normal_buf[0].y = buf.y * n;
 	normal_buf[0].z = buf.z * n;
-    buf = intersection_buf[0] - obj[0].cone.position;
+    buf = intersection_buf[0] - obj[0].primitive.cone.position;
     normal_buf[0] = buf - normal_buf[0];
     normal_buf[0] = native_divide(normal_buf[0], length(normal_buf[0]));
     if (dot(ray_buf[0], normal_buf[0]) > 0.0001)
@@ -135,7 +140,7 @@ void get_normal_sphere(__global t_object_d *obj, \
 {
 	float l;
 
-	normal_buf[0] = intersection_buf[0] - obj[0].sphere.center;
+	normal_buf[0] = intersection_buf[0] - obj[0].primitive.sphere.center;
 	l = length(normal_buf[0]);
 	normal_buf[0] = native_divide(normal_buf[0], l);
     if (dot(ray_buf[0], normal_buf[0]) > 0.0001)
@@ -150,7 +155,7 @@ void get_normal_triangle(__global t_object_d *obj, \
                         __global float3 *ray_buf, \
                         __global float3 *normal_buf)
 {
-	normal_buf[0] = obj[0].triangle.normal;
+	normal_buf[0] = obj[0].primitive.triangle.normal;
     if (dot(ray_buf[0], normal_buf[0]) > 0.0001)
 	{
 		normal_buf[0].x = normal_buf[0].x * -1;
@@ -163,7 +168,7 @@ void get_normal_plane(__global t_object_d *obj, \
                         __global float3 *ray_buf, \
                         __global float3 *normal_buf)
 {
-	normal_buf[0] = obj[0].plane.normal;
+	normal_buf[0] = obj[0].primitive.plane.normal;
     if (dot(ray_buf[0], normal_buf[0]) > 0.0001)
 	{
 		normal_buf[0].x = normal_buf[0].x * -1;
@@ -183,15 +188,16 @@ __kernel void get_normal_buf_cl(__global t_object_d *obj, \
     int i = get_global_id(0);
 	int j = index_buf[i];
 	float l;
-
-	if (j != -1)
+	if (i == 0)	
 	{
-		// printf("t_object_d device = %lu", sizeof(t_object_d));
+		printf("t_object_d device = %lu", sizeof(t_object_d));
 		// printf("j = %d, obj[j].specular = %f\n", j, obj[j].specular);
 		// printf("obj[j].radius = %f center = (%f,%f,%f)\n", obj[j].sphere.radius, obj[j].sphere.center.x,obj[j].sphere.center.y,obj[j].sphere.center.z);
-		// printf("j = %d, obj[j].type = %d\n", j, obj[j].type);
-		// printf("t_object_d on device = %lu\n", sizeof(t_object_d));
+		//printf("j = %d, obj[j].type = %d\n", j, obj[j].type);
 		// printf("%f", obj.sphere.radius);
+	}
+	if (j != -1)
+	{
 		if (obj[j].type == SPHERE)
 			get_normal_sphere(&obj[j], &ray_buf[i], &index_buf[i], &normal_buf[i], &intersection_buf[i]);
 		if (obj[j].type == PLANE)
