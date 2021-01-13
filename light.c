@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   light.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 14:23:24 by pmetron           #+#    #+#             */
-/*   Updated: 2021/01/13 14:53:30 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/13 15:05:20 by hunnamab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ cl_float3		get_light_vec(t_scene *scene, int index, int j)
 	cl_float3 light_vec;
 
 	light_vec = get_point(0, 0, 0);
-	if (scene->light[j]->type = POINT)
+	if (scene->light[j]->type == POINT)
 		light_vec = vector_sub(&scene->light[j]->position, \
 		&scene->intersection_buf[index]);
-	if (scene->light[j]->type = DIRECTIONAL)
+	if (scene->light[j]->type == DIRECTIONAL)
 		light_vec = scene->light[j]->direction;
 	return (light_vec);
 }
@@ -95,7 +95,7 @@ t_color		reflection_color(t_scene *scene, int index)
 	i = 0;
 	while (++j < scene->light_nmb)
 	{
-		if (scene->light[j]->type = AMBIENT)
+		if (scene->light[j]->type == AMBIENT)
 			i += scene->light[j]->intensity;
 		else
 		{

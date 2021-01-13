@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cylinder.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:11:46 by pmetron           #+#    #+#             */
-/*   Updated: 2021/01/12 20:07:29 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/13 15:23:52 by hunnamab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ t_object	*new_cylinder(cl_float3 *pos_vec, float *rad_spec, t_color color, \
 	new_object->text = NULL;
 	new_object->data = (void *)new_cylinder;
 	new_object->tag = "cylinder";
+	new_object->type = CYLINDER;
 	new_object->intersect = &intersect_ray_cylinder;
 	new_object->get_normal = &get_cylinder_normal;
 	new_object->clear_obj = &clear_default;

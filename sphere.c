@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sphere.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 22:45:20 by pmetron           #+#    #+#             */
-/*   Updated: 2021/01/13 15:15:37 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/13 15:24:37 by hunnamab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ t_object	*new_sphere(cl_float3 center, float *rad_spec, t_color color, \
 	new_object->text = NULL;
 	new_object->data = (void *)new_sphere;
 	new_object->tag = "sphere";
+	new_object->type = SPHERE;
 	new_object->intersect = &intersect_ray_sphere;
 	new_object->get_normal = &get_sphere_normal;
 	new_object->clear_obj = &clear_default;

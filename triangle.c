@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   triangle.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 21:42:26 by pmetron           #+#    #+#             */
-/*   Updated: 2021/01/12 18:15:56 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/01/13 15:24:48 by hunnamab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ t_object	*new_triangle(cl_float3 *vertex, float specular, t_color color, \
 	new_object->color = color;
 	new_object->data = (void *)new_triangle;
 	new_object->tag = "triangle";
+	new_object->type = TRIANGLE;
 	new_object->intersect = &intersect_ray_triangle;
 	new_object->get_normal = &get_triangle_normal;
 	new_object->clear_obj = &clear_triangle;

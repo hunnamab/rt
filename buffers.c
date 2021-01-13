@@ -6,7 +6,7 @@
 /*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:38:29 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/13 14:42:14 by hunnamab         ###   ########.fr       */
+/*   Updated: 2021/01/13 16:11:20 by hunnamab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,21 +95,51 @@ void	get_normal_buf(t_scene *scene)
 			buf[i].sphere.center = s->center;
 			buf[i].sphere.radius = s->radius;
 		}
-		// if (scene->objs[i]->type == CONE)
-		// {
-		// }
-		// if (scene->objs[i]->type == CYLINDER)
-		// {
-		// }
+		if (scene->objs[i]->type == CONE)
+		{
+			t_cone *cone;
+			cone = (t_cone *)scene->objs[i]->data;
+			buf[i].specular = scene->objs[i]->specular;
+			buf[i].color = scene->objs[i]->color;
+			buf[i].type = CONE;
+			buf[i].cone.angle = cone->angle;
+			buf[i].cone.position = cone->position;
+			buf[i].cone.vec = cone->vec;
+		}
+		if (scene->objs[i]->type == CYLINDER)
+		{
+			t_cylinder *cyl;
+			cyl = (t_cylinder *)scene->objs[i]->data;
+			buf[i].specular = scene->objs[i]->specular;
+			buf[i].color = scene->objs[i]->color;
+			buf[i].type = CYLINDER;
+			buf[i].cylinder.position = cyl->position;
+			buf[i].cylinder.radius = cyl->radius;
+			buf[i].cylinder.vec = cyl->vec;
+		}
 		// if (scene->objs[i]->type == TRIANGLE)
 		// {
+		// 	t_triangle *t;
+		// 	t = (t_triangle *)scene->objs[i]->data;
+		// 	buf[i].specular = scene->objs[i]->specular;
+		// 	buf[i].color = scene->objs[i]->color;
+		// 	buf[i].type = TRIANGLE;
+		// 	buf[i].triangle.normal = t->normal;
+		// 	buf[i].triangle.vertex = t->vertex;
 		// }
-		// if (scene->objs[i]->type == PLANE)
-		// {
-		// }
+		if (scene->objs[i]->type == PLANE)
+		{
+			t_plane *p;
+			p = (t_plane *)scene->objs[i]->data;
+			buf[i].specular = scene->objs[i]->specular;
+			buf[i].color = scene->objs[i]->color;
+			buf[i].type = TRIANGLE;
+			buf[i].plane.normal = p->normal;
+			buf[i].plane.point = p->point;
+			buf[i].plane.d = p->d;
+		}
 		i++;
 	}
-
 	buf_cl = clCreateBuffer(scene->cl_data.context, CL_MEM_READ_ONLY |
 		CL_MEM_HOST_WRITE_ONLY | CL_MEM_COPY_HOST_PTR, sizeof(t_object_d) * scene->obj_nmb, buf, NULL);
 	printf("t_object_d host = %lu\n", sizeof(t_object_d));
@@ -118,6 +148,8 @@ void	get_normal_buf(t_scene *scene)
 	clSetKernelArg(scene->cl_data.kernels[7], 2, sizeof(cl_mem), &scene->cl_data.scene.index_buf);
 	clSetKernelArg(scene->cl_data.kernels[7], 3, sizeof(cl_mem), &scene->cl_data.scene.normal_buf);
 	clSetKernelArg(scene->cl_data.kernels[7], 4, sizeof(cl_mem), &scene->cl_data.scene.intersection_buf);
+	clSetKernelArg(scene->cl_data.kernels[7], 5, sizeof(cl_mem), &scene->cl_data.scene.depth_buf);
+	clSetKernelArg(scene->cl_data.kernels[7], 6, sizeof(cl_mem), &scene->cl_data.scene.camera);
 
 	clGetKernelWorkGroupInfo(scene->cl_data.kernels[7], scene->cl_data.device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
     clEnqueueNDRangeKernel(scene->cl_data.commands, scene->cl_data.kernels[7], 1, NULL, &global, &local, 0, NULL, NULL);

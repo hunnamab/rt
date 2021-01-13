@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   plane.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 14:22:24 by pmetron           #+#    #+#             */
-/*   Updated: 2021/01/12 18:26:01 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/01/13 15:24:13 by hunnamab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ t_object	*new_plane(cl_float3 *poi_nor, float specular, t_color color, \
 	new_object->color = color;
 	new_object->data = (void *)new_plane;
 	new_object->tag = "plane";
+	new_object->type = PLANE;
 	new_object->text = NULL;
 	new_object->intersect = &intersect_ray_plane;
 	new_object->get_normal = &get_plane_normal;
