@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   buffers.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:38:29 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/12 20:31:58 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/13 14:42:14 by hunnamab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ void	get_normal_buf(t_scene *scene)
 			buf[i].sphere.center = s->center;
 			buf[i].sphere.radius = s->radius;
 		}
-		/*Тут добавляю копирование массива поверхности сечения, который должн быть задана из файла*/
 		// if (scene->objs[i]->type == CONE)
 		// {
 		// }
