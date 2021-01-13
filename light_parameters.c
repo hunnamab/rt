@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   light_parameters.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 11:58:35 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/12 18:30:44 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/01/13 14:48:13 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,24 +49,27 @@ static void	one_light(char **description, t_scene *scene, int * snmi)
 	cl_float3	pos_dir[2];
 	double		intensity;
 	char		*type;
-	
+	int			new_type;
 	type = get_light_type(description[1]); // printf("light type = |%s|\n", type);
 	init_norme(pos_dir, &intensity);
+	new_type = AMBIENT;
 	if (ft_strequ(type, "\"point\","))
 	{
 		pos_dir[0] = get_points(description[2]);
 		intensity = ftoi(get_coordinates(description[3]));
+		new_type = POINT;
 	}
 	else if (ft_strequ(type, "\"directional\","))
 	{
 		pos_dir[1] = get_points(description[2]);
 		intensity = ftoi(get_coordinates(description[3]));
+		new_type = DIRECTIONAL;
 	}
 	else if (ft_strequ(type, "\"ambient\","))
 		intensity = ftoi(get_coordinates(description[2]));
 	else
 		output_error(5);
-	light = new_light(pos_dir, type, intensity);
+	light = new_light(pos_dir, new_type, intensity);
 	scene->light[snmi[2]] = light;
 	snmi[2]++;
 	free(type);
@@ -77,23 +80,26 @@ static t_light		*many_lights(char **description, int *snmi, int i, char *type)
 	t_light		*light;
 	cl_float3	pos_dir[2];
 	double		intensity;
-
+	int 		new_type;
 	init_norme(pos_dir, &intensity);
+	new_type = AMBIENT;
 	if (ft_strequ(type, "\"point\","))
 	{
 		pos_dir[0] = get_points(description[i + 2]);
 		intensity = ftoi(get_coordinates(description[i + 3]));
+		new_type = POINT;
 	}
 	else if (ft_strequ(type, "\"directional\","))
 	{
 		pos_dir[1] = get_points(description[i + 2]);
 		intensity = ftoi(get_coordinates(description[i + 3]));
+		new_type = DIRECTIONAL;
 	}
 	else if (ft_strequ(type, "\"ambient\","))
 		intensity = ftoi(get_coordinates(description[i + 2]));
 	else
 		output_error(5);
-	light = new_light(pos_dir, type, intensity);
+	light = new_light(pos_dir, new_type, intensity);
 	return (light);
 }
 

@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:58 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/12 20:36:29 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/13 14:45:17 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,12 @@ enum object_type {
 	ELLIPSOID,
 	HYPERBOLOID,
 	PARABOLOID
+};
+
+enum light_type{
+	POINT,
+	AMBIENT,
+	DIRECTIONAL
 };
 
 typedef struct 			s_scene_device
@@ -75,7 +81,7 @@ typedef	struct		s_light
 	float			intensity;
 	cl_float3		position;
 	cl_float3		direction;
-	const char		*type;
+	int				type;
 }					t_light;
 
 typedef struct 		s_sphere

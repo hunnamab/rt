@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 17:32:12 by pmetron           #+#    #+#             */
-/*   Updated: 2020/11/10 14:58:31 by hunnamab         ###   ########.fr       */
+/*   Updated: 2021/01/13 14:55:06 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ void	clean_scene(t_scene *scene)
 	i = 0;
 	while (i < scene->light_nmb)
 	{
-		ft_memdel((void **)&scene->light[i]->type);
 		ft_memdel((void **)&scene->light[i]);
 		i++;
 	}

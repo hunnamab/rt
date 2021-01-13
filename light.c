@@ -6,19 +6,18 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 14:23:24 by pmetron           #+#    #+#             */
-/*   Updated: 2020/11/11 12:32:22 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/13 14:53:30 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-t_light		*new_light(cl_float3 *pos_dir, const char *type, float intensity)
+t_light		*new_light(cl_float3 *pos_dir, int type, float intensity)
 {
 	t_light *new_light;
 
 	new_light = protected_malloc(sizeof(t_light), 1);
-	new_light->type = (const char *)ft_strcpy_alloc(\
-	(char *)new_light->type, (char *)type);
+	new_light->type = type;
 	new_light->intensity = intensity;
 	new_light->position = pos_dir[0];
 	new_light->direction = pos_dir[1];
@@ -30,10 +29,10 @@ cl_float3		get_light_vec(t_scene *scene, int index, int j)
 	cl_float3 light_vec;
 
 	light_vec = get_point(0, 0, 0);
-	if (ft_strequ(scene->light[j]->type, "point"))
+	if (scene->light[j]->type = POINT)
 		light_vec = vector_sub(&scene->light[j]->position, \
 		&scene->intersection_buf[index]);
-	if (ft_strequ(scene->light[j]->type, "directional"))
+	if (scene->light[j]->type = DIRECTIONAL)
 		light_vec = scene->light[j]->direction;
 	return (light_vec);
 }
@@ -96,7 +95,7 @@ t_color		reflection_color(t_scene *scene, int index)
 	i = 0;
 	while (++j < scene->light_nmb)
 	{
-		if (ft_strequ(scene->light[j]->type, "ambient"))
+		if (scene->light[j]->type = AMBIENT)
 			i += scene->light[j]->intensity;
 		else
 		{

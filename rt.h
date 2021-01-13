@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:34 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/12 20:09:24 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/13 14:49:35 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void		draw_deepth_buf(t_sdl *sdl, t_scene *scene);
 void		draw_raycast(t_sdl *sdl, t_scene *scene);
 // light.c
 t_color		reflection_color(t_scene *scene, int index);
-t_light		*new_light(cl_float3 *pos_dir, const char *type, float intensity);
+t_light		*new_light(cl_float3 *pos_dir, int type, float intensity);
 cl_float3	get_light_vec(t_scene *scene, int index, int j);
 float		get_specular(t_scene *scene, int index, int j, cl_float3 *l);
 int			in_shadow(t_scene *scene, int index, cl_float3 l);
