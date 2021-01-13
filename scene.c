@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 14:21:11 by pmetron           #+#    #+#             */
-/*   Updated: 2020/11/10 17:25:26 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/13 15:32:08 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	init_deepth(t_scene *scene)
 	while (++x < WID * HEI)
 		transform(&scene->ray_buf[x], matrix, 1);
 	matr_free(matrix, 4);
-	clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.ray_buf, CL_TRUE, 0, sizeof(cl_float3) * WID * HEI, scene->ray_buf, 0, NULL, NULL);
+	clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.ray_buf, CL_TRUE, 0, sizeof(cl_float3) * WID * HEI, scene->ray_buf, 0, NULL, NULL);
 	get_closest_points(scene, 0);
 }
 
@@ -51,7 +51,7 @@ void	init_default(t_scene *scene)
 	while (++x < WID * HEI)
 		transform(&scene->ray_buf[x], matrix, 1);
 	matr_free(matrix, 4);
-	clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.ray_buf, CL_TRUE, 0, sizeof(cl_float3) * WID * HEI, scene->ray_buf, 0, NULL, NULL);
+	clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.ray_buf, CL_TRUE, 0, sizeof(cl_float3) * WID * HEI, scene->ray_buf, 0, NULL, NULL);
 	get_closest_points(scene, 0);
 	get_intersection_buf(scene);
 	get_normal_buf(scene);
@@ -76,7 +76,7 @@ void	init_raycast(t_scene *scene)
 	while (++x < WID * HEI)
 		transform(&scene->ray_buf[x], matrix, 1);
 	matr_free(matrix, 4);
-	clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.ray_buf, CL_TRUE, 0, sizeof(cl_float3) * WID * HEI, scene->ray_buf, 0, NULL, NULL);
+	clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.ray_buf, CL_TRUE, 0, sizeof(cl_float3) * WID * HEI, scene->ray_buf, 0, NULL, NULL);
 	get_closest_points(scene, 0);
 	get_intersection_buf(scene);
 	get_material_buf(scene);
@@ -94,7 +94,7 @@ void	refresh_scene(t_scene *scene)
 	while (++x < WID * HEI)
 		transform(&scene->ray_buf[x], matrix, 1);
 	matr_free(matrix, 4);
-	clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.ray_buf, CL_TRUE, 0, sizeof(cl_float3) * WID * HEI, scene->ray_buf, 0, NULL, NULL);
+	clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.ray_buf, CL_TRUE, 0, sizeof(cl_float3) * WID * HEI, scene->ray_buf, 0, NULL, NULL);
 	scene->depth_buf != NULL ? get_closest_points(scene, 0) : NULL;
 	scene->intersection_buf != NULL ? get_intersection_buf(scene) : NULL;
 	scene->normal_buf != NULL ? get_normal_buf(scene) : NULL;
