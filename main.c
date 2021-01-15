@@ -78,7 +78,7 @@ int		main(int args, char **argv)
 	normal.y * scene->objs[0]->cutting_surfaces[1].plane.point.y - scene->objs[0]->cutting_surfaces[1].plane.normal.z * scene->objs[0]->cutting_surfaces[1].plane.point.z;
 	scene->objs[0]->cutting_surfaces[1].type = PLANE; */
 	/***********************************/
-	cl_init(scene);
+	cl_init(scene); // cl_init.c, инициализируем кернели для дальнейшей работы
 	init_scene(scene);
 	scene->draw[scene->mode](&sdl, scene);
 	while (k)

@@ -30,7 +30,8 @@ SRC = main.c sphere.c vector.c utils.c \
 	buffers.c scene.c color.c vector_second.c transform_matrix.c \
 	keyboard.c clean.c errors_management.c light_parameters.c \
 	parameters_utils.c camera_parameters.c define_object.c \
-	scenes_reader_util.c cl_init.c textures.c texture_mapping.c
+	scenes_reader_util.c cl_init.c textures.c texture_mapping.c \
+	buffers_material_buf.c
 
 OBJ = $(SRC:.c=.o)
 

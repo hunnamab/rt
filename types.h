@@ -87,41 +87,41 @@ typedef	struct		s_light
 
 typedef struct 		s_sphere
 {
-	float			radius;
 	cl_float3		center;
+	float			radius;
 }					t_sphere;
 
 typedef struct 		s_plane
 {
-	float			d;
 	cl_float3		normal;
 	cl_float3		point;
+	float			d;
 }					t_plane;
 
 typedef struct 		s_cylinder
 {
-	float			radius;
 	cl_float3		position;
 	cl_float3		vec;
+	float			radius;
 }					t_cylinder;
 
 typedef struct 		s_cone
 {
-	float			angle;
 	cl_float3		position;
 	cl_float3		vec;
+	float			angle;
 }					t_cone;
 
 typedef struct 		s_triangle
 {
-	cl_float3		normal;
 	cl_float3		*vertex;
+	cl_float3		normal;
 }					t_triangle;
 
 typedef struct 		s_tri
 {
-	cl_float3		normal;
 	cl_float3		vertex[3];
+	cl_float3		normal;
 }					t_tri;
 
 typedef struct		s_camera
@@ -187,9 +187,9 @@ typedef	union			primitive
 typedef struct 			 s_object3d_d
 {
 	t_primitive			primitive;
-	int 				type;
 	t_color				color;
 	cl_float			specular;
+	int 				type;
 }						t_object_d;
 
 struct		s_scene

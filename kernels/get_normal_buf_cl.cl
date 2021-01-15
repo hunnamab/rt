@@ -19,42 +19,42 @@ typedef struct 		s_color
 
 typedef struct 		s_sphere
 {
-	float			radius;
 	float3			center;
+	float			radius;
 }					t_sphere;
 
 typedef struct 		s_plane
 {
-	float			d;
 	float3			normal;
 	float3			point;
+	float			d;
 }					t_plane;
 
 typedef struct 		s_cylinder
 {
-	float			radius;
 	float3			position;
 	float3			vec;
+	float			radius;
 }					t_cylinder;
 
 typedef struct 		s_cone
 {
-	float			angle;
 	float3			position;
 	float3			vec;
+	float			angle;
 }					t_cone;
 
 typedef struct 		s_triangle
 {
-	float3			normal;
 	float3			vertex[3];
+	float3			normal;
 }					t_triangle;
 
 typedef	union			primitive
 {
 	t_sphere			sphere;
 	t_plane				plane;
-	t_triangle				triangle;
+	t_triangle			triangle;
 	t_cone				cone;
 	t_cylinder			cylinder;
 }						t_primitive;
@@ -62,9 +62,9 @@ typedef	union			primitive
 typedef struct 			 s_object3d_d
 {
 	t_primitive			primitive;
-	int 				type;
 	t_color				color;
 	float				specular;
+	int 				type;
 }						t_object_d;
 
 void get_normal_cylinder(__global t_object_d *obj, \
@@ -200,13 +200,13 @@ __kernel void get_normal_buf_cl(__global t_object_d *obj, \
 	{
 		if (obj[j].type == SPHERE)
 			get_normal_sphere(&obj[j], &ray_buf[i], &index_buf[i], &normal_buf[i], &intersection_buf[i]);
-		if (obj[j].type == PLANE)
+		else if (obj[j].type == PLANE)
 			get_normal_plane(&obj[j], &ray_buf[i], &normal_buf[i]);
-		if (obj[j].type == TRIANGLE)
+		else if (obj[j].type == TRIANGLE)
 			get_normal_triangle(&obj[j], &ray_buf[i], &normal_buf[i]);
-		if (obj[j].type == CONE)
+		else if (obj[j].type == CONE)
 			get_normal_cone(&obj[j], &ray_buf[i], &index_buf[i], &normal_buf[i], &intersection_buf[i], camera_position, &depth_buf[i]);
-		if (obj[j].type == CYLINDER)
+		else if (obj[j].type == CYLINDER)
 			get_normal_cylinder(&obj[j], &ray_buf[i], &index_buf[i], &normal_buf[i], &intersection_buf[i], camera_position, &depth_buf[i]);
 	}
 }

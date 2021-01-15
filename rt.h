@@ -136,6 +136,7 @@ void		get_buffers(t_scene *scene);
 void		get_normal_buf(t_scene *scene);
 void		get_intersection_buf(t_scene *scene);
 void		get_closest_points(t_scene *scene, float t);
+// buffers_material_buf.c
 void		get_material_buf(t_scene *scene);
 // normal.c
 void		get_sphere_normal(t_scene *scene, int index, int obj_num);
