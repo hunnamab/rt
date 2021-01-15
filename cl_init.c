@@ -11,8 +11,6 @@ void	device_objects_init(t_scene *scene)
 		{
 			t_sphere *s;
 			s = (t_sphere *)scene->objs[i]->data;
-			buf[i].specular = scene->objs[i]->specular;
-			buf[i].color = scene->objs[i]->color;
 			buf[i].type = SPHERE;
 			buf[i].primitive.sphere.center = s->center;
 			buf[i].primitive.sphere.radius = s->radius;
@@ -21,8 +19,6 @@ void	device_objects_init(t_scene *scene)
 		{
 			t_cone *cone;
 			cone = (t_cone *)scene->objs[i]->data;
-			buf[i].specular = scene->objs[i]->specular;
-			buf[i].color = scene->objs[i]->color;
 			buf[i].type = CONE;
 			buf[i].primitive.cone.angle = cone->angle;
 			buf[i].primitive.cone.position = cone->position;
@@ -32,10 +28,10 @@ void	device_objects_init(t_scene *scene)
 		{
 			t_cylinder *cyl;
 			cyl = (t_cylinder *)scene->objs[i]->data;
-			buf[i].specular = scene->objs[i]->specular;
-			buf[i].color = scene->objs[i]->color;
 			buf[i].type = CYLINDER;
-			buf[i].primitive.cylinder.position = cyl->position;
+			buf[i].primitive.cylinder.position.x = cyl->position.x;
+			buf[i].primitive.cylinder.position.y = cyl->position.y;
+			buf[i].primitive.cylinder.position.z = cyl->position.z;
 			buf[i].primitive.cylinder.radius = cyl->radius;
 			buf[i].primitive.cylinder.vec = cyl->vec;
 		}
@@ -43,8 +39,6 @@ void	device_objects_init(t_scene *scene)
 		{
 			t_triangle *t;
 			t = (t_triangle *)scene->objs[i]->data;
-			buf[i].specular = scene->objs[i]->specular;
-			buf[i].color = scene->objs[i]->color;
 			buf[i].type = TRIANGLE;
 			buf[i].primitive.triangle.normal = t->normal;
 			buf[i].primitive.triangle.vertex[0] = t->vertex[0];
@@ -55,13 +49,16 @@ void	device_objects_init(t_scene *scene)
 		{
 			t_plane *p;
 			p = (t_plane *)scene->objs[i]->data;
-			buf[i].specular = scene->objs[i]->specular;
-			buf[i].color = scene->objs[i]->color;
-			buf[i].type = TRIANGLE;
+			buf[i].type = PLANE;
 			buf[i].primitive.plane.normal = p->normal;
 			buf[i].primitive.plane.point = p->point;
 			buf[i].primitive.plane.d = p->d;
 		}
+		buf[i].specular = scene->objs[i]->specular;
+		buf[i].color = scene->objs[i]->color;
+		buf[i].roughness = 0;
+		buf[i].color_disrupt = 0;
+		buf[i].refraction = 0;
 		i++;
 	}
 	scene->cl_data.scene.obj = clCreateBuffer(scene->cl_data.context, CL_MEM_READ_ONLY |

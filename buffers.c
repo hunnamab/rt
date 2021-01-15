@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:38:29 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/13 18:27:52 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/15 14:32:06 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,13 @@ void	get_normal_buf(t_scene *scene)
 	clSetKernelArg(scene->cl_data.kernels[7], 6, sizeof(cl_mem), &scene->cl_data.scene.camera);
 
 	clGetKernelWorkGroupInfo(scene->cl_data.kernels[7], scene->cl_data.device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
-    clEnqueueNDRangeKernel(scene->cl_data.commands, scene->cl_data.kernels[7], 1, NULL, &global, &local, 0, NULL, NULL);
+    printf("sizeof t_primitive host %lu\n", sizeof(t_primitive));
+	printf("sizeof cl_float3 host %lu\n", sizeof(cl_float3));
+	printf("sizeof t_color host %lu\n", sizeof(t_color));
+	printf("sizeof int host %lu\n", sizeof(cl_int));
+	printf("sizeof float host %lu\n", sizeof(cl_float));
+	printf("sizeof t_cylinder host %lu\n", sizeof(t_cylinder));
+	clEnqueueNDRangeKernel(scene->cl_data.commands, scene->cl_data.kernels[7], 1, NULL, &global, &local, 0, NULL, NULL);
     clFinish(scene->cl_data.commands);
-
 	clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.normal_buf, CL_TRUE, 0, sizeof(cl_float3) * global, scene->normal_buf, 0, NULL, NULL);
 }

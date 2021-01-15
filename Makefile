@@ -6,7 +6,7 @@
 #    By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/07 15:39:13 by hunnamab          #+#    #+#              #
-#    Updated: 2021/01/12 19:51:05 by pmetron          ###   ########.fr        #
+#    Updated: 2021/01/15 13:29:06 by pmetron          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,7 @@ $(OBJ): %.o: %.c $(HEADER)
 $(LIBRARY):
 		@make -C libft/
 
-$(NAME): $(LIBRARY) $(OBJ)
+$(NAME): $(LIBRARY) $(OBJ) $(HEADER) types.h
 		@cp -r SDL2.framework ~/Library/Frameworks/
 		@cp -r SDL2_image.framework ~/Library/Frameworks/
 		@gcc $(OBJ) $(LIBRARY) -o $(NAME) $(MAC_FLAGS) -I $(HEADER)

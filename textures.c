@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   textures.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/17 18:09:19 by ldeirdre          #+#    #+#             */
-/*   Updated: 2021/01/06 19:00:16 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/01/15 15:44:29 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,14 +71,9 @@ t_color	get_color_tex(t_texture *texture, float x, float y)
 	int fy = (int)(texture->height * y) % texture->height;
    	Uint8 bpp = texture->bytes_per_pixel;
 	Uint32 pixel = *(Uint32 *)(((Uint8*)texture->pixels) + bpp * fx + texture->l_size * fy);
-    Uint8 r;
-    Uint8 g;
-    Uint8 b;
-	SDL_GetRGB(pixel, texture->format, &r, &g, &b); 
     t_color c;
-
-	c.red = r;
-	c.green = g;
-	c.blue = b;
+	c.red = pixel >> 16;
+	c.green = pixel >> 8;
+	c.blue = pixel >> 0;
     return (c);
 }

@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/19 19:15:41 by ldeirdre          #+#    #+#             */
-/*   Updated: 2021/01/12 20:13:21 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/15 15:21:43 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 
 cl_float3 text_map_select(t_object *obj, cl_float3 t)
 {
-    cl_float3
- p;
+    cl_float3 p;
 
     if (ft_strequ(obj->tag, "sphere"))
 		p = mapping_sphere(t, obj);
@@ -42,21 +41,9 @@ static cl_float3 		change_basis(cl_float3 vec)
 
 cl_float3 	mapping_plane(cl_float3 t, t_object *obj)
 {
-	cl_float3
- p;
+	cl_float3 p;
 	t_plane *lol;
 
-	/*lol = obj->data;
-	t.x -= lol->point.x;
-	t.y -= lol->point.y;
-	t.z -=	lol->point.z;
-	t = change_basis(t);
-	t.x /= 20.0;
-	t.y/= 20.0;
-	t.z /= 20.0;
-	p.x = (t.x);
-	p.y = (t.z);
-	p.z = 0;*/
 	p.x = fabs(fmod(t.x, 1.0));
 	p.y = fabs(fmod(t.z, 1.0));
 	return (p);
@@ -80,19 +67,14 @@ cl_float3		mapping_triangle(cl_float3 t, t_object *obj)
 	p.x = (t.x);
 	p.y = (t.z);
 	p.z = 0;
-	/*p.x = fabs(fmod(t.x, 1.0));
-	p.y = fabs(fmod(t.z, 1.0));
-	p.z = 0;*/
 	return (p);
 }
 
 cl_float3		mapping_cone(cl_float3 t, t_object *obj)
 {
-	cl_float3
- p;
+	cl_float3 p;
 	t_cone *lol;
-	cl_float3
- tmp;
+	cl_float3 tmp;
 
 	lol = obj->data;
 	t.x -= lol->position.x;
@@ -101,7 +83,6 @@ cl_float3		mapping_cone(cl_float3 t, t_object *obj)
 	t = change_basis(t);
 	tmp.x = t.x;
 	tmp.y = t.z;
-	//tmp.z = 0;
 	tmp = normalize(tmp);
 	float phi = acos(tmp.x) / M_PI_2;
 	phi = tmp.y > 0 ? 1.f - phi : phi;
@@ -119,12 +100,6 @@ cl_float3		mapping_cylinder(cl_float3 t, t_object *obj)
 	cl_float3 p;
 	t_cylinder *lol;
 
-	/*float theta = atan2(t.x, t.z);
-	float raw_u = theta / (2 * M_PI);
-	p.x = 1 - (raw_u + 0.5);
-	p.y = fabs(fmod(t.y, 1.0));
-	p.z = 0;
-	return(p);*/
 	lol = obj->data;
 	t.x -= lol->position.x;
 	t.y -= lol->position.y;
@@ -158,14 +133,6 @@ cl_float3		mapping_sphere(cl_float3 t, t_object *obj)
 	cl_float3 p;
 	cl_float3 tmp;
 
-    /*lol = obj->data;
-	float theta = atan2(t.x, t.z);
-	float phi = acos(t.y / lol->radius);
-	float raw_u = theta / (2 * M_PI);
-	p.x = 1 - (raw_u + 0.5);
-	p.y = (1 - phi / M_PI);
-	p.z = 0;	*/
-
 	lol = obj->data;
 	t.x -= lol->center.x;
 	t.y -= lol->center.y;
@@ -183,8 +150,6 @@ cl_float3		mapping_sphere(cl_float3 t, t_object *obj)
 	p.x = phi;
 	p.y = theta;
 	p.z = 0;	
-	//p.x += p.x > 0 ? -(int)p.x : (int)p.x;
-	//p.y += p.y > 0 ? -(int)p.y : (int)p.y;
 	return (p);
 }
 
