@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/17 18:09:19 by ldeirdre          #+#    #+#             */
-/*   Updated: 2021/01/15 15:44:29 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/15 17:25:38 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,10 @@ t_color	get_color_tex(t_texture *texture, float x, float y)
    	Uint8 bpp = texture->bytes_per_pixel;
 	Uint32 pixel = *(Uint32 *)(((Uint8*)texture->pixels) + bpp * fx + texture->l_size * fy);
     t_color c;
+	
 	c.red = pixel >> 16;
 	c.green = pixel >> 8;
 	c.blue = pixel >> 0;
+	
     return (c);
 }

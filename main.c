@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:02 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/13 18:29:19 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/15 17:09:08 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ int		main(int args, char **argv)
 	scene->objs[0]->cutting_surfaces[1].type = PLANE; */
 	/***********************************/
 	cl_init(scene); // cl_init.c, инициализируем кернели для дальнейшей работы
+	load_textures(scene);
 	init_scene(scene);
 	scene->draw[scene->mode](&sdl, scene);
 	while (k)

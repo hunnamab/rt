@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:58 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/15 15:46:03 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/15 17:29:19 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,8 +138,7 @@ typedef	struct		s_material
 }					t_material;
 
 typedef struct 		s_texture_d
-{	
-	char			*pixels;
+{
 	int				bytes_per_pixel;
 	int				l_size;
 	int				size;
@@ -180,6 +179,7 @@ typedef	struct		s_object3d
 	float			specular;
 	t_texture		*text;
 	int 			type;
+	int				texture_id;
 	t_cutting_surface *cutting_surfaces;
 	int					cs_nmb; /*количество секущих поверхностей*/
 	void			(*get_normal)(struct s_scene *, int, int);
@@ -205,6 +205,7 @@ typedef struct 			 s_object3d_d
 	cl_float			refraction;
 	cl_int				color_disrupt;
 	cl_int 				type;
+	cl_int				texture_id;
 }						t_object_d;
 
 struct		s_scene

@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:34 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/13 14:49:35 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/15 17:09:56 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,5 +185,7 @@ t_object 	*multiple_planes(char **description, t_scene *scene, int *snmi, int i)
 void	one_argument_triangle(char **description, t_scene *scene, int *snmi, float specular);
 t_object 	*multiple_triangles(char **description, int *snmi, int i, float specular);
 void	one_argument_cone(char **description, t_scene *scene, int *snmi);
+//texture_loading
+void    load_textures(t_scene *scene);
 
 #endif

@@ -6,7 +6,7 @@
 #    By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/07 15:39:13 by hunnamab          #+#    #+#              #
-#    Updated: 2021/01/15 13:29:06 by pmetron          ###   ########.fr        #
+#    Updated: 2021/01/15 17:10:12 by pmetron          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ SRC = main.c sphere.c vector.c utils.c \
 	keyboard.c clean.c errors_management.c light_parameters.c \
 	parameters_utils.c camera_parameters.c define_object.c \
 	scenes_reader_util.c cl_init.c textures.c texture_mapping.c \
-	buffers_material_buf.c
+	buffers_material_buf.c texture_loading.c
 
 OBJ = $(SRC:.c=.o)
 
