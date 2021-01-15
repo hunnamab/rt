@@ -1,34 +1,34 @@
-typedef struct s_sphere
+typedef struct  s_sphere
 {
-    float   radius;
-    float3  center;
-}              t_sphere;
+    float3      center;
+    float       radius;
+}               t_sphere;
 
-typedef struct 		s_plane
+typedef struct 	s_plane
 {
-	float			d;
-	float3		normal;
+    float3		normal;
 	float3		point;
-}					t_plane;
+	float		d;
+}				t_plane;
 
 typedef struct 		s_cylinder
 {
-	float			radius;
-	float3		position;
+    float3		position;
 	float3		vec;
+	float		radius;
 }					t_cylinder;
 
 typedef struct 		s_cone
 {
+    float3		    position;
+	float3		    vec;
 	float			angle;
-	float3		position;
-	float3		vec;
 }					t_cone;
 
 typedef struct 		s_triangle
 {
+    float3		vertex[3];
 	float3		normal;
-	float3		vertex[3];
 }					t_triangle;
 
 typedef	struct		s_cutting_surface
