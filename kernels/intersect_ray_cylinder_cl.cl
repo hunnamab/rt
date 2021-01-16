@@ -91,17 +91,47 @@ typedef struct 			s_object3d_d
 	int					texture_id;
 }						t_object_d;
 
+float cylinder_intersection(t_cylinder cyl, float3 ray_start, float3 ray_dir)
+{
+	float t1;
+    float t2;
+    float b;
+    float c;
+
+    float3 dist = ray_start - cyl.position;
+	float a = dot(ray_dir, cyl.vec);
+	a = dot(ray_dir, ray_dir) - a * a;
+    b = 2 * (dot(ray_dir, dist) - dot(ray_dir, cyl.vec) * \
+		dot(dist, cyl.vec));
+    c = dot(dist, cyl.vec);
+	c = dot(dist, dist) - c * c - cyl.radius * cyl.radius;
+    c = b * b - 4 * a * c;
+	if (c >= 0)
+	{
+		c = sqrt(c);
+		t1 = (-b + c) / (2 * a);
+        t2 = (-b - c) / (2 * a);
+        if ((t1 < t2 && t1 > 0) || (t2 < 0 && t1 >= 0))
+            return (t1);
+        if ((t2 < t1 && t2 > 0) || (t1 < 0 && t2 >= 0))
+            return (t2);
+        if (t2 == t1 && t2 >= 0)
+            return (t2);
+	}
+	return (0);
+}
+
 __kernel void intersect_ray_cylinder_cl(__global float3 *ray_arr, \
                                 __global float3 *camera_start, \
-                                __global float3 *position, \
                                 __global float *depth_buf, \
-                                float3 vector, \
-                                float radius, \
+                                t_cylinder cyl, \
                                 __global int *index_buf, \
                                 int index)
 {
     int i = get_global_id(0);
-    float t1;
+	float result;
+	result = cylinder_intersection(cyl, camera_start[0], ray_arr[i]);
+    /* float t1;
     float t2;
     float b;
     float c;
@@ -132,5 +162,10 @@ __kernel void intersect_ray_cylinder_cl(__global float3 *ray_arr, \
             depth_buf[i] = result;
             index_buf[i] = index;
         }
+	} */
+	if (result > 0 && result < depth_buf[i])
+    {
+        depth_buf[i] = result;
+        index_buf[i] = index;
 	}
 }

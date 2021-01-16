@@ -103,13 +103,7 @@ float plane_intersection(t_plane plane, float3 ray_start, float3 ray_dir)
 	if (k1 == 0 || (k1 < 0 && k2 < 0) || (k1 > 0 && k2 > 0))
 		return (0);
 	k1 = -k1 / k2;
-	if (k1 > 0)
-	{
-		float k3;
-		k3 = -k1 / k2;
-		return (k3);
-	}
-	return (0);
+	return (k1);
 }
 
 __kernel void intersect_ray_plane_cl(__global float3 *ray_arr, \
@@ -121,12 +115,12 @@ __kernel void intersect_ray_plane_cl(__global float3 *ray_arr, \
 {
     int i = get_global_id(0);
     
-	float k3;
-	k3 = plane_intersection(plane, camera_start[0], ray_arr[i]);
+	float k1;
+	k1 = plane_intersection(plane, camera_start[0], ray_arr[i]);
     
-    if (k3 < depth_buf[i] && k3 > 0)
+    if (k1 < depth_buf[i] && k1 > 0)
     {
-        depth_buf[i] = k3;
+        depth_buf[i] = k1;
         index_buf[i] = index;
     }
 }
