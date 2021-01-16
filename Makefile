@@ -6,7 +6,7 @@
 #    By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/07 15:39:13 by hunnamab          #+#    #+#              #
-#    Updated: 2021/01/15 17:10:12 by pmetron          ###   ########.fr        #
+#    Updated: 2021/01/16 14:35:38 by pmetron          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ LIB_FLAGS = -Wall -Wextra
 MAC_FLAGS = -I SDL2.framework/Headers -F ./ -framework SDL2 -framework OpenCL -I SDL2_image.framework/Headers -framework SDL2_image
 LINUX_FLAGS = -lSDL2 -lm -lXext -lcuda -lcudart
 LIBRARY = ./libft/libft.a 
-HEADER = rt.h
+INCLUDE = ./includes/
 SRC = main.c sphere.c vector.c utils.c \
 	light.c triangle.c scenes_reader.c draw.c \
 	objects_parameters.c plane.c cylinder.c cone.c \
@@ -37,16 +37,16 @@ OBJ = $(SRC:.c=.o)
 
 all: $(NAME)
 
-$(OBJ): %.o: %.c $(HEADER)
-		gcc -c $(LIB_FLAGS) -I libft/ -I matrix_lib/ -o $@ $<
+$(OBJ): %.o: %.c $(INCLUDE)
+		gcc -c $(LIB_FLAGS) -I libft/ -I matrix_lib/ -o $@ $< -I $(INCLUDE)
 
 $(LIBRARY):
 		@make -C libft/
 
-$(NAME): $(LIBRARY) $(OBJ) $(HEADER) types.h
+$(NAME): $(LIBRARY) $(OBJ) $(INCLUDE)
 		@cp -r SDL2.framework ~/Library/Frameworks/
 		@cp -r SDL2_image.framework ~/Library/Frameworks/
-		@gcc $(OBJ) $(LIBRARY) -o $(NAME) $(MAC_FLAGS) -I $(HEADER)
+		@gcc $(OBJ) $(LIBRARY) -o $(NAME) $(MAC_FLAGS) -I $(INCLUDE)
 
 clean:
 	@rm -f $(OBJ)

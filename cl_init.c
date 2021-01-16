@@ -122,8 +122,8 @@ int    cl_init(t_scene *scene)
 	
 	if ((scene->cl_data.programs[1] = clCreateProgramWithSource(scene->cl_data.context, 1, (const char **)&intersect_ray_sphere_cl, NULL, &err)))
 		printf("cоздана программа sphere\n");
-	if ((clBuildProgram(scene->cl_data.programs[1], 0, NULL, NULL, NULL, &err)))
-		printf("собрана программа sphere\n");
+	if ((clBuildProgram(scene->cl_data.programs[1], 0, NULL, "-I includes", NULL, &err)))
+		printf("собрана программа sphere err == %lu\n", err);
 	if (!(scene->cl_data.kernels[1] = clCreateKernel(scene->cl_data.programs[1], "intersect_ray_sphere_cl", &err)))
 		printf("не собрана программа 1, error %d sphere\n", err);
 	ft_strdel(&intersect_ray_sphere_cl);
