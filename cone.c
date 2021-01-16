@@ -93,24 +93,14 @@ void		get_cone_normal(t_scene *scene, int index, int obj_num)
 void		intersect_ray_cone(t_scene *scene, int index)
 {
 	size_t global = WID * HEI;
-
-	cl_mem position;
-
 	size_t local;
-	t_cone *c = (t_cone *)scene->objs[index]->data;
-
-	position = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3), NULL, NULL);
-
-	clEnqueueWriteBuffer(scene->cl_data.commands, position, CL_FALSE, 0, sizeof(cl_float3), &c->position, 0, NULL, NULL);
 
 	clSetKernelArg(scene->cl_data.kernels[2], 0, sizeof(cl_mem), &scene->cl_data.scene.ray_buf);
 	clSetKernelArg(scene->cl_data.kernels[2], 1, sizeof(cl_mem), &scene->cl_data.scene.camera);
-    clSetKernelArg(scene->cl_data.kernels[2], 2, sizeof(cl_mem), &position);
-	clSetKernelArg(scene->cl_data.kernels[2], 3, sizeof(cl_mem), &scene->cl_data.scene.depth_buf);
-	clSetKernelArg(scene->cl_data.kernels[2], 4, sizeof(cl_float3), (void *)&c->vec);
-	clSetKernelArg(scene->cl_data.kernels[2], 5, sizeof(cl_float), (void *)&c->angle);
-	clSetKernelArg(scene->cl_data.kernels[2], 6, sizeof(cl_mem), &scene->cl_data.scene.index_buf);
-	clSetKernelArg(scene->cl_data.kernels[2], 7, sizeof(cl_int), (void*)&index);
+	clSetKernelArg(scene->cl_data.kernels[2], 2, sizeof(cl_mem), &scene->cl_data.scene.depth_buf);
+	clSetKernelArg(scene->cl_data.kernels[2], 3, sizeof(t_cone), scene->objs[index]->data);
+	clSetKernelArg(scene->cl_data.kernels[2], 4, sizeof(cl_mem), &scene->cl_data.scene.index_buf);
+	clSetKernelArg(scene->cl_data.kernels[2], 5, sizeof(cl_int), (void*)&index);
 
     clGetKernelWorkGroupInfo(scene->cl_data.kernels[2], scene->cl_data.device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
 	printf("local == max work group size == %ld\n", local);

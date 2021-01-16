@@ -34,7 +34,7 @@ t_object	*new_triangle(cl_float3 *vertex, float specular, t_color color, \
 
 	new_object = protected_malloc(sizeof(t_object), 1);
 	new_triangle = protected_malloc(sizeof(t_triangle), 1);
-	new_triangle->vertex = protected_malloc(sizeof(cl_float3), 3);
+	//new_triangle->vertex = protected_malloc(sizeof(cl_float3), 3);
 	init_norme(rotation, vertex, new_object->rotation, new_triangle->vertex);
 	matrix = get_rotation_matrix(new_object->rotation);
 	transform(new_triangle->vertex, matrix, 3);
@@ -111,16 +111,14 @@ void		intersect_ray_triangle(t_scene *scene, int index)
 
 	size_t local;
 
-	t_triangle *tri = (t_triangle *)scene->objs[index]->data;
+	//t_triangle *tri = (t_triangle *)scene->objs[index]->data;
 
 	clSetKernelArg(scene->cl_data.kernels[4], 0, sizeof(cl_mem), &scene->cl_data.scene.ray_buf);
 	clSetKernelArg(scene->cl_data.kernels[4], 1, sizeof(cl_mem), &scene->cl_data.scene.camera);
 	clSetKernelArg(scene->cl_data.kernels[4], 2, sizeof(cl_mem), &scene->cl_data.scene.depth_buf);
-	clSetKernelArg(scene->cl_data.kernels[4], 3, sizeof(cl_float3), (void*)&tri->vertex[0]);
-	clSetKernelArg(scene->cl_data.kernels[4], 4, sizeof(cl_float3), (void*)&tri->vertex[1]);
-	clSetKernelArg(scene->cl_data.kernels[4], 5, sizeof(cl_float3), (void*)&tri->vertex[2]);
-	clSetKernelArg(scene->cl_data.kernels[4], 6, sizeof(cl_mem), &scene->cl_data.scene.index_buf);
-	clSetKernelArg(scene->cl_data.kernels[4], 7, sizeof(cl_int), (void*)&index);
+	clSetKernelArg(scene->cl_data.kernels[4], 3, sizeof(t_triangle), scene->objs[index]->data);
+	clSetKernelArg(scene->cl_data.kernels[4], 4, sizeof(cl_mem), &scene->cl_data.scene.index_buf);
+	clSetKernelArg(scene->cl_data.kernels[4], 5, sizeof(cl_int), (void*)&index);
 
     clGetKernelWorkGroupInfo(scene->cl_data.kernels[4], scene->cl_data.device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
 	printf("local == max work group size == %ld\n", local);

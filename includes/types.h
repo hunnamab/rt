@@ -114,15 +114,9 @@ typedef struct 		s_cone
 
 typedef struct 		s_triangle
 {
-	cl_float3		*vertex;
-	cl_float3		normal;
-}					t_triangle;
-
-typedef struct 		s_tri
-{
 	cl_float3		vertex[3];
 	cl_float3		normal;
-}					t_tri;
+}					t_triangle;
 
 typedef struct		s_camera
 {
@@ -198,7 +192,7 @@ typedef	union			primitive
 	t_cone				cone;
 	t_sphere			sphere;
 	t_plane				plane;
-	t_tri				triangle;
+	t_triangle			triangle;
 	t_ellipsoid			ellipsoid;
 }						t_primitive;
 
