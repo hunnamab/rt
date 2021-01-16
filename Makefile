@@ -3,17 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+         #
+#    By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/07 15:39:13 by hunnamab          #+#    #+#              #
-#    Updated: 2021/01/16 14:35:38 by pmetron          ###   ########.fr        #
+#    Updated: 2021/01/16 16:27:44 by ldeirdre         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = rt
 NAME_LINUX = rt_linux
 LIB_FLAGS = -Wall -Wextra
-MAC_FLAGS = -I SDL2.framework/Headers -F ./ -framework SDL2 -framework OpenCL -I SDL2_image.framework/Headers -framework SDL2_image
+MAC_FLAGS = -I SDL2.framework/Headers -F ./ -framework SDL2 -framework OpenCL -I SDL2_image.framework/Headers -framework SDL2_image -I SDL2_mixer.framework/Headers -framework SDL2_mixer
 LINUX_FLAGS = -lSDL2 -lm -lXext -lcuda -lcudart
 LIBRARY = ./libft/libft.a 
 INCLUDE = ./includes/
@@ -46,6 +46,7 @@ $(LIBRARY):
 $(NAME): $(LIBRARY) $(OBJ) $(INCLUDE)
 		@cp -r SDL2.framework ~/Library/Frameworks/
 		@cp -r SDL2_image.framework ~/Library/Frameworks/
+		@cp -r SDL2_mixer.framework ~/Library/Frameworks/
 		@gcc $(OBJ) $(LIBRARY) -o $(NAME) $(MAC_FLAGS) -I $(INCLUDE)
 
 clean:
@@ -55,6 +56,7 @@ fclean: clean
 	@rm -f $(NAME)
 	@rm -rf ~/Library/Frameworks/SDL2.framework
 	@rm -rf ~/Library/Frameworks/SDL2_image.framework
+	@rm -rf ~/Library/Frameworks/SDL2_mixer.framework
 	@make -C libft fclean
 
 re: fclean all

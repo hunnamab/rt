@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:02 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/15 17:09:08 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/16 16:33:16 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,21 @@ void	args_check(t_scene *scene, char **argv, int args)
 	}
 }
 
+void			init_music(void)
+{
+	Mix_Music	*mus;
+	int			result;
+	int			flags;
+
+	result = 0;
+	flags = MIX_INIT_OGG;
+	if (flags != (result = Mix_Init(flags)))
+		exit(1);
+	Mix_OpenAudio(22050, AUDIO_S16SYS, 4, 640);
+	mus = Mix_LoadMUS("lights.wav");
+	Mix_PlayMusic(mus, -1);
+}
+
 int		main(int args, char **argv)
 {
  	t_sdl		sdl;
@@ -82,6 +97,7 @@ int		main(int args, char **argv)
 	load_textures(scene);
 	init_scene(scene);
 	scene->draw[scene->mode](&sdl, scene);
+	init_music();
 	while (k)
 		k = keyboard(&sdl, scene);
 	clean_scene(scene);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:34 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/15 17:09:56 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/16 16:31:41 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 	# include <OpenCL/opencl.h> //for macOS
 	# include "SDL2.framework/Headers/SDL.h" //for macOS
 	# include "SDL_image/SDL_image.h"
+	# include "SDL_mixer/SDL_mixer.h"
 #else
 	# include <SDL2/SDL.h> //for linux
 	# include <CL/cl.h> //for linux
