@@ -102,7 +102,7 @@ int    cl_init(t_scene *scene)
 	scene->cl_data.commands = clCreateCommandQueue(scene->cl_data.context, scene->cl_data.device_id, 0, &err);
 	if ((scene->cl_data.programs[0] = clCreateProgramWithSource(scene->cl_data.context, 1, (const char **)&get_ray_arr, NULL, &err)))
 		printf("created\n");
-	if ((clBuildProgram(scene->cl_data.programs[0], 0, NULL, NULL, NULL, &err)))
+	if ((clBuildProgram(scene->cl_data.programs[0], 0, NULL, "-I includes", NULL, &err)))
 		printf("built\n");
 	if (!(scene->cl_data.kernels[0] = clCreateKernel(scene->cl_data.programs[0], "get_ray_arr", &err)))
 		printf("error %d\n", err);
@@ -138,7 +138,7 @@ int    cl_init(t_scene *scene)
 	
 	if ((scene->cl_data.programs[2] = clCreateProgramWithSource(scene->cl_data.context, 1, (const char **)&intersect_ray_cone_cl, NULL, &err)))
 		printf("cоздана программа cone\n");
-	if ((clBuildProgram(scene->cl_data.programs[2], 0, NULL, NULL, NULL, &err)))
+	if ((clBuildProgram(scene->cl_data.programs[2], 0, NULL, "-I includes", NULL, &err)))
 		printf("собрана программа cone\n");
 	if (!(scene->cl_data.kernels[2] = clCreateKernel(scene->cl_data.programs[2], "intersect_ray_cone_cl", &err)))
 		printf("не собрана программа 1, error %d cone\n", err);
@@ -154,7 +154,7 @@ int    cl_init(t_scene *scene)
 	
 	if ((scene->cl_data.programs[3] = clCreateProgramWithSource(scene->cl_data.context, 1, (const char **)&intersect_ray_cylinder_cl, NULL, &err)))
 		printf("cоздана программа cylinder\n");
-	if ((clBuildProgram(scene->cl_data.programs[3], 0, NULL, NULL, NULL, &err)))
+	if ((clBuildProgram(scene->cl_data.programs[3], 0, NULL, "-I includes", NULL, &err)))
 		printf("собрана программа cylinder\n");
 	if (!(scene->cl_data.kernels[3] = clCreateKernel(scene->cl_data.programs[3], "intersect_ray_cylinder_cl", &err)))
 		printf("не собрана программа 1, error %d cylinder\n", err);
@@ -170,7 +170,7 @@ int    cl_init(t_scene *scene)
 	
 	if ((scene->cl_data.programs[4] = clCreateProgramWithSource(scene->cl_data.context, 1, (const char **)&intersect_ray_triangle_cl, NULL, &err)))
 		printf("cоздана программа triangle\n");
-	if ((clBuildProgram(scene->cl_data.programs[4], 0, NULL, NULL, NULL, &err)))
+	if ((clBuildProgram(scene->cl_data.programs[4], 0, NULL, "-I includes", NULL, &err)))
 		printf("собрана программа triangle\n");
 	if (!(scene->cl_data.kernels[4] = clCreateKernel(scene->cl_data.programs[4], "intersect_ray_triangle_cl", &err)))
 		printf("не собрана программа 1, error %d triangle\n", err);
@@ -186,7 +186,7 @@ int    cl_init(t_scene *scene)
 	
 	if ((scene->cl_data.programs[5] = clCreateProgramWithSource(scene->cl_data.context, 1, (const char **)&intersect_ray_plane_cl, NULL, &err)))
 		printf("cоздана программа plane\n");
-	if ((clBuildProgram(scene->cl_data.programs[5], 0, NULL, NULL, NULL, &err)))
+	if ((clBuildProgram(scene->cl_data.programs[5], 0, NULL, "-I includes", NULL, &err)))
 		printf("собрана программа plane\n");
 	if (!(scene->cl_data.kernels[5] = clCreateKernel(scene->cl_data.programs[5], "intersect_ray_plane_cl", &err)))
 		printf("не собрана программа 1, error %d plane\n", err);
@@ -202,7 +202,7 @@ int    cl_init(t_scene *scene)
 	
 	if ((scene->cl_data.programs[6] = clCreateProgramWithSource(scene->cl_data.context, 1, (const char **)&get_intersection_point, NULL, &err)))
 		printf("cоздана программа get_intersection_point\n");
-	if ((clBuildProgram(scene->cl_data.programs[6], 0, NULL, NULL, NULL, &err)))
+	if ((clBuildProgram(scene->cl_data.programs[6], 0, NULL, "-I includes", NULL, &err)))
 		printf("собрана программа get_intersection_point\n");
 	if (!(scene->cl_data.kernels[6] = clCreateKernel(scene->cl_data.programs[6], "get_intersection_point", &err)))
 		printf("не собрана программа 1, error %d get_intersection_point\n", err);
@@ -218,7 +218,7 @@ int    cl_init(t_scene *scene)
 	
 	if ((scene->cl_data.programs[7] = clCreateProgramWithSource(scene->cl_data.context, 1, (const char **)&get_normal_buf_cl, NULL, &err)))
 		printf("cоздана программа get_normal_buf_cl\n");
-	if ((clBuildProgram(scene->cl_data.programs[7], 0, NULL, NULL, NULL, &err)))
+	if ((clBuildProgram(scene->cl_data.programs[7], 0, NULL, "-I includes", NULL, &err)))
 		printf("собрана программа get_normal_buf_cl\n");
 	if (!(scene->cl_data.kernels[7] = clCreateKernel(scene->cl_data.programs[7], "get_normal_buf_cl", &err)))
 		printf("не собрана программа 1, error %d get_normal_buf_cl\n", err);

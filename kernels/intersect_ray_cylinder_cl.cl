@@ -1,3 +1,5 @@
+#include "kernel.h"
+
 __kernel void intersect_ray_cylinder_cl(__global float3 *ray_arr, \
                                 __global float3 *camera_start, \
                                 __global float3 *position, \

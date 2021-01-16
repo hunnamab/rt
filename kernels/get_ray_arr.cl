@@ -1,3 +1,5 @@
+#include "kernel.h"
+
 __kernel void get_ray_arr(__global float3* ray_arr, \
                         __global float3 *camera_start, \
                         __global float3* viewport, \

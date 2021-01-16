@@ -1,6 +1,14 @@
 #ifndef KERNEL_H
 # define KERNEL_H
 
+typedef struct 		s_color
+{
+	unsigned char	red;
+	unsigned char	green;
+	unsigned char	blue;
+	unsigned char	alpha;
+}					t_color;
+
 typedef struct  s_sphere
 {
     float3      center;
@@ -34,6 +42,15 @@ typedef struct 		s_triangle
 	float3		normal;
 }					t_triangle;
 
+typedef	union			primitive
+{
+	t_cylinder			cylinder;
+	t_cone				cone;
+	t_sphere			sphere;
+	t_plane				plane;
+	t_triangle			triangle;
+}						t_primitive;
+
 typedef	struct		s_cutting_surface
 {
     int 			type;
@@ -54,5 +71,16 @@ enum object_type {
 	HYPERBOLOID,
 	PARABOLOID
 };
+
+typedef struct 			s_object3d_d
+{
+	t_primitive			primitive;
+	t_color				color;
+	float				specular;
+	float				roughness;
+	float				refraction;
+	int					color_disrupt;
+	int 				type;
+}						t_object_d;
 
 #endif

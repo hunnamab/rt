@@ -1,3 +1,5 @@
+#include "kernel.h"
+
 __kernel void get_intersection_point(__global float3 *intersection_buf, \
                                     __global float3 *ray_buf, \
                                     __global float *depth_buf, \

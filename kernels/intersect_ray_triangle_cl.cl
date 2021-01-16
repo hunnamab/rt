@@ -1,3 +1,5 @@
+#include "kernel.h"
+
 /* float triangle_cl()
 {
 	float3 edge1;
