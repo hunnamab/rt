@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:58 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/15 17:29:19 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/16 19:31:57 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,10 +100,9 @@ typedef struct 		s_plane
 
 typedef struct 		s_cylinder
 {
-	char			padding[12];
-	cl_float		radius;
 	cl_float3		position;
 	cl_float3		vec;
+	cl_float		radius;
 }					t_cylinder;
 
 typedef struct 		s_cone
@@ -136,6 +135,12 @@ typedef	struct		s_material
 	t_color			color;
 	float			specular;
 }					t_material;
+
+typedef	struct 		s_ellipsoid
+{
+	cl_float3 		abc;
+	cl_float3		center;
+}					t_ellipsoid;
 
 typedef struct 		s_texture_d
 {
@@ -194,11 +199,13 @@ typedef	union			primitive
 	t_sphere			sphere;
 	t_plane				plane;
 	t_tri				triangle;
+	t_ellipsoid			ellipsoid;
 }						t_primitive;
 
 typedef struct 			 s_object3d_d
 {	
 	t_primitive			primitive;
+	cl_float3			rotation;
 	t_color				color;
 	cl_float			specular;
 	cl_float			roughness;

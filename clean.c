@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 17:32:12 by pmetron           #+#    #+#             */
-/*   Updated: 2021/01/13 17:42:59 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/16 18:48:01 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,16 @@ void	clean_scene(t_scene *scene)
 	clReleaseMemObject(scene->cl_data.scene.normal_buf);
 	clReleaseMemObject(scene->cl_data.scene.camera);
 	clReleaseMemObject(scene->cl_data.scene.obj);
-    clReleaseProgram(scene->cl_data.programs[0]);
-    clReleaseKernel(scene->cl_data.kernels[0]);
+	while (i < 9)
+	{
+		clReleaseProgram(scene->cl_data.programs[i]);
+		clReleaseKernel(scene->cl_data.kernels[i]);
+		i++;	
+	}
     clReleaseCommandQueue(scene->cl_data.commands);
     clReleaseContext(scene->cl_data.context);
+	ft_memdel((void **)&scene->cl_data.kernels);
+	ft_memdel((void **)&scene->cl_data.programs);
 	while (i < scene->obj_nmb)
 	{
 		scene->objs[i]->clear_obj(scene->objs[i]);

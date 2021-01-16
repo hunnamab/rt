@@ -11,9 +11,9 @@ __kernel  void    intersect_ray_ellipsoid(__global float3 *ray_arr, float3 camer
     float b2;
     float c2;
 
-    a2 = a * a;
-    b2 = b * b;
-    c2 = c * c;
+    a2 = el.abc.x * el.abc.x;
+    b2 = el.abc.y * el.abc.y;
+    c2 = el.abc.z * el.abc.z;
     dir = ray_arr[i];
     k1 = dir.x * dir.x * b2 * c2;
     k1 += dir.y * dir.y * a2 * c2; 

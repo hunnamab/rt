@@ -54,6 +54,15 @@ void	device_objects_init(t_scene *scene)
 			buf[i].primitive.plane.point = p->point;
 			buf[i].primitive.plane.d = p->d;
 		}
+		if (scene->objs[i]->type == ELLIPSOID)
+		{
+			t_ellipsoid *el;
+			el = (t_ellipsoid *)scene->objs[i]->data;
+			buf[i].type = ELLIPSOID;
+			buf[i].primitive.ellipsoid.abc = el->abc;
+			buf[i].primitive.ellipsoid.center = el->center;
+		}
+		buf[i].rotation = get_point(0,0,0);
 		buf[i].specular = scene->objs[i]->specular;
 		buf[i].color = scene->objs[i]->color;
 		buf[i].roughness = 0;
@@ -90,6 +99,8 @@ int    cl_init(t_scene *scene)
 	// выделение памяти
 	scene->cl_data.programs = malloc(sizeof(cl_program) * KERNEL_NUM);
 	scene->cl_data.kernels = malloc(sizeof(cl_kernel) * KERNEL_NUM);
+	scene->cl_data.context = clCreateContext(0, 1, &scene->cl_data.device_id, NULL, NULL, &err);
+	scene->cl_data.commands = clCreateCommandQueue(scene->cl_data.context, scene->cl_data.device_id, 0, &err);
 
 	int		ret1;
 	char	*get_ray_arr;
@@ -98,11 +109,9 @@ int    cl_init(t_scene *scene)
 	ret1 = read(fd1, get_ray_arr, 64000);
 	get_ray_arr[ret1] = '\0';
 
-	scene->cl_data.context = clCreateContext(0, 1, &scene->cl_data.device_id, NULL, NULL, &err);
-	scene->cl_data.commands = clCreateCommandQueue(scene->cl_data.context, scene->cl_data.device_id, 0, &err);
 	if ((scene->cl_data.programs[0] = clCreateProgramWithSource(scene->cl_data.context, 1, (const char **)&get_ray_arr, NULL, &err)))
 		printf("created\n");
-	if ((clBuildProgram(scene->cl_data.programs[0], 0, NULL, "-I includes", NULL, &err)))
+	if ((clBuildProgram(scene->cl_data.programs[0], 1, &scene->cl_data.device_id, "-I includes", NULL, &err)))
 		printf("built\n");
 	if (!(scene->cl_data.kernels[0] = clCreateKernel(scene->cl_data.programs[0], "get_ray_arr", &err)))
 		printf("error %d\n", err);
@@ -224,6 +233,22 @@ int    cl_init(t_scene *scene)
 		printf("не собрана программа 1, error %d get_normal_buf_cl\n", err);
 	ft_strdel(&get_normal_buf_cl);
 	close(fd8);
+
+	int		ret9;
+	char	*intersect_ray_ellipsoid_cl;
+	int fd9 = open("./kernels/intersect_ray_ellipsoid_cl.cl", O_RDONLY);
+	intersect_ray_ellipsoid_cl = protected_malloc(sizeof(char), 256000);
+	ret9 = read(fd9, intersect_ray_ellipsoid_cl, 64000);
+	intersect_ray_ellipsoid_cl[ret9] = '\0';
+	
+	if ((scene->cl_data.programs[8] = clCreateProgramWithSource(scene->cl_data.context, 1, (const char **)&intersect_ray_ellipsoid_cl, NULL, &err)))
+		printf("cоздана программа intersect_ray_ellipsoid_cl\n");
+	if ((clBuildProgram(scene->cl_data.programs[8], 0, NULL, "-I includes", NULL, &err)))
+		printf("собрана программа intersect_ray_ellipsoid_cl\n");
+	if (!(scene->cl_data.kernels[8] = clCreateKernel(scene->cl_data.programs[8], "intersect_ray_ellipsoid", &err)))
+		printf("не собрана программа 1, error %d intersect_ray_ellipsoid_cl\n", err);
+	ft_strdel(&intersect_ray_ellipsoid_cl);
+	close(fd9);
 
 	//Создание буферов на гпу
 	scene->cl_data.scene.ray_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, NULL);

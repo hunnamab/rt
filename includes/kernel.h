@@ -42,6 +42,12 @@ typedef struct 		s_triangle
 	float3		normal;
 }					t_triangle;
 
+typedef	struct 		s_ellipsoid
+{
+	float3 			abc;
+	float3			center;
+}					t_ellipsoid;
+
 typedef	union			primitive
 {
 	t_cylinder			cylinder;
@@ -49,6 +55,7 @@ typedef	union			primitive
 	t_sphere			sphere;
 	t_plane				plane;
 	t_triangle			triangle;
+	t_ellipsoid			ellipsoid;
 }						t_primitive;
 
 typedef	struct		s_cutting_surface
@@ -75,12 +82,14 @@ enum object_type {
 typedef struct 			s_object3d_d
 {
 	t_primitive			primitive;
+	float3				rotation;
 	t_color				color;
 	float				specular;
 	float				roughness;
 	float				refraction;
 	int					color_disrupt;
 	int 				type;
+	int					texture_id;
 }						t_object_d;
 
 #endif

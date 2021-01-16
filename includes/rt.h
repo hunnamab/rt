@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:34 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/16 14:36:46 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/16 19:44:17 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 	# include <OpenCL/opencl.h> //for macOS
 	# include "../SDL2.framework/Headers/SDL.h" //for macOS
 	# include "../SDL_image/SDL_image.h"
+	# include "../SDL_mixer/SDL_mixer.h"
 #else
 	# include <SDL2/SDL.h> //for linux
 	# include <CL/cl.h> //for linux
@@ -35,7 +36,7 @@
 
 # define WID 1280
 # define HEI 720
-# define KERNEL_NUM 10
+# define KERNEL_NUM 20
 
 // scenes_reader.c
 void		read_scene(int fd, t_scene *scene);
@@ -187,5 +188,8 @@ t_object 	*multiple_triangles(char **description, int *snmi, int i, float specul
 void	one_argument_cone(char **description, t_scene *scene, int *snmi);
 //texture_loading
 void    load_textures(t_scene *scene);
+void        intersect_ray_ellipsoid(t_scene *scene, int index);
+t_object    *new_ellipsoid(cl_float3 center, cl_float3 abc, t_color color, cl_float3 rotation, float specular);
+void	device_objects_init(t_scene *scene);
 
 #endif
