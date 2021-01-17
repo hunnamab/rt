@@ -8,6 +8,7 @@ void	get_material_buf(t_scene *scene)
 	int i;
 	t_color col;
 	cl_float3 t;
+	size_t global = WID * HEI;
 
 	y = -1;
 	while (++y < HEI)
@@ -26,8 +27,7 @@ void	get_material_buf(t_scene *scene)
 				else
 					col = scene->objs[scene->index_buf[i]]->color;
 				copy_color(&scene->material_buf[i].color,  &col);
-				scene->material_buf[i].specular = \
-				scene->objs[scene->index_buf[i]]->specular;
+				scene->material_buf[i].specular = scene->objs[scene->index_buf[i]]->specular;
 			}
 			else
 			{
@@ -36,6 +36,7 @@ void	get_material_buf(t_scene *scene)
 			}
 		}
 	}
+	clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.material_buf, CL_FALSE, 0, sizeof(t_material) * global, scene->material_buf, 0, NULL, NULL);
 }
 
 /* void	get_material_buf(t_scene *scene)

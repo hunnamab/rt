@@ -42,8 +42,10 @@ typedef struct 			s_scene_device
 	cl_mem				depth_buf;
 	cl_mem				normal_buf;
 	cl_mem				material_buf;
+	cl_mem				frame_buf;
 	cl_mem				camera;
 	cl_mem				obj;
+	cl_mem				light;
 }						t_scene_device;
 
 typedef	struct 			s_cl_data
@@ -79,9 +81,9 @@ typedef struct 		s_color
 
 typedef	struct		s_light
 {
-	float			intensity;
 	cl_float3		position;
 	cl_float3		direction;
+	float			intensity;
 	int				type;
 }					t_light;
 

@@ -86,10 +86,10 @@ float		get_specular(t_scene *scene, int index, int j, cl_float3 *l)
 
 t_color		reflection_color(t_scene *scene, int index)
 {
-	float	i;
+	float		i;
 	cl_float3	l;
-	float	n_dot_l;
-	int		j;
+	float		n_dot_l;
+	int			j;
 
 	j = -1;
 	i = 0;

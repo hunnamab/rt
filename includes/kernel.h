@@ -1,6 +1,20 @@
 #ifndef KERNEL_H
 # define KERNEL_H
 
+enum light_type{
+	POINT,
+	AMBIENT,
+	DIRECTIONAL
+};
+
+typedef	struct		s_light
+{
+	float3			position;
+	float3			direction;
+	float			intensity;
+	int				type;
+}					t_light;
+
 typedef struct 		s_color
 {
 	unsigned char	red;
@@ -8,6 +22,12 @@ typedef struct 		s_color
 	unsigned char	blue;
 	unsigned char	alpha;
 }					t_color;
+
+typedef	struct		s_material
+{
+	t_color			color;
+	float			specular;
+}					t_material;
 
 typedef struct  s_sphere
 {

@@ -111,49 +111,21 @@ typedef struct 			s_object3d_d
 	int					texture_id;
 }						t_object_d;
 
-float cone_intersection(t_cone cone, float3 ray_start, float3 ray_dir)
-{
-	float t1;
-    float t2;
-    float b;
-    float c;
-
-    float3 dist = ray_start - cone.position;
-	float a = dot(ray_dir, cone.vec);
-	a = dot(ray_dir, ray_dir) - (1 + cone.angle * cone.angle) * a * a;
-    b = 2 * (dot(ray_dir, dist) - (1 + cone.angle * cone.angle) * \
-		dot(ray_dir, cone.vec) * dot(dist, cone.vec));
-    c = dot(dist, cone.vec);
-	c = dot(dist, dist) - (1 + cone.angle * cone.angle) * c * c;
-	c = b * b - 4 * a * c;
-	if (c >= 0)
-	{
-		c = sqrt(c);
-		t1 = (-b + c) / (2 * a);
-        t2 = (-b - c) / (2 * a);
-        if ((t1 < t2 && t1 > 0) || (t2 < 0 && t1 >= 0))
-            return (t1);
-        if ((t2 < t1 && t2 > 0) || (t1 < 0 && t2 >= 0))
-            return (t2);
-        if (t2 == t1 && t2 >= 0)
-            return (t2);
-	}
-	return (0);
-}
-
-__kernel void intersect_ray_cone_cl(__global float3 *ray_arr, \
-                                __global float3 *camera_start, \
-                                __global float *depth_buf, \
-                                t_cone cone, \
-                                __global int *index_buf, \
-                                int index)
+__kernel void get_frame_buf_cl(__global t_color *frame_buf, \
+                            __global float3 *ray_buf, \
+                            __global float3 *intersection_buf, \
+                            __global float3 *normal_buf, \
+                            __global int *index_buf, \
+                            __global t_material *matetial_buf, \
+                            __global t_object_d *obj, \
+                            __global t_light *light, \
+                            int light_nmb)
 {
     int i = get_global_id(0);
-	float result = 0;
-	result = cone_intersection(cone, camera_start[0], ray_arr[i]);
-	if (result > 0 && result < depth_buf[i])
-    {
-        depth_buf[i] = result;
-        index_buf[i] = index;
-    }
+	if (i == 0)
+	{
+		printf("light_nmb = %d\nlight_intensity = %f\nlight_type = %d\n", light_nmb, light[1].intensity, light[1].type);
+		printf("obj type = %d\n", obj[0].type);
+		printf("sizeof light (kernel) = %lu\n", sizeof(t_light));
+	}
 }

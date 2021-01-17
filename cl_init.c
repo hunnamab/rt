@@ -250,6 +250,22 @@ int    cl_init(t_scene *scene)
 	ft_strdel(&intersect_ray_ellipsoid_cl);
 	close(fd9);
 
+	int		ret10;
+	char	*get_frame_buf_cl;
+	int fd10 = open("./kernels/get_frame_buf_cl.cl", O_RDONLY);
+	get_frame_buf_cl = protected_malloc(sizeof(char), 256000);
+	ret10 = read(fd10, get_frame_buf_cl, 64000);
+	get_frame_buf_cl[ret10] = '\0';
+	
+	if ((scene->cl_data.programs[9] = clCreateProgramWithSource(scene->cl_data.context, 1, (const char **)&get_frame_buf_cl, NULL, &err)))
+		printf("cоздана программа get_frame_buf_cl\n");
+	if ((clBuildProgram(scene->cl_data.programs[9], 0, NULL, "-I includes", NULL, &err)))
+		printf("собрана программа get_frame_buf_cl\n");
+	if (!(scene->cl_data.kernels[9] = clCreateKernel(scene->cl_data.programs[9], "get_frame_buf_cl", &err)))
+		printf("не собрана программа 1, error %d get_frame_buf_cl\n", err);
+	ft_strdel(&get_frame_buf_cl);
+	close(fd10);
+
 	//Создание буферов на гпу
 	scene->cl_data.scene.ray_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, NULL);
 	scene->cl_data.scene.viewport = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, NULL);
@@ -258,6 +274,7 @@ int    cl_init(t_scene *scene)
 	scene->cl_data.scene.index_buf = clCreateBuffer(scene->cl_data.context,  0,  sizeof(int) * count, NULL, NULL);
 	scene->cl_data.scene.depth_buf = clCreateBuffer(scene->cl_data.context,  0,  sizeof(float) * count, NULL, NULL);
 	scene->cl_data.scene.normal_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, NULL);
+	scene->cl_data.scene.frame_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, NULL);
 	device_objects_init(scene);
 	return (0);
 }
