@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parameters_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 12:02:06 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/12 18:16:51 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/01/18 20:07:58 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,22 @@ char		*get_coordinates(char *description)
 		output_error(5);
 	i = 0;
 	len = ft_strlen(description);
+	printf("descrition cor buf !!!! %s\n", description);
 	while (!(ft_isdigit(description[i])) && description[i] != '-')
 	{
 		if (description[i + 1] == '\0')
 			output_error(5);
 		i++;
 	}
-	if (description[len - 2] == ']' || description[len - 1] == ']' )
+	if (description[len - 2] == ']')
 		len -= 2;
+	else if (description[len - 1] == ']')
+		len -= 1;
 	else if (description[len - 1] == ',')
 		len--;
 	if (!(coordinates = ft_strsub(description, i, len - i)))
 		output_error(5);
+	printf("coordinates |%s|\n", coordinates);
 	return (coordinates);
 }
 
@@ -75,6 +79,7 @@ cl_float3		get_points(char *description)
 	free(coord_buf);
 	if (!coordinates[0] || !coordinates[1] || !coordinates[2])
 		output_error(5);
+	printf("points (%s,%s,%s)\n", coordinates[0],coordinates[1],coordinates[2]);
 	points.x = ftoi(ft_strtrim(coordinates[0]));
 	printf("x = %f\n", points.x);
 	points.y = ftoi(ft_strtrim(coordinates[1]));

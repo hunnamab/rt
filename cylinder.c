@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:11:46 by pmetron           #+#    #+#             */
-/*   Updated: 2021/01/13 18:26:17 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/18 19:14:57 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void		intersect_ray_cylinder(t_scene *scene, int index)
 	size_t local;
 
 	clSetKernelArg(scene->cl_data.kernels[3], 0, sizeof(cl_mem), &scene->cl_data.scene.ray_buf);
-	clSetKernelArg(scene->cl_data.kernels[3], 1, sizeof(cl_mem), &scene->cl_data.scene.camera);
+	clSetKernelArg(scene->cl_data.kernels[3], 1, sizeof(cl_float3), (void *)&scene->camera.position);
 	clSetKernelArg(scene->cl_data.kernels[3], 2, sizeof(cl_mem), &scene->cl_data.scene.depth_buf);
 	clSetKernelArg(scene->cl_data.kernels[3], 3, sizeof(t_cylinder), scene->objs[index]->data);
 	clSetKernelArg(scene->cl_data.kernels[3], 4, sizeof(cl_mem), &scene->cl_data.scene.index_buf);

@@ -142,7 +142,7 @@ float cylinder_intersection(t_cylinder cyl, float3 ray_start, float3 ray_dir)
 }
 
 __kernel void intersect_ray_cylinder_cl(__global float3 *ray_arr, \
-                                __global float3 *camera_start, \
+                                float3 camera_start, \
                                 __global float *depth_buf, \
                                 t_cylinder cyl, \
                                 __global int *index_buf, \
@@ -150,7 +150,7 @@ __kernel void intersect_ray_cylinder_cl(__global float3 *ray_arr, \
 {
     int i = get_global_id(0);
 	float result;
-	result = cylinder_intersection(cyl, camera_start[0], ray_arr[i]);
+	result = cylinder_intersection(cyl, camera_start, ray_arr[i]);
     /* float t1;
     float t2;
     float b;

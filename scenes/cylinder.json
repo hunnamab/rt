@@ -1,8 +1,4 @@
 {
-	"camera": {
-		"position": [0, 2, 0],
-		"rotation": [0, 0, 0]
-	},
 	"cylinder": {
 		"position": [20, 0, 10],
 		"radius": 11,
@@ -33,12 +29,16 @@
 	"light": [
 		{
 			"type": "point",
-			"position": [100, 10, -20],
+			"position": [0, 10, -20],
 			"intensity": 0.4
 		},
 		{
 			"type": "ambient",
 			"intensity": 0.2
 		}
-	]
+	],
+	"camera": {
+		"position": [0, 2, 0],
+		"rotation": [0, 0, 0]
+	}
 }

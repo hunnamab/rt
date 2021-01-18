@@ -156,7 +156,7 @@ float sphere_intersection(t_sphere sphere, float3 ray_start, float3 ray_dir)
 }
 
 __kernel void intersect_ray_sphere_cl(__global float3 *ray_arr, \
-                                __global float3 *camera_start, \
+                                float3 camera_start, \
                                 t_sphere sphere, \
                                 __global float *depth_buf, \
                                 __global int *index_buf, \
@@ -164,7 +164,9 @@ __kernel void intersect_ray_sphere_cl(__global float3 *ray_arr, \
 {
     int i = get_global_id(0);
     float result;
-    result = sphere_intersection(sphere, camera_start[0], ray_arr[i]);
+    result = sphere_intersection(sphere, camera_start, ray_arr[i]);
+    if (i == 640)
+        printf("camera device (%f,%f,%f)\n", camera_start.x,camera_start.y,camera_start.z);
     if (result > 0 && result < depth_buf[i])
     {
         float3 intersection_point;

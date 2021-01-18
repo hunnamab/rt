@@ -6,12 +6,12 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/19 19:15:41 by ldeirdre          #+#    #+#             */
-/*   Updated: 2021/01/15 17:27:13 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/18 20:54:00 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
-
+#include <OpenCL/opencl.h>
 cl_float3 text_map_select(t_object *obj, cl_float3 t)
 {
     cl_float3 p;
@@ -120,7 +120,7 @@ cl_float3		normalize(cl_float3 vec)
 {
 	float length;
 
-	length = (float)sqrt(vec.x * vec.x + vec.y * vec.y + vec.z *vec.z);
+	length = (float)sqrtf(vec.x * vec.x + vec.y * vec.y + vec.z *vec.z);
 	vec.x = vec.x/length;
 	vec.y = vec.y/ length;
 	vec.z = vec.z/length;
@@ -134,6 +134,7 @@ cl_float3		mapping_sphere(cl_float3 t, t_object *obj)
 	cl_float3 tmp;
 
 	lol = obj->data;
+	//printf("t(%f,%f,%f)\n", t.x, t.y, t.z);
 	t.x -= lol->center.x;
 	t.y -= lol->center.y;
 	t.z -= lol->center.z;
@@ -141,11 +142,12 @@ cl_float3		mapping_sphere(cl_float3 t, t_object *obj)
 	t.x /= lol->radius;
 	t.y /= lol->radius;
 	t.z /= lol->radius;
-	float theta = acos(t.y) / M_PI;
+	double theta = acos(t.y) / M_PI;
 	tmp.x = t.x;
 	tmp.y = t.z;
 	tmp = normalize(tmp);
-	float phi = acos(tmp.x) /M_PI_2;
+	//printf("tmp.x %f\n", tmp.x);
+	double phi = acos(tmp.x) / M_PI_2;
 	phi = t.z > 0 ? 1.f - phi : phi;
 	p.x = phi;
 	p.y = theta;

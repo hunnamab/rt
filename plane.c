@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 14:22:24 by pmetron           #+#    #+#             */
-/*   Updated: 2021/01/13 18:25:54 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/18 19:17:50 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void		intersect_ray_plane(t_scene *scene, int index)
 	//t_plane *p = (t_plane *)scene->objs[index]->data;
 
 	clSetKernelArg(scene->cl_data.kernels[5], 0, sizeof(cl_mem), &scene->cl_data.scene.ray_buf);
-	clSetKernelArg(scene->cl_data.kernels[5], 1, sizeof(cl_mem), &scene->cl_data.scene.camera);
+	clSetKernelArg(scene->cl_data.kernels[5], 1, sizeof(cl_float3), (void *)&scene->camera.position);
 	clSetKernelArg(scene->cl_data.kernels[5], 2, sizeof(cl_mem), &scene->cl_data.scene.depth_buf);
 	clSetKernelArg(scene->cl_data.kernels[5], 3, sizeof(t_plane), scene->objs[index]->data);
 	clSetKernelArg(scene->cl_data.kernels[5], 4, sizeof(cl_mem), &scene->cl_data.scene.index_buf);

@@ -118,10 +118,16 @@ __kernel void get_intersection_point(__global float3 *intersection_buf, \
                                     __global int *index_buf)
  {
     int i = get_global_id(0);
-
+	if (i == 640)
+	{
+		printf("camera device intersect (%f,%f,%f)\n", camera.x, camera.y, camera.z);
+		printf("ray_buf[640] (%f,%f,%f)\n", ray_buf[i].x,ray_buf[i].x,ray_buf[i].x);
+	}
     if (index_buf[i] != -1)
     {
-        intersection_buf[i] = ray_buf[i] * depth_buf[i];
+        intersection_buf[i].x = ray_buf[i].x * depth_buf[i];
+		intersection_buf[i].y = ray_buf[i].y * depth_buf[i];
+		intersection_buf[i].z = ray_buf[i].z * depth_buf[i];
         intersection_buf[i] = intersection_buf[i] + camera;
     }
     else

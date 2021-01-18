@@ -142,7 +142,7 @@ float cone_intersection(t_cone cone, float3 ray_start, float3 ray_dir)
 }
 
 __kernel void intersect_ray_cone_cl(__global float3 *ray_arr, \
-                                __global float3 *camera_start, \
+                                float3 camera_start, \
                                 __global float *depth_buf, \
                                 t_cone cone, \
                                 __global int *index_buf, \
@@ -150,7 +150,7 @@ __kernel void intersect_ray_cone_cl(__global float3 *ray_arr, \
 {
     int i = get_global_id(0);
 	float result = 0;
-	result = cone_intersection(cone, camera_start[0], ray_arr[i]);
+	result = cone_intersection(cone, camera_start, ray_arr[i]);
 	if (result > 0 && result < depth_buf[i])
     {
         depth_buf[i] = result;

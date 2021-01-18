@@ -5,7 +5,7 @@
 		"rotation": [0, 0, 0],
 		"color": [255, 255, 255, 255],
 		"specular": 10,
-		"texture": "no"
+		"texture": "textures/red.jpg"
 	},
 	"cone": [
 		{
@@ -15,7 +15,7 @@
 			"rotation": [-0.2, 0, 0.3],
 			"color": [178, 42, 42, 255],
 			"specular": 10,
-			"texture": "no"
+			"texture": "textures/red.jpg"
 		},
 		{
 			"position": [8, 5, -10],
@@ -24,7 +24,7 @@
 			"rotation": [0, 0, -0.3],
 			"color": [194, 176, 41, 255],
 			"specular": 100,
-			"texture": "no"
+			"texture": "textures/helper.jpg"
 		}
 	],
 	"triangle": [

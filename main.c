@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:02 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/16 16:33:16 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/01/18 20:08:32 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int		main(int args, char **argv)
 	SDL_RenderClear(sdl.renderer);
 	/*инициализация секущих поверхностей
 	в будущем должна производиться из фаила*/
-	scene->objs[0]->cs_nmb = 0;
+	//scene->objs[0]->cs_nmb = 0;
 /*  	scene->objs[0]->cutting_surfaces = malloc(sizeof(t_cutting_surface) * scene->objs[0]->cs_nmb);
 	scene->objs[0]->cutting_surfaces[0].plane.normal = get_point(1,0,0);
 	scene->objs[0]->cutting_surfaces[0].plane.point = get_point(0,0,0);

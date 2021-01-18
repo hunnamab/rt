@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 21:42:26 by pmetron           #+#    #+#             */
-/*   Updated: 2021/01/13 18:25:44 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/18 19:18:04 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ void		intersect_ray_triangle(t_scene *scene, int index)
 	//t_triangle *tri = (t_triangle *)scene->objs[index]->data;
 
 	clSetKernelArg(scene->cl_data.kernels[4], 0, sizeof(cl_mem), &scene->cl_data.scene.ray_buf);
-	clSetKernelArg(scene->cl_data.kernels[4], 1, sizeof(cl_mem), &scene->cl_data.scene.camera);
+	clSetKernelArg(scene->cl_data.kernels[4], 1, sizeof(cl_float3), (void *)&scene->camera.position);
 	clSetKernelArg(scene->cl_data.kernels[4], 2, sizeof(cl_mem), &scene->cl_data.scene.depth_buf);
 	clSetKernelArg(scene->cl_data.kernels[4], 3, sizeof(t_triangle), scene->objs[index]->data);
 	clSetKernelArg(scene->cl_data.kernels[4], 4, sizeof(cl_mem), &scene->cl_data.scene.index_buf);

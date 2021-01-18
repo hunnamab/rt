@@ -154,7 +154,7 @@ __kernel  void    intersect_ray_ellipsoid(__global float3 *ray_arr, float3 camer
 {
     int i = get_global_id(0);
     float result;
-    result = ellipsoid_intersection(el, camera_start[0], ray_arr[i]);
+    result = ellipsoid_intersection(el, camera_start, ray_arr[i]);
     /* float k1;
     float k2;
     float k3;

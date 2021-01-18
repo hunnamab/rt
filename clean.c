@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 17:32:12 by pmetron           #+#    #+#             */
-/*   Updated: 2021/01/16 18:48:01 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/18 19:21:36 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	clean_scene(t_scene *scene)
 	clReleaseMemObject(scene->cl_data.scene.index_buf);
 	clReleaseMemObject(scene->cl_data.scene.depth_buf);
 	clReleaseMemObject(scene->cl_data.scene.normal_buf);
-	clReleaseMemObject(scene->cl_data.scene.camera);
 	clReleaseMemObject(scene->cl_data.scene.obj);
 	while (i < 9)
 	{
