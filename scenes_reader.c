@@ -6,7 +6,7 @@
 /*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:43 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/12 18:35:23 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/01/18 19:10:45 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ static void	get_objects(char *buf, t_scene *scene, int len)
 {
 	int snmi[4]; // start, n, m, i
 	char c;
+	int i = 0;
 
 	snmi[0] = 2;
 	snmi[1] = 0;
@@ -58,6 +59,7 @@ static void	get_objects(char *buf, t_scene *scene, int len)
 	split_objects(len, scene, buf);
 	scene->objs = protected_malloc(sizeof(t_object *), scene->obj_nmb); // создаем массив структур для объектов
 	scene->light = protected_malloc(sizeof(t_light), scene->light_nmb);
+	scene->texts = protected_malloc(sizeof(t_texture *), scene->obj_nmb);
 	while (snmi[3] < len)
 	{
 		if (buf[snmi[3] + 1] == '{' || buf[snmi[3] + 1] == '[')
@@ -76,6 +78,12 @@ static void	get_objects(char *buf, t_scene *scene, int len)
 				snmi[3]++;
 		}*/
 		snmi[3]++;
+	}
+	while (i < scene->obj_nmb)
+	{
+		scene->texts[i] = scene->objs[i]->text;
+		scene->objs[i]->texture_id = i;
+		i++;
 	}
 	ft_memdel((void **)&buf);
 }

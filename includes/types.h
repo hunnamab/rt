@@ -6,7 +6,7 @@
 /*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:58 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/18 16:07:07 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/01/18 19:09:28 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,6 +226,7 @@ struct		s_scene
 	cl_float3		*viewport;
 	int				*index_buf;
 	float			*depth_buf;
+	t_texture		**texts;
 	t_color			*pixels;
 	int				mode; // 0 - default, 1 - normal, 2 - depth, 3 - flat_light
 	void			(*init[4])(struct s_scene *);

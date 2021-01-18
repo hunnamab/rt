@@ -19,10 +19,10 @@ void	get_material_buf(t_scene *scene)
 			i = y * WID + x;
 			if (scene->index_buf[i] != -1)
 			{	
-				if (scene->objs[scene->index_buf[i]]->text != NULL)
+				if (scene->texts[scene->objs[scene->index_buf[i]]->texture_id] != NULL)
 				{
 					t = text_map_select(scene->objs[scene->index_buf[i]], scene->intersection_buf[i]);
-					col = get_color_tex(scene->objs[scene->index_buf[i]]->text, t.x, t.y);
+					col = get_color_tex(scene->texts[scene->objs[scene->index_buf[i]]->texture_id], t.x, t.y);
 				}
 				else
 					col = scene->objs[scene->index_buf[i]]->color;
