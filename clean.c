@@ -54,11 +54,11 @@ void	clean_scene(t_scene *scene)
 		i++;
 	}
 	i = 0;
-	while (i < scene->light_nmb)
+/* 	while (i < scene->light_nmb)
 	{
 		ft_memdel((void **)&scene->light[i]);
 		i++;
-	}
+	} */
 	free(scene->light);
 	free(scene->objs);
 	ft_memdel((void **)&scene);

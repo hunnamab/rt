@@ -55,7 +55,7 @@ void		draw_deepth_buf(t_sdl *sdl, t_scene *scene);
 void		draw_raycast(t_sdl *sdl, t_scene *scene);
 // light.c
 t_color		reflection_color(t_scene *scene, int index);
-t_light		*new_light(cl_float3 *pos_dir, int type, float intensity);
+t_light		new_light(cl_float3 *pos_dir, int type, float intensity);
 cl_float3	get_light_vec(t_scene *scene, int index, int j);
 float		get_specular(t_scene *scene, int index, int j, cl_float3 *l);
 int			in_shadow(t_scene *scene, int index, cl_float3 l);
@@ -128,9 +128,6 @@ float		**get_scale_matrix(float *scale);
 float		**rotate_x(float x);
 float		**rotate_z(float z);
 float		**rotate_y(float y);
-// get_structures.c
-t_object	**get_objects_structures(int obj_nmb, t_object **buf);
-t_light		**get_light_structures(int light_nmb, t_object **buf);
 // buffers.c
 void		get_rays_arr(t_scene *scene);
 void		get_buffers(t_scene *scene);

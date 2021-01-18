@@ -28,7 +28,8 @@ void	draw_scene(t_sdl *sdl, t_scene *scene)
 
 	printf("sizeof light (host) = %lu\n", sizeof(t_light));
 
-	scene->cl_data.scene.light = clCreateBuffer(scene->cl_data.context, CL_MEM_READ_WRITE, sizeof(t_light) * scene->light_nmb, scene->light, NULL);
+	scene->cl_data.scene.light = clCreateBuffer(scene->cl_data.context, CL_MEM_READ_ONLY |
+		CL_MEM_HOST_WRITE_ONLY | CL_MEM_COPY_HOST_PTR, sizeof(t_light) * scene->light_nmb, scene->light, NULL);
 	
 	clSetKernelArg(scene->cl_data.kernels[9], 0, sizeof(cl_mem), &scene->cl_data.scene.frame_buf);
 	clSetKernelArg(scene->cl_data.kernels[9], 1, sizeof(cl_mem), &scene->cl_data.scene.ray_buf);

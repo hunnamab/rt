@@ -45,7 +45,7 @@ static void	init_norme(cl_float3 *pos_dir, float *intensity)
 
 static void	one_light(char **description, t_scene *scene, int * snmi)
 {
-	t_light		*light;
+	t_light		light;
 	cl_float3	pos_dir[2];
 	double		intensity;
 	char		*type;
@@ -75,9 +75,9 @@ static void	one_light(char **description, t_scene *scene, int * snmi)
 	free(type);
 }
 
-static t_light		*many_lights(char **description, int *snmi, int i, char *type)
+static t_light		many_lights(char **description, int *snmi, int i, char *type)
 {
-	t_light		*light;
+	t_light		light;
 	cl_float3	pos_dir[2];
 	double		intensity;
 	int 		new_type;
@@ -103,15 +103,15 @@ static t_light		*many_lights(char **description, int *snmi, int i, char *type)
 	return (light);
 }
 
-void	get_light(char **description, t_scene *scene, int * snmi)
+void	get_light(char **description, t_scene *scene, int *snmi)
 {
-	t_light		*light;
+	t_light		light;
 	cl_float3	pos_dir[2];
 	double		intensity;
 	char		*type;
 	int 		i;
 
-	light = NULL;
+	//light = NULL;
 	i = 1;
 	if (description[0][0] == '[')
 	{

@@ -12,15 +12,15 @@
 
 #include "rt.h"
 
-t_light		*new_light(cl_float3 *pos_dir, int type, float intensity)
+t_light		new_light(cl_float3 *pos_dir, int type, float intensity)
 {
-	t_light *new_light;
+	t_light new_light;
 
-	new_light = protected_malloc(sizeof(t_light), 1);
-	new_light->type = type;
-	new_light->intensity = intensity;
-	new_light->position = pos_dir[0];
-	new_light->direction = pos_dir[1];
+	//new_light = protected_malloc(sizeof(t_light), 1);
+	new_light.type = type;
+	new_light.intensity = intensity;
+	new_light.position = pos_dir[0];
+	new_light.direction = pos_dir[1];
 	return (new_light);
 }
 
@@ -29,11 +29,11 @@ cl_float3		get_light_vec(t_scene *scene, int index, int j)
 	cl_float3 light_vec;
 
 	light_vec = get_point(0, 0, 0);
-	if (scene->light[j]->type == POINT)
-		light_vec = vector_sub(&scene->light[j]->position, \
+	if (scene->light[j].type == POINT)
+		light_vec = vector_sub(&scene->light[j].position, \
 		&scene->intersection_buf[index]);
-	if (scene->light[j]->type == DIRECTIONAL)
-		light_vec = scene->light[j]->direction;
+	if (scene->light[j].type == DIRECTIONAL)
+		light_vec = scene->light[j].direction;
 	return (light_vec);
 }
 
@@ -78,7 +78,7 @@ float		get_specular(t_scene *scene, int index, int j, cl_float3 *l)
 	d.z = -scene->ray_buf[index].z;
 	nri[1] = vector_dot(&r, &d);
 	if (nri[1] > 0)
-		nri[2] += scene->light[j]->intensity * pow((float)nri[1] / \
+		nri[2] += scene->light[j].intensity * pow((float)nri[1] / \
 		(vector_length(&r) * vector_length(&d)), \
 		scene->material_buf[index].specular);
 	return (nri[2]);
@@ -95,8 +95,8 @@ t_color		reflection_color(t_scene *scene, int index)
 	i = 0;
 	while (++j < scene->light_nmb)
 	{
-		if (scene->light[j]->type == AMBIENT)
-			i += scene->light[j]->intensity;
+		if (scene->light[j].type == AMBIENT)
+			i += scene->light[j].intensity;
 		else
 		{
 			l = get_light_vec(scene, index, j);
@@ -105,7 +105,7 @@ t_color		reflection_color(t_scene *scene, int index)
 			{
 				if (scene->material_buf[index].specular != -1)
 					i += get_specular(scene, index, j, &l);
-				i += (scene->light[j]->intensity * n_dot_l) / vector_length(&l);
+				i += (scene->light[j].intensity * n_dot_l) / vector_length(&l);
 			}
 		}
 	}

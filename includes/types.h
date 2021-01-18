@@ -220,7 +220,7 @@ struct		s_scene
 	t_material		*material_buf;
 	cl_float3		*intersection_buf;
 	cl_float3		*ray_buf;
-	t_light			**light;
+	t_light			*light;
 	int				light_nmb;
 	t_camera		camera;
 	cl_float3		*viewport;

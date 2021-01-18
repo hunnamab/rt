@@ -57,7 +57,7 @@ static void	get_objects(char *buf, t_scene *scene, int len)
 	scene->obj_nmb = count_objects(len, buf); // выясняем кол-во объектов сцены
 	split_objects(len, scene, buf);
 	scene->objs = protected_malloc(sizeof(t_object *), scene->obj_nmb); // создаем массив структур для объектов
-	scene->light = protected_malloc(sizeof(t_light *), scene->light_nmb);
+	scene->light = protected_malloc(sizeof(t_light), scene->light_nmb);
 	while (snmi[3] < len)
 	{
 		if (buf[snmi[3] + 1] == '{' || buf[snmi[3] + 1] == '[')
