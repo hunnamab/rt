@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 14:34:50 by pmetron           #+#    #+#             */
-/*   Updated: 2020/11/10 18:18:53 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/18 16:06:36 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,17 @@ void	draw_scene(t_sdl *sdl, t_scene *scene)
     clEnqueueNDRangeKernel(scene->cl_data.commands, scene->cl_data.kernels[9], 1, NULL, &global, &local, 0, NULL, NULL);
     clFinish(scene->cl_data.commands);
 	//clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.intersection_buf, CL_TRUE, 0, sizeof(cl_float3) * global, scene->intersection_buf, 0, NULL, NULL);
-
+	scene->pixels = protected_malloc(sizeof(t_color), (WID * HEI));
 	while (++y < HEI)
 	{
 		while (++x < WID)
 		{
 			i = y * WID + x;
 			if (scene->index_buf[i] != -1)
+			{
 				color = reflection_color(scene, i);
+				copy_color(&scene->pixels[i],  &color);
+			}
 			else
 				set_color_zero(&color);
 			SDL_SetRenderDrawColor(sdl->renderer, \
