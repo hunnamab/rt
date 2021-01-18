@@ -162,7 +162,7 @@ float3  get_normal_cylinder(t_cylinder obj, \
 		printf("normal[%d] (%f,%f,%f)\n", index, normal.x,normal.y,normal.z);
 		printf("depth_buf[%d] == %f\n", index, depth_buf);
 	} */
-	return(normal);
+	return (normal);
 }
 
 void get_normal_cone(__global t_object_d *obj, \
