@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   types.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:58 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/19 19:42:41 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/01/19 20:22:37 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct 			s_scene_device
 	cl_mem				frame_buf;
 	cl_mem				obj;
 	cl_mem				light;
+	cl_mem				textures;
 }						t_scene_device;
 
 typedef	struct 			s_cl_data
@@ -216,6 +217,10 @@ typedef struct 			 s_object3d_d
 	cl_int				color_disrupt;
 	cl_int 				type;
 	cl_int				texture_id;
+	cl_int 				texture_size;
+	cl_int				texture_width;
+	cl_int				texture_height;
+	cl_int				l_size;
 }						t_object_d;
 
 struct		s_scene

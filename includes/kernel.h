@@ -17,10 +17,10 @@ typedef	struct		s_light
 
 typedef struct 		s_color
 {
-	unsigned char	red;
-	unsigned char	green;
-	unsigned char	blue;
-	unsigned char	alpha;
+	uchar			red;
+	uchar			green;
+	uchar			blue;
+	uchar			alpha;
 }					t_color;
 
 typedef	struct		s_material
@@ -110,6 +110,10 @@ typedef struct 			s_object3d_d
 	int					color_disrupt;
 	int 				type;
 	int					texture_id;
+	int 				texture_size;
+	int					texture_width;
+	int					texture_height;
+	int					l_size;
 }						t_object_d;
 
 #endif

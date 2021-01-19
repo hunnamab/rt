@@ -62,6 +62,27 @@ void	device_objects_init(t_scene *scene)
 			buf[i].primitive.ellipsoid.abc = el->abc;
 			buf[i].primitive.ellipsoid.center = el->center;
 		}
+		if (scene->objs[i]->text != NULL)
+        {
+			int l = 0;
+			int shift = 0;
+			while (l < scene->objs[i]->texture_id)
+			{
+				shift += scene->texts[l]->size;
+				l++;
+			}
+			buf[i].texture_id = shift;
+			buf[i].texture_size = scene->texts[l]->size;
+			buf[i].texture_width = scene->texts[l]->width;
+			buf[i].texture_height =  scene->texts[l]->height;
+			buf[i].l_size = scene->texts[l]->l_size;
+			shift = 0;
+		}
+		else
+		{
+			buf[i].texture_id = -1;
+			buf[i].texture_size = -1;
+		}
 		buf[i].rotation = get_point(0,0,0);
 		buf[i].specular = scene->objs[i]->specular;
 		buf[i].color = scene->objs[i]->color;
@@ -266,6 +287,21 @@ int    cl_init(t_scene *scene)
 	ft_strdel(&get_frame_buf_cl);
 	close(fd10);
 
+	int		ret11;
+	char	*get_material_buf_cl;
+	int fd11 = open("./kernels/get_material_buf_cl.cl", O_RDONLY);
+	get_material_buf_cl = protected_malloc(sizeof(char), 256000);
+	ret11 = read(fd11, get_material_buf_cl, 64000);
+	get_material_buf_cl[ret11] = '\0';
+	
+	if ((scene->cl_data.programs[10] = clCreateProgramWithSource(scene->cl_data.context, 1, (const char **)&get_material_buf_cl, NULL, &err)))
+		printf("cоздана программа get_material_buf_cl\n");
+	if ((clBuildProgram(scene->cl_data.programs[10], 0, NULL, "-I includes", NULL, &err)))
+		printf("собрана программа get_material_buf_cl\n");
+	if (!(scene->cl_data.kernels[10] = clCreateKernel(scene->cl_data.programs[10], "get_material_buf_cl", &err)))
+		printf("не собрана программа 10, error %d get_material_buf_cl\n", err);
+	ft_strdel(&get_material_buf_cl);
+	close(fd11);
 	//Создание буферов на гпу
 	scene->cl_data.scene.ray_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, NULL);
 	scene->cl_data.scene.viewport = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, NULL);
@@ -274,6 +310,9 @@ int    cl_init(t_scene *scene)
 	scene->cl_data.scene.depth_buf = clCreateBuffer(scene->cl_data.context,  0,  sizeof(float) * count, NULL, NULL);
 	scene->cl_data.scene.normal_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, NULL);
 	scene->cl_data.scene.frame_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, NULL);
+	scene->cl_data.scene.light = clCreateBuffer(scene->cl_data.context, CL_MEM_READ_ONLY |
+		CL_MEM_HOST_WRITE_ONLY | CL_MEM_COPY_HOST_PTR, sizeof(t_light) * scene->light_nmb, scene->light, NULL);
+	scene->cl_data.scene.material_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(t_material) * count, NULL, NULL);
 	device_objects_init(scene);
 	return (0);
 }
