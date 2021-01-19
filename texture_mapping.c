@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture_mapping.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/19 19:15:41 by ldeirdre          #+#    #+#             */
-/*   Updated: 2021/01/18 20:54:00 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/19 19:53:49 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ cl_float3 text_map_select(t_object *obj, cl_float3 t)
 		p = mapping_triangle(t, obj);
     return (p);
 }
-static cl_float3 		change_basis(cl_float3 vec)
+/*static cl_float3 		change_basis(cl_float3 vec)
 {
 	cl_float3
 	tmp;
@@ -37,6 +37,15 @@ static cl_float3 		change_basis(cl_float3 vec)
 	tmp.y = vec.x * 0.0 + vec.y * 1.0 + vec.z * 0.0;
 	tmp.z = vec.x * 0.0 + vec.y * 0.0 + vec.z * 1.0;
 	return (tmp);
+}
+*/
+static cl_float3  change_basis(cl_float3 vec, t_basis basis)
+{
+    cl_float3  tmp;
+    tmp.x = vec.x * basis.v.x + vec.y * basis.v.y + vec.z * basis.v.z;
+    tmp.y = vec.x * basis.u.x + vec.y * basis.u.y + vec.z * basis.u.z;
+    tmp.z = vec.x * basis.w.x + vec.y * basis.w.y + vec.z * basis.w.z;
+    return tmp;
 }
 
 cl_float3 	mapping_plane(cl_float3 t, t_object *obj)
@@ -60,7 +69,7 @@ cl_float3		mapping_triangle(cl_float3 t, t_object *obj)
 	t.x -= lol->vertex[0].x;
 	t.y -= lol->vertex[0].y;
 	t.z -= lol->vertex[0].z;
-	t = change_basis(t);
+	t = change_basis(t, obj->basis);
 	t.x /= 10;
 	t.y /= 10;
 	t.z /= 10;
@@ -80,7 +89,7 @@ cl_float3		mapping_cone(cl_float3 t, t_object *obj)
 	t.x -= lol->position.x;
 	t.y -= lol->position.y;
 	t.z -= lol->position.z;
-	t = change_basis(t);
+	t = change_basis(t, obj->basis);
 	tmp.x = t.x;
 	tmp.y = t.z;
 	tmp = normalize(tmp);
@@ -104,7 +113,7 @@ cl_float3		mapping_cylinder(cl_float3 t, t_object *obj)
 	t.x -= lol->position.x;
 	t.y -= lol->position.y;
 	t.z -= lol->position.z;
-	t = change_basis(t);
+	t = change_basis(t, obj->basis);
 	float	phi = acos(t.x / lol->radius) / M_PI_2;
 	phi = t.z > 0 ? 1.f - phi : phi;
 	t.x /= lol->radius;
@@ -138,7 +147,7 @@ cl_float3		mapping_sphere(cl_float3 t, t_object *obj)
 	t.x -= lol->center.x;
 	t.y -= lol->center.y;
 	t.z -= lol->center.z;
-	t = change_basis(t);
+	t = change_basis(t, obj->basis);
 	t.x /= lol->radius;
 	t.y /= lol->radius;
 	t.z /= lol->radius;

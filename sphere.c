@@ -3,15 +3,61 @@
 /*                                                        :::      ::::::::   */
 /*   sphere.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 22:45:20 by pmetron           #+#    #+#             */
-/*   Updated: 2021/01/18 19:08:35 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/19 19:57:05 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 #include "types.h"
+
+cl_float3   clvec_rot_x(cl_float3 v, double a)
+{
+    cl_float3   r;
+    r.x = v.x;
+    r.y = (float)(v.y * cos(a) - v.z * sin(a));
+    r.z = (float)(v.y * sin(a) + v.z * cos(a));
+    return (r);
+}
+cl_float3   clvec_rot_y(cl_float3 v, double a)
+{
+    cl_float3   r;
+    r.x = (float)(v.x * cos(a) + v.z * sin(a));
+    r.y = v.y;
+    r.z = (float)(v.z * cos(a) - v.x * sin(a));
+    return (r);
+}
+cl_float3   clvec_rot_z(cl_float3 v, double a)
+{
+    cl_float3   r;
+    r.x = (float)(v.x * cos(a) - v.y * sin(a));
+    r.y = (float)(v.x * sin(a) + v.y * cos(a));
+    r.z = v.z;
+    return (r);
+}
+t_basis get_basis(t_basis basis, float 	*rot)
+{
+    basis.u = clvec_rot_x(basis.u, (rot[0]));
+    basis.u = clvec_rot_y(basis.u, (rot[1]));
+    basis.u = clvec_rot_z(basis.u, (rot[2]));
+    basis.v = clvec_rot_x(basis.v, (rot[0]));
+    basis.v = clvec_rot_y(basis.v, (rot[1]));
+    basis.v = clvec_rot_z(basis.v, (rot[2]));
+    basis.w = clvec_rot_x(basis.w, (rot[0]));
+    basis.w = clvec_rot_y(basis.w, (rot[1]));
+    basis.w = clvec_rot_z(basis.w, (rot[2]));
+    return (basis);
+}
+t_basis get_default(t_basis basis)
+{
+    basis.u = (cl_float3){{0.0, 1.0, 0.0}};
+    basis.v = (cl_float3){{1.0, 0.0, 0.0}};
+    basis.w = (cl_float3){{0.0, 0.0, 1.0}};
+    return (basis);
+}
+
 
 t_object	*new_sphere(cl_float3 center, float *rad_spec, t_color color, \
 						float *rotation)
@@ -37,6 +83,8 @@ t_object	*new_sphere(cl_float3 center, float *rad_spec, t_color color, \
 	new_object->clear_obj = &clear_default;
 	new_object->cs_nmb = 0; //cutting surfaces init
 	new_object->cutting_surfaces = NULL;
+	new_object->basis = get_default(new_object->basis);
+	new_object->basis = get_basis(new_object->basis, new_object->rotation);
 	printf("new sphere radius %f\n", new_sphere->radius);
 	return (new_object);
 }

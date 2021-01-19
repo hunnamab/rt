@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:34 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/18 20:35:24 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/19 19:58:10 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 
 # define ABS(x)		(x) > 0 ? (x) : -(x)
 # define DROUND(d)	ABS(d) < 0.00001 ? 0 : (d)
+# define DTR(k)	((double)k * (M_PI / 180))
 
 # define WID 1280
 # define HEI 720
@@ -188,5 +189,10 @@ void    load_textures(t_scene *scene);
 void        intersect_ray_ellipsoid(t_scene *scene, int index);
 t_object    *new_ellipsoid(cl_float3 center, cl_float3 abc, t_color color, cl_float3 rotation, float specular);
 void	device_objects_init(t_scene *scene);
+t_basis get_default(t_basis basis);
+t_basis get_basis(t_basis basis, float 	*rot);
+cl_float3   clvec_rot_x(cl_float3 v, double a);
+cl_float3   clvec_rot_y(cl_float3 v, double a);
+cl_float3   clvec_rot_z(cl_float3 v, double a);
 
 #endif

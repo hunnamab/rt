@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   types.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:58 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/18 20:32:25 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/19 19:42:41 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,13 @@ typedef	struct		 __attribute__((aligned(256))) s_cutting_surface
 	t_cylinder		cylinder;
 }					t_cutting_surface;
 
+typedef struct          s_basis
+{
+    cl_float3       u;
+    cl_float3       v;
+    cl_float3       w;
+}                       t_basis;
+
 typedef	struct		s_object3d
 {
 	void			*data;
@@ -178,6 +185,7 @@ typedef	struct		s_object3d
 	t_color			color;
 	float			specular;
 	t_texture		*text;
+	t_basis			basis;
 	int 			type;
 	int				texture_id;
 	t_cutting_surface *cutting_surfaces;

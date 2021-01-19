@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cylinder.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:11:46 by pmetron           #+#    #+#             */
-/*   Updated: 2021/01/18 19:14:57 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/19 19:57:24 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ t_object	*new_cylinder(cl_float3 *pos_vec, float *rad_spec, t_color color, \
 	new_object->intersect = &intersect_ray_cylinder;
 	new_object->get_normal = &get_cylinder_normal;
 	new_object->clear_obj = &clear_default;
+	new_object->basis = get_default(new_object->basis);
+	new_object->basis = get_basis(new_object->basis, new_object->rotation);
 	return (new_object);
 }
 
