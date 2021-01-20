@@ -114,6 +114,7 @@ typedef struct 			s_object3d_d
 	int					texture_width;
 	int					texture_height;
 	int					l_size;
+	int					basis;
 }						t_object_d;
 
 #endif

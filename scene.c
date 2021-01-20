@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 14:21:11 by pmetron           #+#    #+#             */
-/*   Updated: 2021/01/18 19:52:56 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/20 18:34:01 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	refresh_scene(t_scene *scene)
 	while (++x < WID * HEI)
 		transform(&scene->ray_buf[x], matrix, 1);
 	matr_free(matrix, 4);
-	clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.ray_buf, CL_TRUE, 0, sizeof(cl_float3) * WID * HEI, scene->ray_buf, 0, NULL, NULL);
+	clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.ray_buf, CL_FALSE, 0, sizeof(cl_float3) * WID * HEI, scene->ray_buf, 0, NULL, NULL);
 	scene->depth_buf != NULL ? get_closest_points(scene, 0) : NULL;
 	scene->intersection_buf != NULL ? get_intersection_buf(scene) : NULL;
 	scene->normal_buf != NULL ? get_normal_buf(scene) : NULL;

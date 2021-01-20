@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:34 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/19 19:58:10 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/01/20 18:44:31 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,9 +165,9 @@ int    		cl_init(t_scene *scene);
 t_texture	*tex_new_bmp(char *file);
 t_texture	*tex_new_surface(SDL_Surface *s);
 char		*get_file(char *description);
-t_color		get_color_tex(t_texture *texture, float x, float y);
-cl_float3		mapping_sphere(cl_float3 t, t_object *obj);
-cl_float3 	text_map_select(t_object *obj, cl_float3 t);
+t_color		get_color_tex(t_texture *texture, float x, float y, int index);
+cl_float3		mapping_sphere(cl_float3 t, t_object *obj, int index);
+cl_float3 	text_map_select(t_object *obj, cl_float3 t, int index);
 cl_float3 	mapping_plane(cl_float3 t, t_object *obj);
 cl_float3		mapping_cylinder(cl_float3 t, t_object *obj);
 cl_float3		mapping_cone(cl_float3 t, t_object *obj);

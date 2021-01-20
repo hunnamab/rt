@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/17 18:09:19 by ldeirdre          #+#    #+#             */
-/*   Updated: 2021/01/15 17:25:38 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/20 19:21:06 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ t_texture		*tex_new_surface(SDL_Surface *s)
 	return (ret);
 }
 
-t_color	get_color_tex(t_texture *texture, float x, float y)
+t_color	get_color_tex(t_texture *texture, float x, float y, int index)
 {
 
 	if (x < 0)
@@ -70,12 +70,21 @@ t_color	get_color_tex(t_texture *texture, float x, float y)
 	int fx = texture->width - (int)(texture->width * x) % texture->width;
 	int fy = (int)(texture->height * y) % texture->height;
    	Uint8 bpp = texture->bytes_per_pixel;
-	Uint32 pixel = *(Uint32 *)(((Uint8*)texture->pixels) + bpp * fx + texture->l_size * fy);
+	unsigned int pixel = *(unsigned int *)(((unsigned char*)texture->pixels) + bpp * fx + texture->l_size * fy);
     t_color c;
 	
 	c.red = pixel >> 16;
 	c.green = pixel >> 8;
 	c.blue = pixel >> 0;
-	
+	if (index == 1280 * 360 - 640)
+	{
+		printf("fx %d fy %d l_size %d width %d height %d\n", fx, fy, texture->l_size, texture->width, texture->height);
+		printf("color (%hhd,%hhd,%hhd)\n", c.red, c.green, c.blue);
+		printf("index %d\n", index);
+		printf("texture in textures.c (%hhu,%hhu,%hhu,%hhu)\n", texture->pixels[index], texture->pixels[index + 1], texture->pixels[index + 2], texture->pixels[index + 3]);
+		printf("pixel host %u\n", pixel);
+		printf("index host %d\n", bpp * fx + texture->l_size * fy);
+		printf("bpp %d\n", texture->bytes_per_pixel);
+	}
     return (c);
 }

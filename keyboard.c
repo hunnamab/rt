@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   keyboard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/06 13:38:13 by pmetron           #+#    #+#             */
-/*   Updated: 2021/01/18 16:11:24 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/01/20 18:32:43 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,6 @@ int		keyboard(t_sdl *sdl, t_scene *scene)
 			SDLK_q ==  sdl->event.key.keysym.sym ? camera_move_up(scene) : 0;
 			SDLK_e ==  sdl->event.key.keysym.sym ? camera_move_down(scene) : 0;
 			SDLK_SPACE == sdl->event.key.keysym.sym ? screen_png(scene): 0;
-			scene->draw[scene->mode](sdl, scene);
 		}
 	}
 	return (1);

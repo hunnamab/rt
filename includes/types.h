@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:58 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/19 20:22:37 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/20 19:40:41 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,6 +221,7 @@ typedef struct 			 s_object3d_d
 	cl_int				texture_width;
 	cl_int				texture_height;
 	cl_int				l_size;
+	cl_int				basis;
 }						t_object_d;
 
 struct		s_scene

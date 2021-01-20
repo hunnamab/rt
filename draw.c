@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 14:34:50 by pmetron           #+#    #+#             */
-/*   Updated: 2021/01/19 17:57:33 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/20 19:31:49 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	draw_scene(t_sdl *sdl, t_scene *scene)
 			if (scene->index_buf[i] != -1)
 			{
 				color = reflection_color(scene, i);
-				copy_color(&scene->pixels[i],  &color);
+				copy_color(&scene->pixels[i], &color);
 			}
 			else
 				set_color_zero(&color);

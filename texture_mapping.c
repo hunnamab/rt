@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   texture_mapping.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/19 19:15:41 by ldeirdre          #+#    #+#             */
-/*   Updated: 2021/01/19 19:53:49 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/01/20 18:44:55 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 #include <OpenCL/opencl.h>
-cl_float3 text_map_select(t_object *obj, cl_float3 t)
+cl_float3 text_map_select(t_object *obj, cl_float3 t, int index)
 {
     cl_float3 p;
 
     if (ft_strequ(obj->tag, "sphere"))
-		p = mapping_sphere(t, obj);
+		p = mapping_sphere(t, obj, index);
 	if (ft_strequ(obj->tag, "plane"))
 		p = mapping_plane(t, obj);
 	if (ft_strequ(obj->tag, "cylinder"))
@@ -136,7 +136,7 @@ cl_float3		normalize(cl_float3 vec)
 	return (vec);
 }
 
-cl_float3		mapping_sphere(cl_float3 t, t_object *obj)
+cl_float3		mapping_sphere(cl_float3 t, t_object *obj, int index)
 {
     t_sphere *lol;
 	cl_float3 p;

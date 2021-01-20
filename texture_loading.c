@@ -2,11 +2,11 @@
 
 void    load_textures(t_scene *scene)
 {
-    long long unsigned int sizeoftextures; //сумма массивов пикселей всех текстур
+    long long unsigned int sizeoftextures = 0; //сумма массивов пикселей всех текстур
     int i;
-    char *texture_buf;
-    int shift;
-    int err;
+    unsigned char *texture_buf;
+    int shift = 0;
+    int err = 0;
     i = 0;
     while(i < scene->obj_nmb)
     {
@@ -28,21 +28,24 @@ void    load_textures(t_scene *scene)
         }
         i++;
     }
-    texture_buf -= sizeoftextures;
     current_size = 0;
+    texture_buf -= sizeoftextures;
     for (int k = 0; k < scene->obj_nmb; k++)
     {
          if (scene->objs[k]->text != NULL)
          {
-            for(int l = 0; l < scene->objs[k]->text->size; l++)
-                if(texture_buf[current_size + l] != scene->objs[k]->text->pixels[l])
-                    printf("copy texture error text_buf == %d pixel == %d\n", texture_buf[current_size + l], scene->objs[k]->text->pixels[l]);
+            //for(int l = 0; l < scene->objs[k]->text->size; l++)
+                //if(texture_buf[current_size + l] != scene->objs[k]->text->pixels[l])
+                    //printf("copy texture error text_buf == %d pixel == %d\n", texture_buf[current_size + l], scene->objs[k]->text->pixels[l]);
             current_size += scene->objs[k]->text->size;
          }
     }
     printf("sizeoftext %llu\n", sizeoftextures);
-    clCreateBuffer(scene->cl_data.context, CL_MEM_READ_ONLY |
+    scene->cl_data.scene.textures = clCreateBuffer(scene->cl_data.context, CL_MEM_READ_ONLY |
 		CL_MEM_HOST_WRITE_ONLY | CL_MEM_COPY_HOST_PTR, sizeoftextures, texture_buf, &err);
+    int index = 1280 * 360 - 640;
+    printf("texture (%hhu,%hhu,%hhu,%hhu)\n", texture_buf[index], texture_buf[index + 1], texture_buf[index + 2], texture_buf[index + 3]);
+    printf("pixels (%hhu,%hhu,%hhu,%hhu)\n", scene->texts[0]->pixels[index], scene->texts[0]->pixels[index + 1], scene->texts[0]->pixels[index + 2], scene->texts[0]->pixels[index + 3]);
     if (err == 0)
         printf("textures copied on the device\n");
 }
