@@ -11,34 +11,36 @@
 	return (tmp);
 }
 
-
-float3 	mapping_plane(float3 t, t_object obj)
+*/
+float3 	mapping_plane(float3 t, t_object_d obj)
 {
 	float3 p;
-
-	p.x = fabs(fmod(t.x, 1.0));
-	p.y = fabs(fmod(t.z, 1.0));
-	return (p);
-}
-
-float3		mapping_triangle(float3 t, t_object obj)
-{
-	float3 p;
-
-	t.x -= obj.primitive.tringle.vertex[0].x;
-	t.y -= obj.primitive.tringle.vertex[0].y;
-	t.z -= obj.primitive.tringle.vertex[0].z;
-	t = change_basis(t, obj.basis);
-	t.x /= 10;
-	t.y /= 10;
-	t.z /= 10;
-	p.x = (t.x);
-	p.y = (t.z);
+	float a = fmod(t.x, 1.0f);
+	float b = fmod(t.z, 1.0f);
+ 	p.x = fabs(a);
+	p.y = fabs(b);
 	p.z = 0;
 	return (p);
 }
 
-float3		mapping_cone(float3 t, t_object obj)
+float3		mapping_triangle(float3 t, t_object_d obj)
+{
+	float3 p;
+
+	t.x -= obj.primitive.triangle.vertex[0].x;
+	t.y -= obj.primitive.triangle.vertex[0].y;
+	t.z -= obj.primitive.triangle.vertex[0].z;
+	//t = change_basis(t, obj.basis);
+	t.x /= 10;
+	t.y /= 10;
+	t.z /= 10;
+	p.x = t.x;
+	p.y = t.z;
+	p.z = 0;
+	return (p);
+}
+
+float3		mapping_cone(float3 t, t_object_d obj)
 {
 	float3 p;
 	float3 tmp;
@@ -46,11 +48,11 @@ float3		mapping_cone(float3 t, t_object obj)
 	t.x -= obj.primitive.cone.position.x;
 	t.y -= obj.primitive.cone.position.y;
 	t.z -= obj.primitive.cone.position.z;
-	t = change_basis(t, obj.basis);
+	//t = change_basis(t, obj.basis);
 	tmp.x = t.x;
 	tmp.y = t.z;
 	tmp = normalize(tmp);
-	float phi = acos(tmp.x) / M_PI_2;
+	float phi = acos(tmp.x) / 1.5707963267948;
 	phi = tmp.y > 0 ? 1.f - phi : phi;
 	t.x /= 20;
 	t.y /= 20;
@@ -59,26 +61,26 @@ float3		mapping_cone(float3 t, t_object obj)
 	p.y = fabs(t.y);
 	p.z = 0;
 	return (p);
-	}
-*/
-/* float3		mapping_cylinder(float3 t, t_object obj)
+}
+
+float3		mapping_cylinder(float3 t, t_object_d obj)
 {
 	float3 p;
 
-	t.x -= obj.primitive.position.cylinder.x;
-	t.y -= obj.primitive.position.cylinder.y;
-	t.z -= obj.primitive.position.cylinder.z;
+	t.x -= obj.primitive.cylinder.position.x;
+	t.y -= obj.primitive.cylinder.position.y;
+	t.z -= obj.primitive.cylinder.position.z;
 	//t = change_basis(t, obj.basis);
 	float	phi = acos(t.x / obj.primitive.cylinder.radius) / 1.5707963267948;
 	phi = t.z > 0 ? 1.f - phi : phi;
 	t.x /= obj.primitive.cylinder.radius;
 	t.y /= obj.primitive.cylinder.radius;
 	t.z /= obj.primitive.cylinder.radius;	
-	p.x = (phi);
-	p.y = (-t.y);
+	p.x = phi;
+	p.y = -t.y;
 	p.z = 0;
 	return (p);
-} */
+}
 
 float3		mapping_sphere(float3 t, t_object_d obj)
 {
@@ -112,14 +114,14 @@ float3 text_map_select(t_object_d obj, float3 t)
 
     if (obj.type == SPHERE)
 		p = mapping_sphere(t, obj);
-/* 	if (obj.type == PLANE)
+ 	if (obj.type == PLANE)
 		p = mapping_plane(t, obj);
 	if (obj.type == CYLINDER)
 		p = mapping_cylinder(t, obj);
 	if (obj.type == CONE)
 		p = mapping_cone(t, obj);
 	if (obj.type == TRIANGLE)
-		p = mapping_triangle(t, obj); */
+		p = mapping_triangle(t, obj);
     return (p);
 }
 
