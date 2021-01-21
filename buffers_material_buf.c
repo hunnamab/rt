@@ -55,7 +55,7 @@ void	get_material_buf(t_scene *scene)
 	printf("local get material buf == %ld\n", local);
     clEnqueueNDRangeKernel(scene->cl_data.commands, scene->cl_data.kernels[10], 1, NULL, &global, &local, 0, NULL, NULL);
     clFinish(scene->cl_data.commands);
-	clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.material_buf, CL_FALSE, 0, sizeof(t_material) * global, scene->material_buf, 0, NULL, NULL);
+	//clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.material_buf, CL_FALSE, 0, sizeof(t_material) * global, scene->material_buf, 0, NULL, NULL);
 	printf("material_color default color (%hhu,%hhu,%hhu)\n", scene->material_buf[1280 * 360 - 640].color.red,\
 	scene->material_buf[1280 * 360 - 640].color.green,scene->material_buf[1280 * 360 - 640].color.blue);
 	printf("depthbuf %f\n", scene->depth_buf[1280 * 360 - 640]);

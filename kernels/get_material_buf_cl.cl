@@ -1,17 +1,14 @@
 #include "kernel.h"
 
-/* float3 		change_basis(float3 vec)
+float3  change_basis(float3 vec, t_basis basis)
 {
-	float3
-	tmp;
-
-	tmp.x = vec.x * 1.0 + vec.y * 0.0 + vec.z * 0.0;
-	tmp.y = vec.x * 0.0 + vec.y * 1.0 + vec.z * 0.0;
-	tmp.z = vec.x * 0.0 + vec.y * 0.0 + vec.z * 1.0;
-	return (tmp);
+    float3  tmp;
+    tmp.x = vec.x * basis.v.x + vec.y * basis.v.y + vec.z * basis.v.z;
+    tmp.y = vec.x * basis.u.x + vec.y * basis.u.y + vec.z * basis.u.z;
+    tmp.z = vec.x * basis.w.x + vec.y * basis.w.y + vec.z * basis.w.z;
+    return (tmp);
 }
 
-*/
 float3 	mapping_plane(float3 t, t_object_d obj)
 {
 	float3 p;
@@ -30,7 +27,7 @@ float3		mapping_triangle(float3 t, t_object_d obj)
 	t.x -= obj.primitive.triangle.vertex[0].x;
 	t.y -= obj.primitive.triangle.vertex[0].y;
 	t.z -= obj.primitive.triangle.vertex[0].z;
-	//t = change_basis(t, obj.basis);
+	t = change_basis(t, obj.basis);
 	t.x /= 10;
 	t.y /= 10;
 	t.z /= 10;
@@ -48,7 +45,7 @@ float3		mapping_cone(float3 t, t_object_d obj)
 	t.x -= obj.primitive.cone.position.x;
 	t.y -= obj.primitive.cone.position.y;
 	t.z -= obj.primitive.cone.position.z;
-	//t = change_basis(t, obj.basis);
+	t = change_basis(t, obj.basis);
 	tmp.x = t.x;
 	tmp.y = t.z;
 	tmp = normalize(tmp);
@@ -70,7 +67,7 @@ float3		mapping_cylinder(float3 t, t_object_d obj)
 	t.x -= obj.primitive.cylinder.position.x;
 	t.y -= obj.primitive.cylinder.position.y;
 	t.z -= obj.primitive.cylinder.position.z;
-	//t = change_basis(t, obj.basis);
+	t = change_basis(t, obj.basis);
 	float	phi = acos(t.x / obj.primitive.cylinder.radius) / 1.5707963267948;
 	phi = t.z > 0 ? 1.f - phi : phi;
 	t.x /= obj.primitive.cylinder.radius;
@@ -91,7 +88,7 @@ float3		mapping_sphere(float3 t, t_object_d obj)
 	t.x -= obj.primitive.sphere.center.x;
 	t.y -= obj.primitive.sphere.center.y;
 	t.z -= obj.primitive.sphere.center.z;
-	//t = change_basis(t);
+	t = change_basis(t, obj.basis);
 	t.x /= obj.primitive.sphere.radius;
 	t.y /= obj.primitive.sphere.radius;
 	t.z /= obj.primitive.sphere.radius;
@@ -138,12 +135,6 @@ t_color	get_color_tex(__global uchar  *texture, float x, float y, t_object_d obj
 	c.green = texture[obj.texture_id + 4 * fx + obj.l_size * fy + 1];
 	c.blue = texture[obj.texture_id + 4 * fx + obj.l_size * fy];
 	c.alpha = texture[obj.texture_id + 4 * fx + obj.l_size * fy + 4];
-	if (key == 1280 * 360 - 640)
-	{
-		printf("fx %d fy %d l_size %d width %d height %d id %d\n", fx, fy, obj.l_size, obj.texture_width, obj.texture_height, obj.texture_id);
-		printf("color (%hhu,%hhu,%hhu)\n", c.red, c.green, c.blue);
-		printf("texture device (%hhu,%hhu,%hhu,%hhu)\n", texture[key], texture[key + 1], texture[key + 2], texture[key + 3]);
-	}
     return(c);
 }
 
@@ -171,11 +162,6 @@ __kernel void    get_material_buf_cl(__global uchar *texture_data,\
 {
     int i = get_global_id(0);
 	float3 t;
-/*      if (index_buf[i] != -1)
-	{
-            printf("t_object_d %lu\n", sizeof(t_object_d));
-            printf("obj texture_id %d\n", obj[index_buf[i]].texture_id);
-    }  */
     if (index_buf[i] != -1)
 	{	
 		if (obj[index_buf[i]].texture_id != -1)
@@ -194,11 +180,5 @@ __kernel void    get_material_buf_cl(__global uchar *texture_data,\
 		material_buf[i].color.blue = 0;
 		material_buf[i].color.alpha = 0;
 		material_buf[i].specular = -1;
-	}
-	if (i == 1280 * 360 - 640)
-	{
-			printf("material_color device (%hhd,%hhd,%hhd)\n", material_buf[1280 * 360 - 640].color.red,\
-		material_buf[1280 * 360 - 640].color.green,material_buf[1280 * 360 - 640].color.blue);
-		printf("sizeof(t_material) device %lu\n", sizeof(t_material));
 	}
 }

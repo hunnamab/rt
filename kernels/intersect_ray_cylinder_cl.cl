@@ -151,38 +151,6 @@ __kernel void intersect_ray_cylinder_cl(__global float3 *ray_arr, \
     int i = get_global_id(0);
 	float result;
 	result = cylinder_intersection(cyl, camera_start, ray_arr[i]);
-    /* float t1;
-    float t2;
-    float b;
-    float c;
-
-    float3 dist = camera_start[0] - position[0];
-	float a = dot(ray_arr[i], vector);
-	a = dot(ray_arr[i], ray_arr[i]) - a * a;
-    b = 2 * (dot(ray_arr[i], dist) - dot(ray_arr[i], vector) * \
-		dot(dist, vector));
-    c = dot(dist, vector);
-	c = dot(dist, dist) - c * c - radius * radius;
-    c = b * b - 4 * a * c;
-	if (c >= 0)
-	{
-		c = sqrt(c);
-		t1 = (-b + c) / (2 * a);
-        t2 = (-b - c) / (2 * a);
-        float result;
-        result = 0;
-        if ((t1 < t2 && t1 > 0) || (t2 < 0 && t1 >= 0))
-            result = t1;
-        if ((t2 < t1 && t2 > 0) || (t1 < 0 && t2 >= 0))
-            result = t2;
-        if (t2 == t1 && t2 >= 0)
-            result = t2;
-        if (result > 0 && result < depth_buf[i])
-        {
-            depth_buf[i] = result;
-            index_buf[i] = index;
-        }
-	} */
 	if (result > 0 && result < depth_buf[i])
     {
         depth_buf[i] = result;

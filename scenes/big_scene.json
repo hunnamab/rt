@@ -35,7 +35,7 @@
 			"rotation": [0, 0, 0],
 			"color": [46, 27, 116, 255],
 			"specular": 50,
-			"texture": "no"
+			"texture": "textures/helper.jpg"
 		},
 		{
 			"ver_one": [50, 50, 30],
@@ -44,7 +44,7 @@
 			"rotation": [0, 0, 0],
 			"color": [70, 116, 27, 255],
 			"specular": 50,
-			"texture": "no"
+			"texture": "textures/helper.jpg"
 		}
 	],
 	"cylinder": [
@@ -55,7 +55,7 @@
 			"rotation": [0, 0, 0.2],
 			"color": [69, 146, 121, 255],
 			"specular": 200,
-			"texture": "no"
+			"texture": "textures/helper.jpg"
 		},
 		{
 			"position": [3, 1.5, 15],

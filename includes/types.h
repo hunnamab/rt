@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:58 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/20 19:40:41 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/21 18:16:12 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,6 +209,7 @@ typedef	union			primitive
 typedef struct 			 s_object3d_d
 {	
 	t_primitive			primitive;
+	t_basis				basis;
 	cl_float3			rotation;
 	t_color				color;
 	cl_float			specular;
@@ -221,7 +222,6 @@ typedef struct 			 s_object3d_d
 	cl_int				texture_width;
 	cl_int				texture_height;
 	cl_int				l_size;
-	cl_int				basis;
 }						t_object_d;
 
 struct		s_scene
@@ -240,7 +240,7 @@ struct		s_scene
 	int				*index_buf;
 	float			*depth_buf;
 	t_texture		**texts;
-	t_color			*pixels;
+	t_color			*frame_buf;
 	int				mode; // 0 - default, 1 - normal, 2 - depth, 3 - flat_light
 	void			(*init[4])(struct s_scene *);
 	void			(*draw[4])(t_sdl *, struct s_scene *);

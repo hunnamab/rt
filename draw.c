@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 14:34:50 by pmetron           #+#    #+#             */
-/*   Updated: 2021/01/20 19:31:49 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/21 20:41:43 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,9 @@
 
 void	draw_scene(t_sdl *sdl, t_scene *scene)
 {
-	int		x;
-	int		y;
-	t_color	color;
-	int		i;
+	register int		x;
+	register int		y;
+	register int		i;
 
 	x = -1;
 	y = -1;
@@ -27,7 +26,6 @@ void	draw_scene(t_sdl *sdl, t_scene *scene)
 	size_t local;
 
 	printf("sizeof light (host) = %lu\n", sizeof(t_light));
-	
 	clSetKernelArg(scene->cl_data.kernels[9], 0, sizeof(cl_mem), &scene->cl_data.scene.frame_buf);
 	clSetKernelArg(scene->cl_data.kernels[9], 1, sizeof(cl_mem), &scene->cl_data.scene.ray_buf);
 	clSetKernelArg(scene->cl_data.kernels[9], 2, sizeof(cl_mem), &scene->cl_data.scene.intersection_buf);
@@ -41,22 +39,15 @@ void	draw_scene(t_sdl *sdl, t_scene *scene)
 	clGetKernelWorkGroupInfo(scene->cl_data.kernels[9], scene->cl_data.device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
     clEnqueueNDRangeKernel(scene->cl_data.commands, scene->cl_data.kernels[9], 1, NULL, &global, &local, 0, NULL, NULL);
     clFinish(scene->cl_data.commands);
-	//clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.intersection_buf, CL_TRUE, 0, sizeof(cl_float3) * global, scene->intersection_buf, 0, NULL, NULL);
-	scene->pixels = protected_malloc(sizeof(t_color), (WID * HEI));
+	i = clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.frame_buf, 0, 0, sizeof(t_color) * global, scene->frame_buf, 0, NULL, NULL);
+	clFinish(scene->cl_data.commands);
 	while (++y < HEI)
 	{
 		while (++x < WID)
 		{
 			i = y * WID + x;
-			if (scene->index_buf[i] != -1)
-			{
-				color = reflection_color(scene, i);
-				copy_color(&scene->pixels[i], &color);
-			}
-			else
-				set_color_zero(&color);
 			SDL_SetRenderDrawColor(sdl->renderer, \
-			color.red, color.green, color.blue, 255);
+			scene->frame_buf[i].red, scene->frame_buf[i].green, scene->frame_buf[i].blue, 255);
 			SDL_RenderDrawPoint(sdl->renderer, x, y);
 		}
 		x = -1;
@@ -68,7 +59,10 @@ void	draw_normal_buf(t_sdl *sdl, t_scene *scene)
 {
 	int		xyi[3];
 	t_color	color;
-
+	
+	clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.index_buf, CL_FALSE, 0, sizeof(int) * (WID * HEI), scene->index_buf, 0, NULL, NULL);
+	clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.normal_buf, CL_FALSE, 0, sizeof(cl_float3) * (WID * HEI), scene->normal_buf, 0, NULL, NULL);
+	clFinish(scene->cl_data.commands);
 	xyi[1] = -1;
 	while (++xyi[1] < HEI)
 	{
@@ -97,6 +91,9 @@ void	draw_deepth_buf(t_sdl *sdl, t_scene *scene)
 	int		xyi[3];
 	t_color	color;
 
+	clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.index_buf, CL_FALSE, 0, sizeof(int) * (WID * HEI), scene->index_buf, 0, NULL, NULL);
+	clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.depth_buf, CL_FALSE, 0, sizeof(float) * WID * HEI, scene->depth_buf, 0, NULL, NULL);
+	clFinish(scene->cl_data.commands);
 	xyi[1] = -1;
 	while (++xyi[1] < HEI)
 	{
@@ -128,6 +125,9 @@ void	draw_raycast(t_sdl *sdl, t_scene *scene)
 	t_color	color;
 	int		i;
 
+	clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.index_buf, CL_FALSE, 0, sizeof(int) * (WID * HEI), scene->index_buf, 0, NULL, NULL);
+	clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.material_buf, CL_FALSE, 0, sizeof(t_material) * WID * HEI, scene->material_buf, 0, NULL, NULL);
+	clFinish(scene->cl_data.commands);
 	x = -1;
 	y = -1;
 	i = 0;

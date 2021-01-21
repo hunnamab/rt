@@ -7,6 +7,13 @@ enum light_type{
 	DIRECTIONAL
 };
 
+typedef struct          s_basis
+{
+    float3       u;
+    float3       v;
+    float3       w;
+}                      	t_basis;
+
 typedef	struct		s_light
 {
 	float3			position;
@@ -102,6 +109,7 @@ enum object_type {
 typedef struct 			s_object3d_d
 {
 	t_primitive			primitive;
+	t_basis				basis;
 	float3				rotation;
 	t_color				color;
 	float				specular;
@@ -114,7 +122,6 @@ typedef struct 			s_object3d_d
 	int					texture_width;
 	int					texture_height;
 	int					l_size;
-	int					basis;
 }						t_object_d;
 
 #endif
