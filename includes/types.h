@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   types.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:58 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/21 18:16:12 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/21 20:57:22 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,6 +178,28 @@ typedef struct          s_basis
     cl_float3       w;
 }                       t_basis;
 
+typedef struct		s_butt
+{
+	float			x;
+	float			y;
+	SDL_Rect		rect;
+	SDL_Texture		*text;
+}					t_butt;
+
+typedef	struct		s_ui
+{
+	t_butt 			save_png;
+	t_butt			ambiance;
+	t_butt			am_plus;
+	t_butt			am_minus;
+	t_butt			modes;
+	t_butt			normal;
+	t_butt			deepth;
+	t_butt			raycast;
+	t_butt			def;
+}					t_ui;
+
+
 typedef	struct		s_object3d
 {
 	void			*data;
@@ -229,6 +251,7 @@ struct		s_scene
 	t_cl_data		cl_data;
 	t_object		**objs;	
 	int				obj_nmb;
+	t_ui 			*rt_ui;
 	cl_float3		*normal_buf;
 	t_material		*material_buf;
 	cl_float3		*intersection_buf;

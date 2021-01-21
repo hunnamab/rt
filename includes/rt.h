@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:34 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/20 18:44:31 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/21 20:58:33 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,5 +194,6 @@ t_basis get_basis(t_basis basis, float 	*rot);
 cl_float3   clvec_rot_x(cl_float3 v, double a);
 cl_float3   clvec_rot_y(cl_float3 v, double a);
 cl_float3   clvec_rot_z(cl_float3 v, double a);
+void			draw_ui(SDL_Renderer *renderer, t_ui *rt_ui);
 
 #endif

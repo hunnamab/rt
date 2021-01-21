@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 14:34:50 by pmetron           #+#    #+#             */
-/*   Updated: 2021/01/21 20:41:43 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/21 20:55:55 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void	draw_scene(t_sdl *sdl, t_scene *scene)
 		}
 		x = -1;
 	}
+	draw_ui(sdl->renderer, scene->rt_ui);
 	SDL_RenderPresent(sdl->renderer);
 }
 
@@ -83,6 +84,7 @@ void	draw_normal_buf(t_sdl *sdl, t_scene *scene)
 			SDL_RenderDrawPoint(sdl->renderer, xyi[0], xyi[1]);
 		}
 	}
+	draw_ui(sdl->renderer, scene->rt_ui);
 	SDL_RenderPresent(sdl->renderer);
 }
 
@@ -115,6 +117,7 @@ void	draw_deepth_buf(t_sdl *sdl, t_scene *scene)
 			SDL_RenderDrawPoint(sdl->renderer, xyi[0], xyi[1]);
 		}
 	}
+	draw_ui(sdl->renderer, scene->rt_ui);
 	SDL_RenderPresent(sdl->renderer);
 }
 
@@ -146,5 +149,6 @@ void	draw_raycast(t_sdl *sdl, t_scene *scene)
 		}
 		x = -1;
 	}
+	draw_ui(sdl->renderer, scene->rt_ui);
 	SDL_RenderPresent(sdl->renderer);
 }

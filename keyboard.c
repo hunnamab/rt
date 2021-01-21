@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   keyboard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/06 13:38:13 by pmetron           #+#    #+#             */
-/*   Updated: 2021/01/21 17:27:41 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/21 21:14:01 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	camera_move_down(t_scene *scene)
 	refresh_scene(scene);
 }
 
-uint8_t	*copy_pixels(t_scene *scene, uint8_t *pixels)
+uint8_t	*copy_frame_buf(t_scene *scene, uint8_t *frame_buf)
 {
 	int x;
 	int y;
@@ -81,25 +81,25 @@ uint8_t	*copy_pixels(t_scene *scene, uint8_t *pixels)
 
 	y = -1;
 	j = 0;
-	pixels = (uint8_t *)malloc(WID * HEI * 4);
+	frame_buf = (uint8_t *)malloc(WID * HEI * 4);
 	while (++y < HEI)
 	{
 		x = -1;
 		while (++x < WID)
 		{
 			i = y * WID + x;
-			pixels[j] = scene->pixels[i].blue;
+			frame_buf[j] = scene->frame_buf[i].blue;
 			j++;
-			pixels[j] = scene->pixels[i].green;
+			frame_buf[j] = scene->frame_buf[i].green;
 			j++;
-			pixels[j] = scene->pixels[i].red;
+			frame_buf[j] = scene->frame_buf[i].red;
 			j++;
-			pixels[j] = scene->pixels[i].alpha;
+			frame_buf[j] = scene->frame_buf[i].alpha;
 			j++;
 		}
 		i++;
 	}
-	return (pixels);
+	return (frame_buf);
 }
 
 void	screen_png(t_scene *scene)
@@ -107,10 +107,75 @@ void	screen_png(t_scene *scene)
 	SDL_Surface *srf;
 
 	srf = SDL_CreateRGBSurface(0, WID , HEI, 32, 0, 0, 0, 0);
-	srf->pixels = copy_pixels(scene, (uint8_t *)srf->pixels);
+	srf->pixels = copy_frame_buf(scene, (uint8_t *)srf->pixels);
 	IMG_SavePNG(srf, "screenshot.png");
 	ft_putstr("Saved image in png\n");
 	SDL_FreeSurface(srf);
+}
+
+int		check_rect(SDL_Rect rect, SDL_Event e)
+{
+	if ((e.button.x >= rect.x && e.button.x <= rect.x + rect.w) && (e.button.y >= rect.y && e.button.y <= rect.y + rect.h))
+		return (1);
+	return (0);
+}
+
+void	am_plus(t_scene *scene)
+{
+	int i = 0;
+
+	while (i < scene->light_nmb && scene->light[i].intensity <= 1.0)
+	{
+		if (scene->light[i].type == AMBIENT)
+			scene->light[i].intensity += 0.1;
+		i++;		
+	}
+	refresh_scene(scene);
+}
+
+void	am_minus(t_scene *scene)
+{
+	int i = 0;
+
+	while (i < scene->light_nmb && scene->light[i].intensity >= 0.1)
+	{
+		if (scene->light[i].type == AMBIENT)
+			scene->light[i].intensity -= 0.1;
+		i++;	
+	}
+	refresh_scene(scene);
+}
+
+void	redraw_mode(t_scene *scene, int mode)
+{
+	if (mode == 1)
+		scene->mode = 1;
+	if (mode == 2)
+		scene->mode = 2;
+	if (mode == 3)
+		scene->mode = 3;
+	if (mode == 4) 
+		scene->mode = 0;
+	refresh_scene(scene);
+}
+
+
+void	click(t_sdl *sdl, t_scene *scene)
+{
+	if (check_rect(scene->rt_ui->save_png.rect, sdl->event))
+		screen_png(scene);
+	if (check_rect(scene->rt_ui->am_plus.rect, sdl->event))
+		am_plus(scene);
+	if (check_rect(scene->rt_ui->am_minus.rect, sdl->event))
+		am_minus(scene);
+	if (check_rect(scene->rt_ui->normal.rect, sdl->event))
+		redraw_mode(scene, 1);
+	if (check_rect(scene->rt_ui->deepth.rect, sdl->event))
+		redraw_mode(scene, 2);
+	if (check_rect(scene->rt_ui->raycast.rect, sdl->event))
+		redraw_mode(scene, 3);
+	if (check_rect(scene->rt_ui->def.rect, sdl->event))
+		redraw_mode(scene, 4);
 }
 
 int		keyboard(t_sdl *sdl, t_scene *scene)
@@ -134,6 +199,14 @@ int		keyboard(t_sdl *sdl, t_scene *scene)
 			SDLK_q ==  sdl->event.key.keysym.sym ? camera_move_up(scene) : 0;
 			SDLK_e ==  sdl->event.key.keysym.sym ? camera_move_down(scene) : 0;
 			SDLK_SPACE == sdl->event.key.keysym.sym ? screen_png(scene): 0;
+			scene->draw[scene->mode](sdl, scene);
+			
+		}
+		else if (sdl->event.type == SDL_MOUSEBUTTONDOWN)
+		{
+			SDL_RenderClear(sdl->renderer);
+			clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.light, 0, 0, sizeof(t_light) * scene->light_nmb, scene->light, 0, NULL, NULL);
+			click(sdl, scene);
 			scene->draw[scene->mode](sdl, scene);
 		}
 	}
