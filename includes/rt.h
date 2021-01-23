@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:34 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/23 16:06:16 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/23 20:02:11 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,6 +188,10 @@ void	one_argument_cone(char **description, t_scene *scene, int *snmi);
 void    load_textures(t_scene *scene);
 void        intersect_ray_ellipsoid(t_scene *scene, int index);
 t_object    *new_ellipsoid(cl_float3 center, cl_float3 abc, t_color color, cl_float3 rotation, float specular);
+///box
+void        intersect_ray_box(t_scene *scene, int index);
+t_object    *new_box(cl_float3 center, cl_float3 a, cl_float3 b, t_color color, cl_float3 rotation, float specular);
+
 void	device_objects_init(t_scene *scene);
 t_basis get_default(t_basis basis);
 t_basis get_basis(t_basis basis, float 	*rot);

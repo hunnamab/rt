@@ -75,6 +75,13 @@ typedef	struct 		s_ellipsoid
 	float3			center;
 }					t_ellipsoid;
 
+typedef	struct 		s_box
+{
+	float3 			a;
+	float3			b;
+	float3			center;
+}					t_box;
+
 typedef	union			primitive
 {
 	t_cylinder			cylinder;
@@ -83,6 +90,7 @@ typedef	union			primitive
 	t_plane				plane;
 	t_triangle			triangle;
 	t_ellipsoid			ellipsoid;
+	t_box				box;
 }						t_primitive;
 
 typedef	struct		s_cutting_surface
@@ -103,7 +111,8 @@ enum object_type {
 	PLANE,
 	ELLIPSOID,
 	HYPERBOLOID,
-	PARABOLOID
+	PARABOLOID,
+	BOX
 };
 
 typedef struct 			s_object3d_d

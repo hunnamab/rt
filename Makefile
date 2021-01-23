@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+         #
+#    By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/07 15:39:13 by hunnamab          #+#    #+#              #
-#    Updated: 2021/01/23 16:03:16 by pmetron          ###   ########.fr        #
+#    Updated: 2021/01/23 20:20:35 by npetrell         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ SRC = main.c sphere.c vector.c utils.c \
 	keyboard.c clean.c errors_management.c light_parameters.c \
 	parameters_utils.c camera_parameters.c define_object.c \
 	scenes_reader_util.c cl_init.c textures.c texture_mapping.c \
-	buffers_material_buf.c texture_loading.c ellipsoid.c
+	buffers_material_buf.c texture_loading.c ellipsoid.c box.c
 
 OBJ = $(SRC:.c=.o)
 

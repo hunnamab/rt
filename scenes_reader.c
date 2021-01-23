@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scenes_reader.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:43 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/18 19:29:29 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/23 20:21:18 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,9 @@ static void	get_objects(char *buf, t_scene *scene, int len)
 	//	output_error(6);
 	scene->obj_nmb = count_objects(len, buf); // выясняем кол-во объектов сцены
 	split_objects(len, scene, buf);
-	scene->objs = protected_malloc(sizeof(t_object *), scene->obj_nmb); // создаем массив структур для объектов
+	scene->objs = protected_malloc(sizeof(t_object *), scene->obj_nmb + 1); // создаем массив структур для объектов
 	scene->light = protected_malloc(sizeof(t_light), scene->light_nmb);
-	scene->texts = protected_malloc(sizeof(t_texture *), scene->obj_nmb);
+	scene->texts = protected_malloc(sizeof(t_texture *), scene->obj_nmb + 1);
 	while (snmi[3] < len)
 	{
 		if (buf[snmi[3] + 1] == '{' || buf[snmi[3] + 1] == '[')

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   types.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:58 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/21 20:57:22 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/01/23 19:50:04 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ enum object_type {
 	PLANE,
 	ELLIPSOID,
 	HYPERBOLOID,
-	PARABOLOID
+	PARABOLOID,
+	BOX
 };
 
 enum light_type{
@@ -113,6 +114,13 @@ typedef struct 		s_cone
 	cl_float3		vec;
 	float			angle;
 }					t_cone;
+
+typedef struct 		s_box
+{
+	cl_float3		a;
+	cl_float3		b;
+	cl_float3		center;
+}					t_box;
 
 typedef struct 		s_triangle
 {
@@ -226,6 +234,7 @@ typedef	union			primitive
 	t_plane				plane;
 	t_triangle			triangle;
 	t_ellipsoid			ellipsoid;
+	t_box				box;
 }						t_primitive;
 
 typedef struct 			 s_object3d_d

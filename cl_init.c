@@ -62,6 +62,15 @@ void	device_objects_init(t_scene *scene)
 			buf[i].primitive.ellipsoid.abc = el->abc;
 			buf[i].primitive.ellipsoid.center = el->center;
 		}
+		if (scene->objs[i]->type == BOX)
+		{
+			t_box *box;
+			box = (t_box *)scene->objs[i]->data;
+			buf[i].type = BOX;
+			buf[i].primitive.box.a = box->a;
+			buf[i].primitive.box.b = box->b;
+			buf[i].primitive.box.center = box->center;
+		}
 		if (scene->objs[i]->text != NULL)
         {
 			int l = 0;
@@ -302,6 +311,23 @@ int    cl_init(t_scene *scene)
 		printf("не собрана программа 10, error %d get_material_buf_cl\n", err);
 	ft_strdel(&get_material_buf_cl);
 	close(fd11);
+
+	int		ret12;
+	char	*intersect_ray_box_cl;
+	int fd12 = open("./kernels/intersect_ray_box_cl.cl", O_RDONLY);
+	intersect_ray_box_cl = protected_malloc(sizeof(char), 256000);
+	ret12 = read(fd12, intersect_ray_box_cl, 64000);
+	intersect_ray_box_cl[ret12] = '\0';
+	
+	if ((scene->cl_data.programs[11] = clCreateProgramWithSource(scene->cl_data.context, 1, (const char **)&intersect_ray_box_cl, NULL, &err)))
+		printf("cоздана программа intersect_ray_box_cl\n");
+	if ((clBuildProgram(scene->cl_data.programs[11], 0, NULL, "-I includes", NULL, &err)))
+		printf("собрана программа intersect_ray_box_cl\n");
+	if (!(scene->cl_data.kernels[11] = clCreateKernel(scene->cl_data.programs[11], "intersect_ray_box", &err)))
+		printf("не собрана программа 1, error %d intersect_ray_box_cl\n", err);
+	ft_strdel(&intersect_ray_box_cl);
+	close(fd12);
+
 	//Создание буферов на гпу
 	scene->cl_data.scene.ray_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, NULL);
 	scene->cl_data.scene.viewport = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, NULL);
