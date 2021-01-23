@@ -141,12 +141,6 @@ int			in_shadow(int index, float3 l, __global float3 *intersection_buf, int obj_
 	i = 0;
 	ray_start = l * 0.001f;
 	ray_start += intersection_buf[index];
-	if (index == 1280 * 360 - 640)
-	{
-		printf("ray start (%f,%f,%f)\n", ray_start.x, ray_start.y, ray_start.z);
-		printf("ray start (%f,%f,%f)\n", intersection_buf[index].x, intersection_buf[index].y, intersection_buf[index].z);
-		printf("l (%f,%f,%f)\n", l.x, l.y, l.z);
-	}
 	while (i < obj_nmb)
 	{
 		if (obj[i].type == SPHERE)
@@ -159,13 +153,9 @@ int			in_shadow(int index, float3 l, __global float3 *intersection_buf, int obj_
 			t = cone_intersection(obj[i].primitive.cone, ray_start, l);
 		if (obj[i].type == CYLINDER)
 			t = cylinder_intersection(obj[i].primitive.cylinder, ray_start, l);
-		if (t < 1.0f && t > 0.0001f)
+		if (t < 1.0f && t > 0.00001f)
 			break ;
 		i++;
-	}
-	if (index == 1280 * 360 - 640)
-	{
-		printf("t == %f\n", t);
 	}
 	if (t < 1.0f && t > 0.0001f)
 		return (1);
