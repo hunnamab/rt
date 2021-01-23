@@ -124,4 +124,10 @@ typedef struct 			s_object3d_d
 	int					l_size;
 }						t_object_d;
 
+float cone_intersection(t_cone , float3 , float3);
+float cylinder_intersection(t_cylinder , float3 , float3 );
+float plane_intersection(t_plane , float3 , float3 );
+float sphere_intersection(t_sphere , float3 , float3 );
+float triangle_intersection(t_triangle , float3 , float3 );
+
 #endif

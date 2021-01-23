@@ -76,7 +76,6 @@ void	device_objects_init(t_scene *scene)
 			buf[i].texture_width = scene->texts[l]->width;
 			buf[i].texture_height =  scene->texts[l]->height;
 			buf[i].l_size = scene->texts[l]->l_size;
-			shift = 0;
 		}
 		else
 		{

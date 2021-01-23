@@ -3,9 +3,9 @@
 float3  change_basis(float3 vec, t_basis basis)
 {
     float3  tmp;
-    tmp.x = vec.x * basis.v.x + vec.y * basis.v.y + vec.z * basis.v.z;
-    tmp.y = vec.x * basis.u.x + vec.y * basis.u.y + vec.z * basis.u.z;
-    tmp.z = vec.x * basis.w.x + vec.y * basis.w.y + vec.z * basis.w.z;
+	tmp.x = dot(vec, basis.v);
+	tmp.y = dot(vec, basis.u);
+	tmp.z = dot(vec, basis.w);
     return (tmp);
 }
 
@@ -24,9 +24,7 @@ float3		mapping_triangle(float3 t, t_object_d obj)
 {
 	float3 p;
 
-	t.x -= obj.primitive.triangle.vertex[0].x;
-	t.y -= obj.primitive.triangle.vertex[0].y;
-	t.z -= obj.primitive.triangle.vertex[0].z;
+	t -= obj.primitive.triangle.vertex[0];
 	t = change_basis(t, obj.basis);
 	t.x /= 10;
 	t.y /= 10;
@@ -42,9 +40,7 @@ float3		mapping_cone(float3 t, t_object_d obj)
 	float3 p;
 	float3 tmp;
 
-	t.x -= obj.primitive.cone.position.x;
-	t.y -= obj.primitive.cone.position.y;
-	t.z -= obj.primitive.cone.position.z;
+	t -= obj.primitive.cone.position;
 	t = change_basis(t, obj.basis);
 	tmp.x = t.x;
 	tmp.y = t.z;
@@ -64,15 +60,11 @@ float3		mapping_cylinder(float3 t, t_object_d obj)
 {
 	float3 p;
 
-	t.x -= obj.primitive.cylinder.position.x;
-	t.y -= obj.primitive.cylinder.position.y;
-	t.z -= obj.primitive.cylinder.position.z;
+	t -= obj.primitive.cylinder.position;
 	t = change_basis(t, obj.basis);
 	float	phi = acos(t.x / obj.primitive.cylinder.radius) / 1.5707963267948;
 	phi = t.z > 0 ? 1.f - phi : phi;
-	t.x /= obj.primitive.cylinder.radius;
-	t.y /= obj.primitive.cylinder.radius;
-	t.z /= obj.primitive.cylinder.radius;	
+	t /= obj.primitive.cylinder.radius;
 	p.x = phi;
 	p.y = -t.y;
 	p.z = 0;
@@ -84,19 +76,13 @@ float3		mapping_sphere(float3 t, t_object_d obj)
  	float3 p;
 	float3 tmp;
 
-	//printf("t(%f,%f,%f)\n", t.x, t.y, t.z);
-	t.x -= obj.primitive.sphere.center.x;
-	t.y -= obj.primitive.sphere.center.y;
-	t.z -= obj.primitive.sphere.center.z;
+	t -= obj.primitive.sphere.center;
 	t = change_basis(t, obj.basis);
-	t.x /= obj.primitive.sphere.radius;
-	t.y /= obj.primitive.sphere.radius;
-	t.z /= obj.primitive.sphere.radius;
+	t /= obj.primitive.sphere.radius;
 	float theta = acos(t.y) / 3.14159265358979;
 	tmp.x = t.x;
 	tmp.y = t.z;
 	tmp = normalize(tmp);
-	//printf("tmp.x %f\n", tmp.x);
 	float phi = acos(tmp.x) / 1.5707963267948;
 	phi = t.z > 0 ? 1.f - phi : phi;
 	p.x = phi;
@@ -127,7 +113,7 @@ t_color	get_color_tex(__global uchar  *texture, float x, float y, t_object_d obj
  	if (x < 0)
 		x = obj.texture_width + x;
 	if (y < 0)
-		y =  obj.texture_height + y;
+		y = obj.texture_height + y;
 	int fx =  obj.texture_width - (int)(obj.texture_width * x) % obj.texture_width;
 	int fy = (int)( obj.texture_height * y) % obj.texture_height;
  	t_color c;
@@ -168,10 +154,10 @@ __kernel void    get_material_buf_cl(__global uchar *texture_data,\
 		{
 			t = text_map_select(obj[index_buf[i]], intersection_buf[i]);
 			material_buf[i].color = get_color_tex(texture_data, t.x, t.y, obj[index_buf[i]], i);
-			material_buf[i].specular = obj[index_buf[i]].specular;
 		}
 		else
 			material_buf[i].color = obj[index_buf[i]].color; 
+		material_buf[i].specular = obj[index_buf[i]].specular;
     }
  	else
 	{

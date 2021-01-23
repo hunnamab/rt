@@ -1,28 +1,26 @@
 #include "kernel.h"
 
-/* t_color reflection_color(__global float3 *ray_buf, \
-						__global float3 *normal_buf, \
-						__global t_material *material_buf, \
-						__global t_light *light, \
-						__global float3 *intersection_buf, \
-						__global t_object_d *obj, \
-						int i, int light_nmb)
+int			in_shadow(int index, float3 l, __global *intersection_buf, int obj_nmb, __global t_object_d *obj)
 {
-	if (i == 20400)
+	float3	ray_dir;
+	float3	ray_start;
+	int		i;
+	float	t;
+
+	i = 0;
+	ray_dir = l;
+	//ray_start = ray_dir * 0.0001;
+	//ray_start += intersection_buf[index];
+	/* while (i < obj_nmb)
 	{
-		printf("success yaay it's reflection_color func\n");
-		printf("(reflection_color) light_nmb = %d\n\tlight_intensity = %f\n\tlight_type = %d\n", light_nmb, light[1].intensity, light[1].type);
-		printf("(reflection_color) obj type = %d\n", obj[0].type);
+		if (obj.type == SPHERE)
+			t = sphere_intersection(obj.primitive.sphere, ray_start, ray_dir);
+		if (t < 1 && t > 0.0001)
+			break ;
+		i++;
 	}
-	t_color col;
-	col.red = 0;
-	col.green = 0;
-	col.blue = 0;
-	col.alpha = 0;
-	return (col);
-} */
-int			in_shadow(int index, float3 l)
-{
+	if (t < 1 && t > 0.0001)
+		return (1);  */
 	return(0);
 }
 
@@ -96,7 +94,7 @@ t_color		reflection_color(__global float3 *ray_buf, \
 		{
 			l = get_light_vec(index, j, intersection_buf, light);
 			n_dot_l = dot(normal_buf[index], l);
-			if (!(in_shadow(index, l)) && n_dot_l > 0)
+			if (!(in_shadow(index, l, intersection_buf, 3, obj)) && n_dot_l > 0)
 			{
 				if (material_buf[index].specular != -1)
 					i += get_specular(index, j, l, normal_buf, light, material_buf, ray_buf);
