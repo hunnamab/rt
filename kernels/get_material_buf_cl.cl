@@ -26,9 +26,9 @@ float3		mapping_triangle(float3 t, t_object_d obj)
 
 	t -= obj.primitive.triangle.vertex[0];
 	t = change_basis(t, obj.basis);
-	t.x /= 10;
-	t.y /= 10;
-	t.z /= 10;
+	t.x /= 1000;
+	t.y /= 1000;
+	t.z /= 1000;
 	p.x = t.x;
 	p.y = t.z;
 	p.z = 0;

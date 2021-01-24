@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   triangle.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 21:42:26 by pmetron           #+#    #+#             */
-/*   Updated: 2021/01/18 19:18:04 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/24 14:44:27 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,39 @@ static void	init_norme(float *r, cl_float3 *v, float *rt, cl_float3 *vt)
 	vt[0] = v[0];
 	vt[1] = v[1];
 	vt[2] = v[2];
+}
+
+cl_float3		normalize_tr(cl_float3 vec)
+{
+	float length;
+
+	length = (float)sqrt(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z);
+	return ((cl_float3){{vec.x / length, vec.y / length, vec.z / length}});
+}
+
+cl_float3		cross(cl_float3 u, cl_float3 v)
+{
+	return ((cl_float3){{u.y * v.z - u.z * v.y,
+		u.z * v.x - u.x * v.z, u.x * v.y - u.y * v.x}});
+}
+
+t_basis			get_basis_tr(t_basis basis, cl_float3 *vert)
+{
+	cl_float3	v1;
+	cl_float3	v2;
+	cl_float3	normal;
+
+	v1.x = vert[1].x - vert[0].x;
+	v1.y = vert[1].y - vert[0].y;
+	v1.z = vert[1].z - vert[0].z;
+	v2.x = vert[2].x - vert[1].x;
+	v2.y = vert[2].y - vert[1].y;
+	v2.z = vert[2].z - vert[1].z;
+	normal = normalize_tr(cross(v1, v2));
+	basis.u = normal;
+	basis.w = v1;
+	basis.v = cross(basis.u, basis.w);
+	return (basis);
 }
 
 t_object	*new_triangle(cl_float3 *vertex, float specular, t_color color, \
@@ -52,6 +85,8 @@ t_object	*new_triangle(cl_float3 *vertex, float specular, t_color color, \
 	new_object->intersect = &intersect_ray_triangle;
 	new_object->get_normal = &get_triangle_normal;
 	new_object->clear_obj = &clear_triangle;
+	new_object->basis = get_basis_tr(new_object->basis, new_triangle->vertex);
+	new_object->basis = get_basis(new_object->basis, new_object->rotation);
 	return (new_object);
 }
 
