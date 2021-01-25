@@ -6,7 +6,7 @@
 /*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:58 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/24 15:01:03 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/01/25 20:45:04 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,6 +206,13 @@ typedef	struct		s_ui
 	t_butt			raycast;
 	t_butt			def;
 	t_butt			back;
+	t_butt			left;
+	t_butt			right;
+	t_butt			filters;
+	t_butt			sepia;
+	t_butt			gauss;
+	int				filt;
+	int 			i;
 }					t_ui;
 
 

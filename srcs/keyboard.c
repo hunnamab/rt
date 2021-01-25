@@ -6,7 +6,7 @@
 /*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/06 13:38:13 by pmetron           #+#    #+#             */
-/*   Updated: 2021/01/21 21:14:01 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/01/25 20:50:34 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,15 @@ void	redraw_mode(t_scene *scene, int mode)
 	refresh_scene(scene);
 }
 
+void	draw_filters(t_scene *scene, int i)
+{
+	if (i % 3 == 1)
+		scene->rt_ui->filt = 1;
+	else if (i % 3 == 2)
+		scene->rt_ui->filt = 2;
+	else 
+		scene->rt_ui->filt = 3;
+}
 
 void	click(t_sdl *sdl, t_scene *scene)
 {
@@ -176,6 +185,16 @@ void	click(t_sdl *sdl, t_scene *scene)
 		redraw_mode(scene, 3);
 	if (check_rect(scene->rt_ui->def.rect, sdl->event))
 		redraw_mode(scene, 4);
+	if (check_rect(scene->rt_ui->left.rect, sdl->event))
+	{
+		scene->rt_ui->i--;
+		draw_filters(scene, scene->rt_ui->i);
+	}
+	if (check_rect(scene->rt_ui->right.rect, sdl->event))
+	{
+		scene->rt_ui->i++;
+		draw_filters(scene, scene->rt_ui->i);
+	}
 }
 
 int		keyboard(t_sdl *sdl, t_scene *scene)
