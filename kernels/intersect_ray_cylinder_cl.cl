@@ -6,6 +6,13 @@ enum light_type{
 	DIRECTIONAL
 };
 
+typedef struct          s_basis
+{
+    float3       u;
+    float3       v;
+    float3       w;
+}                      	t_basis;
+
 typedef	struct		s_light
 {
 	float3			position;
@@ -16,10 +23,10 @@ typedef	struct		s_light
 
 typedef struct 		s_color
 {
-	unsigned char	red;
-	unsigned char	green;
-	unsigned char	blue;
-	unsigned char	alpha;
+	uchar			red;
+	uchar			green;
+	uchar			blue;
+	uchar			alpha;
 }					t_color;
 
 typedef	struct		s_material
@@ -67,6 +74,13 @@ typedef	struct 		s_ellipsoid
 	float3			center;
 }					t_ellipsoid;
 
+typedef	struct 		s_box
+{
+	float3 			a;
+	float3			b;
+	float3			center;
+}					t_box;
+
 typedef	union			primitive
 {
 	t_cylinder			cylinder;
@@ -75,6 +89,7 @@ typedef	union			primitive
 	t_plane				plane;
 	t_triangle			triangle;
 	t_ellipsoid			ellipsoid;
+	t_box				box;
 }						t_primitive;
 
 typedef	struct		s_cutting_surface
@@ -95,12 +110,14 @@ enum object_type {
 	PLANE,
 	ELLIPSOID,
 	HYPERBOLOID,
-	PARABOLOID
+	PARABOLOID,
+	BOX
 };
 
 typedef struct 			s_object3d_d
 {
 	t_primitive			primitive;
+	t_basis				basis;
 	float3				rotation;
 	t_color				color;
 	float				specular;
@@ -109,6 +126,10 @@ typedef struct 			s_object3d_d
 	int					color_disrupt;
 	int 				type;
 	int					texture_id;
+	int 				texture_size;
+	int					texture_width;
+	int					texture_height;
+	int					l_size;
 }						t_object_d;
 
 float cylinder_intersection(t_cylinder cyl, float3 ray_start, float3 ray_dir)
@@ -151,7 +172,7 @@ __kernel void intersect_ray_cylinder_cl(__global float3 *ray_arr, \
     int i = get_global_id(0);
 	float result;
 	result = cylinder_intersection(cyl, camera_start, ray_arr[i]);
-	if (result > 0 && result < depth_buf[i])
+	if (result > 0.01 && result < depth_buf[i])
     {
         depth_buf[i] = result;
         index_buf[i] = index;
