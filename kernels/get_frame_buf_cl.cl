@@ -241,6 +241,7 @@ t_color		reflection_color(__global float3 *ray_buf, \
 		printf("result color device (%hhu, %hhu, %hhu)\n", result.red, result.green, result.blue);
 	return (result);
 }
+
 __kernel void get_frame_buf_cl(__global t_color *frame_buf, \
                             __global float3 *ray_buf, \
                             __global float3 *intersection_buf, \

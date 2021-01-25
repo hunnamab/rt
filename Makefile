@@ -6,7 +6,7 @@
 #    By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/07 15:39:13 by hunnamab          #+#    #+#              #
-#    Updated: 2021/01/25 13:42:30 by hunnamab         ###   ########.fr        #
+#    Updated: 2021/01/25 15:03:32 by hunnamab         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,21 +27,26 @@ OBJ_PATH = objs
 
 LIBRARY = ./libft/libft.a
 
-SRC_NAME = main.c sphere.c vector.c utils.c \
-	light.c triangle.c scenes_reader.c draw.c \
-	objects_parameters.c plane.c cylinder.c cone.c \
-	../matrix_lib/matr_add_matr.c ../matrix_lib/create_matrix.c \
+SRC_NAME = ../matrix_lib/matr_add_matr.c ../matrix_lib/create_matrix.c \
 	../matrix_lib/matr_copy.c ../matrix_lib/matr_div_by_scalar.c \
 	../matrix_lib/matr_free.c ../matrix_lib/matr_mul_by_scalar.c \
 	../matrix_lib/matr_mul.c  ../matrix_lib/matr_sub_matr.c \
 	../matrix_lib/matr_sub_scalar.c ../matrix_lib/matr_to_line.c \
 	../matrix_lib/matr_trace.c ../matrix_lib/matr_transpose.c \
-	transform.c ../matrix_lib/matrix_identity.c \
+	../matrix_lib/matrix_identity.c \
+	main.c vector.c utils.c transform.c light.c draw.c \
 	buffers.c scene.c color.c vector_second.c transform_matrix.c \
-	keyboard.c clean.c errors_management.c light_parameters.c \
-	parameters_utils.c camera_parameters.c define_object.c \
-	scenes_reader_util.c cl_init.c textures.c texture_mapping.c \
-	buffers_material_buf.c texture_loading.c ellipsoid.c box.c
+	keyboard.c clean.c errors_management.c \
+	cl_init.c buffers_material_buf.c \
+	scene_parsing/objects_parameters.c scene_parsing/scenes_reader.c \
+	scene_parsing/light_parameters.c scene_parsing/parameters_utils.c \
+	scene_parsing/camera_parameters.c scene_parsing/define_object.c \
+	scene_parsing/scenes_reader_util.c \
+	rt_textures/textures.c rt_textures/texture_mapping.c \
+	rt_textures/texture_loading.c \
+	rt_objects/sphere.c rt_objects/triangle.c rt_objects/plane.c \
+	rt_objects/cylinder.c rt_objects/cone.c \
+	rt_objects/ellipsoid.c rt_objects/box.c
 
 OBJ_NAME = $(SRC_NAME:.c=.o)
 
@@ -61,11 +66,17 @@ $(NAME): $(OBJ) $(LIBRARY)
 
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c
 				@mkdir $(OBJ_PATH) 2> /dev/null || true
+				@mkdir $(OBJ_PATH)/rt_objects 2> /dev/null || true
+				@mkdir $(OBJ_PATH)/rt_textures 2> /dev/null || true
+				@mkdir $(OBJ_PATH)/scene_parsing 2> /dev/null || true
 				@$(CC) $(C_FLAGS) -c $< $(LIB_FLAGS) -o $@
 		
 clean:
-	@rm -f $(OBJ)
+	@rm -rf $(OBJ)
 	@make -C libft clean
+	@rmdir $(OBJ_PATH)/rt_objects 2> /dev/null || true
+	@rmdir $(OBJ_PATH)/rt_textures 2> /dev/null || true
+	@rmdir $(OBJ_PATH)/scene_parsing 2> /dev/null || true
 	@rmdir $(OBJ_PATH) 2> /dev/null || true
 	
 fclean: clean
