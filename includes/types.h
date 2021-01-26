@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:58 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/26 20:23:59 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/26 20:47:26 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -268,8 +268,8 @@ typedef struct 			 s_object3d_d
 
 typedef struct          s_filter_data
 {
-    cl_program          filter_programs[FILTERS_NUM];
-    cl_kernel           filters_kernels[FILTERS_NUM];
+    cl_program          programs[FILTERS_NUM];
+    cl_kernel           kernels[FILTERS_NUM];
     cl_context			context;
 	cl_command_queue	commands;
     cl_device_id		device_id;

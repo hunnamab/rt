@@ -1,11 +1,22 @@
 #include "filters.h"
 
-void    filters_init(t_filter_data filter_data)
+void    filters_init(t_filter_data data)
 {
     int fd;
     int ret;
     char *str;
+    int err = 0;
+
     fd = open("./sepia_kernel.cl", O_RDONLY);
+    str = protected_malloc(sizeof(char), 64001);
+    ret = read(fd, str, 64000);
+    str[ret] = '\0';
+    data.programs[0] = clCreateProgramWithSource(data.context, 1, (const char **)&str, NULL, &err);
+    err != 0 ? printf("filter %d program create error %d\n", 0, err) : 0;
+    clBuildProgram(data.programs[0], 1, &data.device_id, NULL, NULL, &err);
+    err != 0 ? printf("filter %d program build error %d\n", 0, err) : 0;
+    data.kernels[0] = clCreateKernel(data.programs[0], "sepia", &err);
+    err != 0 ? printf("filter %d kernel compile error %d\n", 0, err) : 0;
 }
 
 void    sepia_filter(t_scene *scene)
@@ -36,6 +47,11 @@ void    gray_scale(t_scene *scene)
         scene->frame_buf[i].green = result.red;
         scene->frame_buf[i].blue = result.red;
     }
+}
+
+void    negative(t_filter_data data)
+{
+
 }
 
 void    gauss_filter(t_scene *scene)
