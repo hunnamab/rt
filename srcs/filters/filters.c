@@ -1,4 +1,12 @@
-#include "rt.h"
+#include "filters.h"
+
+void    filters_init(t_filter_data filter_data)
+{
+    int fd;
+    int ret;
+    char *str;
+    fd = open("./sepia_kernel.cl", O_RDONLY);
+}
 
 void    sepia_filter(t_scene *scene)
 {

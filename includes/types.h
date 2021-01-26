@@ -6,13 +6,15 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:58 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/26 20:00:54 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/26 20:23:59 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TYPES_H
 # define TYPES_H
+# define FILTERS_NUM 5
 # include <stdint.h>
+
 
 typedef	struct			s_scene t_scene;
 
@@ -263,6 +265,17 @@ typedef struct 			 s_object3d_d
 	cl_int				l_size;
 }						t_object_d;
 
+
+typedef struct          s_filter_data
+{
+    cl_program          filter_programs[FILTERS_NUM];
+    cl_kernel           filters_kernels[FILTERS_NUM];
+    cl_context			context;
+	cl_command_queue	commands;
+    cl_device_id		device_id;
+    cl_mem              pixels;/* указатель на буфер типа t_color на девайсе*/
+}                       t_filter_data;
+
 struct		s_scene
 {
 	t_cl_data		cl_data;
@@ -273,6 +286,7 @@ struct		s_scene
 	t_material		*material_buf;
 	cl_float3		*intersection_buf;
 	cl_float3		*ray_buf;
+	t_filter_data	filter_data;
 	t_light			*light;
 	int				light_nmb;
 	t_camera		camera;
