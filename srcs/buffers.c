@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:38:29 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/21 20:25:32 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/26 17:26:53 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,21 +37,12 @@ void	get_closest_points(t_scene *scene, float t)
 	size_t global = WID * HEI;
 	int x = -1;
 	int i = 0;
-	/* while(++x < WID * HEI)
-	{
-		scene->index_buf[x] = -1;
-		scene->depth_buf[x] = 100000000;
-	} */
-	/* clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.index_buf, CL_FALSE, 0, sizeof(int) * global, scene->index_buf, 0, NULL, NULL);
-	clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.depth_buf, CL_FALSE, 0, sizeof(float) * global, scene->depth_buf, 0, NULL, NULL); */
 	while (i < scene->obj_nmb)
 	{
 		scene->objs[i]->intersect(scene, i);
 		clFinish(scene->cl_data.commands);
 		i++;
 	}
-	//clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.depth_buf, CL_FALSE, 0, sizeof(float) * global, scene->depth_buf, 0, NULL, NULL);
-	//clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.index_buf, CL_FALSE, 0, sizeof(int) * global, scene->index_buf, 0, NULL, NULL);
 }
 
 void	get_intersection_buf(t_scene *scene)
@@ -70,7 +61,6 @@ void	get_intersection_buf(t_scene *scene)
 	clGetKernelWorkGroupInfo(scene->cl_data.kernels[6], scene->cl_data.device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
     clEnqueueNDRangeKernel(scene->cl_data.commands, scene->cl_data.kernels[6], 1, NULL, &global, &local, 0, NULL, NULL);
     clFinish(scene->cl_data.commands);
-	//clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.intersection_buf, CL_FALSE, 0, sizeof(cl_float3) * global, scene->intersection_buf, 0, NULL, NULL);
 }
 
 void	get_normal_buf(t_scene *scene)
@@ -94,7 +84,6 @@ void	get_normal_buf(t_scene *scene)
 	printf("sizeof t_cylinder host %lu\n", sizeof(t_cylinder));
 	clEnqueueNDRangeKernel(scene->cl_data.commands, scene->cl_data.kernels[7], 1, NULL, &global, &local, 0, NULL, NULL);
     clFinish(scene->cl_data.commands);
-	//clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.normal_buf, CL_FALSE, 0, sizeof(cl_float3) * global, scene->normal_buf, 0, NULL, NULL);
 }
 
 void get_frame_buf(t_scene *scene)

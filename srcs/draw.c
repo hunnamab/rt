@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 14:34:50 by pmetron           #+#    #+#             */
-/*   Updated: 2021/01/23 18:19:28 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/26 19:53:12 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,7 @@ void	draw_scene(t_sdl *sdl, t_scene *scene)
 	while (++x < WID * HEI)
 		transform(&scene->ray_buf[x], matrix, 1);
 	matr_free(matrix, 4);
-	clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.ray_buf, CL_TRUE, 0, sizeof(cl_float3) * WID * HEI, scene->ray_buf, 0, NULL, NULL);
-	get_closest_points(scene, 0);
-	get_intersection_buf(scene);
-	get_normal_buf(scene);
-	get_material_buf(scene);
-	get_frame_buf(scene);
+	clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.ray_buf, CL_FALSE, 0, sizeof(cl_float3) * WID * HEI, scene->ray_buf, 0, NULL, NULL);
 	while (j < WID * HEI)
 	{
 		scene->intersection_buf[j] = scene->camera.position;
@@ -62,10 +57,10 @@ void	draw_scene(t_sdl *sdl, t_scene *scene)
 	{
 		get_closest_points(scene, 0);
 		get_intersection_buf(scene);
+		clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.normal_buf, scene->cl_data.scene.ray_buf, 0, 0, sizeof(cl_float3) * WID * HEI, 0, NULL, NULL);
 		get_normal_buf(scene);
 		get_material_buf(scene);
 		get_frame_buf(scene);
-		clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.normal_buf, scene->cl_data.scene.ray_buf, 0, 0, sizeof(cl_float3) * WID * HEI, 0, NULL, NULL);
 		cnt++;
 	}
 	while (++y < HEI)
@@ -87,7 +82,41 @@ void	draw_normal_buf(t_sdl *sdl, t_scene *scene)
 {
 	int		xyi[3];
 	t_color	color;
-	
+	float				**matrix;
+	register int		x;
+	register int		y;
+	register int		i;
+	int					j = 0;
+
+	x = -1;
+	y = -1;
+	i = 0;
+	get_viewport(scene);
+	get_rays_arr(scene);
+	matrix = get_rotation_matrix(scene->camera.rotation);
+	while (++x < WID * HEI)
+		transform(&scene->ray_buf[x], matrix, 1);
+	matr_free(matrix, 4);
+	clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.ray_buf, CL_FALSE, 0, sizeof(cl_float3) * WID * HEI, scene->ray_buf, 0, NULL, NULL);
+	while (j < WID * HEI)
+	{
+		scene->intersection_buf[j] = scene->camera.position;
+		j++;
+	}
+	clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.intersection_buf, CL_FALSE, 0, sizeof(cl_float3) * WID * HEI, scene->intersection_buf, 0, NULL, NULL);
+	clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.ray_buf, scene->cl_data.scene.normal_buf, 0, 0, sizeof(cl_float3) * WID * HEI, 0, NULL, NULL);
+	x = -1;
+	while (++x < WID * HEI)
+	{
+		scene->index_buf[x] = -1;
+		scene->depth_buf[x] = 100000000;
+	}
+	clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.index_buf, CL_FALSE, 0, sizeof(int) * WID * HEI, scene->index_buf, 0, NULL, NULL);
+	clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.depth_buf, CL_FALSE, 0, sizeof(float) * WID * HEI, scene->depth_buf, 0, NULL, NULL);
+	get_closest_points(scene, 0);
+	get_intersection_buf(scene);
+	clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.normal_buf, scene->cl_data.scene.ray_buf, 0, 0, sizeof(cl_float3) * WID * HEI, 0, NULL, NULL);
+	get_normal_buf(scene);
 	clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.index_buf, CL_FALSE, 0, sizeof(int) * (WID * HEI), scene->index_buf, 0, NULL, NULL);
 	clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.normal_buf, CL_FALSE, 0, sizeof(cl_float3) * (WID * HEI), scene->normal_buf, 0, NULL, NULL);
 	clFinish(scene->cl_data.commands);
@@ -119,7 +148,39 @@ void	draw_deepth_buf(t_sdl *sdl, t_scene *scene)
 {
 	int		xyi[3];
 	t_color	color;
+	float				**matrix;
+	register int		x;
+	register int		y;
+	register int		i;
+	int					j = 0;
 
+	x = -1;
+	y = -1;
+	i = 0;
+	
+	get_viewport(scene);
+	get_rays_arr(scene);
+	matrix = get_rotation_matrix(scene->camera.rotation);
+	while (++x < WID * HEI)
+		transform(&scene->ray_buf[x], matrix, 1);
+	matr_free(matrix, 4);
+	clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.ray_buf, CL_FALSE, 0, sizeof(cl_float3) * WID * HEI, scene->ray_buf, 0, NULL, NULL);
+	while (j < WID * HEI)
+	{
+		scene->intersection_buf[j] = scene->camera.position;
+		j++;
+	}
+	clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.intersection_buf, CL_FALSE, 0, sizeof(cl_float3) * WID * HEI, scene->intersection_buf, 0, NULL, NULL);
+	clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.ray_buf, scene->cl_data.scene.normal_buf, 0, 0, sizeof(cl_float3) * WID * HEI, 0, NULL, NULL);
+	x = -1;
+	while (++x < WID * HEI)
+	{
+		scene->index_buf[x] = -1;
+		scene->depth_buf[x] = 100000000;
+	}
+	clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.index_buf, CL_FALSE, 0, sizeof(int) * WID * HEI, scene->index_buf, 0, NULL, NULL);
+	clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.depth_buf, CL_FALSE, 0, sizeof(float) * WID * HEI, scene->depth_buf, 0, NULL, NULL);
+	get_closest_points(scene, 0);
 	clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.index_buf, CL_FALSE, 0, sizeof(int) * (WID * HEI), scene->index_buf, 0, NULL, NULL);
 	clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.depth_buf, CL_FALSE, 0, sizeof(float) * WID * HEI, scene->depth_buf, 0, NULL, NULL);
 	clFinish(scene->cl_data.commands);
@@ -154,8 +215,37 @@ void	draw_raycast(t_sdl *sdl, t_scene *scene)
 	int		y;
 	t_color	color;
 	int		i;
-
+	int					j = 0;
+	float				**matrix;
 	clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.index_buf, CL_FALSE, 0, sizeof(int) * (WID * HEI), scene->index_buf, 0, NULL, NULL);
+	clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.material_buf, CL_FALSE, 0, sizeof(t_material) * WID * HEI, scene->material_buf, 0, NULL, NULL);
+	get_viewport(scene);
+	get_rays_arr(scene);
+	matrix = get_rotation_matrix(scene->camera.rotation);
+	while (++x < WID * HEI)
+		transform(&scene->ray_buf[x], matrix, 1);
+	matr_free(matrix, 4);
+	clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.ray_buf, CL_FALSE, 0, sizeof(cl_float3) * WID * HEI, scene->ray_buf, 0, NULL, NULL);
+	while (j < WID * HEI)
+	{
+		scene->intersection_buf[j] = scene->camera.position;
+		j++;
+	}
+	clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.intersection_buf, CL_FALSE, 0, sizeof(cl_float3) * WID * HEI, scene->intersection_buf, 0, NULL, NULL);
+	clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.ray_buf, scene->cl_data.scene.normal_buf, 0, 0, sizeof(cl_float3) * WID * HEI, 0, NULL, NULL);
+	x = -1;
+	while (++x < WID * HEI)
+	{
+		scene->index_buf[x] = -1;
+		scene->depth_buf[x] = 100000000;
+	}
+	clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.index_buf, CL_FALSE, 0, sizeof(int) * WID * HEI, scene->index_buf, 0, NULL, NULL);
+	clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.depth_buf, CL_FALSE, 0, sizeof(float) * WID * HEI, scene->depth_buf, 0, NULL, NULL);
+	get_closest_points(scene, 0);
+	get_intersection_buf(scene);
+	clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.normal_buf, scene->cl_data.scene.ray_buf, 0, 0, sizeof(cl_float3) * WID * HEI, 0, NULL, NULL);
+	get_normal_buf(scene);
+	get_material_buf(scene);
 	clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.material_buf, CL_FALSE, 0, sizeof(t_material) * WID * HEI, scene->material_buf, 0, NULL, NULL);
 	clFinish(scene->cl_data.commands);
 	x = -1;

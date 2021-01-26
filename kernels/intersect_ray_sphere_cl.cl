@@ -185,8 +185,10 @@ __kernel void intersect_ray_sphere_cl(__global float3 *ray_arr, \
 {
     int i = get_global_id(0);
     float result;
-    result = sphere_intersection(sphere, camera_start[i], ray_arr[i]);
-    if (result > 0.01 && result < depth_buf[i])
+    float3 ray;
+    ray = camera_start[i] + 0.1f;
+    result = sphere_intersection(sphere, ray, ray_arr[i]);
+    if (result > 0.001 && result < depth_buf[i])
     {
         float3 intersection_point;
         intersection_point = ray_arr[i] * result;

@@ -256,4 +256,6 @@ __kernel void get_normal_buf_cl(__global t_object_d *obj, \
 		else if (obj[j].type == CYLINDER)
 			normal_buf[i] = get_normal_cylinder(obj[j].primitive.cylinder, ray_buf[i], index_buf[i], intersection_buf[i], camera_position, depth_buf[i], i);
 	}
+	else
+		normal_buf[i] = 0;
 }
