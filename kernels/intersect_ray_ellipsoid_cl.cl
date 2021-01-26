@@ -171,11 +171,11 @@ float ellipsoid_intersection(t_ellipsoid el, float3 ray_start, float3 ray_dir)
     return (0);
 }
 
-__kernel  void    intersect_ray_ellipsoid(__global float3 *ray_arr, float3 camera_start, t_ellipsoid el, __global float *depth_buf, __global int *index_buf, int index)
+__kernel  void    intersect_ray_ellipsoid(__global float3 *ray_arr, __global float3 *camera_start, t_ellipsoid el, __global float *depth_buf, __global int *index_buf, int index)
 {
     int i = get_global_id(0);
     float result;
-    result = ellipsoid_intersection(el, camera_start, ray_arr[i]);
+    result = ellipsoid_intersection(el, camera_start[i], ray_arr[i]);
     /* float k1;
     float k2;
     float k3;

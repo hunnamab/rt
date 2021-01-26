@@ -227,11 +227,11 @@ float box_intersection(t_box box, float3 ray_start, float3 ray_dir)
 	return (0);
 }
 
-__kernel void intersect_ray_box(__global float3 *ray_arr, float3 camera_start, t_box box, __global float *depth_buf, __global int *index_buf, int index)
+__kernel void intersect_ray_box(__global float3 *ray_arr, __global float3 *camera_start, t_box box, __global float *depth_buf, __global int *index_buf, int index)
 {
     int i = get_global_id(0);
     float result;
-    result = box_intersection(box, camera_start, ray_arr[i]);
+    result = box_intersection(box, camera_start[i], ray_arr[i]);
     if (result > 0.01 && result < depth_buf[i])
     {
         depth_buf[i] = result;

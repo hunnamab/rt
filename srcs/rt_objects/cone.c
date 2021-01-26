@@ -97,8 +97,8 @@ void		intersect_ray_cone(t_scene *scene, int index)
 	size_t global = WID * HEI;
 	size_t local;
 
-	clSetKernelArg(scene->cl_data.kernels[2], 0, sizeof(cl_mem), &scene->cl_data.scene.ray_buf);
-	clSetKernelArg(scene->cl_data.kernels[2], 1,sizeof(cl_float3), (void *)&scene->camera.position);
+	clSetKernelArg(scene->cl_data.kernels[2], 0, sizeof(cl_mem), &scene->cl_data.scene.normal_buf);
+	clSetKernelArg(scene->cl_data.kernels[2], 1,sizeof(cl_mem), &scene->cl_data.scene.intersection_buf);
 	clSetKernelArg(scene->cl_data.kernels[2], 2, sizeof(cl_mem), &scene->cl_data.scene.depth_buf);
 	clSetKernelArg(scene->cl_data.kernels[2], 3, sizeof(t_cone), scene->objs[index]->data);
 	clSetKernelArg(scene->cl_data.kernels[2], 4, sizeof(cl_mem), &scene->cl_data.scene.index_buf);

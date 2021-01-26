@@ -30,8 +30,8 @@ void        intersect_ray_box(t_scene *scene, int index)
     size_t global = WID * HEI;
 	size_t local;
 
-	clSetKernelArg(scene->cl_data.kernels[11], 0, sizeof(cl_mem), &scene->cl_data.scene.ray_buf);
-	clSetKernelArg(scene->cl_data.kernels[11], 1, sizeof(cl_float3), &scene->camera.position);
+	clSetKernelArg(scene->cl_data.kernels[11], 0, sizeof(cl_mem), &scene->cl_data.scene.normal_buf);
+	clSetKernelArg(scene->cl_data.kernels[11], 1, sizeof(cl_mem), &scene->cl_data.scene.intersection_buf);
     clSetKernelArg(scene->cl_data.kernels[11], 2, sizeof(t_box), scene->objs[index]->data);
 	clSetKernelArg(scene->cl_data.kernels[11], 3, sizeof(cl_mem), &scene->cl_data.scene.depth_buf);
 	clSetKernelArg(scene->cl_data.kernels[11], 4, sizeof(cl_mem), &scene->cl_data.scene.index_buf);
