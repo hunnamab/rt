@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+         #
+#    By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/07 15:39:13 by hunnamab          #+#    #+#              #
-#    Updated: 2021/01/25 15:03:32 by hunnamab         ###   ########.fr        #
+#    Updated: 2021/01/26 19:59:11 by pmetron          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,8 @@ SRC_NAME = ../matrix_lib/matr_add_matr.c ../matrix_lib/create_matrix.c \
 	rt_textures/texture_loading.c \
 	rt_objects/sphere.c rt_objects/triangle.c rt_objects/plane.c \
 	rt_objects/cylinder.c rt_objects/cone.c \
-	rt_objects/ellipsoid.c rt_objects/box.c
+	rt_objects/ellipsoid.c rt_objects/box.c \
+	filters/filters.c
 
 OBJ_NAME = $(SRC_NAME:.c=.o)
 

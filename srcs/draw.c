@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 14:34:50 by pmetron           #+#    #+#             */
-/*   Updated: 2021/01/26 19:53:12 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/26 20:00:34 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ void	draw_scene(t_sdl *sdl, t_scene *scene)
 		get_frame_buf(scene);
 		cnt++;
 	}
+	if (scene->filter_type != -1)
+		scene->filter[scene->filter_type](scene);
 	while (++y < HEI)
 	{
 		while (++x < WID)
