@@ -6,7 +6,7 @@
 /*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:34 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/26 21:08:22 by npetrell         ###   ########.fr       */
+/*   Updated: 2021/01/26 21:53:17 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # include <unistd.h>
 # include "../matrix_lib/matrix.h"
 # include "types.h"
+# include "filters.h"
 
 # define ABS(x)		(x) > 0 ? (x) : -(x)
 # define DROUND(d)	ABS(d) < 0.00001 ? 0 : (d)
@@ -193,9 +194,6 @@ t_object    *new_ellipsoid(cl_float3 center, cl_float3 abc, t_color color, cl_fl
 void        intersect_ray_box(t_scene *scene, int index);
 t_object    *new_box(cl_float3 a, cl_float3 b, t_color color, cl_float3 rotation, float specular);
 
-void        intersect_ray_paraboloid(t_scene *scene, int index);
-t_object    *new_paraboloid(cl_float3 center, cl_float k, t_color color, cl_float3 rotation, float specular);
-
 void	device_objects_init(t_scene *scene);
 t_basis get_default(t_basis basis);
 t_basis get_basis(t_basis basis, float 	*rot);
@@ -205,5 +203,7 @@ cl_float3   clvec_rot_z(cl_float3 v, double a);
 void			draw_ui(SDL_Renderer *renderer, t_ui *rt_ui);
 
 
+void        intersect_ray_paraboloid(t_scene *scene, int index);
+t_object    *new_paraboloid(cl_float3 center, cl_float k, t_color color, cl_float3 rotation, float specular);
 
 #endif
