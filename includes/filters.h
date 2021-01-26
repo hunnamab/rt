@@ -11,9 +11,9 @@ enum    filters
     NEGATIVE
 };
 
-void    filters_init(t_filter_data filter_data);
+void    filters_init(t_filter_data *data);
 void    gauss_filter(t_filter_data data);
-void    sepia_filter(t_filter_data data);
+void    sepia_filter(t_filter_data *scene);
 void    gray_scale(t_filter_data data);
 void    negative(t_filter_data data);
 

@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:02 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/26 22:05:51 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/26 23:07:42 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ int		main(int args, char **argv)
 	SDL_Init(SDL_INIT_EVERYTHING);
 	SDL_CreateWindowAndRenderer(WID + 350, HEI, 0, &sdl.win, &sdl.renderer);
 	SDL_RenderClear(sdl.renderer);
-	scene->filter_type = 0;
+	scene->filter_type = -1;
 	//scene->obj_nmb += 1;
 	//scene->objs[scene->obj_nmb - 1] = new_box(get_point(0,0,0), get_point(1,1,1), get_point(10,10,10), set_color(0,0,255,255), get_point(0,0,0), 100);
 	/*инициализация секущих поверхностей
@@ -171,7 +171,7 @@ int		main(int args, char **argv)
 	load_textures(scene);
 	init_scene(scene);
 	init_ui(&sdl, scene);
-	filters_init(scene->filter_data);
+	filters_init(&scene->filter_data);
 	scene->draw[scene->mode](&sdl, scene);
 	init_music();
 	while (k)

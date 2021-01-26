@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:58 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/26 22:06:16 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/26 23:01:58 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -274,8 +274,8 @@ typedef struct 			 s_object3d_d
 
 typedef struct          s_filter_data
 {
-    cl_program          programs[FILTERS_NUM];
-    cl_kernel           kernels[FILTERS_NUM];
+    cl_program          *programs;
+    cl_kernel           *kernels;
     cl_context			context;
 	cl_command_queue	commands;
     cl_device_id		device_id;
@@ -305,7 +305,7 @@ struct		s_scene
 	int				mode; // 0 - default, 1 - normal, 2 - depth, 3 - flat_light
 	void			(*init[4])(struct s_scene *);
 	void			(*draw[4])(t_sdl *, struct s_scene *);
-	void			(*filter[5])(t_filter_data );
+	void			(*filter[5])(t_filter_data *);
 };
 
 #endif
