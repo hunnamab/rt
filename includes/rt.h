@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:34 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/26 21:53:17 by npetrell         ###   ########.fr       */
+/*   Updated: 2021/01/26 23:31:13 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,6 +204,6 @@ void			draw_ui(SDL_Renderer *renderer, t_ui *rt_ui);
 
 
 void        intersect_ray_paraboloid(t_scene *scene, int index);
-t_object    *new_paraboloid(cl_float3 center, cl_float k, t_color color, cl_float3 rotation, float specular);
+t_object    *new_paraboloid(cl_float3 center, float k, t_color color, cl_float3 rotation, float specular);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 14:34:50 by pmetron           #+#    #+#             */
-/*   Updated: 2021/01/26 23:23:31 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/26 23:51:37 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,6 @@ void	draw_deepth_buf(t_sdl *sdl, t_scene *scene)
 		transform(&scene->ray_buf[x], matrix, 1);
 	matr_free(matrix, 4);
 	err = clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.ray_buf, CL_FALSE, 0, sizeof(cl_float3) * WID * HEI, scene->ray_buf, 0, NULL, NULL);
-	printf("ERR == %d\n", err);
 	while (j < WID * HEI)
 	{
 		scene->intersection_buf[j] = scene->camera.position;

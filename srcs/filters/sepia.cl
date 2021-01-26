@@ -6,7 +6,7 @@ typedef struct 		s_color
 	uchar	alpha;
 }					t_color;
 
-__kernel void sepia(__global t_color *pixels, int w, int h)
+__kernel void sepia(__global t_color *pixels)
 {
     int i = get_global_id(0);
     t_color buf;

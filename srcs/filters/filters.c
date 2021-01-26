@@ -8,8 +8,8 @@ void    filters_init(t_filter_data *data)
     char *str;
     int err = 0;
 
-    data->kernels = malloc(sizeof(cl_kernel) * 3);
-    data->programs = malloc(sizeof(cl_program) * 3);
+    data->kernels = malloc(sizeof(cl_kernel) * 10);
+    data->programs = malloc(sizeof(cl_program) * 10);
     fd = open("./srcs/filters/sepia.cl", O_RDONLY);
     str = protected_malloc(sizeof(char), 64001);
     ret = read(fd, str, 64000);
@@ -22,44 +22,68 @@ void    filters_init(t_filter_data *data)
     err != 0 ? printf("filter sepia kernel compile error %d\n", err) : printf("sepia kernel created\n");
     close(fd);
     ft_memset(str, 0, 64001);
+    fd = open("./srcs/filters/negative.cl", O_RDONLY);
+    str = protected_malloc(sizeof(char), 64001);
+    ret = read(fd, str, 64000);
+    str[ret] = '\0';
+    data->programs[NEGATIVE] = clCreateProgramWithSource( data->context, 1, (const char **)&str, NULL, &err);
+    err != 0 ? printf("filter negative program create error %d\n", err) : 0;
+    clBuildProgram(data->programs[NEGATIVE], 1, & data->device_id, NULL, NULL, &err);
+    err != 0 ? printf("filter negative program build error %d\n", err) : 0;
+    data->kernels[NEGATIVE] = clCreateKernel( data->programs[NEGATIVE], "negative", &err);
+    err != 0 ? printf("filter negative kernel compile error %d\n", err) : printf("negative kernel created\n");
+     ft_memset(str, 0, 64001);
+    fd = open("./srcs/filters/grayscale.cl", O_RDONLY);
+    str = protected_malloc(sizeof(char), 64001);
+    ret = read(fd, str, 64000);
+    str[ret] = '\0';
+    data->programs[GRAYSCALE] = clCreateProgramWithSource( data->context, 1, (const char **)&str, NULL, &err);
+    err != 0 ? printf("filter grayscale program create error %d\n", err) : 0;
+    clBuildProgram(data->programs[GRAYSCALE], 1, & data->device_id, NULL, NULL, &err);
+    err != 0 ? printf("filter grayscale program build error %d\n", err) : 0;
+    data->kernels[GRAYSCALE] = clCreateKernel( data->programs[GRAYSCALE], "grayscale", &err);
+    err != 0 ? printf("filter grayscale kernel compile error %d\n", err) : printf("grayscale kernel created\n");
+    ft_memset(str, 0, 64001);
+    close(fd);
 }
 
 void    sepia_filter(t_filter_data *data)
 {
     size_t global = WID * HEI;
 	size_t local;
-    cl_int w;
-    cl_int h;
     cl_int err;
-    w = WID;
-    h = HEI;
 
     err = clSetKernelArg(data->kernels[0], 0, sizeof(cl_mem), &data->pixels);
-	err = clSetKernelArg(data->kernels[0], 1, sizeof(cl_int), &w);
-	err = clSetKernelArg(data->kernels[0], 2, sizeof(cl_int), &h);
     err = clGetKernelWorkGroupInfo(data->kernels[0], data->device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
     err = clEnqueueNDRangeKernel(data->commands, data->kernels[0], 1, NULL, &global, &local, 0, NULL, NULL);
     clFinish(data->commands);
 }
 
-void    gray_scale(t_filter_data data)
+void    gray_scale(t_filter_data *data)
 {
-    /* t_color result;
-    for(int i = 0; i < WID * HEI; i++)
-    {
-        result.red = scene->frame_buf[i].red * 0.3 + scene->frame_buf[i].green * 0.59 + scene->frame_buf[i].blue * 0.11;
-        scene->frame_buf[i].red = result.red;
-        scene->frame_buf[i].green = result.red;
-        scene->frame_buf[i].blue = result.red;
-    } */
+     size_t global = WID * HEI;
+	size_t local;
+    cl_int err;
+
+    err = clSetKernelArg(data->kernels[GRAYSCALE], 0, sizeof(cl_mem), &data->pixels);
+    err = clGetKernelWorkGroupInfo(data->kernels[GRAYSCALE], data->device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
+    err = clEnqueueNDRangeKernel(data->commands, data->kernels[GRAYSCALE], 1, NULL, &global, &local, 0, NULL, NULL);
+    clFinish(data->commands);
 }
 
-void    negative(t_filter_data data)
+void    negative(t_filter_data *data)
 {
+    size_t global = WID * HEI;
+	size_t local;
+    cl_int err;
 
+    err = clSetKernelArg(data->kernels[NEGATIVE], 0, sizeof(cl_mem), &data->pixels);
+    err = clGetKernelWorkGroupInfo(data->kernels[NEGATIVE], data->device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
+    err = clEnqueueNDRangeKernel(data->commands, data->kernels[NEGATIVE], 1, NULL, &global, &local, 0, NULL, NULL);
+    clFinish(data->commands);
 }
 
-void    gauss_filter(t_filter_data data)
+void    gauss_filter(t_filter_data *data)
 {
 
 }
