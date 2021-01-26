@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:02 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/26 22:05:51 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/26 21:52:49 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ t_butt	init_save_butt(SDL_Renderer *renderer, SDL_Rect rect, char *text)
 
 void			draw_ui(SDL_Renderer *renderer, t_ui *rt_ui)
 {
-	SDL_RenderCopy(renderer, rt_ui->back.text, NULL, &rt_ui->back.rect);
 	SDL_RenderCopy(renderer, rt_ui->save_png.text, NULL, &rt_ui->save_png.rect);
 	SDL_RenderCopy(renderer, rt_ui->ambiance.text, NULL, &rt_ui->ambiance.rect);
 	SDL_RenderCopy(renderer, rt_ui->am_plus.text, NULL, &rt_ui->am_plus.rect);
@@ -90,15 +89,6 @@ void			draw_ui(SDL_Renderer *renderer, t_ui *rt_ui)
 	SDL_RenderCopy(renderer, rt_ui->deepth.text, NULL, &rt_ui->deepth.rect);
 	SDL_RenderCopy(renderer, rt_ui->raycast.text, NULL, &rt_ui->raycast.rect);
 	SDL_RenderCopy(renderer, rt_ui->def.text, NULL, &rt_ui->def.rect);
-	SDL_RenderCopy(renderer, rt_ui->left.text, NULL, &rt_ui->left.rect);
-	SDL_RenderCopy(renderer, rt_ui->right.text, NULL, &rt_ui->right.rect);
-	SDL_RenderCopy(renderer, rt_ui->filters.text, NULL, &rt_ui->filters.rect);
-	if (rt_ui->filt == 1 ||  rt_ui->filt == 0 || rt_ui->filt == 4)
-		SDL_RenderCopy(renderer, rt_ui->gauss.text, NULL, &rt_ui->gauss.rect);
-	if (rt_ui->filt == 2)
-		SDL_RenderCopy(renderer, rt_ui->sepia.text, NULL, &rt_ui->sepia.rect);
-	if (rt_ui->filt == 3)
-		SDL_RenderCopy(renderer, rt_ui->left.text, NULL, &rt_ui->sepia.rect);
 	//SDL_RenderPresent(renderer);
 	//my_button->name.draw(renderer, &(my_button->name));
 }
@@ -117,23 +107,15 @@ SDL_Rect make_rect(int x, int y, int w, int h)
 void	init_ui(t_sdl *sdl, t_scene *scene)
 {
 	scene->rt_ui = (t_ui *)protected_malloc(sizeof(t_ui), 1);
-	scene->rt_ui->save_png = init_save_butt(sdl->renderer, make_rect(1345, 10, 70, 70), "rt_ui/icon.png");
-	scene->rt_ui->ambiance = init_save_butt(sdl->renderer, make_rect(1355, 100, 200, 70), "rt_ui/ambiance.png");
-	scene->rt_ui->am_plus = init_save_butt(sdl->renderer, make_rect(1355, 200, 50, 50), "rt_ui/plus.png");
-	scene->rt_ui->am_minus = init_save_butt(sdl->renderer, make_rect(1505, 200, 50, 50), "rt_ui/minus.png");
-	scene->rt_ui->modes = init_save_butt(sdl->renderer, make_rect(1355, 300, 200, 60), "rt_ui/modes.png");
-	scene->rt_ui->normal = init_save_butt(sdl->renderer, make_rect(1355, 400, 40, 40), "rt_ui/1_icon.png");
-	scene->rt_ui->deepth = init_save_butt(sdl->renderer, make_rect(1408, 400, 40, 40), "rt_ui/2_icon.png");
-	scene->rt_ui->raycast = init_save_butt(sdl->renderer, make_rect(1461, 400, 40, 40), "rt_ui/3_icon.png");
-	scene->rt_ui->def = init_save_butt(sdl->renderer, make_rect(1513, 400, 40, 40), "rt_ui/4_icon.png");
-	scene->rt_ui->back = init_save_butt(sdl->renderer, make_rect(1280, 0, 350, 720), "rt_ui/black.png");
-	scene->rt_ui->left = init_save_butt(sdl->renderer, make_rect(1355, 600, 45, 45), "rt_ui/left.png");
-	scene->rt_ui->right = init_save_butt(sdl->renderer, make_rect(1515, 600, 45, 45), "rt_ui/right.png");
-	scene->rt_ui->filters = init_save_butt(sdl->renderer, make_rect(1355, 500, 200, 70), "rt_ui/filters.png");
-	scene->rt_ui->gauss = init_save_butt(sdl->renderer, make_rect(1405, 600, 100, 40), "rt_ui/gauss.png");
-	scene->rt_ui->sepia = init_save_butt(sdl->renderer, make_rect(1410, 600, 100, 40), "rt_ui/sepia.png");
-	scene->rt_ui->filt = 0;
-	scene->rt_ui->i = 4;
+	scene->rt_ui->save_png = init_save_butt(sdl->renderer, make_rect(1400, 5, 70, 70), "icon.png");
+	scene->rt_ui->ambiance = init_save_butt(sdl->renderer, make_rect(1450, 100, 200, 70), "ambiance.png");
+	scene->rt_ui->am_plus = init_save_butt(sdl->renderer, make_rect(1550, 200, 50, 50), "plus.png");
+	scene->rt_ui->am_minus = init_save_butt(sdl->renderer, make_rect(1450, 200, 50, 50), "minus.png");
+	scene->rt_ui->modes = init_save_butt(sdl->renderer, make_rect(1450, 300, 200, 60), "modes.png");
+	scene->rt_ui->normal = init_save_butt(sdl->renderer, make_rect(1450, 400, 40, 40), "1_icon.png");
+	scene->rt_ui->deepth = init_save_butt(sdl->renderer, make_rect(1500, 400, 40, 40), "2_icon.png");
+	scene->rt_ui->raycast = init_save_butt(sdl->renderer, make_rect(1550, 400, 40, 40), "3_icon.png");
+	scene->rt_ui->def = init_save_butt(sdl->renderer, make_rect(1600, 400, 40, 40), "4_icon.png");
 }
 
 int		main(int args, char **argv)
@@ -147,11 +129,10 @@ int		main(int args, char **argv)
 	//cl_init(scene->cl_data);
 	args_check(scene, argv, args);
 	SDL_Init(SDL_INIT_EVERYTHING);
-	SDL_CreateWindowAndRenderer(WID + 350, HEI, 0, &sdl.win, &sdl.renderer);
+	SDL_CreateWindowAndRenderer(WID + 400, HEI, 0, &sdl.win, &sdl.renderer);
 	SDL_RenderClear(sdl.renderer);
-	scene->filter_type = 0;
-	//scene->obj_nmb += 1;
-	//scene->objs[scene->obj_nmb - 1] = new_box(get_point(0,0,0), get_point(1,1,1), get_point(10,10,10), set_color(0,0,255,255), get_point(0,0,0), 100);
+	scene->obj_nmb += 1;
+	scene->objs[scene->obj_nmb - 1] = new_box(get_point(1,1,1), get_point(10,10,10), set_color(0,0,255,255), get_point(0,0,0), 100);
 	/*инициализация секущих поверхностей
 	в будущем должна производиться из фаила*/
 	//scene->objs[0]->cs_nmb = 0;
@@ -171,7 +152,6 @@ int		main(int args, char **argv)
 	load_textures(scene);
 	init_scene(scene);
 	init_ui(&sdl, scene);
-	filters_init(scene->filter_data);
 	scene->draw[scene->mode](&sdl, scene);
 	init_music();
 	while (k)

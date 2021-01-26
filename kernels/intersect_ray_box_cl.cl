@@ -78,7 +78,6 @@ typedef	struct 		s_box
 {
 	float3 			a;
 	float3			b;
-	float3			center;
 }					t_box;
 
 typedef	union			primitive
