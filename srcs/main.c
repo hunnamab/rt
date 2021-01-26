@@ -64,6 +64,7 @@ void			init_music(void)
 	mus = Mix_LoadMUS("lights.wav");
 	Mix_PlayMusic(mus, -1);
 }
+
 t_butt	init_save_butt(SDL_Renderer *renderer, SDL_Rect rect, char *text)
 {
 	t_butt save;

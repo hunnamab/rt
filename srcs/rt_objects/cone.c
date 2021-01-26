@@ -67,32 +67,6 @@ void		get_cone_normal(t_scene *scene, int index, int obj_num)
 		*normal = vector_scale(normal, -1);
 }
 
-/* float		intersect_ray_cone(t_scene *scene, int index, cl_float3 *start, cl_float3 *dir)
-{
-	float	a;
-	float	b;
-	float	c;
-	cl_float3	dist;
-	t_cone	*cone;
-
-	cone = (t_cone *)scene->objs[index]->data;
-	dist = vector_sub(start, &cone->position);
-	a = vector_dot(dir, &cone->vec);
-	a = vector_dot(dir, dir) - (1 + cone->angle * cone->angle) * a * a;
-	b = 2 * (vector_dot(dir, &dist) - (1 + cone->angle * cone->angle) * \
-		vector_dot(dir, &cone->vec) * vector_dot(&dist, &cone->vec));
-	c = vector_dot(&dist, &cone->vec);
-	c = vector_dot(&dist, &dist) - (1 + cone->angle * cone->angle) * c * c;
-	c = b * b - 4 * a * c;
-	c = DROUND(c);
-	if (c >= 0)
-	{
-		c = sqrt(c);
-		return (choose_t((-b + c) / (2 * a), (-b - c) / (2 * a)));
-	}
-	return (0);
-} */
-
 void		intersect_ray_cone(t_scene *scene, int index)
 {
 	size_t global = WID * HEI;

@@ -67,7 +67,6 @@ t_object	*new_triangle(cl_float3 *vertex, float specular, t_color color, \
 
 	new_object = protected_malloc(sizeof(t_object), 1);
 	new_triangle = protected_malloc(sizeof(t_triangle), 1);
-	//new_triangle->vertex = protected_malloc(sizeof(cl_float3), 3);
 	init_norme(rotation, vertex, new_object->rotation, new_triangle->vertex);
 	matrix = get_rotation_matrix(new_object->rotation);
 	transform(new_triangle->vertex, matrix, 3);
@@ -112,42 +111,10 @@ void		get_triangle_normal(t_scene *scene, int index, int obj_num)
 		scene->normal_buf[index] = vector_scale(&scene->normal_buf[index], -1);
 }
 
-/* float		intersect_ray_triangle(t_scene *scene, int index, cl_float3 *start, cl_float3 *dir)
-{
-	t_triangle	*triangle;
-	cl_float3	edge[2];
-	cl_float3	vec[3];
-	float		det;
-	float		uv[2];
-
-	triangle = (t_triangle *)scene->objs[index]->data;
-	edge[0] = vector_sub(&triangle->vertex[1], &triangle->vertex[0]);
-	edge[1] = vector_sub(&triangle->vertex[2], &triangle->vertex[0]);
-	vec[0] = vector_cross(dir, &edge[1]);
-	det = vector_dot(&edge[0], &vec[0]);
-	if (det < 1e-8 && det > -1e-8)
-		return (0);
-	det = 1 / det;
-	vec[1] = vector_sub(start, &triangle->vertex[0]);
-	uv[0] = vector_dot(&vec[1], &vec[0]) * det;
-	if (uv[0] < 0 || uv[0] > 1)
-		return (0);
-	vec[2] = vector_cross(&vec[1], &edge[0]);
-	uv[1] = vector_dot(dir, &vec[2]) * det;
-	if (uv[1] < 0 || uv[0] + uv[1] > 1)
-		return (0);
-	if ((vector_dot(&edge[1], &vec[2]) * det) > 0)
-		return (vector_dot(&edge[1], &vec[2]) * det);
-	return (0);
-} */
-
 void		intersect_ray_triangle(t_scene *scene, int index)
 {
 	size_t global = WID * HEI;
-
 	size_t local;
-
-	//t_triangle *tri = (t_triangle *)scene->objs[index]->data;
 
 	clSetKernelArg(scene->cl_data.kernels[4], 0, sizeof(cl_mem), &scene->cl_data.scene.normal_buf);
 	clSetKernelArg(scene->cl_data.kernels[4], 1, sizeof(cl_mem), &scene->cl_data.scene.intersection_buf);

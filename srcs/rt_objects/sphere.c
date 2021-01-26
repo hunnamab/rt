@@ -58,7 +58,6 @@ t_basis get_default(t_basis basis)
     return (basis);
 }
 
-
 t_object	*new_sphere(cl_float3 center, float *rad_spec, t_color color, \
 						float *rotation)
 {
@@ -104,28 +103,6 @@ void		get_sphere_normal(t_scene *scene, int index, int obj_num)
 		scene->normal_buf[index] = vector_scale(&scene->normal_buf[index], -1);
 }
 
-/* float		intersect_ray_sphere(t_scene *scene, int index, cl_float3 *start, cl_float3 *dir)
-{
-	float		a;
-	float		b;
-	float		c;
-	cl_float3	dist;
-	t_sphere	*s;
-	
-	s = (t_sphere *)scene->objs[index]->data;
-	a = vector_dot(dir, dir);
-	dist = vector_sub(start, &s->center);
-	b = 2 * vector_dot(&dist, dir);
-	c = vector_dot(&dist, &dist) - (s->radius * s->radius);
-	c = b * b - 4 * a * c;
-	if (c >= 0)
-	{
-		c = sqrt(c);
-		return (choose_t((-b + c) / (2 * a), (-b - c) / (2 * a)));
-	}
-	return (0);
-} */
-
 void		intersect_ray_sphere(t_scene *scene, int index)
 {
 	size_t global = WID * HEI;
@@ -152,7 +129,6 @@ void		intersect_ray_sphere(t_scene *scene, int index)
 	printf("sphere local == max work group size == %ld\n", local);
     clEnqueueNDRangeKernel(scene->cl_data.commands, scene->cl_data.kernels[1], 1, NULL, &global, &local, 0, NULL, NULL);
 }
-
 
 void	one_argument_sphere(char **description, t_scene *scene, int *snmi)
 {

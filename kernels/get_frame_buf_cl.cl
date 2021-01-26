@@ -6,12 +6,12 @@ enum light_type{
 	DIRECTIONAL
 };
 
-typedef struct          s_basis
+typedef struct		s_basis
 {
-    float3       u;
-    float3       v;
-    float3       w;
-}                      	t_basis;
+	float3			u;
+	float3			v;
+	float3			w;
+}					t_basis;
 
 typedef	struct		s_light
 {
@@ -21,7 +21,7 @@ typedef	struct		s_light
 	int				type;
 }					t_light;
 
-typedef struct 		s_color
+typedef struct		s_color
 {
 	uchar			red;
 	uchar			green;
@@ -35,66 +35,72 @@ typedef	struct		s_material
 	float			specular;
 }					t_material;
 
-typedef struct  s_sphere
+typedef struct		s_sphere
 {
-    float3      center;
-    float       radius;
-}               t_sphere;
+	float3			center;
+	float			radius;
+}					t_sphere;
 
-typedef struct 	s_plane
+typedef struct		s_plane
 {
-    float3		normal;
-	float3		point;
-	float		d;
-}				t_plane;
+	float3			normal;
+	float3			point;
+	float			d;
+}					t_plane;
 
-typedef struct 		s_cylinder
+typedef struct		s_cylinder
 {
-    float3		position;
-	float3		vec;
-	float		radius;
+	float3			position;
+	float3			vec;
+	float			radius;
 }					t_cylinder;
 
-typedef struct 		s_cone
+typedef struct		s_cone
 {
-    float3		    position;
-	float3		    vec;
+	float3			position;
+	float3			vec;
 	float			angle;
 }					t_cone;
 
-typedef struct 		s_triangle
+typedef struct		s_triangle
 {
-    float3		vertex[3];
-	float3		normal;
+	float3			vertex[3];
+	float3			normal;
 }					t_triangle;
 
-typedef	struct 		s_ellipsoid
+typedef	struct		s_ellipsoid
 {
-	float3 			abc;
+	float3			abc;
 	float3			center;
 }					t_ellipsoid;
 
-typedef	struct 		s_box
+typedef	struct		s_box
 {
-	float3 			a;
+	float3			a;
 	float3			b;
-	float3			center;
 }					t_box;
 
-typedef	union			primitive
+typedef struct		s_paraboloid
 {
-	t_cylinder			cylinder;
-	t_cone				cone;
-	t_sphere			sphere;
-	t_plane				plane;
-	t_triangle			triangle;
-	t_ellipsoid			ellipsoid;
-	t_box				box;
-}						t_primitive;
+	float			k;
+	float3			center;
+}					t_paraboloid;
+
+typedef	union		primitive
+{
+	t_cylinder		cylinder;
+	t_cone			cone;
+	t_sphere		sphere;
+	t_plane			plane;
+	t_triangle		triangle;
+	t_ellipsoid		ellipsoid;
+	t_paraboloid	paraboloid;
+	t_box			box;
+}					t_primitive;
 
 typedef	struct		s_cutting_surface
 {
-    int 			type;
+	int 			type;
 	t_sphere		sphere;
 	t_plane			plane;
 	t_triangle		triangle;
@@ -114,24 +120,24 @@ enum object_type {
 	BOX
 };
 
-typedef struct 			s_object3d_d
+typedef struct		s_object3d_d
 {
-	t_primitive			primitive;
-	t_basis				basis;
-	float3				rotation;
-	t_color				color;
-	float				specular;
-	float				roughness;
-	float				refraction;
-	float				reflection;
-	int					color_disrupt;
-	int 				type;
-	int					texture_id;
-	int 				texture_size;
-	int					texture_width;
-	int					texture_height;
-	int					l_size;
-}						t_object_d;
+	t_primitive		primitive;
+	t_basis			basis;
+	float3			rotation;
+	t_color			color;
+	float			specular;
+	float			roughness;
+	float			refraction;
+	float			reflection;
+	int				color_disrupt;
+	int				type;
+	int				texture_id;
+	int				texture_size;
+	int				texture_width;
+	int				texture_height;
+	int				l_size;
+}					t_object_d;
 
 float cone_intersection(t_cone cone, float3 ray_start, float3 ray_dir)
 {
@@ -295,29 +301,34 @@ int			in_shadow(int index, float3 l, __global float3 *intersection_buf, int obj_
 	return (0);
 }
 
-float		get_specular(int index, int j, float3 l, __global float3 *normal_buf, __global t_light *light,\
- 						__global t_material *material_buf, __global float3 *ray_buf)
+float		get_specular(int index, int j, float3 l, \
+						__global float3 *normal_buf, \
+						__global t_light *light, \
+ 						__global t_material *material_buf, \
+						__global float3 *ray_buf)
 {
-	float		nri[3];
- 	float3		r;
+	float		n;
+	float		r;
+	float		i;
+ 	float3		rad;
 	float3		d;
 	float3		lb;
 
 	lb = l / length(l);
-	nri[2] = 0;
-	nri[0] = dot(normal_buf[index], lb);
-	r = normal_buf[index] * 2.0f;
-	r = r * nri[0];
-	r = r - lb;
+	i = 0;
+	n = dot(normal_buf[index], lb);
+	rad = normal_buf[index] * 2.0f;
+	rad = rad * n;
+	rad = rad - lb;
 	d.x = -ray_buf[index].x;
 	d.y = -ray_buf[index].y;
 	d.z = -ray_buf[index].z;
-	nri[1] = dot(r, d);
-	if (nri[1] > 0)
-		nri[2] += light[j].intensity * pow((float)nri[1] / \
-		(length(r) * length(d)), \
+	r = dot(rad, d);
+	if (r > 0)
+		i += light[j].intensity * pow((float)r / \
+		(length(rad) * length(d)), \
 		material_buf[index].specular);
-	return (nri[2]);
+	return (i);
 }
 
 float3		get_light_vec(int index, int j, __global float3 *intersection_buf, __global t_light *light)

@@ -70,32 +70,6 @@ void		get_cylinder_normal(t_scene *scene, int index, int obj_num)
 		*normal = vector_scale(normal, -1);
 }
 
-/* float		intersect_ray_cylinder(t_scene *scene, int index, cl_float3 *start, cl_float3 *dir)
-{
-	float		a;
-	float		b;
-	float		c;
-	cl_float3	dist;
-	t_cylinder	*cylinder;
-
-	cylinder = (t_cylinder *)scene->objs[index]->data;
-	dist = vector_sub(start, &cylinder->position);
-	a = vector_dot(dir, &cylinder->vec);
-	a = vector_dot(dir, dir) - a * a;
-	b = 2 * (vector_dot(dir, &dist) - \
-				vector_dot(dir, &cylinder->vec) * \
-				vector_dot(&dist, &cylinder->vec));
-	c = vector_dot(&dist, &cylinder->vec);
-	c = vector_dot(&dist, &dist) - c * c - cylinder->radius * cylinder->radius;
-	c = b * b - 4 * a * c;
-	if (c >= 0)
-	{
-		c = sqrt(c);
-		return (choose_t((-b + c) / (2 * a), (-b - c) / (2 * a)));
-	}
-	return (0);
-} */
-
 void		intersect_ray_cylinder(t_scene *scene, int index)
 {
 	size_t global = WID * HEI;

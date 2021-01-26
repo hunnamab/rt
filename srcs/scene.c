@@ -12,39 +12,7 @@
 
 #include "rt.h"
 
-void	init_deepth(t_scene *scene)
-{
-	float	**matrix;
-	int		x;
-
-	x = -1;
-	scene->viewport = protected_malloc(sizeof(cl_float3), (WID * HEI));
-	scene->ray_buf = protected_malloc(sizeof(cl_float3), (WID * HEI));
-	scene->normal_buf = protected_malloc(sizeof(cl_float3), WID * HEI);
-	scene->material_buf = protected_malloc(sizeof(t_material), WID * HEI);
-	scene->intersection_buf = protected_malloc(sizeof(cl_float3), WID * HEI);
-	scene->index_buf = protected_malloc(sizeof(int), WID * HEI);
-	scene->depth_buf = protected_malloc(sizeof(float), WID * HEI);	
-	scene->frame_buf = protected_malloc(sizeof(t_color), (WID * HEI));
-}
-
 void	init_default(t_scene *scene)
-{
-	float	**matrix;
-	int		x;
-
-	x = -1;
-	scene->viewport = protected_malloc(sizeof(cl_float3), (WID * HEI));
-	scene->ray_buf = protected_malloc(sizeof(cl_float3), (WID * HEI));
-	scene->normal_buf = protected_malloc(sizeof(cl_float3), WID * HEI);
-	scene->material_buf = protected_malloc(sizeof(t_material), WID * HEI);
-	scene->intersection_buf = protected_malloc(sizeof(cl_float3), WID * HEI);
-	scene->index_buf = protected_malloc(sizeof(int), WID * HEI);
-	scene->depth_buf = protected_malloc(sizeof(float), WID * HEI);	
-	scene->frame_buf = protected_malloc(sizeof(t_color), (WID * HEI));
-}
-
-void	init_raycast(t_scene *scene)
 {
 	float	**matrix;
 	int		x;
@@ -69,8 +37,8 @@ void	init_scene(t_scene *scene)
 {
 	scene->init[0] = &init_default;
 	scene->init[1] = &init_default;
-	scene->init[2] = &init_deepth;
-	scene->init[3] = &init_raycast;
+	scene->init[2] = &init_default;
+	scene->init[3] = &init_default;
 	scene->draw[0] = &draw_scene;
 	scene->draw[1] = &draw_normal_buf;
 	scene->draw[2] = &draw_deepth_buf;

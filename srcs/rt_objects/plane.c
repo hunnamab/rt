@@ -57,28 +57,10 @@ void		get_plane_normal(t_scene *scene, int index, int obj_num)
 		scene->normal_buf[index] = vector_scale(&scene->normal_buf[index], -1);
 }
 
-/* float		intersect_ray_plane(t_scene *scene, int index, cl_float3 *start, cl_float3 *dir)
-{
-	float	k1;
-	float	k2;
-	t_plane	*plane;
-
-	plane = (t_plane *)scene->objs[index]->data;
-	if ((vector_dot(dir, &plane->normal)) == 0)
-		return (0);
-	k1 = vector_dot(start, &plane->normal) + plane->d;
-	k2 = vector_dot(dir, &plane->normal);
-	if (k1 == 0 || (k1 < 0 && k2 < 0) || (k1 > 0 && k2 > 0))
-		return (0);
-	return (-k1 / k2);
-} */
-
 void		intersect_ray_plane(t_scene *scene, int index)
 {
 	size_t global = WID * HEI;
-
 	size_t local;
-	//t_plane *p = (t_plane *)scene->objs[index]->data;
 
 	clSetKernelArg(scene->cl_data.kernels[5], 0, sizeof(cl_mem), &scene->cl_data.scene.normal_buf);
 	clSetKernelArg(scene->cl_data.kernels[5], 1, sizeof(cl_mem), &scene->cl_data.scene.intersection_buf);

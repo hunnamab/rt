@@ -34,11 +34,11 @@
 
 # define ABS(x)		(x) > 0 ? (x) : -(x)
 # define DROUND(d)	ABS(d) < 0.00001 ? 0 : (d)
-# define DTR(k)	((double)k * (M_PI / 180))
+# define DTR(k)		((double)k * (M_PI / 180))
 
-# define WID 1280
-# define HEI 720
-# define KERNEL_NUM 20
+# define WID		1280
+# define HEI		720
+# define KERNEL_NUM	20
 
 // scenes_reader.c
 void		read_scene(int fd, t_scene *scene);
@@ -48,8 +48,6 @@ int			count_objects(int len, char *buf);
 char		**get_description(char *scene, int i);
 // define_object.c
 void		get_parameters(char *name, char **description, t_scene *scene, int *snmi);
-// settings.c
-void		sphere_settings(t_sphere *s, t_ray *r);
 // draw.c
 void		draw_scene(t_sdl *sdl, t_scene *scene);
 void		draw_normal_buf(t_sdl *sdl, t_scene *scene);
@@ -105,7 +103,7 @@ t_object	*new_cylinder(cl_float3 *pos_vec, float *rad_spec, t_color color, \
 void		intersect_ray_cone(t_scene *scene, int index);
 t_object	*new_cone(cl_float3 *pos_vec, float *ang_spec, t_color color, \
 						float *rotation);
-						
+
 void		get_sphere(char **description, t_scene *scene, int *snmi);
 void		get_triangle(char **description, float specular, t_scene *scene, int *snmi);
 void		get_plane(char **description, t_scene *scene, int *snmi);
@@ -136,7 +134,7 @@ void		get_buffers(t_scene *scene);
 void		get_normal_buf(t_scene *scene);
 void		get_intersection_buf(t_scene *scene);
 void		get_closest_points(t_scene *scene, float t);
-void 		get_frame_buf(t_scene *scene);
+void		get_frame_buf(t_scene *scene);
 // buffers_material_buf.c
 void		get_material_buf(t_scene *scene);
 // normal.c
@@ -162,48 +160,47 @@ void		clean_scene(t_scene *scene);
 // errors_management.c
 void		output_description(void);
 void		output_error(int tag);
-int    		cl_init(t_scene *scene);
+int			cl_init(t_scene *scene);
 
 t_texture	*tex_new_bmp(char *file);
 t_texture	*tex_new_surface(SDL_Surface *s);
 char		*get_file(char *description);
 t_color		get_color_tex(t_texture *texture, float x, float y, int index);
-cl_float3		mapping_sphere(cl_float3 t, t_object *obj, int index);
-cl_float3 	text_map_select(t_object *obj, cl_float3 t, int index);
-cl_float3 	mapping_plane(cl_float3 t, t_object *obj);
-cl_float3		mapping_cylinder(cl_float3 t, t_object *obj);
-cl_float3		mapping_cone(cl_float3 t, t_object *obj);
-cl_float3		normalize(cl_float3 vec);
-cl_float3		mapping_triangle(cl_float3 t, t_object *obj);
-t_object 	*multiple_spheres(char **description, t_scene *scene, int *snmi, int i);
-void	one_argument_sphere(char **description, t_scene *scene, int *snmi);
-void	one_argument_cylinder(char **description, t_scene *scene, int *snmi);
-t_object 	*multiple_cylinders(char **description, t_scene *scene, int *snmi, int i);
-t_object 	*multiple_cones(char **description, t_scene *scene, int *snmi, int i);
-void	one_argument_cylinder(char **description, t_scene *scene, int *snmi);
-void	one_argument_plane(char **description, t_scene *scene, int *snmi);
-t_object 	*multiple_planes(char **description, t_scene *scene, int *snmi, int i);
-void	one_argument_triangle(char **description, t_scene *scene, int *snmi, float specular);
-t_object 	*multiple_triangles(char **description, int *snmi, int i, float specular);
-void	one_argument_cone(char **description, t_scene *scene, int *snmi);
+cl_float3	mapping_sphere(cl_float3 t, t_object *obj, int index);
+cl_float3	text_map_select(t_object *obj, cl_float3 t, int index);
+cl_float3	mapping_plane(cl_float3 t, t_object *obj);
+cl_float3	mapping_cylinder(cl_float3 t, t_object *obj);
+cl_float3	mapping_cone(cl_float3 t, t_object *obj);
+cl_float3	normalize(cl_float3 vec);
+cl_float3	mapping_triangle(cl_float3 t, t_object *obj);
+t_object	*multiple_spheres(char **description, t_scene *scene, int *snmi, int i);
+void		one_argument_sphere(char **description, t_scene *scene, int *snmi);
+void		one_argument_cylinder(char **description, t_scene *scene, int *snmi);
+t_object	*multiple_cylinders(char **description, t_scene *scene, int *snmi, int i);
+t_object	*multiple_cones(char **description, t_scene *scene, int *snmi, int i);
+void		one_argument_cylinder(char **description, t_scene *scene, int *snmi);
+void		one_argument_plane(char **description, t_scene *scene, int *snmi);
+t_object	*multiple_planes(char **description, t_scene *scene, int *snmi, int i);
+void		one_argument_triangle(char **description, t_scene *scene, int *snmi, float specular);
+t_object	*multiple_triangles(char **description, int *snmi, int i, float specular);
+void		one_argument_cone(char **description, t_scene *scene, int *snmi);
 //texture_loading
-void    load_textures(t_scene *scene);
-void        intersect_ray_ellipsoid(t_scene *scene, int index);
-t_object    *new_ellipsoid(cl_float3 center, cl_float3 abc, t_color color, cl_float3 rotation, float specular);
-///box
-void        intersect_ray_box(t_scene *scene, int index);
-t_object    *new_box(cl_float3 a, cl_float3 b, t_color color, cl_float3 rotation, float specular);
+void		load_textures(t_scene *scene);
+void		intersect_ray_ellipsoid(t_scene *scene, int index);
+t_object	*new_ellipsoid(cl_float3 center, cl_float3 abc, t_color color, cl_float3 rotation, float specular);
+//box
+void		intersect_ray_box(t_scene *scene, int index);
+t_object	*new_box(cl_float3 a, cl_float3 b, t_color color, cl_float3 rotation, float specular);
 
-void	device_objects_init(t_scene *scene);
-t_basis get_default(t_basis basis);
-t_basis get_basis(t_basis basis, float 	*rot);
-cl_float3   clvec_rot_x(cl_float3 v, double a);
-cl_float3   clvec_rot_y(cl_float3 v, double a);
-cl_float3   clvec_rot_z(cl_float3 v, double a);
-void			draw_ui(SDL_Renderer *renderer, t_ui *rt_ui);
+void		device_objects_init(t_scene *scene);
+t_basis		get_default(t_basis basis);
+t_basis		get_basis(t_basis basis, float 	*rot);
+cl_float3	clvec_rot_x(cl_float3 v, double a);
+cl_float3	clvec_rot_y(cl_float3 v, double a);
+cl_float3	clvec_rot_z(cl_float3 v, double a);
+void		draw_ui(SDL_Renderer *renderer, t_ui *rt_ui);
 
-
-void        intersect_ray_paraboloid(t_scene *scene, int index);
-t_object    *new_paraboloid(cl_float3 center, float k, t_color color, cl_float3 rotation, float specular);
+void		intersect_ray_paraboloid(t_scene *scene, int index);
+t_object	*new_paraboloid(cl_float3 center, float k, t_color color, cl_float3 rotation, float specular);
 
 #endif
