@@ -26,6 +26,7 @@ t_object	*new_cylinder(cl_float3 *pos_vec, float *rad_spec, t_color color, \
 	new_cylinder->radius = rad_spec[0];
 	new_cylinder->vec = pos_vec[1];
 	new_object->specular = rad_spec[1];
+	new_object->reflection = 0.0;
 	new_object->rotation[0] = rotation[0];
 	new_object->rotation[1] = rotation[1];
 	new_object->rotation[2] = rotation[2];

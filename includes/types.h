@@ -230,6 +230,7 @@ typedef	struct		s_object3d
 	float			rotation[3];
 	t_color			color;
 	float			specular;
+	float			reflection;
 	t_texture		*text;
 	t_basis			basis;
 	int 			type;
@@ -262,6 +263,7 @@ typedef struct 			 s_object3d_d
 	cl_float			specular;
 	cl_float			roughness;
 	cl_float			refraction;
+	cl_float			reflection;
 	cl_int				color_disrupt;
 	cl_int 				type;
 	cl_int				texture_id;

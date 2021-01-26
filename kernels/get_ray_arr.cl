@@ -123,6 +123,7 @@ typedef struct 			s_object3d_d
 	float				specular;
 	float				roughness;
 	float				refraction;
+	float				reflection;
 	int					color_disrupt;
 	int 				type;
 	int					texture_id;

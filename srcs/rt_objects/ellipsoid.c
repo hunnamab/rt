@@ -14,6 +14,7 @@ t_object    *new_ellipsoid(cl_float3 center, cl_float3 abc, t_color color, cl_fl
 	new_object->rotation[1] = rotation.y;
 	new_object->rotation[2] = rotation.z;
 	new_object->specular = specular;
+	new_object->reflection = 0.0;
 	new_object->color = color;
 	new_object->text = NULL;
 	new_object->data = (void *)el;
