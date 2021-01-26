@@ -70,6 +70,7 @@ $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c
 				@mkdir $(OBJ_PATH)/rt_objects 2> /dev/null || true
 				@mkdir $(OBJ_PATH)/rt_textures 2> /dev/null || true
 				@mkdir $(OBJ_PATH)/scene_parsing 2> /dev/null || true
+				@mkdir $(OBJ_PATH)/filters 2> /dev/null || true
 				@$(CC) $(C_FLAGS) -c $< $(LIB_FLAGS) -o $@
 		
 clean:
@@ -78,6 +79,7 @@ clean:
 	@rmdir $(OBJ_PATH)/rt_objects 2> /dev/null || true
 	@rmdir $(OBJ_PATH)/rt_textures 2> /dev/null || true
 	@rmdir $(OBJ_PATH)/scene_parsing 2> /dev/null || true
+	@rmdir $(OBJ_PATH)/filters 2> /dev/null || true
 	@rmdir $(OBJ_PATH) 2> /dev/null || true
 	
 fclean: clean
