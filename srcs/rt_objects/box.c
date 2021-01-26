@@ -14,6 +14,7 @@ t_object    *new_box(cl_float3 a, cl_float3 b, t_color color, cl_float3 rotation
 	new_object->rotation[1] = rotation.y;
 	new_object->rotation[2] = rotation.z;
 	new_object->specular = specular;
+	new_object->reflection = 0.0;
 	new_object->color = color;
 	new_object->text = NULL;
 	new_object->data = (void *)box;

@@ -73,6 +73,7 @@ t_object	*new_sphere(cl_float3 center, float *rad_spec, t_color color, \
 	new_object->rotation[1] = rotation[1];
 	new_object->rotation[2] = rotation[2];
 	new_object->specular = rad_spec[1];
+	new_object->reflection = 0.4;
 	new_object->color = color;
 	new_object->text = NULL;
 	new_object->data = (void *)new_sphere;

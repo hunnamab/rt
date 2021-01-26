@@ -32,6 +32,7 @@ t_object	*new_plane(cl_float3 *poi_nor, float specular, t_color color, \
 	transform(&new_plane->normal, matrix, 1);
 	matr_free(matrix, 4);
 	new_object->specular = specular;
+	new_object->reflection = 0.0;
 	new_object->color = color;
 	new_object->data = (void *)new_plane;
 	new_object->tag = "plane";
