@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   types.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:58 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/25 20:45:04 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/01/26 21:42:27 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,6 @@ typedef struct 		s_box
 {
 	cl_float3		a;
 	cl_float3		b;
-	cl_float3		center;
 }					t_box;
 
 typedef struct 		s_triangle
@@ -145,6 +144,12 @@ typedef	struct 		s_ellipsoid
 	cl_float3 		abc;
 	cl_float3		center;
 }					t_ellipsoid;
+
+typedef struct		s_paraboloid
+{
+	float			k;
+	cl_float3		center;
+}					t_paraboloid;
 
 typedef struct 		s_texture_d
 {
@@ -243,6 +248,7 @@ typedef	union			primitive
 	t_triangle			triangle;
 	t_ellipsoid			ellipsoid;
 	t_box				box;
+	t_paraboloid		paraboloid;
 }						t_primitive;
 
 typedef struct 			 s_object3d_d

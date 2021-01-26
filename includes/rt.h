@@ -6,7 +6,7 @@
 /*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:34 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/23 20:02:11 by npetrell         ###   ########.fr       */
+/*   Updated: 2021/01/26 21:08:22 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,7 +191,10 @@ void        intersect_ray_ellipsoid(t_scene *scene, int index);
 t_object    *new_ellipsoid(cl_float3 center, cl_float3 abc, t_color color, cl_float3 rotation, float specular);
 ///box
 void        intersect_ray_box(t_scene *scene, int index);
-t_object    *new_box(cl_float3 center, cl_float3 a, cl_float3 b, t_color color, cl_float3 rotation, float specular);
+t_object    *new_box(cl_float3 a, cl_float3 b, t_color color, cl_float3 rotation, float specular);
+
+void        intersect_ray_paraboloid(t_scene *scene, int index);
+t_object    *new_paraboloid(cl_float3 center, cl_float k, t_color color, cl_float3 rotation, float specular);
 
 void	device_objects_init(t_scene *scene);
 t_basis get_default(t_basis basis);
@@ -200,5 +203,7 @@ cl_float3   clvec_rot_x(cl_float3 v, double a);
 cl_float3   clvec_rot_y(cl_float3 v, double a);
 cl_float3   clvec_rot_z(cl_float3 v, double a);
 void			draw_ui(SDL_Renderer *renderer, t_ui *rt_ui);
+
+
 
 #endif

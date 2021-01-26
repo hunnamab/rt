@@ -1,6 +1,6 @@
 #include "rt.h"
 
-t_object    *new_box(cl_float3 center, cl_float3 a, cl_float3 b, t_color color, cl_float3 rotation, float specular)
+t_object    *new_box(cl_float3 a, cl_float3 b, t_color color, cl_float3 rotation, float specular)
 {
     t_box *box;
 	t_object	*new_object;
@@ -8,7 +8,6 @@ t_object    *new_box(cl_float3 center, cl_float3 a, cl_float3 b, t_color color, 
 
 	new_object = malloc(sizeof(t_object));
 	box = malloc(sizeof(t_box));
-	box->center = center; 
 	box->a = a;
     box->b = b;
 	new_object->rotation[0] = rotation.x;
