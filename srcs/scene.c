@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 14:21:11 by pmetron           #+#    #+#             */
-/*   Updated: 2021/01/26 19:55:05 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/26 21:23:19 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,8 @@ void	init_scene(t_scene *scene)
 	scene->draw[1] = &draw_normal_buf;
 	scene->draw[2] = &draw_deepth_buf;
 	scene->draw[3] = &draw_raycast;
-	scene->filter[0] = &gauss_filter;
-	scene->filter[1] = &sepia_filter;
+	scene->filter[0] = &sepia_filter;
+	scene->filter[1] = &gauss_filter;
 	scene->filter[2] = &gray_scale;
 	scene->normal_buf = NULL;
 	scene->material_buf = NULL;

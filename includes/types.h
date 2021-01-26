@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:58 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/26 20:47:26 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/26 21:22:13 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -299,7 +299,7 @@ struct		s_scene
 	int				mode; // 0 - default, 1 - normal, 2 - depth, 3 - flat_light
 	void			(*init[4])(struct s_scene *);
 	void			(*draw[4])(t_sdl *, struct s_scene *);
-	void			(*filter[5])(t_scene *);
+	void			(*filter[5])(t_filter_data );
 };
 
 #endif

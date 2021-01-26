@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:02 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/26 20:02:30 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/26 21:00:53 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,6 +171,7 @@ int		main(int args, char **argv)
 	load_textures(scene);
 	init_scene(scene);
 	init_ui(&sdl, scene);
+	filters_init(scene->filter_data);
 	scene->draw[scene->mode](&sdl, scene);
 	init_music();
 	while (k)

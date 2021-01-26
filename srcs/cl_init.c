@@ -339,6 +339,11 @@ int    cl_init(t_scene *scene)
 	scene->cl_data.scene.light = clCreateBuffer(scene->cl_data.context, CL_MEM_READ_ONLY |
 		CL_MEM_HOST_WRITE_ONLY | CL_MEM_COPY_HOST_PTR, sizeof(t_light) * scene->light_nmb, scene->light, NULL);
 	scene->cl_data.scene.material_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(t_material) * count, NULL, NULL);
+	//передача указателей на переменные опенсл в тип, отвечающий за фильтры
+	scene->filter_data.commands = scene->cl_data.commands;
+	scene->filter_data.device_id = scene->cl_data.device_id;
+	scene->filter_data.context = scene->cl_data.context;
+	scene->filter_data.pixels = scene->cl_data.scene.frame_buf;
 	device_objects_init(scene);
 	return (0);
 }
