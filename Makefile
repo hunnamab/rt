@@ -17,9 +17,9 @@ CC = clang
 C_FLAGS = -Wall -Wextra
 
 LIB_FLAGS = -I includes -I libft/
-MAC_FLAGS = -I SDL2.framework/Headers -F ./ -framework SDL2 -framework OpenCL -I \
-			SDL2_image.framework/Headers -framework SDL2_image -I \
-			SDL2_mixer.framework/Headers -framework SDL2_mixer
+MAC_FLAGS = -I frameworks/SDL2.framework/Headers -F ./frameworks -framework SDL2 -framework OpenCL -I \
+			frameworks/SDL2_image.framework/Headers -framework SDL2_image -I \
+			frameworks/SDL2_mixer.framework/Headers -framework SDL2_mixer
 LINUX_FLAGS = -lSDL2 -lm -lXext -lcuda -lcudart
 
 SRC_PATH = srcs
@@ -59,9 +59,9 @@ $(LIBRARY):
 		@make -C libft
 
 $(NAME): $(OBJ) $(LIBRARY)
-		@cp -r SDL2.framework ~/Library/Frameworks/
-		@cp -r SDL2_image.framework ~/Library/Frameworks/
-		@cp -r SDL2_mixer.framework ~/Library/Frameworks/
+		@cp -r frameworks/SDL2.framework ~/Library/Frameworks/
+		@cp -r frameworks/SDL2_image.framework ~/Library/Frameworks/
+		@cp -r frameworks/SDL2_mixer.framework ~/Library/Frameworks/
 		@$(CC) $(LIBRARY) $(MAC_FLAGS) $^ -o $@ $(LIB_FLAGS)
 
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c

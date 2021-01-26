@@ -15,9 +15,9 @@
 
 #ifdef __APPLE__
 	# include <OpenCL/opencl.h> //for macOS
-	# include "../SDL2.framework/Headers/SDL.h" //for macOS
-	# include "../SDL_image/SDL_image.h"
-	# include "../SDL_mixer/SDL_mixer.h"
+	# include "../frameworks/SDL2.framework/Headers/SDL.h" //for macOS
+	# include "../frameworks/SDL_image/SDL_image.h"
+	# include "../frameworks/SDL_mixer/SDL_mixer.h"
 #else
 	# include <SDL2/SDL.h> //for linux
 	# include <CL/cl.h> //for linux
