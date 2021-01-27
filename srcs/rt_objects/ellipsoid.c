@@ -58,8 +58,15 @@ t_object    *new_ellipsoid(cl_float3 *buf, t_color color, float specular)
 
 	new_object = malloc(sizeof(t_object));
 	el = malloc(sizeof(t_ellipsoid));
-	el->center = buf[0]; 
-	el->abc = buf[1];
+
+	///
+	cl_float3 center1 = get_point(0, 0, 0); // добавить в парсер, два центра эллипсоида
+	cl_float3 center2 = get_point(10, 10, 0);
+	float radius = 20; // сумма радиусов из центров
+	///
+	el->center1 = center1; 
+	el->center2 = center2;  
+	el->radius = radius;
 	new_object->rotation[0] = buf[2].x;
 	new_object->rotation[1] = buf[2].y;
 	new_object->rotation[2] = buf[2].z;
@@ -71,7 +78,7 @@ t_object    *new_ellipsoid(cl_float3 *buf, t_color color, float specular)
 	new_object->intersect = &intersect_ray_ellipsoid;
 	//new_object->get_normal = &get_ellipsoid_normal;
 	new_object->clear_obj = &clear_default;
-    printf("abc == (%f,%f,%f)\n", el->abc.x,el->abc.y,el->abc.z);
+    //printf("abc == (%f,%f,%f)\n", el->abc.x,el->abc.y,el->abc.z);
 	return (new_object);
 }
 

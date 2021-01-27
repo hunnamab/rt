@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   types.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:58 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/27 20:17:17 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/01/27 23:48:48 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,8 +143,9 @@ typedef	struct			s_material
 
 typedef	struct			s_ellipsoid
 {
-	cl_float3			abc;
-	cl_float3			center;
+	float				radius;
+	cl_float3				center1;
+	cl_float3			center2;
 }						t_ellipsoid;
 
 typedef struct			s_paraboloid

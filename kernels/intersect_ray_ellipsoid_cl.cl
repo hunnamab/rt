@@ -71,8 +71,9 @@ typedef struct		s_triangle
 
 typedef	struct		s_ellipsoid
 {
-	float3			abc;
-	float3			center;
+	float			radius;
+	float3			center1;
+	float3			center2;
 }					t_ellipsoid;
 
 typedef	struct		s_box
@@ -145,25 +146,14 @@ float ellipsoid_intersection(t_ellipsoid el, float3 ray_start, float3 ray_dir)
     float k1;
     float k2;
     float k3;
-    float3 dir;
-    float a2;
-    float b2;
-    float c2;
-
-    a2 = el.abc.x * el.abc.x;
-    b2 = el.abc.y * el.abc.y;
-    c2 = el.abc.z * el.abc.z;
-    dir = ray_dir;
-    k1 = dir.x * dir.x * b2 * c2;
-    k1 += dir.y * dir.y * a2 * c2; 
-    k1 += dir.z * dir.z * a2 * b2;
-    k2 = ray_start.x * dir.x * b2 * c2 * 2;
-    k2 += ray_start.y * dir.y * a2 * c2 * 2;
-    k2 += ray_start.z * dir.z * b2 * a2 * 2;
-    k3 = ray_start.x * ray_start.x * b2 * c2;
-    k3 += ray_start.z * ray_start.z * a2 * b2;
-    k3 += ray_start.y * ray_start.y * a2 * c2;
-    k3 -= a2 * b2 * c2;
+	float dist;
+ 
+	dist = distance(el.center2, el.center1);
+    float3 el_dir = ray_start - el.center1;
+    float3 center_norm = normalize((el.center2 - el.center1) / dist);
+    k1 = 4 * pow(el.radius, 2) * dot(ray_dir, ray_dir) - 4 * pow(dist, 2) * pow(dot(ray_dir, center_norm), 2);
+    k2 = 8 * pow(el.radius, 2) * dot(ray_dir, el_dir) - 4 * dot(ray_dir, center_norm) * dist * (pow(el.radius, 2) + 2 * dot(el_dir, center_norm) * dist - dist);
+    k3 = 4 * pow(el.radius, 2) * dot(el_dir, el_dir) - pow((pow(el.radius, 2) + 2 * dot(el_dir, center_norm) * dist - dist), 2);
     float d = k2 * k2 - 4 * k1 * k3;
     if (d >= 0)
     {
@@ -189,46 +179,7 @@ __kernel  void    intersect_ray_ellipsoid(__global float3 *ray_arr, \
     float3 ray;
     ray = camera_start[i] + ray_arr[i] + 0.001f;
     result = ellipsoid_intersection(el, ray, ray_arr[i]);
-    /* float k1;
-    float k2;
-    float k3;
-    float3 dir;
-    float a2;
-    float b2;
-    float c2;
-
-    a2 = el.abc.x * el.abc.x;
-    b2 = el.abc.y * el.abc.y;
-    c2 = el.abc.z * el.abc.z;
-    dir = ray_arr[i];
-    k1 = dir.x * dir.x * b2 * c2;
-    k1 += dir.y * dir.y * a2 * c2; 
-    k1 += dir.z * dir.z * a2 * b2;
-    k2 = camera_start.x * dir.x * b2 * c2 * 2;
-    k2 += camera_start.y * dir.y * a2 * c2 * 2;
-    k2 += camera_start.z * dir.z * b2 * a2 * 2;
-    k3 = camera_start.x * camera_start.x * b2 * c2;
-    k3 += camera_start.z * camera_start.z * a2 * b2;
-    k3 += camera_start.y * camera_start.y * a2 * c2;
-    k3 -= a2 * b2 * c2;
-    float d = k2 * k2 - 4 * k1 * k3;
-    if (d >= 0)
-    {
-        float t1 = (-k2 + sqrt(d)) / (2 * k1);
-        float t2 = (-k2 - sqrt(d)) / (2 * k1);
-        float result = 0;
-        if ((t1 < t2 && t1 > 0) || (t2 < 0 && t1 >= 0))
-            result = t1;
-        if ((t2 < t1 && t2 > 0) || (t1 < 0 && t2 >= 0))
-            result = t2;
-        if (t2 == t1 && t2 >= 0)
-            result = t2;
-        if (result > 0 && result < depth_buf[i])
-        {
-            depth_buf[i] = result;
-            index_buf[i] = index;
-        }
-    } */
+    
     if (result > 0.01 && result < depth_buf[i])
     {
         depth_buf[i] = result;
