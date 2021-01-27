@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   keyboard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/06 13:38:13 by pmetron           #+#    #+#             */
-/*   Updated: 2021/01/27 21:21:29 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/01/27 21:59:58 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,7 @@ void	draw_filters(t_scene *scene, int i)
 	else
 	{
 		scene->rt_ui->filt = 3;
-		scene->filter_type = NEGATIVE;
+		scene->filter_type = GAUSS;
 	}
 	
 	//scene->filter[scene->rt_ui->filt](scene);

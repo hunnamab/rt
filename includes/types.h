@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   types.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:58 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/27 21:14:58 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/01/27 22:21:21 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -311,7 +311,7 @@ struct					s_scene
 	int					bounce_cnt;
 	void				(*init[4])(struct s_scene *);
 	void				(*draw[4])(t_sdl *, struct s_scene *);
-	void				(*filter[5])(t_filter_data *);
+	void				(*filter[10])(t_filter_data *);
 };
 
 #endif
