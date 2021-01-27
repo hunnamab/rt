@@ -6,7 +6,7 @@
 /*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/06 13:38:13 by pmetron           #+#    #+#             */
-/*   Updated: 2021/01/27 22:48:31 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/01/27 22:53:55 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ void	screen_png(t_scene *scene)
 	srf->pixels = copy_frame_buf(scene, (uint8_t *)srf->pixels);
 	IMG_SavePNG(srf, "screenshot.png");
 	ft_putstr("Saved image in png\n");
+	free(srf->pixels);
 	SDL_FreeSurface(srf);
 }
 
