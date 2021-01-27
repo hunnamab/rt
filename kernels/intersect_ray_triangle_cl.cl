@@ -33,6 +33,7 @@ typedef	struct		s_material
 {
 	t_color			color;
 	float			specular;
+	float			reflection;
 }					t_material;
 
 typedef struct		s_sphere
@@ -179,7 +180,9 @@ __kernel void intersect_ray_triangle_cl(__global float3 *ray_arr, \
 {
     int i = get_global_id(0);
     float res;
-	res = triangle_intersection(triangle, camera_start[i], ray_arr[i]);
+	float3 ray;
+    ray = camera_start[i] + ray_arr[i] + 0.001f;
+	res = triangle_intersection(triangle, ray, ray_arr[i]);
 	if (res > 0.01 && res < depth_buf[i])
 	{
 		depth_buf[i] = res;

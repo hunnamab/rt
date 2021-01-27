@@ -33,6 +33,7 @@ typedef	struct		s_material
 {
 	t_color			color;
 	float			specular;
+	float			reflection;
 }					t_material;
 
 typedef struct		s_sphere
@@ -297,6 +298,7 @@ __kernel void    get_material_buf_cl(__global uchar *texture_data,\
 		else
 			material_buf[i].color = obj[index_buf[i]].color; 
 		material_buf[i].specular = obj[index_buf[i]].specular;
+		material_buf[i].reflection = obj[index_buf[i]].reflection;
     }
  	else
 	{
@@ -305,5 +307,6 @@ __kernel void    get_material_buf_cl(__global uchar *texture_data,\
 		material_buf[i].color.blue = 0;
 		material_buf[i].color.alpha = 0;
 		material_buf[i].specular = -1;
+		material_buf[i].reflection = 0.0;
 	}
 }

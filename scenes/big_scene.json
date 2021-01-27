@@ -99,14 +99,6 @@
 			"color": [160, 77, 44, 255],
 			"specular": 30,
 			"texture": "no"
-		},
-		{
-			"center": [0, 0, 0],
-			"radius": 300,
-			"rotation": [0, 0, 0],
-			"color": [160, 77, 44, 255],
-			"specular": 30,
-			"texture": "no"
 		}
 	],
 	"camera": {

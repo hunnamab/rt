@@ -33,6 +33,7 @@ typedef	struct		s_material
 {
 	t_color			color;
 	float			specular;
+	float			reflection;
 }					t_material;
 
 typedef struct		s_sphere
@@ -178,7 +179,9 @@ __kernel void intersect_ray_cone_cl(__global float3 *ray_arr, \
 {
     int i = get_global_id(0);
 	float result = 0;
-	result = cone_intersection(cone, camera_start[i], ray_arr[i]);
+	float3 ray;
+    ray = camera_start[i] + ray_arr[i] + 0.001f;
+	result = cone_intersection(cone, ray, ray_arr[i]);
 	if (result > 0.01 && result < depth_buf[i])
     {
         depth_buf[i] = result;

@@ -33,6 +33,7 @@ typedef	struct		s_material
 {
 	t_color			color;
 	float			specular;
+	float			reflection;
 }					t_material;
 
 typedef struct		s_sphere
@@ -175,7 +176,9 @@ __kernel  void    intersect_ray_paraboloid(__global float3 *ray_arr, \
 {
     int i = get_global_id(0);
     float result;
-    result = paraboloid_intersection(parab, camera_start[i], ray_arr[i]);
+	float3 ray;
+    ray = camera_start[i] + ray_arr[i] + 0.001f;
+    result = paraboloid_intersection(parab, ray, ray_arr[i]);
     if (result > 0.01 && result < depth_buf[i])
     {
         depth_buf[i] = result;

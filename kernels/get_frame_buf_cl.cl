@@ -33,6 +33,7 @@ typedef	struct		s_material
 {
 	t_color			color;
 	float			specular;
+	float			reflection;
 }					t_material;
 
 typedef struct		s_sphere
@@ -343,7 +344,8 @@ float3		get_light_vec(int index, int j, __global float3 *intersection_buf, __glo
 	return (light_vec);
 }
 
-t_color		reflection_color(__global float3 *ray_buf, \
+t_color		reflection_color(__global t_color *frame_buf, \
+							__global float3 *ray_buf, \
                             __global float3 *intersection_buf, \
                             __global float3 *normal_buf, \
                             __global int *index_buf, \
@@ -401,7 +403,7 @@ __kernel void get_frame_buf_cl(__global t_color *frame_buf, \
 	int j = index_buf[i];
 	if (j != -1)
 	{
-		frame_buf[i] = reflection_color(ray_buf, intersection_buf, normal_buf, index_buf, material_buf, obj, light, light_nmb, i, obj_nmb);
+		frame_buf[i] = reflection_color(frame_buf, ray_buf, intersection_buf, normal_buf, index_buf, material_buf, obj, light, light_nmb, i, obj_nmb);
 	}
 	else
 	{

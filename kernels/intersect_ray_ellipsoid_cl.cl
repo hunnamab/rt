@@ -33,6 +33,7 @@ typedef	struct		s_material
 {
 	t_color			color;
 	float			specular;
+	float			reflection;
 }					t_material;
 
 typedef struct		s_sphere
@@ -185,7 +186,9 @@ __kernel  void    intersect_ray_ellipsoid(__global float3 *ray_arr, \
 {
     int i = get_global_id(0);
     float result;
-    result = ellipsoid_intersection(el, camera_start[i], ray_arr[i]);
+    float3 ray;
+    ray = camera_start[i] + ray_arr[i] + 0.001f;
+    result = ellipsoid_intersection(el, ray, ray_arr[i]);
     /* float k1;
     float k2;
     float k3;
