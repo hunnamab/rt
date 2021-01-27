@@ -305,6 +305,7 @@ struct					s_scene
 	t_color				*frame_buf;
 	int					filter_type;
 	int					mode; // 0 - default, 1 - normal, 2 - depth, 3 - flat_light
+	int					max_bounces;
 	void				(*init[4])(struct s_scene *);
 	void				(*draw[4])(t_sdl *, struct s_scene *);
 	void				(*filter[5])(t_filter_data *);

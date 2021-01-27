@@ -19,14 +19,13 @@ void	draw_scene(t_sdl *sdl, t_scene *scene)
 	register int		i;
 	int					j = 0;
 	int					cnt;
-	int 				max_bounces;
 	float				**matrix;
 
 	x = -1;
 	y = -1;
 	i = 0;
 	cnt = 0;
-	max_bounces = 1;
+	scene->max_bounces = 2;
 
 	size_t global = WID * HEI;
 	size_t local;
@@ -53,7 +52,7 @@ void	draw_scene(t_sdl *sdl, t_scene *scene)
 	}
 	clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.index_buf, CL_FALSE, 0, sizeof(int) * global, scene->index_buf, 0, NULL, NULL);
 	clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.depth_buf, CL_FALSE, 0, sizeof(float) * global, scene->depth_buf, 0, NULL, NULL);
-	while (cnt < max_bounces)
+	while (cnt < scene->max_bounces)
 	{
 		get_closest_points(scene, 0);
 		get_intersection_buf(scene);
