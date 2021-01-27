@@ -71,6 +71,19 @@ void	filters_init(t_filter_data *data)
 	err != 0 ? printf("filter sharpen kernel compile error %d\n", err) : printf("sharpen kernel created\n");
 	ft_memset(str, 0, 64001);
 	close(fd);
+
+	fd = open("./srcs/filters/magic.cl", O_RDONLY);
+	str = protected_malloc(sizeof(char), 64001);
+	ret = read(fd, str, 64000);
+	str[ret] = '\0';
+	data->programs[MAGIC] = clCreateProgramWithSource( data->context, 1, (const char **)&str, NULL, &err);
+	err != 0 ? printf("filter magic program create error %d\n", err) : 0;
+	clBuildProgram(data->programs[MAGIC], 1, & data->device_id, NULL, NULL, &err);
+	err != 0 ? printf("filter magic program build error %d\n", err) : 0;
+	data->kernels[MAGIC] = clCreateKernel( data->programs[MAGIC], "magic", &err);
+	err != 0 ? printf("filter magic kernel compile error %d\n", err) : printf("magic kernel created\n");
+	ft_memset(str, 0, 64001);
+	close(fd);
 }
 
 void	sepia_filter(t_filter_data *data)
@@ -145,6 +158,23 @@ void	sharpen_filter(t_filter_data *data)
 	err = clSetKernelArg(data->kernels[SHARPEN], 1, sizeof(cl_mem), &buffer);
 	err = clGetKernelWorkGroupInfo(data->kernels[SHARPEN], data->device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
 	err = clEnqueueNDRangeKernel(data->commands, data->kernels[SHARPEN], 1, NULL, &global, &local, 0, NULL, NULL);
+	clFinish(data->commands);
+	clReleaseMemObject(buffer);
+}
+
+void	magic_filter(t_filter_data *data)
+{
+	size_t global = WID * HEI;
+	size_t local;
+	cl_int err;
+	cl_mem buffer;
+
+	buffer = clCreateBuffer(data->context, 0, sizeof(t_color) * WID * HEI, NULL, &err);
+	clEnqueueCopyBuffer(data->commands, data->pixels, buffer, 0, 0, sizeof(t_color) * WID * HEI, 0,0,0);
+	err = clSetKernelArg(data->kernels[MAGIC], 0, sizeof(cl_mem), &data->pixels);
+	err = clSetKernelArg(data->kernels[MAGIC], 1, sizeof(cl_mem), &buffer);
+	err = clGetKernelWorkGroupInfo(data->kernels[MAGIC], data->device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
+	err = clEnqueueNDRangeKernel(data->commands, data->kernels[MAGIC], 1, NULL, &global, &local, 0, NULL, NULL);
 	clFinish(data->commands);
 	clReleaseMemObject(buffer);
 }

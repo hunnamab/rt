@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   keyboard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/06 13:38:13 by pmetron           #+#    #+#             */
-/*   Updated: 2021/01/27 22:53:55 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/01/27 23:10:31 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,7 +180,7 @@ void	draw_filters(t_scene *scene, int i)
 	else
 	{
 		scene->rt_ui->filt = 5;
-		scene->filter_type = SHARPEN;
+		scene->filter_type = MAGIC;
 	}
 	
 	//scene->filter[scene->rt_ui->filt](scene);
