@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   types.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:58 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/26 23:01:58 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/27 20:17:17 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,26 +201,27 @@ typedef struct			s_butt
 	SDL_Texture			*text;
 }						t_butt;
 
-typedef	struct			s_ui
+typedef	struct		s_ui
 {
-	t_butt				save_png;
-	t_butt				ambiance;
-	t_butt				am_plus;
-	t_butt				am_minus;
-	t_butt				modes;
-	t_butt				normal;
-	t_butt				deepth;
-	t_butt				raycast;
-	t_butt				def;
-	t_butt				back;
-	t_butt				left;
-	t_butt				right;
-	t_butt				filters;
-	t_butt				sepia;
-	t_butt				gauss;
-	int					filt;
-	int					i;
-}						t_ui;
+	t_butt 			save_png;
+	t_butt			ambiance;
+	t_butt			am_plus;
+	t_butt			am_minus;
+	t_butt			modes;
+	t_butt			normal;
+	t_butt			deepth;
+	t_butt			raycast;
+	t_butt			def;
+	t_butt			back;
+	t_butt			left;
+	t_butt			right;
+	t_butt			filters;
+	t_butt			sepia;
+	t_butt			gauss;
+	t_butt			grey;
+	int				filt;
+	int 			i;
+}					t_ui;
 
 
 typedef	struct			s_object3d

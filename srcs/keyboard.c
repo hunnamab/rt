@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   keyboard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/06 13:38:13 by pmetron           #+#    #+#             */
-/*   Updated: 2021/01/26 18:11:36 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/27 20:19:55 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,11 +152,13 @@ void	redraw_mode(t_scene *scene, int mode)
 void	draw_filters(t_scene *scene, int i)
 {
 	if (i % 3 == 1)
-		scene->rt_ui->filt = 1;
+		scene->rt_ui->filt = 0;
 	else if (i % 3 == 2)
-		scene->rt_ui->filt = 2;
+		scene->rt_ui->filt = 1;
 	else 
-		scene->rt_ui->filt = 3;
+		scene->rt_ui->filt = 2;
+	//scene->filter[scene->rt_ui->filt](scene);
+	refresh_scene(scene);
 }
 
 void	click(t_sdl *sdl, t_scene *scene)
