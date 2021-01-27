@@ -12,6 +12,7 @@
 
 #include "rt.h"
 #include <OpenCL/opencl.h>
+
 cl_float3 text_map_select(t_object *obj, cl_float3 t, int index)
 {
     cl_float3 p;
@@ -102,7 +103,7 @@ cl_float3		mapping_cone(cl_float3 t, t_object *obj)
 	p.y = fabs(t.y);
 	p.z = 0;
 	return (p);
-	}
+}
 
 cl_float3		mapping_cylinder(cl_float3 t, t_object *obj)
 {
@@ -163,4 +164,3 @@ cl_float3		mapping_sphere(cl_float3 t, t_object *obj, int index)
 	p.z = 0;	
 	return (p);
 }
-

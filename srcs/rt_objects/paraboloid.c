@@ -2,9 +2,9 @@
 
 t_object    *new_paraboloid(cl_float3 center, float k, t_color color, cl_float3 rotation, float specular)
 {
-    t_paraboloid *parab;
-	t_object	*new_object;
-	float		**matrix;
+    t_paraboloid	*parab;
+	t_object		*new_object;
+	float			**matrix;
 
 	new_object = malloc(sizeof(t_object));
 	parab = malloc(sizeof(t_paraboloid));

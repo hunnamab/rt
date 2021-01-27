@@ -215,12 +215,13 @@ void	draw_deepth_buf(t_sdl *sdl, t_scene *scene)
 
 void	draw_raycast(t_sdl *sdl, t_scene *scene)
 {
-	int		x;
+	int		x = -1;
 	int		y;
 	t_color	color;
 	int		i;
-	int					j = 0;
-	float				**matrix;
+	int		j = 0;
+	float	**matrix;
+
 	clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.index_buf, CL_FALSE, 0, sizeof(int) * (WID * HEI), scene->index_buf, 0, NULL, NULL);
 	clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.material_buf, CL_FALSE, 0, sizeof(t_material) * WID * HEI, scene->material_buf, 0, NULL, NULL);
 	get_viewport(scene);
