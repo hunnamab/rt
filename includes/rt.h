@@ -6,7 +6,7 @@
 /*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:34 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/27 20:26:55 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/01/27 22:21:31 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,7 +190,7 @@ void		intersect_ray_ellipsoid(t_scene *scene, int index);
 //t_object	*new_ellipsoid(cl_float3 center, cl_float3 abc, t_color color, cl_float3 rotation, float specular);
 //box
 void		intersect_ray_box(t_scene *scene, int index);
-t_object	*new_box(cl_float3 a, cl_float3 b, t_color color, cl_float3 rotation, float specular);
+//t_object	*new_box(cl_float3 a, cl_float3 b, t_color color, cl_float3 rotation, float specular);
 
 void		device_objects_init(t_scene *scene);
 t_basis		get_default(t_basis basis);
@@ -204,5 +204,8 @@ void		intersect_ray_paraboloid(t_scene *scene, int index);
 t_object	*new_paraboloid(cl_float3 center, float k, t_color color, cl_float3 rotation, float specular);
 void		get_ellipsoid(char **description, t_scene *scene, int *snmi);
 t_object    *new_ellipsoid(cl_float3 *buf, t_color color, float specular);
+t_object    *new_box(cl_float3 *buf, t_color color, float specular);
+void	get_box(char **description, t_scene *scene, int *snmi);
+
 
 #endif

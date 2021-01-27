@@ -6,7 +6,7 @@
 /*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:58 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/27 23:48:48 by npetrell         ###   ########.fr       */
+/*   Updated: 2021/01/28 00:09:10 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,6 +220,9 @@ typedef	struct		s_ui
 	t_butt			sepia;
 	t_butt			gauss;
 	t_butt			grey;
+	t_butt			fault;
+	t_butt			negative;
+	t_butt			magic;
 	int				filt;
 	int 			i;
 }					t_ui;
@@ -311,7 +314,7 @@ struct					s_scene
 	int					bounce_cnt;
 	void				(*init[4])(struct s_scene *);
 	void				(*draw[4])(t_sdl *, struct s_scene *);
-	void				(*filter[5])(t_filter_data *);
+	void				(*filter[10])(t_filter_data *);
 };
 
 #endif

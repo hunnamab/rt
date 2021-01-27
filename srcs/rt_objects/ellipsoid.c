@@ -37,6 +37,7 @@ t_object 	*multiple_ellipsoids(char **description, t_scene *scene, int *snmi, in
 	float		specular;
 	t_color 	color;
 
+	printf("{} %s\n", description[i + 1]);
 	cen_buf[0] = get_points(description[i + 1]);
 	cen_buf[1] = get_points(description[i + 2]);
 	cen_buf[2] = get_points(description[i + 3]);
@@ -88,18 +89,19 @@ void	get_ellipsoid(char **description, t_scene *scene, int *snmi)
 	int i;
 
 	i = 1;
-	printf("center %c\n", description[0][0]);
+	//printf("center %c\n", description[0][0]);
 	if (description[0][0] == '[')
 	{
 		while (description[i][1] != ']')
 		{
+			//printf("text %c\n", description[i][2]);
 			if (description[i][2] == '{')
 			{
 				ellipsoid = multiple_ellipsoids(description, scene, snmi, i);
-				ellipsoid->text = tex_new_bmp(get_file(description[i + 7]));
+				ellipsoid->text = tex_new_bmp(get_file(description[i + 6]));
 				scene->objs[snmi[1]] = ellipsoid;
 				snmi[1]++;
-				i += 9;
+				i += 8;
 			}
 		}
 	}

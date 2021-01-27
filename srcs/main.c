@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:02 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/27 20:45:55 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/27 23:13:26 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,12 +94,18 @@ void			draw_ui(SDL_Renderer *renderer, t_ui *rt_ui)
 	SDL_RenderCopy(renderer, rt_ui->left.text, NULL, &rt_ui->left.rect);
 	SDL_RenderCopy(renderer, rt_ui->right.text, NULL, &rt_ui->right.rect);
 	SDL_RenderCopy(renderer, rt_ui->filters.text, NULL, &rt_ui->filters.rect);
-	if (rt_ui->filt == 0 || rt_ui->filt == 3)
+	if (rt_ui->filt == 3)
 		SDL_RenderCopy(renderer, rt_ui->gauss.text, NULL, &rt_ui->gauss.rect);
 	if (rt_ui->filt == 1)
 		SDL_RenderCopy(renderer, rt_ui->sepia.text, NULL, &rt_ui->sepia.rect);
 	if (rt_ui->filt == 2)
 		SDL_RenderCopy(renderer, rt_ui->grey.text, NULL, &rt_ui->grey.rect);
+	if (rt_ui->filt == 0)
+		SDL_RenderCopy(renderer, rt_ui->fault.text, NULL, &rt_ui->fault.rect);
+	if (rt_ui->filt == 4)
+		SDL_RenderCopy(renderer, rt_ui->negative.text, NULL, &rt_ui->negative.rect);
+	if (rt_ui->filt == 5)
+		SDL_RenderCopy(renderer, rt_ui->magic.text, NULL, &rt_ui->magic.rect);
 	//SDL_RenderPresent(renderer);
 	//my_button->name.draw(renderer, &(my_button->name));
 }
@@ -134,8 +140,11 @@ void	init_ui(t_sdl *sdl, t_scene *scene)
 	scene->rt_ui->gauss = init_save_butt(sdl->renderer, make_rect(1405, 600, 100, 40), "rt_ui/gauss.png");
 	scene->rt_ui->sepia = init_save_butt(sdl->renderer, make_rect(1410, 600, 100, 40), "rt_ui/sepia.png");
 	scene->rt_ui->grey = init_save_butt(sdl->renderer, make_rect(1410, 600, 100, 40), "rt_ui/grey.png");
+	scene->rt_ui->fault = init_save_butt(sdl->renderer, make_rect(1410, 600, 100, 40), "rt_ui/default.png");
+	scene->rt_ui->negative = init_save_butt(sdl->renderer, make_rect(1410, 600, 100, 40), "rt_ui/negative.png");
+	scene->rt_ui->magic = init_save_butt(sdl->renderer, make_rect(1410, 600, 100, 40), "rt_ui/magic.png");
 	scene->rt_ui->filt = 0;
-	scene->rt_ui->i = 4;
+	scene->rt_ui->i = 7;
 }
 
 int		main(int args, char **argv)
