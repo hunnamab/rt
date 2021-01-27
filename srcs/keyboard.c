@@ -6,7 +6,7 @@
 /*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/06 13:38:13 by pmetron           #+#    #+#             */
-/*   Updated: 2021/01/27 20:19:55 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/01/27 20:36:46 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,11 +152,20 @@ void	redraw_mode(t_scene *scene, int mode)
 void	draw_filters(t_scene *scene, int i)
 {
 	if (i % 3 == 1)
+	{
 		scene->rt_ui->filt = 0;
+		scene->filter_type = SEPIA;
+	}
 	else if (i % 3 == 2)
+	{
 		scene->rt_ui->filt = 1;
+		scene->filter_type = GRAYSCALE;
+	}
 	else 
+	{
 		scene->rt_ui->filt = 2;
+		scene->filter_type = NEGATIVE;
+	}
 	//scene->filter[scene->rt_ui->filt](scene);
 	refresh_scene(scene);
 }
