@@ -125,6 +125,9 @@ void		intersect_ray_sphere(t_scene *scene, int index)
 	clSetKernelArg(scene->cl_data.kernels[1], 5, sizeof(cl_int), (void*)&index);
 	clSetKernelArg(scene->cl_data.kernels[1], 6, sizeof(cl_mem), &cs);
 	clSetKernelArg(scene->cl_data.kernels[1], 7, sizeof(cl_int), (void*)&scene->objs[index]->cs_nmb);
+	clSetKernelArg(scene->cl_data.kernels[1], 8, sizeof(cl_float), (void*)&scene->objs[index]->reflection);
+	clSetKernelArg(scene->cl_data.kernels[1], 9, sizeof(cl_int), (void*)&scene->max_bounces);
+	clSetKernelArg(scene->cl_data.kernels[1], 10, sizeof(cl_int), (void*)&scene->bounce_cnt);
     clGetKernelWorkGroupInfo(scene->cl_data.kernels[1], scene->cl_data.device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
 	printf("sphere local == max work group size == %ld\n", local);
     clEnqueueNDRangeKernel(scene->cl_data.commands, scene->cl_data.kernels[1], 1, NULL, &global, &local, 0, NULL, NULL);

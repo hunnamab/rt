@@ -175,13 +175,17 @@ __kernel void intersect_ray_cylinder_cl(__global float3 *ray_arr, \
                                 __global float *depth_buf, \
                                 t_cylinder cyl, \
                                 __global int *index_buf, \
-                                int index)
+                                int index, float reflection, \
+								int max_bounces, int bounce_cnt)
 {
     int i = get_global_id(0);
 	float result;
 	float3 ray;
     ray = camera_start[i] + ray_arr[i] + 0.001f;
-	result = cylinder_intersection(cyl, ray, ray_arr[i]);
+	if (reflection > 0.01 || bounce_cnt == 0)
+		result = cylinder_intersection(cyl, ray, ray_arr[i]);
+	else
+		return ;
 	if (result > 0.01 && result < depth_buf[i])
     {
         depth_buf[i] = result;

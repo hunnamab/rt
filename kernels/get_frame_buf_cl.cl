@@ -272,7 +272,8 @@ float plane_intersection(t_plane plane, float3 ray_start, float3 ray_dir)
 	return (k1);
 }
 
-int			in_shadow(int index, float3 l, __global float3 *intersection_buf, int obj_nmb, __global t_object_d *obj)
+int			in_shadow(int index, float3 l, __global float3 *intersection_buf, \
+						int obj_nmb, __global t_object_d *obj)
 {
 	float3	ray_start;
 	int		i;
@@ -353,7 +354,7 @@ t_color		reflection_color(__global t_color *frame_buf, \
                             __global t_object_d *obj, \
                             __global t_light *light, \
 							int light_nmb, \
-							int index, int obj_nmb)
+							int index, int obj_nmb, float bounce_cnt)
 {
 	float		i;
 	float3		l;
@@ -397,13 +398,15 @@ __kernel void get_frame_buf_cl(__global t_color *frame_buf, \
                             __global t_object_d *obj, \
                             __global t_light *light, \
                             int light_nmb,\
-							int obj_nmb)
+							int obj_nmb, int bounce_cnt)
 {
     int i = get_global_id(0);
 	int j = index_buf[i];
 	if (j != -1)
 	{
-		frame_buf[i] = reflection_color(frame_buf, ray_buf, intersection_buf, normal_buf, index_buf, material_buf, obj, light, light_nmb, i, obj_nmb);
+		frame_buf[i] = reflection_color(frame_buf, ray_buf, intersection_buf, \
+										normal_buf, index_buf, material_buf, \
+										obj, light, light_nmb, i, obj_nmb, bounce_cnt);
 	}
 	else
 	{

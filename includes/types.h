@@ -306,6 +306,7 @@ struct					s_scene
 	int					filter_type;
 	int					mode; // 0 - default, 1 - normal, 2 - depth, 3 - flat_light
 	int					max_bounces;
+	int					bounce_cnt;
 	void				(*init[4])(struct s_scene *);
 	void				(*draw[4])(t_sdl *, struct s_scene *);
 	void				(*filter[5])(t_filter_data *);

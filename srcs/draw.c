@@ -18,13 +18,12 @@ void	draw_scene(t_sdl *sdl, t_scene *scene)
 	register int		y;
 	register int		i;
 	int					j = 0;
-	int					cnt;
 	float				**matrix;
 
 	x = -1;
 	y = -1;
 	i = 0;
-	cnt = 0;
+	scene->bounce_cnt = 0;
 	scene->max_bounces = 2;
 
 	size_t global = WID * HEI;
@@ -52,7 +51,7 @@ void	draw_scene(t_sdl *sdl, t_scene *scene)
 	}
 	clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.index_buf, CL_FALSE, 0, sizeof(int) * global, scene->index_buf, 0, NULL, NULL);
 	clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.depth_buf, CL_FALSE, 0, sizeof(float) * global, scene->depth_buf, 0, NULL, NULL);
-	while (cnt < scene->max_bounces)
+	while (scene->bounce_cnt < scene->max_bounces)
 	{
 		get_closest_points(scene, 0);
 		get_intersection_buf(scene);
@@ -60,7 +59,7 @@ void	draw_scene(t_sdl *sdl, t_scene *scene)
 		get_normal_buf(scene);
 		get_material_buf(scene);
 		get_frame_buf(scene);
-		cnt++;
+		scene->bounce_cnt++;
 	}
 	if (scene->filter_type != -1)
 		scene->filter[scene->filter_type](&scene->filter_data);
