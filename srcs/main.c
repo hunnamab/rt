@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:02 by hunnamab          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2021/01/27 22:25:43 by pmetron          ###   ########.fr       */
+=======
+/*   Updated: 2021/01/27 22:12:43 by ldeirdre         ###   ########.fr       */
+>>>>>>> a068450f2241b9f677ad11e79a212e93959a439a
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +106,8 @@ void			draw_ui(SDL_Renderer *renderer, t_ui *rt_ui)
 		SDL_RenderCopy(renderer, rt_ui->grey.text, NULL, &rt_ui->grey.rect);
 	if (rt_ui->filt == 0)
 		SDL_RenderCopy(renderer, rt_ui->fault.text, NULL, &rt_ui->fault.rect);
+	if (rt_ui->filt == 4)
+		SDL_RenderCopy(renderer, rt_ui->negative.text, NULL, &rt_ui->negative.rect);
 	//SDL_RenderPresent(renderer);
 	//my_button->name.draw(renderer, &(my_button->name));
 }
@@ -137,8 +143,9 @@ void	init_ui(t_sdl *sdl, t_scene *scene)
 	scene->rt_ui->sepia = init_save_butt(sdl->renderer, make_rect(1410, 600, 100, 40), "rt_ui/sepia.png");
 	scene->rt_ui->grey = init_save_butt(sdl->renderer, make_rect(1410, 600, 100, 40), "rt_ui/grey.png");
 	scene->rt_ui->fault = init_save_butt(sdl->renderer, make_rect(1410, 600, 100, 40), "rt_ui/default.png");
+	scene->rt_ui->negative = init_save_butt(sdl->renderer, make_rect(1410, 600, 100, 40), "rt_ui/negative.png");
 	scene->rt_ui->filt = 0;
-	scene->rt_ui->i = 5;
+	scene->rt_ui->i = 6;
 }
 
 int		main(int args, char **argv)

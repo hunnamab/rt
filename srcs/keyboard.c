@@ -6,7 +6,11 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/06 13:38:13 by pmetron           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2021/01/27 21:59:58 by pmetron          ###   ########.fr       */
+=======
+/*   Updated: 2021/01/27 22:12:35 by ldeirdre         ###   ########.fr       */
+>>>>>>> a068450f2241b9f677ad11e79a212e93959a439a
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,27 +155,31 @@ void	redraw_mode(t_scene *scene, int mode)
 
 void	draw_filters(t_scene *scene, int i)
 {
-	if (i % 4 == 1)
+	if (i % 5 == 1)
 	{
 		scene->rt_ui->filt = 0;
 		scene->filter_type = DEFAULT;
 	}
-	else if (i % 4 == 2)
+	else if (i % 5 == 2)
 	{
 		scene->rt_ui->filt = 1;
 		scene->filter_type = SEPIA;
 	}
-	else if (i % 4 == 3)
+	else if (i % 5 == 3)
 	{
 		scene->rt_ui->filt = 2;
 		scene->filter_type = GRAYSCALE;
 	}
-	else
+	else if (i % 5 == 4)
 	{
 		scene->rt_ui->filt = 3;
 		scene->filter_type = GAUSS;
 	}
-	
+	else
+	{
+		scene->rt_ui->filt = 4;
+		scene->filter_type = NEGATIVE;
+	}
 	//scene->filter[scene->rt_ui->filt](scene);
 	refresh_scene(scene);
 }
