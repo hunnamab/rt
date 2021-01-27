@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   define_object.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 13:54:29 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/12 20:04:18 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/27 20:21:57 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "rt.h"
 
 #include "rt.h"
 
@@ -27,6 +29,10 @@ void	get_parameters(char *name, char **description, t_scene *scene, int *snmi)
 		get_cylinder(description,  scene, snmi);
 	else if (ft_strequ(name, "\t\"cone\":")) //printf("cone\n");
 		get_cone(description,  scene, snmi);
+	else if (ft_strequ(name, "\t\"ellipsoid\":"))
+	//printf("cone\n");
+		get_ellipsoid(description,  scene, snmi);
+	
 	else
 		output_error(4);
 }

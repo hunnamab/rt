@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:34 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/26 23:31:13 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/27 20:26:55 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,7 @@ void		one_argument_cone(char **description, t_scene *scene, int *snmi);
 //texture_loading
 void		load_textures(t_scene *scene);
 void		intersect_ray_ellipsoid(t_scene *scene, int index);
-t_object	*new_ellipsoid(cl_float3 center, cl_float3 abc, t_color color, cl_float3 rotation, float specular);
+//t_object	*new_ellipsoid(cl_float3 center, cl_float3 abc, t_color color, cl_float3 rotation, float specular);
 //box
 void		intersect_ray_box(t_scene *scene, int index);
 t_object	*new_box(cl_float3 a, cl_float3 b, t_color color, cl_float3 rotation, float specular);
@@ -202,5 +202,7 @@ void		draw_ui(SDL_Renderer *renderer, t_ui *rt_ui);
 
 void		intersect_ray_paraboloid(t_scene *scene, int index);
 t_object	*new_paraboloid(cl_float3 center, float k, t_color color, cl_float3 rotation, float specular);
+void		get_ellipsoid(char **description, t_scene *scene, int *snmi);
+t_object    *new_ellipsoid(cl_float3 *buf, t_color color, float specular);
 
 #endif
