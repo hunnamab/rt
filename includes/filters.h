@@ -8,7 +8,8 @@ enum	filters
 	SEPIA,
 	GAUSS,
 	GRAYSCALE,
-	NEGATIVE
+	NEGATIVE,
+	DEFAULT
 };
 
 void	filters_init(t_filter_data *data);

@@ -62,7 +62,7 @@ void	sepia_filter(t_filter_data *data)
 
 void	gray_scale(t_filter_data *data)
 {
-	 size_t global = WID * HEI;
+	size_t global = WID * HEI;
 	size_t local;
 	cl_int err;
 
@@ -86,5 +86,11 @@ void	negative(t_filter_data *data)
 
 void	gauss_filter(t_filter_data *data)
 {
+	cl_mem buffer_image;
+	t_color test;
+	test.red = 23;
+	test.blue = 56;
+	test.green = 98;
+	test.alpha = 255;
 
 }
