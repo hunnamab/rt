@@ -1,22 +1,12 @@
 {
-	"sphere": [
-		{
-			"center": [9, 0, 0],
-			"radius": 7,
-			"rotation": [0, 0, 0],
-			"color": [0, 255, 0, 255],
-			"specular": 100,
-			"texture": "no"
-		},
-		{
-			"center": [-9, 0, 10],
-			"radius": 7,
-			"rotation": [0, 0, 0],
-			"color": [255, 0, 0, 255],
-			"specular": 100,
-			"texture": "no"
-		}
-	],
+	"sphere": {
+		"center": [-9, 0, 10],
+		"radius": 7,
+		"rotation": [0, 0, 0],
+		"color": [255, 0, 0, 255],
+		"specular": 100,
+		"texture": "no"
+	},
 	"cylinder": {
 		"position": [0, 0, 35],
 		"radius": 9,
@@ -24,6 +14,15 @@
 		"rotation": [0, 0, 0],
 		"color": [170, 10, 98, 255],
 		"specular": 60,
+		"texture": "no"
+	},
+	"cone": {
+		"position": [10, 0, 0],
+		"vector": [0, 1, 0],
+		"angle": 0.3,
+		"rotation": [0, 0, 0],
+		"color": [200, 50, 60, 255],
+		"specular": 100,
 		"texture": "no"
 	},
 	"light": [

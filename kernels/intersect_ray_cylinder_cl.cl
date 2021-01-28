@@ -183,11 +183,6 @@ __kernel void intersect_ray_cylinder_cl(__global float3 *ray_arr, \
 	float result;
 	float3 ray;
     ray = camera_start[i] + ray_arr[i] + 0.001f;
-	if (i == 20400)
-	{
-		printf("reflection = %f\n", reflection);
-		printf("bounces = %d\n", bounce_cnt);
-	}
 	if (reflection > 0.001f || bounce_cnt == 0)
 		result = cylinder_intersection(cyl, ray, ray_arr[i]);
 	else

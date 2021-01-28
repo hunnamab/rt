@@ -66,26 +66,15 @@ void	get_normal_buf(t_scene *scene)
 {
 	size_t global = WID * HEI;
 	size_t local;
-	cl_mem camera_position;
-	camera_position = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * WID * HEI, NULL, NULL);
-	cl_float3 *buf = protected_malloc(sizeof(cl_float3), WID * HEI);
-	int i = 0;
-	while (i < global)
-	{
-		buf[i] = scene->camera.position;
-		i++;
-	}
-	clEnqueueWriteBuffer(scene->cl_data.commands, camera_position, CL_FALSE, 0, sizeof(cl_float3) * global, buf, 0, NULL, NULL);
+
 	clSetKernelArg(scene->cl_data.kernels[7], 0, sizeof(cl_mem), &scene->cl_data.scene.obj);
 	clSetKernelArg(scene->cl_data.kernels[7], 1, sizeof(cl_mem), &scene->cl_data.scene.ray_buf);
 	clSetKernelArg(scene->cl_data.kernels[7], 2, sizeof(cl_mem), &scene->cl_data.scene.index_buf);
 	clSetKernelArg(scene->cl_data.kernels[7], 3, sizeof(cl_mem), &scene->cl_data.scene.normal_buf);
 	clSetKernelArg(scene->cl_data.kernels[7], 4, sizeof(cl_mem), &scene->cl_data.scene.intersection_buf);
 	clSetKernelArg(scene->cl_data.kernels[7], 5, sizeof(cl_mem), &scene->cl_data.scene.depth_buf);
-	if (scene->bounce_cnt == 0)
-		clSetKernelArg(scene->cl_data.kernels[7], 6, sizeof(cl_mem), &camera_position);
-	else
-		clSetKernelArg(scene->cl_data.kernels[7], 6, sizeof(cl_mem), &scene->cl_data.scene.intersection_buf);
+	clSetKernelArg(scene->cl_data.kernels[7], 6, sizeof(cl_float3), (void *)&scene->camera.position);
+	clSetKernelArg(scene->cl_data.kernels[7], 7, sizeof(cl_int), (void*)&scene->bounce_cnt);
 
 	clGetKernelWorkGroupInfo(scene->cl_data.kernels[7], scene->cl_data.device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
     printf("sizeof t_primitive host %lu\n", sizeof(t_primitive));
