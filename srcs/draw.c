@@ -26,7 +26,7 @@ void	draw_scene(t_sdl *sdl, t_scene *scene)
 	y = -1;
 	i = 0;
 	scene->bounce_cnt = 0;
-	scene->max_bounces = 2;
+	scene->max_bounces = 1;
 
 	size_t global = WID * HEI;
 	size_t local;

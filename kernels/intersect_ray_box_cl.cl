@@ -71,8 +71,9 @@ typedef struct		s_triangle
 
 typedef	struct		s_ellipsoid
 {
-	float3			abc;
-	float3			center;
+	float			radius;
+	float3			center1;
+	float3			center2;
 }					t_ellipsoid;
 
 typedef	struct		s_box
@@ -238,13 +239,17 @@ float box_intersection(t_box box, float3 ray_start, float3 ray_dir)
 __kernel void intersect_ray_box(__global float3 *ray_arr, \
 								__global float3 *camera_start, \
 								t_box box, __global float *depth_buf, \
-								__global int *index_buf, int index)
+								__global int *index_buf, int index, \
+								float reflection, int bounce_cnt)
 {
     int i = get_global_id(0);
     float result;
 	float3 ray;
 	ray = camera_start[i] + ray_arr[i] + 0.001f;
-    result = box_intersection(box, ray, ray_arr[i]);
+	if (reflection > 0.001f || bounce_cnt == 0)
+    	result = box_intersection(box, ray, ray_arr[i]);
+	else
+		return ;
     if (result > 0.01 && result < depth_buf[i])
     {
         depth_buf[i] = result;

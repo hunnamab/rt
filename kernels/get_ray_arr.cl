@@ -71,8 +71,9 @@ typedef struct		s_triangle
 
 typedef	struct		s_ellipsoid
 {
-	float3			abc;
-	float3			center;
+	float			radius;
+	float3			center1;
+	float3			center2;
 }					t_ellipsoid;
 
 typedef	struct		s_box
