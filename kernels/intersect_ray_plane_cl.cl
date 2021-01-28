@@ -168,10 +168,10 @@ __kernel void intersect_ray_plane_cl(__global float3 *ray_arr, \
 	float k1;
 	float3 ray;
     ray = camera_start[i] + ray_arr[i] + 0.001f;
-	if (reflection > 0.001f || bounce_cnt == 0)
+	//if (reflection > 0.001f || bounce_cnt == 0)
 		k1 = plane_intersection(plane, ray, ray_arr[i]);
-	else
-		return ;
+/* 	else
+		return ; */
     if (k1 < depth_buf[i] && k1 > 0.01)
     {
         depth_buf[i] = k1;

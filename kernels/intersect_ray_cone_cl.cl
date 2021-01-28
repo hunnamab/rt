@@ -182,10 +182,10 @@ __kernel void intersect_ray_cone_cl(__global float3 *ray_arr, \
 	float result = 0;
 	float3 ray;
     ray = camera_start[i] + ray_arr[i] + 0.001f;
-	if (reflection > 0.001f || bounce_cnt == 0)
+	//if (reflection > 0.001f || bounce_cnt == 0)
 		result = cone_intersection(cone, ray, ray_arr[i]);
-	else
-		return ;
+/* 	else
+		return ; */
 	if (result > 0.01 && result < depth_buf[i])
     {
         depth_buf[i] = result;

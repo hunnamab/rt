@@ -285,7 +285,8 @@ __kernel void    get_material_buf_cl(__global uchar *texture_data,\
                                      __global t_object_d *obj,\
                                     __global int *index_buf, \
                                     __global float3 *intersection_buf,\
-                                    __global t_material *material_buf)
+                                    __global t_material *material_buf, \
+									__global int *original_index_buf)
 {
     int i = get_global_id(0);
 	float3 t;
@@ -299,7 +300,7 @@ __kernel void    get_material_buf_cl(__global uchar *texture_data,\
 		else
 			material_buf[i].color = obj[index_buf[i]].color;
 		material_buf[i].specular = obj[index_buf[i]].specular;
-		material_buf[i].reflection = obj[index_buf[i]].reflection;
+		material_buf[i].reflection = obj[original_index_buf[i]].reflection;
     }
  	else
 	{

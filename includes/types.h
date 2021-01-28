@@ -41,6 +41,7 @@ typedef struct			s_scene_device
 	cl_mem				intersection_buf;
 	cl_mem				viewport;
 	cl_mem				index_buf;
+	cl_mem				original_index_buf;
 	cl_mem				depth_buf;
 	cl_mem				normal_buf;
 	cl_mem				material_buf;
