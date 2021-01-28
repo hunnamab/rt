@@ -384,6 +384,8 @@ t_color		reflection_color(__global t_color *frame_buf, \
 	result.red = material_buf[index].color.red * i;
 	result.blue = material_buf[index].color.blue * i;
 	result.green = material_buf[index].color.green * i;
+
+	
 	if (index == 1280 * 360 + 640 * 11)
 		printf("result color device (%hhu, %hhu, %hhu)\n", result.red, result.green, result.blue);
 	return (result);

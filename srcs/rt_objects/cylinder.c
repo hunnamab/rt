@@ -75,7 +75,7 @@ void		intersect_ray_cylinder(t_scene *scene, int index)
 	size_t global = WID * HEI;
 	size_t local;
 
-	clSetKernelArg(scene->cl_data.kernels[3], 0, sizeof(cl_mem), &scene->cl_data.scene.normal_buf);
+	clSetKernelArg(scene->cl_data.kernels[3], 0, sizeof(cl_mem), &scene->cl_data.scene.ray_buf);
 	clSetKernelArg(scene->cl_data.kernels[3], 1, sizeof(cl_mem), &scene->cl_data.scene.intersection_buf);
 	clSetKernelArg(scene->cl_data.kernels[3], 2, sizeof(cl_mem), &scene->cl_data.scene.depth_buf);
 	clSetKernelArg(scene->cl_data.kernels[3], 3, sizeof(t_cylinder), scene->objs[index]->data);

@@ -19,6 +19,8 @@ void	draw_scene(t_sdl *sdl, t_scene *scene)
 	register int		i;
 	int					j = 0;
 	float				**matrix;
+	cl_mem 				swap_pointer;
+	swap_pointer = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * WID * HEI, NULL, NULL);
 
 	x = -1;
 	y = -1;
@@ -42,7 +44,7 @@ void	draw_scene(t_sdl *sdl, t_scene *scene)
 		j++;
 	}
 	clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.intersection_buf, CL_FALSE, 0, sizeof(cl_float3) * global, scene->intersection_buf, 0, NULL, NULL);
-	clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.ray_buf, scene->cl_data.scene.normal_buf, 0, 0, sizeof(cl_float3) * WID * HEI, 0, NULL, NULL);
+	//clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.ray_buf, scene->cl_data.scene.normal_buf, 0, 0, sizeof(cl_float3) * WID * HEI, 0, NULL, NULL);
 	x = -1;
 	while (++x < WID * HEI)
 	{
@@ -55,10 +57,16 @@ void	draw_scene(t_sdl *sdl, t_scene *scene)
 	{
 		get_closest_points(scene, 0);
 		get_intersection_buf(scene);
-		clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.normal_buf, scene->cl_data.scene.ray_buf, 0, 0, sizeof(cl_float3) * WID * HEI, 0, NULL, NULL);
+		//clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.normal_buf, scene->cl_data.scene.ray_buf, 0, 0, sizeof(cl_float3) * WID * HEI, 0, NULL, NULL);
 		get_normal_buf(scene);
 		get_material_buf(scene);
 		get_frame_buf(scene);
+		/* clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.ray_buf, swap_pointer, 0, 0, sizeof(cl_float3) * WID * HEI, 0, NULL, NULL);
+		clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.normal_buf, scene->cl_data.scene.ray_buf, 0, 0, sizeof(cl_float3) * WID * HEI, 0, NULL, NULL);
+		clEnqueueCopyBuffer(scene->cl_data.commands, swap_pointer, scene->cl_data.scene.normal_buf, 0, 0, sizeof(cl_float3) * WID * HEI, 0, NULL, NULL); */
+		swap_pointer = scene->cl_data.scene.ray_buf;
+		scene->cl_data.scene.ray_buf = scene->cl_data.scene.normal_buf;
+		scene->cl_data.scene.normal_buf = swap_pointer;
 		scene->bounce_cnt++;
 	}
 	if (scene->filter_type != -1)

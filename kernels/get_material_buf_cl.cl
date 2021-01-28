@@ -282,7 +282,7 @@ void		copy_color(__private t_color *dst, __private t_color *src)
 
 __kernel void    get_material_buf_cl(__global uchar *texture_data,\
                                      __global t_object_d *obj,\
-                                    __global *index_buf, \
+                                    __global int *index_buf, \
                                     __global float3 *intersection_buf,\
                                     __global t_material *material_buf)
 {
@@ -307,6 +307,6 @@ __kernel void    get_material_buf_cl(__global uchar *texture_data,\
 		material_buf[i].color.blue = 0;
 		material_buf[i].color.alpha = 0;
 		material_buf[i].specular = -1;
-		material_buf[i].reflection = 0.0;
+		material_buf[i].reflection = -1;
 	}
 }
