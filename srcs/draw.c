@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 14:34:50 by pmetron           #+#    #+#             */
-/*   Updated: 2021/01/26 23:51:37 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/27 20:46:00 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	draw_scene(t_sdl *sdl, t_scene *scene)
 		scene->cl_data.scene.normal_buf = swap_pointer;
 		scene->bounce_cnt++;
 	}
-	if (scene->filter_type != -1)
+	if (scene->filter_type != DEFAULT)
 		scene->filter[scene->filter_type](&scene->filter_data);
 	clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.frame_buf, 0, 0, sizeof(t_color) * global, scene->frame_buf, 0, NULL, NULL);
 	clFinish(scene->cl_data.commands);

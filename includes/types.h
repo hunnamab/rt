@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   types.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:58 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/26 23:01:58 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/28 00:09:10 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,8 +143,9 @@ typedef	struct			s_material
 
 typedef	struct			s_ellipsoid
 {
-	cl_float3			abc;
-	cl_float3			center;
+	float				radius;
+	cl_float3				center1;
+	cl_float3			center2;
 }						t_ellipsoid;
 
 typedef struct			s_paraboloid
@@ -201,26 +202,30 @@ typedef struct			s_butt
 	SDL_Texture			*text;
 }						t_butt;
 
-typedef	struct			s_ui
+typedef	struct		s_ui
 {
-	t_butt				save_png;
-	t_butt				ambiance;
-	t_butt				am_plus;
-	t_butt				am_minus;
-	t_butt				modes;
-	t_butt				normal;
-	t_butt				deepth;
-	t_butt				raycast;
-	t_butt				def;
-	t_butt				back;
-	t_butt				left;
-	t_butt				right;
-	t_butt				filters;
-	t_butt				sepia;
-	t_butt				gauss;
-	int					filt;
-	int					i;
-}						t_ui;
+	t_butt 			save_png;
+	t_butt			ambiance;
+	t_butt			am_plus;
+	t_butt			am_minus;
+	t_butt			modes;
+	t_butt			normal;
+	t_butt			deepth;
+	t_butt			raycast;
+	t_butt			def;
+	t_butt			back;
+	t_butt			left;
+	t_butt			right;
+	t_butt			filters;
+	t_butt			sepia;
+	t_butt			gauss;
+	t_butt			grey;
+	t_butt			fault;
+	t_butt			negative;
+	t_butt			magic;
+	int				filt;
+	int 			i;
+}					t_ui;
 
 
 typedef	struct			s_object3d
@@ -309,7 +314,7 @@ struct					s_scene
 	int					bounce_cnt;
 	void				(*init[4])(struct s_scene *);
 	void				(*draw[4])(t_sdl *, struct s_scene *);
-	void				(*filter[5])(t_filter_data *);
+	void				(*filter[10])(t_filter_data *);
 };
 
 #endif

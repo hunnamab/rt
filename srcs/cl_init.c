@@ -59,8 +59,8 @@ void	device_objects_init(t_scene *scene)
 			t_ellipsoid *el;
 			el = (t_ellipsoid *)scene->objs[i]->data;
 			buf[i].type = ELLIPSOID;
-			buf[i].primitive.ellipsoid.abc = el->abc;
-			buf[i].primitive.ellipsoid.center = el->center;
+			//buf[i].primitive.ellipsoid.abc = el->abc;
+			//buf[i].primitive.ellipsoid.center = el->center;
 		}
 		if (scene->objs[i]->type == BOX)
 		{

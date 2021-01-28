@@ -1,0 +1,35 @@
+{
+	"box": [
+		{
+			"a": [0, 0, 0],
+			"b": [10, 4, 5],
+			"rotation": [0, 0, 0],
+			"color": [255, 0, 0, 255],
+			"specular": 100,
+			"texture": "no"
+		},
+		{
+			"a": [0, 3, 4],
+			"b": [10, 4, 5],
+			"rotation": [0, 0, 0],
+			"color": [255, 0, 0, 255],
+			"specular": 100,
+			"texture": "no"
+		}
+	],
+	"light": [
+		{
+			"type": "point",
+			"position": [10, 10, -10],
+			"intensity": 0.8
+		},
+		{
+			"type": "ambient",
+			"intensity": 0.2
+		}
+	],
+	"camera": {
+		"position": [0, 0, -40],
+		"rotation": [0, 0, 0]
+	}
+}

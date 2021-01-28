@@ -1,6 +1,57 @@
 #include "rt.h"
 
-t_object    *new_ellipsoid(cl_float3 center, cl_float3 abc, t_color color, cl_float3 rotation, float specular)
+void	one_argument_ellipsoid(char **description, t_scene *scene, int *snmi)
+{
+	t_object	*ellipsoid;
+	cl_float3	cen_buf[3];
+	float		rotation[3];
+	float		specular;
+	t_color		color;
+
+
+	/*printf("center %s\n", description[1]);
+	printf("center %s\n", description[2]);
+	printf("center %s\n", description[3]);
+	printf("center %s\n", description[4]);
+	printf("center %s\n", description[5]);
+	printf("center %s\n", description[6]);*/
+	cen_buf[0] = get_points(description[1]);
+	cen_buf[1] = get_points(description[2]);
+	cen_buf[2] = get_points(description[3]);
+	rotation[0] = cen_buf[2].x;
+	rotation[1] = cen_buf[2].y;
+	rotation[2] = cen_buf[2].z;
+	color = get_color(description[4]);
+	specular = ftoi(get_coordinates(description[5]));
+	ellipsoid = new_ellipsoid(cen_buf, color, specular);
+	ellipsoid->text = tex_new_bmp(get_file(description[6]));
+	scene->objs[snmi[1]] = ellipsoid;
+	snmi[1]++;
+}
+
+t_object 	*multiple_ellipsoids(char **description, t_scene *scene, int *snmi, int i)
+{
+	t_object	*ellipsoid;
+	cl_float3	cen_buf[3];
+	float		rotation[3];
+	float		specular;
+	t_color 	color;
+
+	printf("{} %s\n", description[i + 1]);
+	cen_buf[0] = get_points(description[i + 1]);
+	cen_buf[1] = get_points(description[i + 2]);
+	cen_buf[2] = get_points(description[i + 3]);
+	rotation[0] = cen_buf[2].x;
+	rotation[1] = cen_buf[2].y;
+	rotation[2] = cen_buf[2].z;
+	color = get_color(description[i + 4]);
+	specular = ftoi(get_coordinates(description[i + 5]));
+	ellipsoid = new_ellipsoid(cen_buf, color, specular);
+	return (ellipsoid);
+}
+
+
+t_object    *new_ellipsoid(cl_float3 *buf, t_color color, float specular)
 {
     t_ellipsoid *el;
 	t_object	*new_object;
@@ -8,13 +59,19 @@ t_object    *new_ellipsoid(cl_float3 center, cl_float3 abc, t_color color, cl_fl
 
 	new_object = malloc(sizeof(t_object));
 	el = malloc(sizeof(t_ellipsoid));
-	el->center = center; 
-	el->abc = abc;
-	new_object->rotation[0] = rotation.x;
-	new_object->rotation[1] = rotation.y;
-	new_object->rotation[2] = rotation.z;
+
+	///
+	cl_float3 center1 = get_point(0, 0, 0); // добавить в парсер, два центра эллипсоида
+	cl_float3 center2 = get_point(10, 10, 0);
+	float radius = 20; // сумма радиусов из центров
+	///
+	el->center1 = center1; 
+	el->center2 = center2;  
+	el->radius = radius;
+	new_object->rotation[0] = buf[2].x;
+	new_object->rotation[1] = buf[2].y;
+	new_object->rotation[2] = buf[2].z;
 	new_object->specular = specular;
-	new_object->reflection = 0.0;
 	new_object->color = color;
 	new_object->text = NULL;
 	new_object->data = (void *)el;
@@ -22,8 +79,34 @@ t_object    *new_ellipsoid(cl_float3 center, cl_float3 abc, t_color color, cl_fl
 	new_object->intersect = &intersect_ray_ellipsoid;
 	//new_object->get_normal = &get_ellipsoid_normal;
 	new_object->clear_obj = &clear_default;
-    printf("abc == (%f,%f,%f)\n", el->abc.x,el->abc.y,el->abc.z);
+    //printf("abc == (%f,%f,%f)\n", el->abc.x,el->abc.y,el->abc.z);
 	return (new_object);
+}
+
+void	get_ellipsoid(char **description, t_scene *scene, int *snmi)
+{
+	t_object	*ellipsoid;
+	int i;
+
+	i = 1;
+	//printf("center %c\n", description[0][0]);
+	if (description[0][0] == '[')
+	{
+		while (description[i][1] != ']')
+		{
+			//printf("text %c\n", description[i][2]);
+			if (description[i][2] == '{')
+			{
+				ellipsoid = multiple_ellipsoids(description, scene, snmi, i);
+				ellipsoid->text = tex_new_bmp(get_file(description[i + 6]));
+				scene->objs[snmi[1]] = ellipsoid;
+				snmi[1]++;
+				i += 8;
+			}
+		}
+	}
+	if (description[0][0] == '{')
+		one_argument_ellipsoid(description, scene, snmi);
 }
 
 void        intersect_ray_ellipsoid(t_scene *scene, int index)

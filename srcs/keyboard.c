@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/06 13:38:13 by pmetron           #+#    #+#             */
-/*   Updated: 2021/01/26 18:11:36 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/27 23:10:31 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ void	screen_png(t_scene *scene)
 	srf->pixels = copy_frame_buf(scene, (uint8_t *)srf->pixels);
 	IMG_SavePNG(srf, "screenshot.png");
 	ft_putstr("Saved image in png\n");
+	free(srf->pixels);
 	SDL_FreeSurface(srf);
 }
 
@@ -151,12 +152,39 @@ void	redraw_mode(t_scene *scene, int mode)
 
 void	draw_filters(t_scene *scene, int i)
 {
-	if (i % 3 == 1)
+	if (i % 6 == 1)
+	{
+		scene->rt_ui->filt = 0;
+		scene->filter_type = DEFAULT;
+	}
+	else if (i % 6 == 2)
+	{
 		scene->rt_ui->filt = 1;
-	else if (i % 3 == 2)
+		scene->filter_type = SEPIA;
+	}
+	else if (i % 6 == 3)
+	{
 		scene->rt_ui->filt = 2;
-	else 
+		scene->filter_type = GRAYSCALE;
+	}
+	else if (i % 6 == 4)
+	{
 		scene->rt_ui->filt = 3;
+		scene->filter_type = GAUSS;
+	}
+	else if (i % 6 == 5)
+	{
+		scene->rt_ui->filt = 4;
+		scene->filter_type = NEGATIVE;
+	}
+	else
+	{
+		scene->rt_ui->filt = 5;
+		scene->filter_type = MAGIC;
+	}
+	
+	//scene->filter[scene->rt_ui->filt](scene);
+	refresh_scene(scene);
 }
 
 void	click(t_sdl *sdl, t_scene *scene)

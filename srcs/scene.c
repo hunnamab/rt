@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 14:21:11 by pmetron           #+#    #+#             */
-/*   Updated: 2021/01/27 00:09:04 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/27 23:09:45 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ void	init_scene(t_scene *scene)
 	scene->filter[1] = &gauss_filter;
 	scene->filter[2] = &gray_scale;
 	scene->filter[NEGATIVE] = &negative;
+	scene->filter[SHARPEN] = &sharpen_filter;
+	scene->filter[MAGIC] = &magic_filter;
 	scene->normal_buf = NULL;
 	scene->material_buf = NULL;
 	scene->intersection_buf = NULL;
