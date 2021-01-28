@@ -185,13 +185,16 @@ __kernel void intersect_ray_cone_cl(__global float3 *ray_arr, \
                                 __global float *depth_buf, \
                                 t_cone cone, \
                                 __global int *index_buf, \
-                                int index)
+                                int index, float reflection, int bounce_cnt)
 {
     int i = get_global_id(0);
 	float result = 0;
 	float3 ray;
     ray = camera_start[i] + ray_arr[i] + 0.001f;
-	result = cone_intersection(cone, ray, ray_arr[i]);
+	//if (reflection > 0.001f || bounce_cnt == 0)
+		result = cone_intersection(cone, ray, ray_arr[i]);
+/* 	else
+		return ; */
 	if (result > 0.01 && result < depth_buf[i])
     {
         depth_buf[i] = result;

@@ -186,13 +186,16 @@ __kernel void intersect_ray_triangle_cl(__global float3 *ray_arr, \
                                 __global float *depth_buf, \
                                 t_triangle triangle, \
                                 __global int *index_buf, \
-                                int index)
+                                int index, float reflection, int bounce_cnt)
 {
     int i = get_global_id(0);
     float res;
 	float3 ray;
     ray = camera_start[i] + ray_arr[i] + 0.001f;
-	res = triangle_intersection(triangle, ray, ray_arr[i]);
+	//if (reflection > 0.001f || bounce_cnt == 0)
+		res = triangle_intersection(triangle, ray, ray_arr[i]);
+/* 	else
+		return ; */
 	if (res > 0.01 && res < depth_buf[i])
 	{
 		depth_buf[i] = res;

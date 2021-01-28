@@ -155,7 +155,7 @@ void  get_normal_cylinder(__global t_object_d *obj, \
                         __global int *index_buf, \
 						__global float3 *normal_buf, \
                         __global float3 *intersection_buf, \
-						__global float3 *camera_position, \
+						float3 camera_position, \
 						__global float *depth_buf)
 {
 	float	m;
@@ -163,10 +163,10 @@ void  get_normal_cylinder(__global t_object_d *obj, \
 	float3 buf2;
 	float3 p;
 	float3 normal;
-    buf1 = camera_position[0] - obj[0].primitive.cylinder.position;
+    buf1 = camera_position - obj[0].primitive.cylinder.position;
     m = dot(ray_buf[0],  obj[0].primitive.cylinder.vec) * depth_buf[0] + dot(buf1, obj[0].primitive.cylinder.vec);
     buf1 = ray_buf[0] * depth_buf[0];
-	p = camera_position[0] + buf1;
+	p = camera_position + buf1;
 	buf1 = p - obj[0].primitive.cylinder.position;
 	buf2 = obj[0].primitive.cylinder.vec * m;
 	normal_buf[0] = buf1 - buf2;
@@ -180,13 +180,13 @@ void get_normal_cone(__global t_object_d *obj, \
                         __global int *index_buf, \
                         __global float3 *normal_buf, \
                         __global float3 *intersection_buf, \
-						__global float3 *camera_position, \
+						float3 camera_position, \
 						__global float *depth_buf)
 {
 	float	m;
     float3 buf;
 	float n;
-    buf = camera_position[0] - obj[0].primitive.cone.position;
+    buf = camera_position - obj[0].primitive.cone.position;
     m = dot(ray_buf[0],  obj[0].primitive.cone.vec) * depth_buf[0] + dot(buf, obj[0].primitive.cone.vec);
     buf = obj[0].primitive.cone.vec * m;
 	n = 1 +  obj[0].primitive.cone.angle * obj[0].primitive.cone.angle;
@@ -255,12 +255,20 @@ __kernel void get_normal_buf_cl(__global t_object_d *obj, \
                                 __global float3 *normal_buf, \
                                 __global float3 *intersection_buf, \
 								__global float *depth_buf, \
-								__global float3 *camera_position)
+								float3 camera_position, int bounce_cnt)
 {
     int i = get_global_id(0);
 	int j = index_buf[i];
 	float l;
-
+	float3 buf_camera;
+	if (bounce_cnt == 0)
+		buf_camera = camera_position;
+	else
+	{
+		buf_camera.x = intersection_buf[i].x + ray_buf[i].x * -1 * depth_buf[i];
+		buf_camera.y = intersection_buf[i].y + ray_buf[i].y * -1 * depth_buf[i];
+		buf_camera.z = intersection_buf[i].z + ray_buf[i].z * -1 * depth_buf[i];
+	}
 	if (j != -1)
 	{
 		if (obj[j].type == SPHERE)
@@ -270,9 +278,9 @@ __kernel void get_normal_buf_cl(__global t_object_d *obj, \
 		else if (obj[j].type == TRIANGLE)
 			get_normal_triangle(&obj[j], &ray_buf[i], &normal_buf[i]);
 		else if (obj[j].type == CONE)
-			get_normal_cone(&obj[j], &ray_buf[i], &index_buf[i], &normal_buf[i], &intersection_buf[i], &camera_position[i], &depth_buf[i]);
+			get_normal_cone(&obj[j], &ray_buf[i], &index_buf[i], &normal_buf[i], &intersection_buf[i], buf_camera, &depth_buf[i]);
 		else if (obj[j].type == CYLINDER)
-			get_normal_cylinder(&obj[j], &ray_buf[i], &index_buf[i], &normal_buf[i], &intersection_buf[i], &camera_position[i], &depth_buf[i]);
+			get_normal_cylinder(&obj[j], &ray_buf[i], &index_buf[i], &normal_buf[i], &intersection_buf[i], buf_camera, &depth_buf[i]);
 	}
 	else
 		normal_buf[i] = 0;

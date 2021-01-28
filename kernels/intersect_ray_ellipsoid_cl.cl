@@ -181,14 +181,17 @@ float ellipsoid_intersection(t_ellipsoid el, float3 ray_start, float3 ray_dir)
 __kernel  void    intersect_ray_ellipsoid(__global float3 *ray_arr, \
                                         __global float3 *camera_start, \
                                         t_ellipsoid el, __global float *depth_buf, \
-                                        __global int *index_buf, int index)
+                                        __global int *index_buf, int index, \
+										float reflection, int bounce_cnt)
 {
     int i = get_global_id(0);
     float result;
     float3 ray;
     ray = camera_start[i] + ray_arr[i] + 0.001f;
-    result = ellipsoid_intersection(el, ray, ray_arr[i]);
-    
+	//if (reflection > 0.001f || bounce_cnt == 0)
+    	result = ellipsoid_intersection(el, ray, ray_arr[i]);
+/* 	else
+		return ; */
     if (result > 0.01 && result < depth_buf[i])
     {
         depth_buf[i] = result;

@@ -364,7 +364,7 @@ t_color		reflection_color(__global t_color *frame_buf, \
                             __global t_object_d *obj, \
                             __global t_light *light, \
 							int light_nmb, \
-							int index, int obj_nmb, float bounce_cnt)
+							int index, int obj_nmb, int bounce_cnt)
 {
 	float		i;
 	float3		l;
@@ -391,13 +391,21 @@ t_color		reflection_color(__global t_color *frame_buf, \
 	}
 	i = i > 1 ? 1 : i;
 	t_color result;
-	result.red = material_buf[index].color.red * i;
-	result.blue = material_buf[index].color.blue * i;
-	result.green = material_buf[index].color.green * i;
-
+	if (material_buf[index].reflection > 0.001f || bounce_cnt == 0)
+	{
+		result.red = material_buf[index].color.red * i;
+		result.green = material_buf[index].color.green * i;
+		result.blue = material_buf[index].color.blue * i;
+	}
+	else
+	{
+		result.red = frame_buf[index].red;
+		result.green = frame_buf[index].green;
+		result.blue = frame_buf[index].blue;
+	}
 	
 	if (index == 1280 * 360 + 640 * 11)
-		printf("result color device (%hhu, %hhu, %hhu)\n", result.red, result.green, result.blue);
+		printf("result color device in reflection_color (%hhu, %hhu, %hhu)\n", result.red, result.green, result.blue);
 	return (result);
 }
 

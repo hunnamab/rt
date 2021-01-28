@@ -98,12 +98,14 @@ void        intersect_ray_box(t_scene *scene, int index)
     size_t global = WID * HEI;
 	size_t local;
 
-	clSetKernelArg(scene->cl_data.kernels[11], 0, sizeof(cl_mem), &scene->cl_data.scene.normal_buf);
+	clSetKernelArg(scene->cl_data.kernels[11], 0, sizeof(cl_mem), &scene->cl_data.scene.ray_buf);
 	clSetKernelArg(scene->cl_data.kernels[11], 1, sizeof(cl_mem), &scene->cl_data.scene.intersection_buf);
     clSetKernelArg(scene->cl_data.kernels[11], 2, sizeof(t_box), scene->objs[index]->data);
 	clSetKernelArg(scene->cl_data.kernels[11], 3, sizeof(cl_mem), &scene->cl_data.scene.depth_buf);
 	clSetKernelArg(scene->cl_data.kernels[11], 4, sizeof(cl_mem), &scene->cl_data.scene.index_buf);
 	clSetKernelArg(scene->cl_data.kernels[11], 5, sizeof(cl_int), (void*)&index);
+	clSetKernelArg(scene->cl_data.kernels[11], 6, sizeof(cl_float), (void*)&scene->objs[index]->reflection);
+	clSetKernelArg(scene->cl_data.kernels[11], 7, sizeof(cl_int), (void*)&scene->bounce_cnt);
 
     clGetKernelWorkGroupInfo(scene->cl_data.kernels[11], scene->cl_data.device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
     clEnqueueNDRangeKernel(scene->cl_data.commands, scene->cl_data.kernels[11], 1, NULL, &global, &local, 0, NULL, NULL);

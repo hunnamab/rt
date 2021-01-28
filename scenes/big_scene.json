@@ -3,7 +3,7 @@
 		"point": [0, -1, 0],
 		"normal": [0, 1, 0],
 		"rotation": [0, 0, 0],
-		"color": [255, 255, 255, 255],
+		"color": [255, 0, 255, 255],
 		"specular": 10,
 		"texture": "textures/red.jpg"
 	},
