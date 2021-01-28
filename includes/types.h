@@ -6,7 +6,7 @@
 /*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:58 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/28 00:09:10 by npetrell         ###   ########.fr       */
+/*   Updated: 2021/01/28 23:13:49 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ enum object_type {
 	ELLIPSOID,
 	HYPERBOLOID,
 	PARABOLOID,
-	BOX
+	BOX,
+	TORUS
 };
 
 enum light_type{
@@ -143,16 +144,23 @@ typedef	struct			s_material
 
 typedef	struct			s_ellipsoid
 {
-	float				radius;
-	cl_float3				center1;
+	cl_float3			center1;
 	cl_float3			center2;
+	float				radius;
 }						t_ellipsoid;
 
 typedef struct			s_paraboloid
 {
-	float				k;
 	cl_float3			center;
+	float				k;
 }						t_paraboloid;
+
+typedef struct			s_torus
+{
+	cl_float3			center;
+	float				radius1;
+	float				radius2;
+}						t_torus;
 
 typedef struct			s_texture_d
 {
@@ -257,6 +265,7 @@ typedef	union			primitive
 	t_ellipsoid			ellipsoid;
 	t_box				box;
 	t_paraboloid		paraboloid;
+	t_torus				torus;
 }						t_primitive;
 
 typedef struct			s_object3d_d

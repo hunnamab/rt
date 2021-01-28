@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:02 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/27 23:13:26 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/28 23:57:02 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,8 @@ int		main(int args, char **argv)
 	SDL_CreateWindowAndRenderer(WID + 350, HEI, 0, &sdl.win, &sdl.renderer);
 	SDL_RenderClear(sdl.renderer);
 	scene->filter_type = DEFAULT;
+	/* scene->obj_nmb += 1;
+	scene->objs[scene->obj_nmb - 1] = new_torus(get_point(0,0,100), 100, 50, set_color(0,0,255,255), get_point(0,0,0), 100); */
 	//scene->obj_nmb += 1;
 	//scene->objs[scene->obj_nmb - 1] = new_box(get_point(1,1,1), get_point(10,10,10), set_color(0,0,255,255), get_point(0,0,0), 100);
 	//scene->objs[scene->obj_nmb - 1] = new_paraboloid(get_point(0,0,5), 50, set_color(255,0,0,255), get_point(0,0,0), 100);

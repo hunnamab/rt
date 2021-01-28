@@ -71,8 +71,9 @@ typedef struct		s_triangle
 
 typedef	struct		s_ellipsoid
 {
-	float3			abc;
-	float3			center;
+	float3			center1;
+	float3			center2;
+	float			radius;
 }					t_ellipsoid;
 
 typedef	struct		s_box
@@ -83,9 +84,16 @@ typedef	struct		s_box
 
 typedef struct		s_paraboloid
 {
-	float			k;
 	float3			center;
+	float			k;
 }					t_paraboloid;
+
+typedef struct		s_torus
+{
+	float3			center;
+	float			radius1;
+	float			radius2;
+}					t_torus;
 
 typedef	union		primitive
 {
@@ -97,6 +105,7 @@ typedef	union		primitive
 	t_ellipsoid		ellipsoid;
 	t_paraboloid	paraboloid;
 	t_box			box;
+	t_torus			torus;
 }					t_primitive;
 
 typedef	struct		s_cutting_surface
@@ -118,7 +127,8 @@ enum object_type {
 	ELLIPSOID,
 	HYPERBOLOID,
 	PARABOLOID,
-	BOX
+	BOX,
+	TORUS
 };
 
 typedef struct		s_object3d_d
@@ -139,7 +149,6 @@ typedef struct		s_object3d_d
 	int				texture_height;
 	int				l_size;
 }					t_object_d;
-
 float box_intersection(t_box box, float3 ray_start, float3 ray_dir)
 {
 	float3 	t_min;
