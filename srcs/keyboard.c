@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/06 13:38:13 by pmetron           #+#    #+#             */
-/*   Updated: 2021/01/27 23:10:31 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/28 18:18:12 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ void	am_plus(t_scene *scene)
 			scene->light[i].intensity += 0.1;
 		i++;		
 	}
-	refresh_scene(scene);
+	//refresh_scene(scene);
 }
 
 void	am_minus(t_scene *scene)
@@ -134,7 +134,7 @@ void	am_minus(t_scene *scene)
 			scene->light[i].intensity -= 0.1;
 		i++;	
 	}
-	refresh_scene(scene);
+	//refresh_scene(scene);
 }
 
 void	redraw_mode(t_scene *scene, int mode)
@@ -147,7 +147,7 @@ void	redraw_mode(t_scene *scene, int mode)
 		scene->mode = 3;
 	if (mode == 4) 
 		scene->mode = 0;
-	refresh_scene(scene);
+	//refresh_scene(scene);
 }
 
 void	draw_filters(t_scene *scene, int i)
@@ -184,7 +184,7 @@ void	draw_filters(t_scene *scene, int i)
 	}
 	
 	//scene->filter[scene->rt_ui->filt](scene);
-	refresh_scene(scene);
+	//refresh_scene(scene);
 }
 
 void	click(t_sdl *sdl, t_scene *scene)
