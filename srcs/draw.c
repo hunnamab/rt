@@ -20,7 +20,8 @@ void	draw_scene(t_sdl *sdl, t_scene *scene)
 	int					j = 0;
 	float				**matrix;
 	cl_mem 				swap_pointer;
-	swap_pointer = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * WID * HEI, NULL, NULL);
+	//swap_pointer = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * WID * HEI, NULL, NULL);
+	scene->cl_data.scene.original_index_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(int) * WID * HEI, NULL, NULL);
 
 	x = -1;
 	y = -1;
@@ -56,6 +57,8 @@ void	draw_scene(t_sdl *sdl, t_scene *scene)
 	while (scene->bounce_cnt < scene->max_bounces)
 	{
 		get_closest_points(scene, 0);
+		if (scene->bounce_cnt == 0)
+			clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.index_buf, scene->cl_data.scene.original_index_buf, 0, 0, sizeof(int) * WID * HEI, 0, NULL, NULL);
 		get_intersection_buf(scene);
 		//clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.normal_buf, scene->cl_data.scene.ray_buf, 0, 0, sizeof(cl_float3) * WID * HEI, 0, NULL, NULL);
 		get_normal_buf(scene);

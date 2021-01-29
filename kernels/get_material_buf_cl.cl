@@ -88,6 +88,13 @@ typedef struct		s_paraboloid
 	float3			center;
 }					t_paraboloid;
 
+typedef struct		s_torus
+{
+	float			radius1;
+	float			radius2;
+	float3			center;
+}					t_torus;
+
 typedef	union		primitive
 {
 	t_cylinder		cylinder;
@@ -98,6 +105,7 @@ typedef	union		primitive
 	t_ellipsoid		ellipsoid;
 	t_paraboloid	paraboloid;
 	t_box			box;
+	t_torus			torus;
 }					t_primitive;
 
 typedef	struct		s_cutting_surface
@@ -119,7 +127,8 @@ enum object_type {
 	ELLIPSOID,
 	HYPERBOLOID,
 	PARABOLOID,
-	BOX
+	BOX,
+	TORUS
 };
 
 typedef struct		s_object3d_d
@@ -285,7 +294,8 @@ __kernel void    get_material_buf_cl(__global uchar *texture_data,\
                                      __global t_object_d *obj,\
                                     __global int *index_buf, \
                                     __global float3 *intersection_buf,\
-                                    __global t_material *material_buf)
+                                    __global t_material *material_buf, \
+									__global int *original_index_buf)
 {
     int i = get_global_id(0);
 	float3 t;
@@ -299,7 +309,7 @@ __kernel void    get_material_buf_cl(__global uchar *texture_data,\
 		else
 			material_buf[i].color = obj[index_buf[i]].color;
 		material_buf[i].specular = obj[index_buf[i]].specular;
-		material_buf[i].reflection = obj[index_buf[i]].reflection;
+		material_buf[i].reflection = obj[original_index_buf[i]].reflection;
     }
  	else
 	{

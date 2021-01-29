@@ -71,9 +71,9 @@ typedef struct		s_triangle
 
 typedef	struct		s_ellipsoid
 {
-	float			radius;
 	float3			center1;
 	float3			center2;
+	float			radius;
 }					t_ellipsoid;
 
 typedef	struct		s_box
@@ -84,9 +84,16 @@ typedef	struct		s_box
 
 typedef struct		s_paraboloid
 {
-	float			k;
 	float3			center;
+	float			k;
 }					t_paraboloid;
+
+typedef struct		s_torus
+{
+	float3			center;
+	float			radius1;
+	float			radius2;
+}					t_torus;
 
 typedef	union		primitive
 {
@@ -98,6 +105,7 @@ typedef	union		primitive
 	t_ellipsoid		ellipsoid;
 	t_paraboloid	paraboloid;
 	t_box			box;
+	t_torus			torus;
 }					t_primitive;
 
 typedef	struct		 	s_cutting_surface
@@ -116,7 +124,8 @@ enum object_type {
 	ELLIPSOID,
 	HYPERBOLOID,
 	PARABOLOID,
-	BOX
+	BOX,
+	TORUS
 };
 
 typedef struct		s_object3d_d
@@ -272,10 +281,10 @@ __kernel void intersect_ray_box(__global float3 *ray_arr, \
     float result;
 	float3 ray;
 	ray = camera_start[i] + ray_arr[i] + 0.001f;
-	if (reflection > 0.001f || bounce_cnt == 0)
+	//if (reflection > 0.001f || bounce_cnt == 0)
     	result = box_intersection(box, ray, ray_arr[i]);
-	else
-		return ;
+/* 	else
+		return ; */
     if (result > 0.01 && result < depth_buf[i])
     {
 		float3 intersection_point;

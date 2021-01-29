@@ -88,6 +88,13 @@ typedef struct		s_paraboloid
 	float3			center;
 }					t_paraboloid;
 
+typedef struct		s_torus
+{
+	float			radius1;
+	float			radius2;
+	float3			center;
+}					t_torus;
+
 typedef	union		primitive
 {
 	t_cylinder		cylinder;
@@ -98,6 +105,7 @@ typedef	union		primitive
 	t_ellipsoid		ellipsoid;
 	t_paraboloid	paraboloid;
 	t_box			box;
+	t_torus			torus;
 }					t_primitive;
 
 typedef	struct		 	s_cutting_surface
@@ -116,7 +124,8 @@ enum object_type {
 	ELLIPSOID,
 	HYPERBOLOID,
 	PARABOLOID,
-	BOX
+	BOX,
+	TORUS
 };
 
 typedef struct		s_object3d_d
@@ -209,10 +218,10 @@ __kernel void intersect_ray_cylinder_cl(__global float3 *ray_arr, \
 	float result;
 	float3 ray;
     ray = camera_start[i] + ray_arr[i] + 0.001f;
-	if (reflection > 0.001f || bounce_cnt == 0)
+	//if (reflection > 0.001f || bounce_cnt == 0)
 		result = cylinder_intersection(cyl, ray, ray_arr[i]);
-	else
-		return ;
+/* 	else
+		return ; */
 	if (result > 0.01 && result < depth_buf[i])
     {
 		float3 intersection_point;

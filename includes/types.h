@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:58 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/28 21:37:43 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/29 20:17:05 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ enum object_type {
 	ELLIPSOID,
 	HYPERBOLOID,
 	PARABOLOID,
-	BOX
+	BOX,
+	TORUS
 };
 
 enum light_type{
@@ -41,6 +42,7 @@ typedef struct			s_scene_device
 	cl_mem				intersection_buf;
 	cl_mem				viewport;
 	cl_mem				index_buf;
+	cl_mem				original_index_buf;
 	cl_mem				depth_buf;
 	cl_mem				normal_buf;
 	cl_mem				material_buf;
@@ -143,16 +145,23 @@ typedef	struct			s_material
 
 typedef	struct			s_ellipsoid
 {
-	float				radius;
-	cl_float3				center1;
+	cl_float3			center1;
 	cl_float3			center2;
+	float				radius;
 }						t_ellipsoid;
 
 typedef struct			s_paraboloid
 {
-	float				k;
 	cl_float3			center;
+	float				k;
 }						t_paraboloid;
+
+typedef struct			s_torus
+{
+	cl_float3			center;
+	float				radius1;
+	float				radius2;
+}						t_torus;
 
 typedef struct			s_texture_d
 {
@@ -255,6 +264,18 @@ typedef	struct			s_object3d
 	void				(*clear_obj)(struct s_object3d *);
 }						t_object;
 
+typedef	union			primitive
+{
+	t_cylinder			cylinder;
+	t_cone				cone;
+	t_sphere			sphere;
+	t_plane				plane;
+	t_triangle			triangle;
+	t_ellipsoid			ellipsoid;
+	t_box				box;
+	t_paraboloid		paraboloid;
+	t_torus				torus;
+}						t_primitive;
 
 typedef struct			s_object3d_d
 {	

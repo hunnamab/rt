@@ -78,6 +78,15 @@ void	device_objects_init(t_scene *scene)
 			buf[i].primitive.paraboloid.center = parab->center;
 			buf[i].primitive.paraboloid.k = parab->k;
 		}
+		if (scene->objs[i]->type == TORUS)
+		{
+			t_torus	*torus;
+			torus = (t_torus *)scene->objs[i]->data;
+			buf[i].type = TORUS;
+			buf[i].primitive.torus.center = torus->center;
+			buf[i].primitive.torus.radius1 = torus->radius1;
+			buf[i].primitive.torus.radius2 = torus->radius2;
+		}
 		if (scene->objs[i]->text != NULL)
         {
 			int l = 0;
@@ -351,6 +360,22 @@ int    cl_init(t_scene *scene)
 		printf("не собрана программа 1, error %d intersect_ray_paraboloid_cl\n", err);
 	ft_strdel(&intersect_ray_paraboloid_cl);
 	close(fd13);
+
+	int		ret14;
+	char	*intersect_ray_torus_cl;
+	int fd14 = open("./kernels/intersect_ray_torus_cl.cl", O_RDONLY);
+	intersect_ray_torus_cl = protected_malloc(sizeof(char), 256000);
+	ret14 = read(fd14, intersect_ray_torus_cl, 64000);
+	intersect_ray_torus_cl[ret14] = '\0';
+	
+	if ((scene->cl_data.programs[13] = clCreateProgramWithSource(scene->cl_data.context, 1, (const char **)&intersect_ray_torus_cl, NULL, &err)))
+		printf("cоздана программа intersect_ray_torus_cl\n");
+	if ((clBuildProgram(scene->cl_data.programs[13], 0, NULL, "-I includes", NULL, &err)))
+		printf("собрана программа intersect_ray_torus_cl\n");
+	if (!(scene->cl_data.kernels[13] = clCreateKernel(scene->cl_data.programs[13], "intersect_ray_torus", &err)))
+		printf("не собрана программа 1, error %d intersect_ray_torus_cl\n", err);
+	ft_strdel(&intersect_ray_torus_cl);
+	close(fd14);
 
 	//Создание буферов на гпу
 	scene->cl_data.scene.ray_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, NULL);

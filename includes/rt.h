@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:34 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/27 22:21:31 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/01/28 17:57:44 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,6 +204,10 @@ void		intersect_ray_paraboloid(t_scene *scene, int index);
 t_object	*new_paraboloid(cl_float3 center, float k, t_color color, cl_float3 rotation, float specular);
 void		get_ellipsoid(char **description, t_scene *scene, int *snmi);
 t_object    *new_ellipsoid(cl_float3 *buf, t_color color, float specular);
+
+t_object    *new_torus(cl_float3 center, float radius1, float radius2, t_color color, cl_float3 rotation, float specular);
+void        intersect_ray_torus(t_scene *scene, int index);
+
 t_object    *new_box(cl_float3 *buf, t_color color, float specular);
 void	get_box(char **description, t_scene *scene, int *snmi);
 

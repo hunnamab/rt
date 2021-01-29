@@ -88,6 +88,13 @@ typedef struct		s_paraboloid
 	float3			center;
 }					t_paraboloid;
 
+typedef struct		s_torus
+{
+	float			radius1;
+	float			radius2;
+	float3			center;
+}					t_torus;
+
 typedef	union		primitive
 {
 	t_cylinder		cylinder;
@@ -98,6 +105,7 @@ typedef	union		primitive
 	t_ellipsoid		ellipsoid;
 	t_paraboloid	paraboloid;
 	t_box			box;
+	t_torus			torus;
 }					t_primitive;
 
 typedef	struct		s_cutting_surface
@@ -119,7 +127,8 @@ enum object_type {
 	ELLIPSOID,
 	HYPERBOLOID,
 	PARABOLOID,
-	BOX
+	BOX,
+	TORUS
 };
 
 typedef struct		s_object3d_d
@@ -382,18 +391,18 @@ t_color		reflection_color(__global t_color *frame_buf, \
 	}
 	i = i > 1 ? 1 : i;
 	t_color result;
-	//if (material_buf[index].reflection > 0.001f)
-	//{
+	if (material_buf[index].reflection > 0.001f || bounce_cnt == 0)
+	{
 		result.red = material_buf[index].color.red * i;
 		result.green = material_buf[index].color.green * i;
 		result.blue = material_buf[index].color.blue * i;
-	//}
-/* 	else
+	}
+	else
 	{
-		result.red = 0;
-		result.green = 0;
-		result.blue = 255;
-	} */
+		result.red = frame_buf[index].red;
+		result.green = frame_buf[index].green;
+		result.blue = frame_buf[index].blue;
+	}
 	
 	if (index == 1280 * 360 + 640 * 11)
 		printf("result color device in reflection_color (%hhu, %hhu, %hhu)\n", result.red, result.green, result.blue);
