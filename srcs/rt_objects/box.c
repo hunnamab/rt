@@ -97,7 +97,16 @@ void        intersect_ray_box(t_scene *scene, int index)
 {
     size_t global = WID * HEI;
 	size_t local;
-
+	cl_mem cs;
+	if (scene->objs[index]->cs_nmb > 0)
+	{
+		printf("objs.cs.type == %d\n", scene->objs[0][0].cutting_surfaces[0].type);
+		printf("sizeof(t_cs) == %lu\n", sizeof(t_cutting_surface));
+		cs = clCreateBuffer(scene->cl_data.context, CL_MEM_READ_ONLY |
+		CL_MEM_HOST_WRITE_ONLY | CL_MEM_COPY_HOST_PTR, sizeof(t_cutting_surface) * scene->objs[index]->cs_nmb, scene->objs[index]->cutting_surfaces, NULL);
+	}
+	else
+		cs = NULL;
 	clSetKernelArg(scene->cl_data.kernels[11], 0, sizeof(cl_mem), &scene->cl_data.scene.ray_buf);
 	clSetKernelArg(scene->cl_data.kernels[11], 1, sizeof(cl_mem), &scene->cl_data.scene.intersection_buf);
     clSetKernelArg(scene->cl_data.kernels[11], 2, sizeof(t_box), scene->objs[index]->data);
@@ -106,6 +115,8 @@ void        intersect_ray_box(t_scene *scene, int index)
 	clSetKernelArg(scene->cl_data.kernels[11], 5, sizeof(cl_int), (void*)&index);
 	clSetKernelArg(scene->cl_data.kernels[11], 6, sizeof(cl_float), (void*)&scene->objs[index]->reflection);
 	clSetKernelArg(scene->cl_data.kernels[11], 7, sizeof(cl_int), (void*)&scene->bounce_cnt);
+	clSetKernelArg(scene->cl_data.kernels[11], 8, sizeof(cl_mem), &cs);
+	clSetKernelArg(scene->cl_data.kernels[11], 9, sizeof(cl_int), (void*)&scene->objs[index]->cs_nmb);
 
     clGetKernelWorkGroupInfo(scene->cl_data.kernels[11], scene->cl_data.device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
     clEnqueueNDRangeKernel(scene->cl_data.commands, scene->cl_data.kernels[11], 1, NULL, &global, &local, 0, NULL, NULL);

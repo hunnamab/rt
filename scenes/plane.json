@@ -1,7 +1,7 @@
 {
 	"plane": {
 		"point": [0, 1, 0],
-		"normal": [0, 1, 0],
+		"normal": [0, 0, 1],
 		"rotation": [0, 0, 0],
 		"color": [123, 33, 56, 255],
 		"specular": -1,

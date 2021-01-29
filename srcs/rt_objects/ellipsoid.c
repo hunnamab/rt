@@ -113,7 +113,14 @@ void        intersect_ray_ellipsoid(t_scene *scene, int index)
 {
     size_t global = WID * HEI;
 	size_t local;
-
+	cl_mem cs;
+	if (scene->objs[index]->cs_nmb > 0)
+	{
+		cs = clCreateBuffer(scene->cl_data.context, CL_MEM_READ_ONLY |
+		CL_MEM_HOST_WRITE_ONLY | CL_MEM_COPY_HOST_PTR, sizeof(t_cutting_surface) * scene->objs[index]->cs_nmb, scene->objs[index]->cutting_surfaces, NULL);
+	}
+	else
+		cs = NULL;
 	clSetKernelArg(scene->cl_data.kernels[8], 0, sizeof(cl_mem), &scene->cl_data.scene.ray_buf);
 	clSetKernelArg(scene->cl_data.kernels[8], 1, sizeof(cl_mem), &scene->cl_data.scene.intersection_buf);
     clSetKernelArg(scene->cl_data.kernels[8], 2, sizeof(t_ellipsoid), scene->objs[index]->data);
@@ -122,6 +129,8 @@ void        intersect_ray_ellipsoid(t_scene *scene, int index)
 	clSetKernelArg(scene->cl_data.kernels[8], 5, sizeof(cl_int), (void*)&index);
 	clSetKernelArg(scene->cl_data.kernels[8], 6, sizeof(cl_float), (void*)&scene->objs[index]->reflection);
 	clSetKernelArg(scene->cl_data.kernels[8], 7, sizeof(cl_int), (void*)&scene->bounce_cnt);
+	clSetKernelArg(scene->cl_data.kernels[8], 8, sizeof(cl_mem), &cs);
+	clSetKernelArg(scene->cl_data.kernels[8], 9, sizeof(cl_int), (void*)&scene->objs[index]->cs_nmb);
 
     clGetKernelWorkGroupInfo(scene->cl_data.kernels[8], scene->cl_data.device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
 	printf("ellipsoid local == %ld\n", local);

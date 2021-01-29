@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:02 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/28 18:04:51 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/28 22:21:14 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,17 +166,22 @@ int		main(int args, char **argv)
 	//scene->objs[scene->obj_nmb - 1] = new_paraboloid(get_point(0,0,5), 50, set_color(255,0,0,255), get_point(0,0,0), 100);
 	/*инициализация секущих поверхностей
 	в будущем должна производиться из фаила*/
-	//scene->objs[0]->cs_nmb = 0;
-/*  	scene->objs[0]->cutting_surfaces = malloc(sizeof(t_cutting_surface) * scene->objs[0]->cs_nmb);
-	scene->objs[0]->cutting_surfaces[0].plane.normal = get_point(1,0,0);
-	scene->objs[0]->cutting_surfaces[0].plane.point = get_point(0,0,0);
-	scene->objs[0]->cutting_surfaces[0].plane.d = -scene->objs[0]->cutting_surfaces[0].plane.normal.x * scene->objs[0]->cutting_surfaces[0].plane.point.x - scene->objs[0]->cutting_surfaces[0].plane.\
-	normal.y * scene->objs[0]->cutting_surfaces[0].plane.point.y - scene->objs[0]->cutting_surfaces[0].plane.normal.z * scene->objs[0]->cutting_surfaces[0].plane.point.z;
-	scene->objs[0]->cutting_surfaces[0].type = PLANE; */
-	/* scene->objs[0]->cutting_surfaces[1].plane.normal = get_point(0,1,0);
-	scene->objs[0]->cutting_surfaces[1].plane.point = get_point(0,0,0);
-	scene->objs[0]->cutting_surfaces[1].plane.d = -scene->objs[0]->cutting_surfaces[1].plane.normal.x * scene->objs[0]->cutting_surfaces[1].plane.point.x - scene->objs[0]->cutting_surfaces[1].plane.\
-	normal.y * scene->objs[0]->cutting_surfaces[1].plane.point.y - scene->objs[0]->cutting_surfaces[1].plane.normal.z * scene->objs[0]->cutting_surfaces[1].plane.point.z;
+	scene->objs[0]->cs_nmb = 1;
+  	scene->objs[0]->cutting_surfaces = malloc(sizeof(t_cutting_surface) * scene->objs[0]->cs_nmb);
+	scene->objs[0]->cutting_surfaces->is_negative = 0;
+	scene->objs[0]->cutting_surfaces[0].primitive.plane.normal = get_point(1,0,0);
+	scene->objs[0]->cutting_surfaces[0].primitive.plane.point = get_point(0,0,0);
+	scene->objs[0]->cutting_surfaces[0].primitive.plane.d = -scene->objs[0]->cutting_surfaces[0].primitive.plane.normal.x * scene->objs[0]->cutting_surfaces[0].primitive.plane.point.x - scene->objs[0]->cutting_surfaces[0].primitive.plane.\
+	normal.y * scene->objs[0]->cutting_surfaces[0].primitive.plane.point.y - scene->objs[0]->cutting_surfaces[0].primitive.plane.normal.z * scene->objs[0]->cutting_surfaces[0].primitive.plane.point.z;
+	scene->objs[0]->cutting_surfaces[0].type = PLANE;
+/* 	scene->objs[0]->cutting_surfaces[1].is_negative = 0;
+	scene->objs[0]->cutting_surfaces[1].primitive.sphere.center = get_point(-8,0,0);
+	scene->objs[0]->cutting_surfaces[1].primitive.sphere.radius = 6;
+	scene->objs[0]->cutting_surfaces[1].type = SPHERE; */
+/* 	scene->objs[0]->cutting_surfaces[1].primitive.plane.normal = get_point(0,1,0);
+	scene->objs[0]->cutting_surfaces[1].primitive.plane.point = get_point(0,0,0);
+	scene->objs[0]->cutting_surfaces[1].primitive.plane.d = -scene->objs[0]->cutting_surfaces[1].primitive.plane.normal.x * scene->objs[0]->cutting_surfaces[1].primitive.plane.point.x - scene->objs[0]->cutting_surfaces[1].primitive.plane.\
+	normal.y * scene->objs[0]->cutting_surfaces[1].primitive.plane.point.y - scene->objs[0]->cutting_surfaces[1].primitive.plane.normal.z * scene->objs[0]->cutting_surfaces[1].primitive.plane.point.z;
 	scene->objs[0]->cutting_surfaces[1].type = PLANE; */
 	/***********************************/
 	cl_init(scene); // cl_init.c, инициализируем кернели для дальнейшей работы

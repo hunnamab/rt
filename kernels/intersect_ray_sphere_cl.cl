@@ -100,15 +100,12 @@ typedef	union		primitive
 	t_box			box;
 }					t_primitive;
 
-typedef	struct		s_cutting_surface
+typedef	struct		 	s_cutting_surface
 {
-	int 			type;
-	t_sphere		sphere;
-	t_plane			plane;
-	t_triangle		triangle;
-	t_cone			cone;
-	t_cylinder		cylinder;
-}					t_cutting_surface;
+	int					type;
+	int					is_negative;
+	t_primitive			primitive;
+}						t_cutting_surface;
 
 enum object_type {
 	SPHERE,
@@ -150,10 +147,20 @@ int cut(float3 point, __global t_cutting_surface *cs, int cs_nmb)
     {
         if (cs[i].type == PLANE)
         {
-            result = cs[i].plane.normal.x * point.x + cs[i].plane.normal.y * point.y + cs[i].plane.normal.z * point.z + cs[i].plane.d;
+            result = cs[i].primitive.plane.normal.x * point.x + cs[i].primitive.plane.normal.y * point.y + cs[i].primitive.plane.normal.z * point.z + cs[i].primitive.plane.d;
             if (result >= 0)
                 return (0);
         }
+		if(cs[i].type == SPHERE)
+		{
+			float3 buf;
+			buf = point - cs[i].primitive.sphere.center;
+			result = length(buf);
+			if (result >= cs[i].primitive.sphere.radius && !cs[i].is_negative)
+				return(0);
+			if(result <= cs[i].primitive.sphere.radius && cs[i].is_negative)
+				return(0);
+		}
         i++;
     }
     return (1);
