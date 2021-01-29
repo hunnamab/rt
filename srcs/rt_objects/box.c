@@ -87,6 +87,7 @@ t_object    *new_box(cl_float3 *buf, t_color color, float specular)
 	new_object->text = NULL;
 	new_object->data = (void *)box;
 	new_object->type = BOX;
+	new_object->cs_nmb = 0;
 	new_object->intersect = &intersect_ray_box;
 	//new_object->get_normal = &get_box_normal;
 	new_object->clear_obj = &clear_default;
@@ -100,8 +101,6 @@ void        intersect_ray_box(t_scene *scene, int index)
 	cl_mem cs;
 	if (scene->objs[index]->cs_nmb > 0)
 	{
-		printf("objs.cs.type == %d\n", scene->objs[0][0].cutting_surfaces[0].type);
-		printf("sizeof(t_cs) == %lu\n", sizeof(t_cutting_surface));
 		cs = clCreateBuffer(scene->cl_data.context, CL_MEM_READ_ONLY |
 		CL_MEM_HOST_WRITE_ONLY | CL_MEM_COPY_HOST_PTR, sizeof(t_cutting_surface) * scene->objs[index]->cs_nmb, scene->objs[index]->cutting_surfaces, NULL);
 	}

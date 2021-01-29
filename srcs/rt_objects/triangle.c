@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 21:42:26 by pmetron           #+#    #+#             */
-/*   Updated: 2021/01/28 22:16:38 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/29 20:38:26 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ t_object	*new_triangle(cl_float3 *vertex, float specular, t_color color, \
 	new_object->data = (void *)new_triangle;
 	new_object->tag = "triangle";
 	new_object->type = TRIANGLE;
+	new_object->cs_nmb = 0;
 	new_object->intersect = &intersect_ray_triangle;
 	new_object->get_normal = &get_triangle_normal;
 	new_object->clear_obj = &clear_triangle;

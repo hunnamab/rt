@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:58 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/29 20:17:05 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/29 20:19:41 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,6 +236,7 @@ typedef	union			primitive
 	t_ellipsoid			ellipsoid;
 	t_box				box;
 	t_paraboloid		paraboloid;
+	t_torus				torus;
 }						t_primitive;
 
 typedef	struct		 	s_cutting_surface
@@ -263,19 +264,6 @@ typedef	struct			s_object3d
 	void				(*intersect)(t_scene *, int);
 	void				(*clear_obj)(struct s_object3d *);
 }						t_object;
-
-typedef	union			primitive
-{
-	t_cylinder			cylinder;
-	t_cone				cone;
-	t_sphere			sphere;
-	t_plane				plane;
-	t_triangle			triangle;
-	t_ellipsoid			ellipsoid;
-	t_box				box;
-	t_paraboloid		paraboloid;
-	t_torus				torus;
-}						t_primitive;
 
 typedef struct			s_object3d_d
 {	

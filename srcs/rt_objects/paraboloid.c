@@ -32,8 +32,6 @@ void        intersect_ray_paraboloid(t_scene *scene, int index)
 	cl_mem cs;
 	if (scene->objs[index]->cs_nmb > 0)
 	{
-		printf("objs.cs.type == %d\n", scene->objs[0][0].cutting_surfaces[0].type);
-		printf("sizeof(t_cs) == %lu\n", sizeof(t_cutting_surface));
 		cs = clCreateBuffer(scene->cl_data.context, CL_MEM_READ_ONLY |
 		CL_MEM_HOST_WRITE_ONLY | CL_MEM_COPY_HOST_PTR, sizeof(t_cutting_surface) * scene->objs[index]->cs_nmb, scene->objs[index]->cutting_surfaces, NULL);
 	}

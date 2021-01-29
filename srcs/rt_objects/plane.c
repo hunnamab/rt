@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 14:22:24 by pmetron           #+#    #+#             */
-/*   Updated: 2021/01/28 21:16:39 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/29 20:38:17 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ t_object	*new_plane(cl_float3 *poi_nor, float specular, t_color color, \
 	transform(&new_plane->normal, matrix, 1);
 	matr_free(matrix, 4);
 	new_object->specular = specular;
+	new_object->cs_nmb = 0;
 	new_object->reflection = 0.0;
 	new_object->color = color;
 	new_object->data = (void *)new_plane;
@@ -64,8 +65,6 @@ void		intersect_ray_plane(t_scene *scene, int index)
 	cl_mem cs;
 	if (scene->objs[index]->cs_nmb > 0)
 	{
-		printf("objs.cs.type == %d\n", scene->objs[0][0].cutting_surfaces[0].type);
-		printf("sizeof(t_cs) == %lu\n", sizeof(t_cutting_surface));
 		cs = clCreateBuffer(scene->cl_data.context, CL_MEM_READ_ONLY |
 		CL_MEM_HOST_WRITE_ONLY | CL_MEM_COPY_HOST_PTR, sizeof(t_cutting_surface) * scene->objs[index]->cs_nmb, scene->objs[index]->cutting_surfaces, NULL);
 	}

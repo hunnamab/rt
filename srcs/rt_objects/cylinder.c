@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:11:46 by pmetron           #+#    #+#             */
-/*   Updated: 2021/01/28 22:04:59 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/29 20:37:56 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ t_object	*new_cylinder(cl_float3 *pos_vec, float *rad_spec, t_color color, \
 	matrix = get_rotation_matrix(new_object->rotation);
 	transform(&new_cylinder->vec, matrix, 1);
 	matr_free(matrix, 4);
+	new_object->cs_nmb = 0;
 	new_object->color = color;
 	new_object->text = NULL;
 	new_object->data = (void *)new_cylinder;
