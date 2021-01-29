@@ -1,3 +1,4 @@
+
 //#include "kernel.h"
 
 enum light_type{
@@ -149,6 +150,7 @@ typedef struct		s_object3d_d
 	int				texture_height;
 	int				l_size;
 }					t_object_d;
+
 float box_intersection(t_box box, float3 ray_start, float3 ray_dir)
 {
 	float3 	t_min;
@@ -227,9 +229,9 @@ float box_intersection(t_box box, float3 ray_start, float3 ray_dir)
 		t1 = t_max.z;
 		//face_out = (c >= 0.0) ? 5 : 2;
 	}
-	if (t0 < t1 && t1 > 0.1f)
+	if (t0 < t1 && t1 > 0.0001f)
 	{
-		if (t0 > 0.1f)
+		if (t0 > 0.0001f)
 		{
 			tmin = t0;
 			//box->face_hit = face_in;

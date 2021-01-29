@@ -9,7 +9,7 @@
 			"texture": "no"
 		},
 		{
-			"center": [0, 2, 3],
+			"center": [0, 0, 0],
 			"abc": [10, 4, 5],
 			"rotation": [0, 0, 0],
 			"color": [255, 255, 0, 255],
@@ -20,7 +20,7 @@
 	"light": [
 		{
 			"type": "point",
-			"position": [10, 10, -10],
+			"position": [-1000, -1000, -40],
 			"intensity": 0.8
 		},
 		{

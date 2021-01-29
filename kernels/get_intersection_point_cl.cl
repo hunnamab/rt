@@ -1,3 +1,4 @@
+
 //#include "kernel.h"
 
 enum light_type{
@@ -71,9 +72,9 @@ typedef struct		s_triangle
 
 typedef	struct		s_ellipsoid
 {
-	float			radius;
 	float3			center1;
 	float3			center2;
+	float			radius;
 }					t_ellipsoid;
 
 typedef	struct		s_box
@@ -84,15 +85,15 @@ typedef	struct		s_box
 
 typedef struct		s_paraboloid
 {
-	float			k;
 	float3			center;
+	float			k;
 }					t_paraboloid;
 
 typedef struct		s_torus
 {
+	float3			center;
 	float			radius1;
 	float			radius2;
-	float3			center;
 }					t_torus;
 
 typedef	union		primitive
@@ -149,7 +150,6 @@ typedef struct		s_object3d_d
 	int				texture_height;
 	int				l_size;
 }					t_object_d;
-
 __kernel void get_intersection_point(__global float3 *intersection_buf, \
                                     __global float3 *ray_buf, \
                                     __global float *depth_buf, \

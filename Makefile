@@ -6,7 +6,7 @@
 #    By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/07 15:39:13 by hunnamab          #+#    #+#              #
-#    Updated: 2021/01/28 18:13:01 by npetrell         ###   ########.fr        #
+#    Updated: 2021/01/29 18:46:28 by npetrell         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ CC = clang
 C_FLAGS = -Wall -Wextra
 
 LIB_FLAGS = -I includes -I libft/
-MAC_FLAGS = -I frameworks/SDL2.framework/Headers -F ./frameworks -framework SDL2 -framework OpenCL -I \
+MAC_FLAGS = -O2 -I frameworks/SDL2.framework/Headers -F ./frameworks -framework SDL2 -framework OpenCL -I \
 			frameworks/SDL2_image.framework/Headers -framework SDL2_image -I \
 			frameworks/SDL2_mixer.framework/Headers -framework SDL2_mixer
 LINUX_FLAGS = -lSDL2 -lm -lXext -lcuda -lcudart

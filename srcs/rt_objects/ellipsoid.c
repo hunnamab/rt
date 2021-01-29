@@ -61,8 +61,8 @@ t_object    *new_ellipsoid(cl_float3 *buf, t_color color, float specular)
 	el = malloc(sizeof(t_ellipsoid));
 
 	///
-	cl_float3 center1 = get_point(0, 0, 0); // добавить в парсер, два центра эллипсоида
-	cl_float3 center2 = get_point(10, 10, 0);
+	cl_float3 center1 = get_point(0, 0, -10); // добавить в парсер, два центра эллипсоида
+	cl_float3 center2 = get_point(10, 0, -10);
 	float radius = 20; // сумма радиусов из центров
 	///
 	el->center1 = center1; 
