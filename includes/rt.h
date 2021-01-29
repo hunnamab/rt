@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:34 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/29 21:30:08 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/01/29 21:54:23 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ t_object	*new_sphere(cl_float3 center, float *rad_spec, t_color color, \
 							float *rotation);
 // triangle.c
 void		intersect_ray_triangle(t_scene *scene, int index);
-t_object	*new_triangle(cl_float3 *vertex, float *specular, t_color color, \
+t_object	*new_triangle(cl_float3 *vertex, float specular, t_color color, \
 							float *rotation);
 void		clear_triangle(t_object *obj);
 // plane.c
