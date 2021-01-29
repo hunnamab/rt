@@ -5,6 +5,7 @@
 		"rotation": [0, 0, 0],
 		"color": [255, 0, 255, 255],
 		"specular": 10,
+		"reflection": 0.0,
 		"texture": "textures/red.jpg"
 	},
 	"cone": [
@@ -15,6 +16,7 @@
 			"rotation": [-0.2, 0, 0.3],
 			"color": [178, 42, 42, 255],
 			"specular": 10,
+			"reflection": 0.0,
 			"texture": "textures/red.jpg"
 		},
 		{
@@ -24,6 +26,7 @@
 			"rotation": [0, 0, -0.3],
 			"color": [194, 176, 41, 255],
 			"specular": 100,
+			"reflection": 0.0,
 			"texture": "textures/helper.jpg"
 		}
 	],
@@ -35,6 +38,7 @@
 			"rotation": [0, 0, 0],
 			"color": [46, 27, 116, 255],
 			"specular": 50,
+			"reflection": 0.4,
 			"texture": "textures/helper.jpg"
 		},
 		{
@@ -44,6 +48,7 @@
 			"rotation": [0, 0, 0],
 			"color": [70, 116, 27, 255],
 			"specular": 50,
+			"reflection": 0.4,
 			"texture": "textures/helper.jpg"
 		}
 	],
@@ -55,6 +60,7 @@
 			"rotation": [0, 0, 0.2],
 			"color": [69, 146, 121, 255],
 			"specular": 200,
+			"reflection": 0.0,
 			"texture": "textures/helper.jpg"
 		},
 		{
@@ -64,6 +70,7 @@
 			"rotation": [0.2, 0, -0.3],
 			"color": [32, 84, 151, 255],
 			"specular": 200,
+			"reflection": 0.0,
 			"texture": "no"
 		}
 	],
@@ -74,6 +81,7 @@
 			"rotation": [0, 0, 0],
 			"color": [151, 32, 76, 255],
 			"specular": 300,
+			"reflection": 0.4,
 			"texture": "no"
 		},
 		{
@@ -82,6 +90,7 @@
 			"rotation": [0, 0, 0],
 			"color": [37, 193, 149, 255],
 			"specular": 500,
+			"reflection": 0.4,
 			"texture": "no"
 		},
 		{
@@ -90,6 +99,7 @@
 			"rotation": [0, 0, 0],
 			"color": [114, 32, 151, 255],
 			"specular": 300,
+			"reflection": 0.4,
 			"texture": "no"
 		},
 		{
@@ -98,6 +108,7 @@
 			"rotation": [0, 0, 0],
 			"color": [160, 77, 44, 255],
 			"specular": 30,
+			"reflection": 0.4,
 			"texture": "no"
 		}
 	],

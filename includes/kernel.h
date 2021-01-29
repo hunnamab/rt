@@ -109,15 +109,12 @@ typedef	union		primitive
 	t_torus			torus;
 }					t_primitive;
 
-typedef	struct		s_cutting_surface
+typedef	struct		 	s_cutting_surface
 {
-	int 			type;
-	t_sphere		sphere;
-	t_plane			plane;
-	t_triangle		triangle;
-	t_cone			cone;
-	t_cylinder		cylinder;
-}					t_cutting_surface;
+	int					type;
+	int					is_negative;
+	t_primitive			primitive;
+}						t_cutting_surface;
 
 enum object_type {
 	SPHERE,

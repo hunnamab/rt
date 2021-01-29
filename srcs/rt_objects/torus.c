@@ -20,6 +20,7 @@ t_object    *new_torus(cl_float3 center, float radius1, float radius2, t_color c
 	new_object->text = NULL;
 	new_object->data = (void *)torus;
 	new_object->type = TORUS;
+	new_object->cs_nmb = 0;
 	new_object->intersect = &intersect_ray_torus;
 	//new_object->get_normal = &get_torus_normal;
 	new_object->clear_obj = &clear_default;

@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   plane.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 14:22:24 by pmetron           #+#    #+#             */
-/*   Updated: 2021/01/18 19:17:50 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/29 21:16:35 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 #include "types.h"
 
-t_object	*new_plane(cl_float3 *poi_nor, float specular, t_color color, \
+t_object	*new_plane(cl_float3 *poi_nor, float *specular, t_color color, \
 						float *rotation)
 {
 	t_plane		*new_plane;
@@ -31,7 +31,9 @@ t_object	*new_plane(cl_float3 *poi_nor, float specular, t_color color, \
 	matrix = get_rotation_matrix(new_object->rotation);
 	transform(&new_plane->normal, matrix, 1);
 	matr_free(matrix, 4);
-	new_object->specular = specular;
+	new_object->specular = specular[0];
+	new_object->reflection = specular[1];
+	new_object->cs_nmb = 0;
 	new_object->reflection = 0.0;
 	new_object->color = color;
 	new_object->data = (void *)new_plane;
@@ -61,7 +63,14 @@ void		intersect_ray_plane(t_scene *scene, int index)
 {
 	size_t global = WID * HEI;
 	size_t local;
-
+	cl_mem cs;
+	if (scene->objs[index]->cs_nmb > 0)
+	{
+		cs = clCreateBuffer(scene->cl_data.context, CL_MEM_READ_ONLY |
+		CL_MEM_HOST_WRITE_ONLY | CL_MEM_COPY_HOST_PTR, sizeof(t_cutting_surface) * scene->objs[index]->cs_nmb, scene->objs[index]->cutting_surfaces, NULL);
+	}
+	else
+		cs = NULL;
 	clSetKernelArg(scene->cl_data.kernels[5], 0, sizeof(cl_mem), &scene->cl_data.scene.ray_buf);
 	clSetKernelArg(scene->cl_data.kernels[5], 1, sizeof(cl_mem), &scene->cl_data.scene.intersection_buf);
 	clSetKernelArg(scene->cl_data.kernels[5], 2, sizeof(cl_mem), &scene->cl_data.scene.depth_buf);
@@ -70,10 +79,13 @@ void		intersect_ray_plane(t_scene *scene, int index)
 	clSetKernelArg(scene->cl_data.kernels[5], 5, sizeof(cl_int), (void*)&index);
 	clSetKernelArg(scene->cl_data.kernels[5], 6, sizeof(cl_float), (void*)&scene->objs[index]->reflection);
 	clSetKernelArg(scene->cl_data.kernels[5], 7, sizeof(cl_int), (void*)&scene->bounce_cnt);
+	clSetKernelArg(scene->cl_data.kernels[5], 8, sizeof(cl_mem), &cs);
+	clSetKernelArg(scene->cl_data.kernels[5], 9, sizeof(cl_int), (void*)&scene->objs[index]->cs_nmb);
 
     clGetKernelWorkGroupInfo(scene->cl_data.kernels[5], scene->cl_data.device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
 	printf("local == max work group size == %ld\n", local);
     clEnqueueNDRangeKernel(scene->cl_data.commands, scene->cl_data.kernels[5], 1, NULL, &global, &local, 0, NULL, NULL);
+	clReleaseMemObject(cs);
 }
 
 void	one_argument_plane(char **description, t_scene *scene, int *snmi)
@@ -81,7 +93,7 @@ void	one_argument_plane(char **description, t_scene *scene, int *snmi)
 	t_object	*plane;
 	t_color		color;
 	cl_float3	poi_nor_buf[3];
-	double		specular;
+	double		specular[2];
 	double		rotation[3];
 
 	poi_nor_buf[0] = get_points(description[1]);
@@ -91,9 +103,10 @@ void	one_argument_plane(char **description, t_scene *scene, int *snmi)
 	rotation[1] = poi_nor_buf[2].y;
 	rotation[2] = poi_nor_buf[2].z;
 	color = get_color(description[4]);
-	specular = ftoi(get_coordinates(description[5]));
+	specular[0] = ftoi(get_coordinates(description[5]));
+	specular[1] = ftoi(get_coordinates(description[6]));
 	plane = new_plane(poi_nor_buf, specular, color, rotation);
-	plane->text = tex_new_bmp(get_file(description[6]));
+	plane->text = tex_new_bmp(get_file(description[7]));
 	scene->objs[snmi[1]] = plane;
 	snmi[1]++;
 }
@@ -103,7 +116,7 @@ t_object 	*multiple_planes(char **description, t_scene *scene, int *snmi, int i)
 	t_object	*plane;
 	t_color		color;
 	cl_float3	poi_nor_buf[3];
-	double		specular;
+	double		specular[2];
 	double		rotation[3];
 
 	poi_nor_buf[0] = get_points(description[i + 1]);
@@ -113,7 +126,8 @@ t_object 	*multiple_planes(char **description, t_scene *scene, int *snmi, int i)
 	rotation[1] = poi_nor_buf[2].y;
 	rotation[2] = poi_nor_buf[2].z;
 	color = get_color(description[i + 4]);
-	specular = ftoi(get_coordinates(description[i + 5]));
+	specular[0] = ftoi(get_coordinates(description[i + 5]));
+	specular[1] = ftoi(get_coordinates(description[6]));
 	plane = new_plane(poi_nor_buf, specular, color, rotation);
 	return (plane);
 }

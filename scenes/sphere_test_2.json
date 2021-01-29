@@ -6,6 +6,7 @@
 			"rotation": [0, 0, 0],
 			"color": [255, 0, 0, 255],
 			"specular": 100,
+			"reflection": 0.0,
 			"texture": "no"
 		},
 		{
@@ -14,6 +15,7 @@
 			"rotation": [0, 0, 0],
 			"color": [0, 255, 0, 255],
 			"specular": 100,
+			"reflection": 0.0,
 			"texture": "no"
 		},
 		{
@@ -22,6 +24,7 @@
 			"rotation": [0, 0, 0],
 			"color": [0, 0, 255, 255],
 			"specular": 100,
+			"reflection": 0.0,
 			"texture": "no"
 		},
 		{
@@ -30,6 +33,7 @@
 			"rotation": [0, 0, 0],
 			"color": [255, 0, 0, 255],
 			"specular": 100,
+			"reflection": 0.0,
 			"texture": "no"
 		},
 		{
@@ -38,6 +42,7 @@
 			"rotation": [0, 0, 0],
 			"color": [255, 0, 255, 255],
 			"specular": 10,
+			"reflection": 0.0,
 			"texture": "no"
 		},
 		{
@@ -46,6 +51,7 @@
 			"rotation": [0, 0, 0],
 			"color": [37, 97, 76, 255],
 			"specular": 10,
+			"reflection": 0.0,
 			"texture": "no"
 		},
 		{
@@ -54,6 +60,7 @@
 			"rotation": [0, 0, 0],
 			"color": [126, 32, 189, 255],
 			"specular": 10,
+			"reflection": 0.0,
 			"texture": "no"
 		}
 	],
@@ -64,6 +71,7 @@
 		"rotation": [0, 0, 0],
 		"color": [79, 50, 180, 255],
 		"specular": 100,
+		"reflection": 0.0,
 		"texture": "no"
 	},
 	"triangle": {
@@ -73,6 +81,7 @@
 		"rotation": [0, 0, 0],
 		"color": [210, 205, 10, 255],
 		"specular": 50,
+		"reflection": 0.0,
 		"texture": "no"
 	},
 	"camera": {
@@ -86,6 +95,7 @@
 		"rotation": [0, 0, 0],
 		"color": [65, 20, 98, 255],
 		"specular": 60,
+		"reflection": 0.0,
 		"texture": "no"
 	},
 	"plane": {
@@ -94,6 +104,7 @@
 		"rotation": [0, 0, 0],
 		"color": [255, 255, 255, 255],
 		"specular": 50,
+		"reflection": 0.0,
 		"texture": "no"
 	},
 	"light": [

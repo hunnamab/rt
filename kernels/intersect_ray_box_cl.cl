@@ -109,15 +109,12 @@ typedef	union		primitive
 	t_torus			torus;
 }					t_primitive;
 
-typedef	struct		s_cutting_surface
+typedef	struct		 	s_cutting_surface
 {
-	int 			type;
-	t_sphere		sphere;
-	t_plane			plane;
-	t_triangle		triangle;
-	t_cone			cone;
-	t_cylinder		cylinder;
-}					t_cutting_surface;
+	int					type;
+	int					is_negative;
+	t_primitive			primitive;
+}						t_cutting_surface;
 
 enum object_type {
 	SPHERE,
@@ -150,6 +147,34 @@ typedef struct		s_object3d_d
 	int				texture_height;
 	int				l_size;
 }					t_object_d;
+
+int cut(float3 point, __global t_cutting_surface *cs, int cs_nmb)
+{
+    int i;
+    float result;
+    i = 0;
+    while(i < cs_nmb)
+    {
+        if (cs[i].type == PLANE)
+        {
+            result = cs[i].primitive.plane.normal.x * point.x + cs[i].primitive.plane.normal.y * point.y + cs[i].primitive.plane.normal.z * point.z + cs[i].primitive.plane.d;
+            if (result >= 0)
+                return (0);
+        }
+		if(cs[i].type == SPHERE)
+		{
+			float3 buf;
+			buf = point - cs[i].primitive.sphere.center;
+			result = length(buf);
+			if (result >= cs[i].primitive.sphere.radius && !cs[i].is_negative)
+				return(0);
+			if(result <= cs[i].primitive.sphere.radius && cs[i].is_negative)
+				return(0);
+		}
+        i++;
+    }
+    return (1);
+}
 
 float box_intersection(t_box box, float3 ray_start, float3 ray_dir)
 {
@@ -250,7 +275,8 @@ __kernel void intersect_ray_box(__global float3 *ray_arr, \
 								__global float3 *camera_start, \
 								t_box box, __global float *depth_buf, \
 								__global int *index_buf, int index, \
-								float reflection, int bounce_cnt)
+								float reflection, int bounce_cnt, __global t_cutting_surface *cs, \
+								int cs_nmb)
 {
     int i = get_global_id(0);
     float result;
@@ -262,7 +288,13 @@ __kernel void intersect_ray_box(__global float3 *ray_arr, \
 		return ; */
     if (result > 0.01 && result < depth_buf[i])
     {
-        depth_buf[i] = result;
-        index_buf[i] = index;
+		float3 intersection_point;
+        intersection_point = ray_arr[i] * result;
+        intersection_point = intersection_point + camera_start[i];
+        if (cut(intersection_point, cs, cs_nmb))
+        {
+			depth_buf[i] = result;
+			index_buf[i] = index;
+		}
     }
 }
