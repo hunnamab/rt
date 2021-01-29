@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:34 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/28 17:57:44 by npetrell         ###   ########.fr       */
+/*   Updated: 2021/01/29 21:30:08 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,12 +88,12 @@ t_object	*new_sphere(cl_float3 center, float *rad_spec, t_color color, \
 							float *rotation);
 // triangle.c
 void		intersect_ray_triangle(t_scene *scene, int index);
-t_object	*new_triangle(cl_float3 *vertex, float specular, t_color color, \
+t_object	*new_triangle(cl_float3 *vertex, float *specular, t_color color, \
 							float *rotation);
 void		clear_triangle(t_object *obj);
 // plane.c
 void		intersect_ray_plane(t_scene *scene, int index);
-t_object	*new_plane(cl_float3 *poi_nor, float specular, t_color color, \
+t_object	*new_plane(cl_float3 *poi_nor, float *specular, t_color color, \
 						float *rotation);
 // cylinder.c
 void		intersect_ray_cylinder(t_scene *scene, int index);
@@ -203,12 +203,12 @@ void		draw_ui(SDL_Renderer *renderer, t_ui *rt_ui);
 void		intersect_ray_paraboloid(t_scene *scene, int index);
 t_object	*new_paraboloid(cl_float3 center, float k, t_color color, cl_float3 rotation, float specular);
 void		get_ellipsoid(char **description, t_scene *scene, int *snmi);
-t_object    *new_ellipsoid(cl_float3 *buf, t_color color, float specular);
+t_object    *new_ellipsoid(cl_float3 *buf, t_color color, float *specular);
 
 t_object    *new_torus(cl_float3 center, float radius1, float radius2, t_color color, cl_float3 rotation, float specular);
 void        intersect_ray_torus(t_scene *scene, int index);
 
-t_object    *new_box(cl_float3 *buf, t_color color, float specular);
+t_object    *new_box(cl_float3 *buf, t_color color, float *specular);
 void	get_box(char **description, t_scene *scene, int *snmi);
 
 

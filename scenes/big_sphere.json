@@ -5,6 +5,7 @@
 		"rotation": [0, 0, 0],
 		"color": [255, 0, 0, 255],
 		"specular": 100,
+		"reflection": 0.4,
 		"texture": "textures/helper.jpg"
 	},
 	"light": [

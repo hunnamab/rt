@@ -5,6 +5,7 @@
 		"rotation": [0, 0, 0],
 		"color": [100, 50, 200, 255],
 		"specular": 60,
+		"reflection": 0.0,
 		"texture": "textures/Bricks.jpg"
 	},
 	"plane": {
@@ -13,6 +14,7 @@
 		"rotation": [0, 0, 0],
 		"color": [123, 33, 56, 255],
 		"specular": -1,
+		"reflection": 0.0,
 		"texture": "textures/helper.jpg"
 	},
 	"light": [

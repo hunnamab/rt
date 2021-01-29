@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cylinder.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:11:46 by pmetron           #+#    #+#             */
-/*   Updated: 2021/01/29 20:37:56 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/29 21:22:36 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ t_object	*new_cylinder(cl_float3 *pos_vec, float *rad_spec, t_color color, \
 	new_cylinder->radius = rad_spec[0];
 	new_cylinder->vec = pos_vec[1];
 	new_object->specular = rad_spec[1];
+	new_object->reflection = rad_spec[2];
 	new_object->reflection = 0.0;
 	new_object->rotation[0] = rotation[0];
 	new_object->rotation[1] = rotation[1];
@@ -106,7 +107,7 @@ void	one_argument_cylinder(char **description, t_scene *scene, int *snmi)
 	t_color		color;
 	cl_float3	pos_vec_buf[3];
 	float		rotation[3];
-	float		rad_spec[2];
+	float		rad_spec[3];
 	
 	pos_vec_buf[0] = get_points(description[1]);
 	rad_spec[0] = ftoi(get_coordinates(description[2]));
@@ -117,8 +118,9 @@ void	one_argument_cylinder(char **description, t_scene *scene, int *snmi)
 	rotation[2] = pos_vec_buf[2].z;
 	color = get_color(description[5]);
 	rad_spec[1] = ftoi(get_coordinates(description[6]));
+	rad_spec[2] = ftoi(get_coordinates(description[7]));
 	cylinder = new_cylinder(pos_vec_buf, rad_spec, color, rotation);
-	cylinder->text = tex_new_bmp(get_file(description[7]));
+	cylinder->text = tex_new_bmp(get_file(description[8]));
 	scene->objs[snmi[1]] = cylinder;
 	snmi[1]++;
 }
@@ -140,6 +142,7 @@ t_object 	*multiple_cylinders(char **description, t_scene *scene, int *snmi, int
 	rotation[2] = pos_vec_buf[2].z;
 	color = get_color(description[i + 5]);
 	rad_spec[1] = ftoi(get_coordinates(description[i + 6]));
+	rad_spec[2] = ftoi(get_coordinates(description[i + 7]));
 	cylinder = new_cylinder(pos_vec_buf, rad_spec, color, rotation);
 	return (cylinder);
 }

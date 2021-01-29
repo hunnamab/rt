@@ -5,7 +5,7 @@ void	one_argument_box(char **description, t_scene *scene, int *snmi)
 	t_object	*box;
 	cl_float3	cen_buf[3];
 	float		rotation[3];
-	float		specular;
+	float		*specular;
 	t_color		color;
 
 	cen_buf[0] = get_points(description[1]);
@@ -15,9 +15,10 @@ void	one_argument_box(char **description, t_scene *scene, int *snmi)
 	rotation[1] = cen_buf[2].y;
 	rotation[2] = cen_buf[2].z;
 	color = get_color(description[4]);
-	specular = ftoi(get_coordinates(description[5]));
+	specular[0] = ftoi(get_coordinates(description[5]));
+	specular[1] = ftoi(get_coordinates(description[6]));
 	box = new_box(cen_buf, color, specular);
-	box->text = tex_new_bmp(get_file(description[6]));
+	box->text = tex_new_bmp(get_file(description[7]));
 	scene->objs[snmi[1]] = box;
 	snmi[1]++;
 }
@@ -27,7 +28,7 @@ t_object 	*multiple_boxes(char **description, t_scene *scene, int *snmi, int i)
 	t_object	*box;
 	cl_float3	cen_buf[3];
 	float		rotation[3];
-	float		specular;
+	float		*specular;
 	t_color 	color;
 
 	cen_buf[0] = get_points(description[i + 1]);
@@ -37,7 +38,8 @@ t_object 	*multiple_boxes(char **description, t_scene *scene, int *snmi, int i)
 	rotation[1] = cen_buf[2].y;
 	rotation[2] = cen_buf[2].z;
 	color = get_color(description[i + 4]);
-	specular = ftoi(get_coordinates(description[i + 5]));
+	specular[0] = ftoi(get_coordinates(description[i + 5]));
+	specular[0] = ftoi(get_coordinates(description[i + 6]));
 	box = new_box(cen_buf, color, specular);
 	return (box);
 }
@@ -57,10 +59,10 @@ void	get_box(char **description, t_scene *scene, int *snmi)
 			if (description[i][2] == '{')
 			{
 				box = multiple_boxes(description, scene, snmi, i);
-				box->text = tex_new_bmp(get_file(description[i + 6]));
+				box->text = tex_new_bmp(get_file(description[i + 7]));
 				scene->objs[snmi[1]] = box;
 				snmi[1]++;
-				i += 8;
+				i += 9;
 			}
 		}
 	}
@@ -68,7 +70,7 @@ void	get_box(char **description, t_scene *scene, int *snmi)
 		one_argument_box(description, scene, snmi);
 }
 
-t_object    *new_box(cl_float3 *buf, t_color color, float specular)
+t_object    *new_box(cl_float3 *buf, t_color color, float *specular)
 {
     t_box *box;
 	t_object	*new_object;
@@ -81,8 +83,8 @@ t_object    *new_box(cl_float3 *buf, t_color color, float specular)
 	new_object->rotation[0] = buf[2].x;
 	new_object->rotation[1] = buf[2].y;
 	new_object->rotation[2] = buf[2].z;
-	new_object->specular = specular;
-	new_object->reflection = 0.0;
+	new_object->specular = specular[0];
+	new_object->reflection = specular[1];
 	new_object->color = color;
 	new_object->text = NULL;
 	new_object->data = (void *)box;

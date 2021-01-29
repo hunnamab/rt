@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   triangle.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 21:42:26 by pmetron           #+#    #+#             */
-/*   Updated: 2021/01/29 20:38:26 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/29 21:21:38 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ t_object	*new_triangle(cl_float3 *vertex, float specular, t_color color, \
 	new_triangle->normal = vector_cross(&edge1, &edge2);
 	normalize_vector(&new_triangle->normal);
 	new_object->specular = specular;
+	new_object->reflection = rotation[3];
 	new_object->reflection = 0.0;
 	new_object->text = NULL;
 	new_object->color = color;
