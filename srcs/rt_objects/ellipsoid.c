@@ -5,7 +5,7 @@ void	one_argument_ellipsoid(char **description, t_scene *scene, int *snmi)
 	t_object	*ellipsoid;
 	cl_float3	cen_buf[3];
 	float		rotation[3];
-	float		*specular;
+	float		specular[2];
 	t_color		color;
 
 	cen_buf[0] = get_points(description[1]);
@@ -28,7 +28,7 @@ t_object 	*multiple_ellipsoids(char **description, t_scene *scene, int *snmi, in
 	t_object	*ellipsoid;
 	cl_float3	cen_buf[3];
 	float		rotation[3];
-	float		*specular;
+	float		specular[2];
 	t_color 	color;
 
 	printf("{} %s\n", description[i + 1]);

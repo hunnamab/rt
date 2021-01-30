@@ -81,6 +81,7 @@ typedef	struct		s_box
 {
 	float3			a;
 	float3			b;
+	int				face_hit;
 }					t_box;
 
 typedef struct		s_paraboloid
@@ -150,6 +151,129 @@ typedef struct		s_object3d_d
 	int				texture_height;
 	int				l_size;
 }					t_object_d;
+
+float box_intersection(__global t_object_d *box, float3 ray_start, float3 ray_dir)
+{
+	float3 	t_min;
+	float3 	t_max;
+	float		a;
+	float		b;
+	float		c;
+	float		t0;
+	float		t1;
+	int		face_in;
+	int		face_out;
+	float		tmin;
+
+	a = 1.0f / ray_dir.x;
+	if (a >= 0)
+	{
+		t_min.x = (box[0].primitive.box.a.x - ray_start.x) * a;
+		t_max.x = (box[0].primitive.box.b.x - ray_start.x) * a;
+	}
+	else
+	{
+		t_min.x = (box[0].primitive.box.b.x - ray_start.x) * a;
+		t_max.x = (box[0].primitive.box.a.x - ray_start.x) * a;
+	}
+	b = 1.0f / ray_dir.y;
+	if (b >= 0)
+	{
+		t_min.y = (box[0].primitive.box.a.y - ray_start.y) * b;
+		t_max.y = (box[0].primitive.box.b.y - ray_start.y) * b;
+	}
+	else
+	{
+		t_min.y = (box[0].primitive.box.b.y - ray_start.y) * b;
+		t_max.y = (box[0].primitive.box.a.y - ray_start.y) * b;
+	}
+	c = 1.0f / ray_dir.z;
+	if (c >= 0)
+	{
+		t_min.z = (box[0].primitive.box.a.z - ray_start.z) * c;
+		t_max.z = (box[0].primitive.box.b.z - ray_start.z) * c;
+	}
+	else
+	{
+		t_min.z = (box[0].primitive.box.b.z - ray_start.z) * c;
+		t_max.z = (box[0].primitive.box.a.z - ray_start.z) * c;
+	}
+	//find largest entering t value
+	if (t_min.x > t_min.y)
+	{
+		t0 = t_min.x;
+		face_in = (a >= 0.0) ? 0 : 3;
+	}
+	else
+	{
+		t0 = t_min.y;
+		face_in = (b >= 0.0) ? 1 : 4;
+	}
+	if (t_min.z > t0)
+	{
+		t0 = t_min.z;
+		face_in = (c >= 0.0) ? 2 : 5;
+	}
+	//find smallest exiting t value
+	if (t_max.x < t_max.y)
+	{
+		t1 = t_max.x;
+		face_out = (a >= 0.0) ? 3 : 0;
+	}
+	else
+	{
+		t1 = t_max.y;
+		face_out = (b >= 0.0) ? 4 : 1;
+	}
+	if (t_max.z < t1)
+	{
+		t1 = t_max.z;
+		face_out = (c >= 0.0) ? 5 : 2;
+	}
+	if (t0 < t1 && t1 > 0.1f)
+	{
+		if (t0 > 0.1f)
+		{
+			tmin = t0;
+			box[0].primitive.box.face_hit = face_in;
+		}
+		else
+		{
+			tmin =  t1;
+			box[0].primitive.box.face_hit = face_out;
+		}
+		return (tmin);
+	}
+	return (-1);
+}
+
+float ellipsoid_intersection(t_ellipsoid el, float3 ray_start, float3 ray_dir)
+{
+    float k1;
+    float k2;
+    float k3;
+	float dist;
+ 
+	dist = distance(el.center2, el.center1);
+    float3 el_dir = ray_start - el.center1;
+    float3 center_norm = normalize((el.center2 - el.center1) / dist);
+    k1 = 4 * pow(el.radius, 2) * dot(ray_dir, ray_dir) - 4 * pow(dist, 2) * pow(dot(ray_dir, center_norm), 2);
+    k2 = 8 * pow(el.radius, 2) * dot(ray_dir, el_dir) - 4 * dot(ray_dir, center_norm) * dist * (pow(el.radius, 2) + 2 * dot(el_dir, center_norm) * dist - dist);
+    k3 = 4 * pow(el.radius, 2) * dot(el_dir, el_dir) - pow((pow(el.radius, 2) + 2 * dot(el_dir, center_norm) * dist - dist), 2);
+    float d = k2 * k2 - 4 * k1 * k3;
+    if (d >= 0)
+    {
+        float t1 = (-k2 + sqrt(d)) / (2 * k1);
+        float t2 = (-k2 - sqrt(d)) / (2 * k1);
+        if ((t1 < t2 && t1 > 0) || (t2 < 0 && t1 >= 0))
+            return (t1);
+        if ((t2 < t1 && t2 > 0) || (t1 < 0 && t2 >= 0))
+            return (t2);
+        if (t2 == t1 && t2 >= 0)
+            return (t2);
+    }
+    return (0);
+}
 
 float cone_intersection(t_cone cone, float3 ray_start, float3 ray_dir)
 {
@@ -305,6 +429,10 @@ int			in_shadow(int index, float3 l, __global float3 *intersection_buf, \
 			t = cone_intersection(obj[i].primitive.cone, ray_start, l);
 		if (obj[i].type == CYLINDER)
 			t = cylinder_intersection(obj[i].primitive.cylinder, ray_start, l);
+		if (obj[i].type == ELLIPSOID)
+			t = ellipsoid_intersection(obj[i].primitive.ellipsoid, ray_start, l);
+		if (obj[i].type == BOX)
+			t = box_intersection(&obj[i].primitive.box, ray_start, l);
 		if (t < 1.0f && t > 0.00001f)
 			break ;
 		i++;

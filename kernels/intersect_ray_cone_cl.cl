@@ -80,6 +80,7 @@ typedef	struct		s_box
 {
 	float3			a;
 	float3			b;
+	int				face_hit;
 }					t_box;
 
 typedef struct		s_paraboloid

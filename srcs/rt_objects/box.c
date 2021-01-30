@@ -5,7 +5,7 @@ void	one_argument_box(char **description, t_scene *scene, int *snmi)
 	t_object	*box;
 	cl_float3	cen_buf[3];
 	float		rotation[3];
-	float		*specular;
+	float		specular[2];
 	t_color		color;
 
 	cen_buf[0] = get_points(description[1]);
@@ -28,7 +28,7 @@ t_object 	*multiple_boxes(char **description, t_scene *scene, int *snmi, int i)
 	t_object	*box;
 	cl_float3	cen_buf[3];
 	float		rotation[3];
-	float		*specular;
+	float		specular[2];
 	t_color 	color;
 
 	cen_buf[0] = get_points(description[i + 1]);
@@ -39,7 +39,7 @@ t_object 	*multiple_boxes(char **description, t_scene *scene, int *snmi, int i)
 	rotation[2] = cen_buf[2].z;
 	color = get_color(description[i + 4]);
 	specular[0] = ftoi(get_coordinates(description[i + 5]));
-	specular[0] = ftoi(get_coordinates(description[i + 6]));
+	specular[1] = ftoi(get_coordinates(description[i + 6]));
 	box = new_box(cen_buf, color, specular);
 	return (box);
 }
@@ -110,7 +110,7 @@ void        intersect_ray_box(t_scene *scene, int index)
 		cs = NULL;
 	clSetKernelArg(scene->cl_data.kernels[11], 0, sizeof(cl_mem), &scene->cl_data.scene.ray_buf);
 	clSetKernelArg(scene->cl_data.kernels[11], 1, sizeof(cl_mem), &scene->cl_data.scene.intersection_buf);
-    clSetKernelArg(scene->cl_data.kernels[11], 2, sizeof(t_box), scene->objs[index]->data);
+    clSetKernelArg(scene->cl_data.kernels[11], 2, sizeof(cl_mem), &scene->cl_data.scene.obj);
 	clSetKernelArg(scene->cl_data.kernels[11], 3, sizeof(cl_mem), &scene->cl_data.scene.depth_buf);
 	clSetKernelArg(scene->cl_data.kernels[11], 4, sizeof(cl_mem), &scene->cl_data.scene.index_buf);
 	clSetKernelArg(scene->cl_data.kernels[11], 5, sizeof(cl_int), (void*)&index);

@@ -81,6 +81,7 @@ typedef	struct		s_box
 {
 	float3			a;
 	float3			b;
+	int				face_hit;
 }					t_box;
 
 typedef struct		s_paraboloid
@@ -151,6 +152,65 @@ typedef struct		s_object3d_d
 	int				l_size;
 }					t_object_d;
 
+void  get_normal_box(__global t_object_d *obj, \
+                        __global float3 *ray_buf, \
+                        __global int *index_buf, \
+						__global float3 *normal_buf, \
+                        __global float3 *intersection_buf, \
+						float3 camera_position, \
+						__global float *depth_buf)
+{
+	float3 n;
+	if (obj[0].primitive.box.face_hit == 0)
+	{
+		n.x = -1;
+		n.y = 0;
+		n.z = 0;
+		normal_buf[0] = normalize(n);
+	}
+	else if (obj[0].primitive.box.face_hit == 1)
+	{
+		n.x = 0;
+		n.y = -1;
+		n.z = 0;
+		normal_buf[0] = normalize(n);
+	}
+	else if (obj[0].primitive.box.face_hit == 2)
+	 {
+		n.x = 0;
+		n.y = 0;
+		n.z = -1;
+		normal_buf[0] = normalize(n);
+	}
+	else if (obj[0].primitive.box.face_hit == 3)
+	{
+		n.x = 1;
+		n.y = 0;
+		n.z = 0;
+		normal_buf[0] = normalize(n);
+	}
+	else if (obj[0].primitive.box.face_hit == 4)
+	{
+		n.x = 0;
+		n.y = 1;
+		n.z = 0;
+		normal_buf[0] = normalize(n);
+	}
+	else if (obj[0].primitive.box.face_hit == 5)
+	{
+		n.x = 0;
+		n.y = 0;
+		n.z = 1;
+		normal_buf[0] = normalize(n);
+	}
+	if (dot(ray_buf[0], normal_buf[0]) > 0.0001)
+	{
+		normal_buf[0].x = normal_buf[0].x * -1;
+		normal_buf[0].y = normal_buf[0].y * -1;
+		normal_buf[0].z = normal_buf[0].z * -1;
+	}
+}
+
 void  get_normal_ellipsoid(__global t_object_d *obj, \
                         __global float3 *ray_buf, \
                         __global int *index_buf, \
@@ -185,6 +245,12 @@ void  get_normal_ellipsoid(__global t_object_d *obj, \
 	normal.y *= 2 / (pow(radius,2));
 	normal.z *= 2 / (pow(radius,2));
 	normal_buf[0] = normalize(normal);
+	if (dot(ray_buf[0], normal_buf[0]) > 0.0001)
+    {
+		normal_buf[0].x = normal_buf[0].x * -1;
+		normal_buf[0].y = normal_buf[0].y * -1;
+		normal_buf[0].z = normal_buf[0].z * -1;
+	}
 }
 
 void  get_normal_cylinder(__global t_object_d *obj, \
@@ -320,6 +386,8 @@ __kernel void get_normal_buf_cl(__global t_object_d *obj, \
 			get_normal_cylinder(&obj[j], &ray_buf[i], &index_buf[i], &normal_buf[i], &intersection_buf[i], buf_camera, &depth_buf[i]);
 		else if (obj[j].type == ELLIPSOID)
 			get_normal_ellipsoid(&obj[j], &ray_buf[i], &index_buf[i], &normal_buf[i], &intersection_buf[i], buf_camera, &depth_buf[i]);
+		else if (obj[j].type == BOX)
+			get_normal_box(&obj[j], &ray_buf[i], &index_buf[i], &normal_buf[i], &intersection_buf[i], buf_camera, &depth_buf[i]);
 	}
 	else
 		normal_buf[i] = 0;
