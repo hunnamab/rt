@@ -1,6 +1,72 @@
 #include "rt.h"
 
-t_object    *new_paraboloid(cl_float3 center, float k, t_color color, cl_float3 rotation, float specular)
+void	one_argument_paraboloid(char **description, t_scene *scene, int *snmi)
+{
+	t_object	*paraboloid;
+	cl_float3	cen_buf[2];
+	float		rotation[3];
+	float		specular[3];
+	t_color		color;
+
+	cen_buf[0] = get_points(description[1]);
+	specular[0] = ftoi(get_coordinates(description[2]));
+	cen_buf[1] = get_points(description[3]);
+	rotation[0] = cen_buf[1].x;
+	rotation[1] = cen_buf[1].y;
+	rotation[2] = cen_buf[1].z;
+	color = get_color(description[4]);
+	specular[1] = ftoi(get_coordinates(description[5]));
+	specular[2] = ftoi(get_coordinates(description[6]));
+	paraboloid = new_paraboloid(cen_buf, color, specular);
+	paraboloid->text = tex_new_bmp(get_file(description[7]));
+	scene->objs[snmi[1]] = paraboloid;
+	snmi[1]++;
+}
+
+t_object 	*multiple_paraboloids(char **description, t_scene *scene, int *snmi, int i)
+{
+	t_object	*paraboloid;
+	cl_float3	cen_buf[2];
+	float		specular[3];
+	t_color 	color;
+
+	cen_buf[0] = get_points(description[i + 1]);
+	specular[0] = ftoi(get_coordinates(description[i + 2]));
+	cen_buf[1] = get_points(description[i + 3]);
+	color = get_color(description[i + 4]);
+	specular[1] = ftoi(get_coordinates(description[i + 5]));
+	specular[2] = ftoi(get_coordinates(description[i + 6]));
+	paraboloid = new_paraboloid(cen_buf, color, specular);
+	return (paraboloid);
+}
+
+void	get_paraboloid(char **description, t_scene *scene, int *snmi)
+{
+	t_object	*paraboloid;
+	int i;
+
+	i = 1;
+	//printf("center %c\n", description[0][0]);
+	if (description[0][0] == '[')
+	{
+		while (description[i][1] != ']')
+		{
+			//printf("text %c\n", description[i][2]);
+			if (description[i][2] == '{')
+			{
+				paraboloid = multiple_paraboloids(description, scene, snmi, i);
+				paraboloid->text = tex_new_bmp(get_file(description[i + 7]));
+				scene->objs[snmi[1]] = paraboloid;
+				snmi[1]++;
+				i += 9;
+			}
+		}
+	}
+	if (description[0][0] == '{')
+		one_argument_paraboloid(description, scene, snmi);
+}
+
+t_object    *new_paraboloid(cl_float3 *cen_buf, t_color color, float *specular)
 {
     t_paraboloid	*parab;
 	t_object		*new_object;
@@ -8,13 +74,13 @@ t_object    *new_paraboloid(cl_float3 center, float k, t_color color, cl_float3 
 
 	new_object = malloc(sizeof(t_object));
 	parab = malloc(sizeof(t_paraboloid));
-	parab->center = center; 
-	parab->k = k;
-	new_object->rotation[0] = rotation.x;
-	new_object->rotation[1] = rotation.y;
-	new_object->rotation[2] = rotation.z;
-	new_object->specular = specular;
-	new_object->reflection = 0.0;
+	parab->center = cen_buf[0]; 
+	parab->k = specular[0];
+	new_object->rotation[0] = cen_buf[1].x;
+	new_object->rotation[1] = cen_buf[1].y;
+	new_object->rotation[2] = cen_buf[1].z;
+	new_object->specular = specular[1];
+	new_object->reflection = specular[2];
 	new_object->color = color;
 	new_object->text = NULL;
 	new_object->data = (void *)parab;

@@ -1,0 +1,27 @@
+{
+	"torus": {
+		"center": [0, 0, 0],
+        "radius_one": 20,
+        "radius_two": 30,
+		"rotation": [0, 0, 0],
+		"color": [255, 0, 0, 255],
+		"specular": 100,
+		"reflection": 0.0,
+		"texture": "no"
+	},
+	"light": [
+		{
+			"type": "point",
+			"position": [10, 10, -10],
+			"intensity": 0.8
+		},
+		{
+			"type": "ambient",
+			"intensity": 0.2
+		}
+	],
+	"camera": {
+		"position": [10, 0, -40],
+		"rotation": [0, 0, 0]
+	}
+}

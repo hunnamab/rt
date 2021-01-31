@@ -1,6 +1,70 @@
 #include "rt.h"
 
-t_object    *new_torus(cl_float3 center, float radius1, float radius2, t_color color, cl_float3 rotation, float specular)
+void	one_argument_torus(char **description, t_scene *scene, int *snmi)
+{
+	t_object	*torus;
+	cl_float3	cen_buf[2];
+	float		specular[4];
+	t_color		color;
+
+	cen_buf[0] = get_points(description[1]);
+	specular[0] = ftoi(get_coordinates(description[2]));
+	specular[1] = ftoi(get_coordinates(description[3]));
+	cen_buf[1] = get_points(description[4]);
+	color = get_color(description[5]);
+	specular[1] = ftoi(get_coordinates(description[6]));
+	specular[2] = ftoi(get_coordinates(description[7]));
+	torus = new_torus(cen_buf, color, specular);
+	torus->text = tex_new_bmp(get_file(description[8]));
+	scene->objs[snmi[1]] = torus;
+	snmi[1]++;
+}
+
+t_object 	*multiple_torus(char **description, t_scene *scene, int *snmi, int i)
+{
+	t_object	*torus;
+	cl_float3	cen_buf[2];
+	float		specular[4];
+	t_color		color;
+
+	cen_buf[0] = get_points(description[i + 1]);
+	specular[0] = ftoi(get_coordinates(description[i + 2]));
+	specular[1] = ftoi(get_coordinates(description[i + 3]));
+	cen_buf[1] = get_points(description[i + 4]);
+	color = get_color(description[i + 5]);
+	specular[1] = ftoi(get_coordinates(description[i + 6]));
+	specular[2] = ftoi(get_coordinates(description[i + 7]));
+	torus = new_torus(cen_buf, color, specular);
+	return (torus);
+}
+
+void	get_torus(char **description, t_scene *scene, int *snmi)
+{
+	t_object	*torus;
+	int i;
+
+	i = 1;
+	//printf("center %c\n", description[0][0]);
+	if (description[0][0] == '[')
+	{
+		while (description[i][1] != ']')
+		{
+			//printf("text %c\n", description[i][2]);
+			if (description[i][2] == '{')
+			{
+				torus = multiple_torus(description, scene, snmi, i);
+				torus->text = tex_new_bmp(get_file(description[i + 8]));
+				scene->objs[snmi[1]] = torus;
+				snmi[1]++;
+				i += 10;
+			}
+		}
+	}
+	if (description[0][0] == '{')
+		one_argument_torus(description, scene, snmi);
+}
+
+t_object    *new_torus(cl_float3 *cen_buf, t_color color, float *specular)
 {
     t_torus	*torus;
 	t_object		*new_object;
@@ -8,14 +72,14 @@ t_object    *new_torus(cl_float3 center, float radius1, float radius2, t_color c
 
 	new_object = malloc(sizeof(t_object));
 	torus = malloc(sizeof(t_torus));
-	torus->center = center; 
-	torus->radius1 = radius1;
-	torus->radius2 = radius2;
-	new_object->rotation[0] = rotation.x;
-	new_object->rotation[1] = rotation.y;
-	new_object->rotation[2] = rotation.z;
-	new_object->specular = specular;
-	new_object->reflection = 0.0;
+	torus->center = cen_buf[0]; 
+	torus->radius1 = specular[0];
+	torus->radius2 = specular[1];
+	new_object->rotation[0] = cen_buf[1].x;
+	new_object->rotation[1] = cen_buf[1].y;
+	new_object->rotation[2] = cen_buf[1].z;
+	new_object->specular = specular[2];
+	new_object->reflection = specular[3];
 	new_object->color = color;
 	new_object->text = NULL;
 	new_object->data = (void *)torus;

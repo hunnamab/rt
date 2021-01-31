@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:34 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/29 21:54:23 by npetrell         ###   ########.fr       */
+/*   Updated: 2021/01/31 20:36:13 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,11 +201,11 @@ cl_float3	clvec_rot_z(cl_float3 v, double a);
 void		draw_ui(SDL_Renderer *renderer, t_ui *rt_ui);
 
 void		intersect_ray_paraboloid(t_scene *scene, int index);
-t_object	*new_paraboloid(cl_float3 center, float k, t_color color, cl_float3 rotation, float specular);
+t_object    *new_paraboloid(cl_float3 *cen_buf, t_color color, float *specular);
 void		get_ellipsoid(char **description, t_scene *scene, int *snmi);
 t_object    *new_ellipsoid(cl_float3 *buf, t_color color, float *specular);
 
-t_object    *new_torus(cl_float3 center, float radius1, float radius2, t_color color, cl_float3 rotation, float specular);
+t_object    *new_torus(cl_float3 *cen_buf, t_color color, float *specular);
 void        intersect_ray_torus(t_scene *scene, int index);
 
 t_object    *new_box(cl_float3 *buf, t_color color, float *specular);
