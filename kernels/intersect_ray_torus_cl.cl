@@ -486,17 +486,18 @@ float torus_intersection(t_torus torus, float3 ray_start, float3 ray_dir)
     float c_1;
     float c_0;
 
-	//printf("%f", torus.radius1);
-	float sum_dir = ray_dir.x * ray_dir.x + ray_dir.y * ray_dir.y + ray_dir.z * ray_dir.z;
-    float e = ray_start.x * ray_start.x + ray_start.y * ray_start.y + ray_start.z * ray_start.z - torus.radius1 * torus.radius1 - torus.radius2 * torus.radius2;
-    float f = ray_start.x * ray_dir.x + ray_start.y * ray_dir.y + ray_start.z * ray_dir.z;
-	float four = 4.0f * torus.radius1 * torus.radius1;
 	//printf("%f", ray_start.x);
-    c_4 = sum_dir * sum_dir;
-    c_3 = 4 * sum_dir * f;
-    c_2 = 2 * sum_dir * e + 4 * f * f + four * ray_dir.y * ray_dir.y;
-    c_1 = 4 * f * e + 2 * four * ray_start.y * ray_dir.y;
-    c_0 = e * e - four * (torus.radius2 * torus.radius2 - ray_start.y * ray_start.y);
+
+	float m = dot(ray_dir, ray_dir);
+	float n = dot(ray_dir, (ray_start - torus.center));
+	float o = dot((ray_start - torus.center), (ray_start - torus.center));
+	float p = dot(ray_dir, (ray_start - torus.center));
+	float q = dot((ray_start - torus.center), normalize(torus.center));
+    c_4 = m * m;
+    c_3 = 4 * m * n;
+    c_2 = 4 * m * m + 2*m*o - 2*(torus.radius1 * torus.radius1+torus.radius2 * torus.radius2)*m + 4*torus.radius1 * torus.radius1*p * p;
+    c_1 = 4*n*o - 4*(torus.radius1 * torus.radius1+torus.radius2 * torus.radius2)*n + 8*torus.radius1 * torus.radius1*p*q;
+    c_0 = o*o - 2*(torus.radius1 * torus.radius1+torus.radius2 * torus.radius2)*o + 4*torus.radius1 * torus.radius1*q * q + (torus.radius1 * torus.radius1-torus.radius2 * torus.radius2) * (torus.radius1 * torus.radius1-torus.radius2 * torus.radius2);
 
 	float8 roots;
 	float t = 1.0E10f;
@@ -518,7 +519,7 @@ float torus_intersection(t_torus torus, float3 ray_start, float3 ray_dir)
 	float tmin;
 	for (int i = 0; i < num_roots; i++)
 	{
-		if (root[i] > 0.0001f)
+		if (root[i] > 0.001f)
 		{
 			intersected = 1;
 			if (root[i] < t)
@@ -529,8 +530,7 @@ float torus_intersection(t_torus torus, float3 ray_start, float3 ray_dir)
 	}
 	if (intersected == 0)
 		return (0);
-	tmin = t;
-	return (1);
+	return (t);
 }
 
 __kernel  void    intersect_ray_torus(__global float3 *ray_arr, \
@@ -544,9 +544,12 @@ __kernel  void    intersect_ray_torus(__global float3 *ray_arr, \
 	float3 ray;
     ray = camera_start[i] + ray_arr[i] + 0.001f;
  	res = torus_intersection(torus, ray, ray_arr[i]);
-	if (res > 0.01 && res < depth_buf[i])
-	{
+	if (res > 0.001 && res < depth_buf[i])
+    {
+        float3 intersection_point;
+        intersection_point = ray_arr[i] * res;
+        intersection_point = intersection_point + camera_start[i];
 		depth_buf[i] = res;
-		index_buf[i] = index;
-	}
+        index_buf[i] = index;
+    }
 }

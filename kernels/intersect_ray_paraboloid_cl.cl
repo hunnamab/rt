@@ -187,27 +187,34 @@ float paraboloid_intersection(t_paraboloid parab, float3 ray_start, float3 ray_d
 {
     float3 parab_dir;
     float3 dir_norm;
-    float k1;
-    float k2;
-    float k3;
+    float a;
+    float b;
+    float c;
+	float t1;
+    float t2;
 
     parab_dir = ray_start - parab.center;
-    dir_norm = normalize(parab.center);
-    k1 = dot(ray_dir, ray_dir) - pow(dot(ray_dir, dir_norm), 2);
-    k2 = (dot(ray_dir, parab_dir) - dot(ray_dir, dir_norm) * (dot(parab_dir, dir_norm) + 2 * parab.k));
-    k3 = dot(parab_dir, parab_dir) - dot(parab_dir, dir_norm) * (dot(parab_dir, dir_norm) + 4 * parab.k);
-    float d = k2 * k2 - 4 * k1 * k3;
-    if (d >= 0)
-    {
-        float t1 = (-k2 + sqrt(d)) / (2 * k1);
-        float t2 = (-k2 - sqrt(d)) / (2 * k1);
+	//dir_norm = normalize(parab.center);
+ 	dir_norm.x = 0.0f;
+	dir_norm.y = -1.0f;
+	dir_norm.z = 1.0f;
+	//dir_norm = normalize(dir_norm);
+    a = dot(ray_dir, ray_dir) - pow(dot(ray_dir, dir_norm), 2);
+    b = 2.0f * dot(ray_dir, parab_dir) - 2.0f * dot(ray_dir, dir_norm) * (dot(parab_dir, dir_norm) + 2.0f * parab.k);
+    c = dot(parab_dir, parab_dir) - dot(parab_dir, dir_norm) * (dot(parab_dir, dir_norm) + 4.0f * parab.k);
+    c = b * b - 4 * a * c;
+	if (c >= 0)
+	{
+		c = sqrt(c);
+		t1 = (-b + c) / (2.0f * a);
+        t2 = (-b - c) / (2.0f * a);
         if ((t1 < t2 && t1 > 0) || (t2 < 0 && t1 >= 0))
             return (t1);
         if ((t2 < t1 && t2 > 0) || (t1 < 0 && t2 >= 0))
             return (t2);
         if (t2 == t1 && t2 >= 0)
             return (t2);
-    }
+	}
     return (0);
 }
 

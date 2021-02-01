@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 14:34:50 by pmetron           #+#    #+#             */
-/*   Updated: 2021/02/01 19:06:41 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/02 00:18:40 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,8 @@ void	draw_scene(t_sdl *sdl, t_scene *scene)
 	y = -1;
 	i = 0;
 	scene->bounce_cnt = 0;
-	scene->max_bounces = 3;
-
-	size_t global = WID * HEI;
+	scene->max_bounces = 1;
 	size_t local;
-	
 	get_viewport(scene);
 	get_rays_arr(scene);
 	matrix = get_rotation_matrix(scene->camera.rotation);

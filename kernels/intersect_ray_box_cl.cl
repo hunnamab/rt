@@ -276,6 +276,21 @@ float box_intersection(__global t_object_d *box, float3 ray_start, float3 ray_di
 		return (tmin);
 	}
 	return (0);
+	/* float lo = a.x*(box[0].primitive.box.a.x - ray_start.x);
+	float hi = a.x*(box[0].primitive.box.b.x - ray_start.x);
+	t_min  = min(lo, hi);
+	t_max = max(lo, hi);
+	float lo1 = a.y*(box[0].primitive.box.a.y - ray_start.y);
+	float hi1 = a.y*(box[0].primitive.box.b.y - ray_start.y);
+	t_min  = max(t_min, min(lo1, hi1));
+	t_max = min(t_max, max(lo1, hi1));
+	float lo2 = a.z*(box[0].primitive.box.a.z - ray_start.z);
+	float hi2 = a.z*(box[0].primitive.box.b.z - ray_start.z);
+	t_min  = max(t_min, min(lo2, hi2));
+	t_max = min(t_max, max(lo2, hi2));
+	if (t_min <= t_max && t_max > 0.0f)
+		return (1);
+	return (-1); */
 }
 
 __kernel void intersect_ray_box(__global float3 *ray_arr, \
