@@ -525,6 +525,12 @@ t_color		reflection_color(__global t_color *frame_buf, \
 		result.red = material_buf[index].color.red * i;
 		result.green = material_buf[index].color.green * i;
 		result.blue = material_buf[index].color.blue * i;
+		if (bounce_cnt != 0)
+		{
+			result.red = (1 - material_buf[index].reflection) * result.red + material_buf[index].reflection * frame_buf[index].red;
+			result.green = (1 - material_buf[index].reflection) * result.green + material_buf[index].reflection * frame_buf[index].green;
+			result.blue = (1 - material_buf[index].reflection) * result.blue + material_buf[index].reflection * frame_buf[index].blue;
+		}
 	}
 	else
 	{

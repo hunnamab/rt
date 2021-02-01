@@ -323,6 +323,7 @@ __kernel void    get_material_buf_cl(__global uchar *texture_data,\
 			material_buf[i].color.blue = 0;
 			material_buf[i].color.alpha = 0;
 			material_buf[i].specular = -1;
+			material_buf[i].reflection = 0.0;
 		}
 		material_buf[i].reflection = 0.0;
 	}

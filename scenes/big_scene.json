@@ -1,13 +1,4 @@
 {
-	"plane": {
-		"point": [0, -1, 0],
-		"normal": [0, 1, 0],
-		"rotation": [0, 0, 0],
-		"color": [255, 0, 255, 255],
-		"specular": 10,
-		"reflection": 0.0,
-		"texture": "textures/red.jpg"
-	},
 	"cone": [
 		{
 			"position": [-20, 15, 20],
@@ -38,7 +29,7 @@
 			"rotation": [0, 0, 0],
 			"color": [46, 27, 116, 255],
 			"specular": 50,
-			"reflection": 0.4,
+			"reflection": 0.0,
 			"texture": "textures/helper.jpg"
 		},
 		{
@@ -48,7 +39,7 @@
 			"rotation": [0, 0, 0],
 			"color": [70, 116, 27, 255],
 			"specular": 50,
-			"reflection": 0.4,
+			"reflection": 0.0,
 			"texture": "textures/helper.jpg"
 		}
 	],
@@ -99,7 +90,7 @@
 			"rotation": [0, 0, 0],
 			"color": [114, 32, 151, 255],
 			"specular": 300,
-			"reflection": 0.4,
+			"reflection": 0.3,
 			"texture": "no"
 		},
 		{
@@ -108,7 +99,7 @@
 			"rotation": [0, 0, 0],
 			"color": [160, 77, 44, 255],
 			"specular": 30,
-			"reflection": 0.4,
+			"reflection": 0.7,
 			"texture": "no"
 		}
 	],

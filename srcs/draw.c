@@ -20,7 +20,6 @@ void	draw_scene(t_sdl *sdl, t_scene *scene)
 	int					j = 0;
 	float				**matrix;
 	cl_mem 				swap_pointer;
-	//swap_pointer = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * WID * HEI, NULL, NULL);
 	scene->cl_data.scene.original_index_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(int) * WID * HEI, NULL, NULL);
 
 	x = -1;
@@ -45,20 +44,15 @@ void	draw_scene(t_sdl *sdl, t_scene *scene)
 		j++;
 	}
 	clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.intersection_buf, CL_FALSE, 0, sizeof(cl_float3) * global, scene->intersection_buf, 0, NULL, NULL);
-	//clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.ray_buf, scene->cl_data.scene.normal_buf, 0, 0, sizeof(cl_float3) * WID * HEI, 0, NULL, NULL);
 	while (scene->bounce_cnt < scene->max_bounces)
 	{
 		get_closest_points(scene, 0);
 		if (scene->bounce_cnt == 0)
 			clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.index_buf, scene->cl_data.scene.original_index_buf, 0, 0, sizeof(int) * WID * HEI, 0, NULL, NULL);
 		get_intersection_buf(scene);
-		//clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.normal_buf, scene->cl_data.scene.ray_buf, 0, 0, sizeof(cl_float3) * WID * HEI, 0, NULL, NULL);
 		get_normal_buf(scene);
 		get_material_buf(scene);
 		get_frame_buf(scene);
-		/* clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.ray_buf, swap_pointer, 0, 0, sizeof(cl_float3) * WID * HEI, 0, NULL, NULL);
-		clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.normal_buf, scene->cl_data.scene.ray_buf, 0, 0, sizeof(cl_float3) * WID * HEI, 0, NULL, NULL);
-		clEnqueueCopyBuffer(scene->cl_data.commands, swap_pointer, scene->cl_data.scene.normal_buf, 0, 0, sizeof(cl_float3) * WID * HEI, 0, NULL, NULL); */
 		swap_pointer = scene->cl_data.scene.ray_buf;
 		scene->cl_data.scene.ray_buf = scene->cl_data.scene.normal_buf;
 		scene->cl_data.scene.normal_buf = swap_pointer;
@@ -110,14 +104,6 @@ void	draw_normal_buf(t_sdl *sdl, t_scene *scene)
 	}
 	clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.intersection_buf, CL_FALSE, 0, sizeof(cl_float3) * WID * HEI, scene->intersection_buf, 0, NULL, NULL);
 	clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.ray_buf, scene->cl_data.scene.normal_buf, 0, 0, sizeof(cl_float3) * WID * HEI, 0, NULL, NULL);
-	x = -1;
-	while (++x < WID * HEI)
-	{
-		scene->index_buf[x] = -1;
-		scene->depth_buf[x] = 100000000;
-	}
-	clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.index_buf, CL_FALSE, 0, sizeof(int) * WID * HEI, scene->index_buf, 0, NULL, NULL);
-	clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.depth_buf, CL_FALSE, 0, sizeof(float) * WID * HEI, scene->depth_buf, 0, NULL, NULL);
 	get_closest_points(scene, 0);
 	get_intersection_buf(scene);
 	clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.normal_buf, scene->cl_data.scene.ray_buf, 0, 0, sizeof(cl_float3) * WID * HEI, 0, NULL, NULL);
@@ -177,14 +163,6 @@ void	draw_deepth_buf(t_sdl *sdl, t_scene *scene)
 	}
 	clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.intersection_buf, CL_FALSE, 0, sizeof(cl_float3) * WID * HEI, scene->intersection_buf, 0, NULL, NULL);
 	clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.ray_buf, scene->cl_data.scene.normal_buf, 0, 0, sizeof(cl_float3) * WID * HEI, 0, NULL, NULL);
-	x = -1;
-	while (++x < WID * HEI)
-	{
-		scene->index_buf[x] = -1;
-		scene->depth_buf[x] = 100000000;
-	}
-	clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.index_buf, CL_FALSE, 0, sizeof(int) * WID * HEI, scene->index_buf, 0, NULL, NULL);
-	clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.depth_buf, CL_FALSE, 0, sizeof(float) * WID * HEI, scene->depth_buf, 0, NULL, NULL);
 	get_closest_points(scene, 0);
 	clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.index_buf, CL_FALSE, 0, sizeof(int) * (WID * HEI), scene->index_buf, 0, NULL, NULL);
 	clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.depth_buf, CL_FALSE, 0, sizeof(float) * WID * HEI, scene->depth_buf, 0, NULL, NULL);
@@ -237,14 +215,6 @@ void	draw_raycast(t_sdl *sdl, t_scene *scene)
 		j++;
 	}
 	clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.intersection_buf, CL_FALSE, 0, sizeof(cl_float3) * global, scene->intersection_buf, 0, NULL, NULL);
-	x = -1;
-	while (++x < WID * HEI)
-	{
-		scene->index_buf[x] = -1;
-		scene->depth_buf[x] = 100000000;
-	}
-	clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.index_buf, CL_FALSE, 0, sizeof(int) * global, scene->index_buf, 0, NULL, NULL);
-	clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.depth_buf, CL_FALSE, 0, sizeof(float) * global, scene->depth_buf, 0, NULL, NULL);
 	get_closest_points(scene, 0);
 	get_intersection_buf(scene);
 	get_normal_buf(scene);

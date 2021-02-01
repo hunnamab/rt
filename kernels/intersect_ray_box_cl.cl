@@ -283,10 +283,7 @@ __kernel void intersect_ray_box(__global float3 *ray_arr, \
     float result;
 	float3 ray;
 	ray = camera_start[i] + ray_arr[i] + 0.001f;
-	//if (reflection > 0.001f || bounce_cnt == 0)
-    	result = box_intersection(&obj[index], ray, ray_arr[i]);
-/*  	else
-		return ;  */
+	result = box_intersection(&obj[index], ray, ray_arr[i]);
     if (result > 0.01 && result < depth_buf[i])
     {
 		float3 intersection_point;

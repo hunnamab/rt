@@ -220,10 +220,7 @@ __kernel void intersect_ray_triangle_cl(__global float3 *ray_arr, \
     float res;
 	float3 ray;
     ray = camera_start[i] + ray_arr[i] + 0.001f;
-	//if (reflection > 0.001f || bounce_cnt == 0)
-		res = triangle_intersection(triangle, ray, ray_arr[i]);
-/* 	else
-		return ; */
+	res = triangle_intersection(triangle, ray, ray_arr[i]);
 	if (res > 0.01 && res < depth_buf[i])
 	{
 		float3 intersection_point;
