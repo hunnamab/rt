@@ -26,7 +26,7 @@ void	draw_scene(t_sdl *sdl, t_scene *scene)
 	y = -1;
 	i = 0;
 	scene->bounce_cnt = 0;
-	scene->max_bounces = 2;
+	scene->max_bounces = 3;
 
 	size_t global = WID * HEI;
 	size_t local;
@@ -47,12 +47,12 @@ void	draw_scene(t_sdl *sdl, t_scene *scene)
 	while (scene->bounce_cnt < scene->max_bounces)
 	{
 		get_closest_points(scene, 0);
-		if (scene->bounce_cnt == 0)
-			clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.index_buf, scene->cl_data.scene.original_index_buf, 0, 0, sizeof(int) * WID * HEI, 0, NULL, NULL);
 		get_intersection_buf(scene);
 		get_normal_buf(scene);
 		get_material_buf(scene);
 		get_frame_buf(scene);
+		if (scene->bounce_cnt == 0)
+			clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.index_buf, scene->cl_data.scene.original_index_buf, 0, 0, sizeof(int) * WID * HEI, 0, NULL, NULL);
 		swap_pointer = scene->cl_data.scene.ray_buf;
 		scene->cl_data.scene.ray_buf = scene->cl_data.scene.normal_buf;
 		scene->cl_data.scene.normal_buf = swap_pointer;

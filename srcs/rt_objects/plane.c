@@ -93,7 +93,7 @@ void	one_argument_plane(char **description, t_scene *scene, int *snmi)
 	t_object	*plane;
 	t_color		color;
 	cl_float3	poi_nor_buf[3];
-	double		specular[2];
+	float		specular[2];
 	double		rotation[3];
 
 	poi_nor_buf[0] = get_points(description[1]);
@@ -116,7 +116,7 @@ t_object 	*multiple_planes(char **description, t_scene *scene, int *snmi, int i)
 	t_object	*plane;
 	t_color		color;
 	cl_float3	poi_nor_buf[3];
-	double		specular[2];
+	float		specular[2];
 	double		rotation[3];
 
 	poi_nor_buf[0] = get_points(description[i + 1]);
