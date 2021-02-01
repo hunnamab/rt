@@ -1,8 +1,6 @@
 
 //#include "kernel.h"
 
-<<<<<<< HEAD
-=======
 enum light_type{
 	POINT,
 	AMBIENT,
@@ -154,7 +152,6 @@ typedef struct		s_object3d_d
 	int				l_size;
 }					t_object_d;
 
->>>>>>> 3d136036b906f8cafbd282cc7bd5a9dd32b83a5e
 __kernel void get_ray_arr(__global float3* ray_arr, \
                         float3 camera_start, \
                         __global float3* viewport, \

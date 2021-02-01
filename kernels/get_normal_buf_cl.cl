@@ -488,16 +488,13 @@ __kernel void get_normal_buf_cl(__global t_object_d *obj, \
 			get_normal_cylinder(&obj[j], &ray_buf[i], &index_buf[i], &normal_buf[i], &intersection_buf[i], buf_camera, &depth_buf[i]);
 		else if (obj[j].type == ELLIPSOID)
 			get_normal_ellipsoid(&obj[j], &ray_buf[i], &index_buf[i], &normal_buf[i], &intersection_buf[i], buf_camera, &depth_buf[i]);
-<<<<<<< HEAD
+		else if (obj[j].type == BOX)
+			get_normal_box(&obj[j], &ray_buf[i], &index_buf[i], &normal_buf[i], &intersection_buf[i], buf_camera, &depth_buf[i]);
 		if(obj[j].normal_map_id != -1)
 		{
 			text_point = text_map_select(obj[j], intersection_buf[i]);
 			get_color_tex(texture, text_point.x, text_point.y, obj[j], i, &normal_buf[i]);
 		}
-=======
-		else if (obj[j].type == BOX)
-			get_normal_box(&obj[j], &ray_buf[i], &index_buf[i], &normal_buf[i], &intersection_buf[i], buf_camera, &depth_buf[i]);
->>>>>>> 3d136036b906f8cafbd282cc7bd5a9dd32b83a5e
 	}
 	else
 		normal_buf[i] = 0;
