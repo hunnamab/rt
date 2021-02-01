@@ -219,13 +219,16 @@ __kernel void intersect_ray_cylinder_cl(__global float3 *ray_arr, \
                                 __global int *index_buf, \
                                 int index, float reflection, \
 								int max_bounces, int bounce_cnt, __global t_cutting_surface *cs, \
-								int cs_nmb)
+								int cs_nmb, __global t_material *material_buf)
 {
     int i = get_global_id(0);
 	float result;
 	float3 ray;
     ray = camera_start[i] + ray_arr[i] + 0.001f;
-	result = cylinder_intersection(cyl, ray, ray_arr[i]);
+	if (bounce_cnt == 0 || material_buf[i].reflection > 0.0)
+		result = cylinder_intersection(cyl, ray, ray_arr[i]);
+	else
+		return ;
 	if (result > 0.01 && result < depth_buf[i])
     {
 		float3 intersection_point;

@@ -81,6 +81,7 @@ void		intersect_ray_plane(t_scene *scene, int index)
 	clSetKernelArg(scene->cl_data.kernels[5], 7, sizeof(cl_int), (void*)&scene->bounce_cnt);
 	clSetKernelArg(scene->cl_data.kernels[5], 8, sizeof(cl_mem), &cs);
 	clSetKernelArg(scene->cl_data.kernels[5], 9, sizeof(cl_int), (void*)&scene->objs[index]->cs_nmb);
+	clSetKernelArg(scene->cl_data.kernels[5], 10, sizeof(cl_mem), &scene->cl_data.scene.material_buf);
 
     clGetKernelWorkGroupInfo(scene->cl_data.kernels[5], scene->cl_data.device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
 	printf("local == max work group size == %ld\n", local);
