@@ -37,6 +37,14 @@ void	get_closest_points(t_scene *scene, float t)
 	size_t global = WID * HEI;
 	int x = -1;
 	int i = 0;
+	x = -1;
+	while (++x < WID * HEI)
+	{
+		scene->index_buf[x] = -1;
+		scene->depth_buf[x] = 100000000;
+	}
+	clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.index_buf, CL_FALSE, 0, sizeof(int) * global, scene->index_buf, 0, NULL, NULL);
+	clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.depth_buf, CL_FALSE, 0, sizeof(float) * global, scene->depth_buf, 0, NULL, NULL);
 	while (i < scene->obj_nmb)
 	{
 		scene->objs[i]->intersect(scene, i);

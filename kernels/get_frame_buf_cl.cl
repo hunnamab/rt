@@ -532,7 +532,6 @@ t_color		reflection_color(__global t_color *frame_buf, \
 		result.green = frame_buf[index].green;
 		result.blue = frame_buf[index].blue;
 	}
-	
 	if (index == 1280 * 360 + 640 * 11)
 		printf("result color device in reflection_color (%hhu, %hhu, %hhu)\n", result.red, result.green, result.blue);
 	return (result);
@@ -557,7 +556,7 @@ __kernel void get_frame_buf_cl(__global t_color *frame_buf, \
 										normal_buf, index_buf, material_buf, \
 										obj, light, light_nmb, i, obj_nmb, bounce_cnt);
 	}
-	else
+	else if (bounce_cnt == 0)
 	{
 		frame_buf[i].red = 0;
 		frame_buf[i].green = 0;

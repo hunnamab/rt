@@ -151,6 +151,7 @@ typedef struct		s_object3d_d
 	int				texture_height;
 	int				l_size;
 }					t_object_d;
+
 __kernel void get_intersection_point(__global float3 *intersection_buf, \
                                     __global float3 *ray_buf, \
                                     __global float *depth_buf, \
@@ -169,8 +170,8 @@ __kernel void get_intersection_point(__global float3 *intersection_buf, \
     }
     else
     {
-        intersection_buf[i].x = 0;
-        intersection_buf[i].y = 0;
-        intersection_buf[i].z = 0;
+        intersection_buf[i].x = 0.0;
+        intersection_buf[i].y = 0.0;
+        intersection_buf[i].z = 0.0;
     }
 }
