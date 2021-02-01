@@ -152,6 +152,41 @@ typedef struct		s_object3d_d
 	int				l_size;
 }					t_object_d;
 
+void get_normal_torus(__global t_object_d *obj, \
+                        __global float3 *ray_buf, \
+                        __global int *index_buf, \
+						__global float3 *normal_buf, \
+                        __global float3 *intersection_buf, \
+						float3 camera_position, \
+						__global float *depth_buf)
+{
+	float a = 1.0f - (obj[0].primitive.torus.radius1 / sqrt(intersection_buf[0].x*intersection_buf[0].x + intersection_buf[0].y*intersection_buf[0].y));
+	float3 normal;
+	normal.x =  intersection_buf[0].x * a;
+	normal.y =  intersection_buf[0].y * a;
+	normal.z =  intersection_buf[0].z;
+	normal_buf[0] = normalize(normal);
+}
+
+void  get_normal_paraboloid(__global t_object_d *obj, \
+                        __global float3 *ray_buf, \
+                        __global int *index_buf, \
+						__global float3 *normal_buf, \
+                        __global float3 *intersection_buf, \
+						float3 camera_position, \
+						__global float *depth_buf)
+{
+	float3 V; //= normalize(camera_position - obj[0].primitive.paraboloid.center);
+ 	V.x = 0.0f;
+	V.y = -1.0f;
+	V.z = 1.0f;
+	//V = normalize(V);
+	float3 p_c = intersection_buf[0] - obj[0].primitive.paraboloid.center;
+	float m = dot(p_c, V);
+	float3 normal = p_c - V * (m + obj[0].primitive.paraboloid.k);
+	normal_buf[0] = normalize(normal);
+}
+
 void  get_normal_box(__global t_object_d *obj, \
                         __global float3 *ray_buf, \
                         __global int *index_buf, \
@@ -163,52 +198,90 @@ void  get_normal_box(__global t_object_d *obj, \
 	float3 n;
 	if (obj[0].primitive.box.face_hit == 0)
 	{
-		n.x = -1;
-		n.y = 0;
-		n.z = 0;
+		n.x = -1.0f;
+		n.y = 0.0f;
+		n.z = 0.0f;
 		normal_buf[0] = normalize(n);
 	}
 	else if (obj[0].primitive.box.face_hit == 1)
 	{
-		n.x = 0;
-		n.y = -1;
-		n.z = 0;
+		n.x = 0.0f;
+		n.y = -1.0f;
+		n.z = 0.0f;
 		normal_buf[0] = normalize(n);
 	}
 	else if (obj[0].primitive.box.face_hit == 2)
 	 {
-		n.x = 0;
-		n.y = 0;
-		n.z = -1;
+		n.x = 0.0f;
+		n.y = 0.0f;
+		n.z = -1.0f;
 		normal_buf[0] = normalize(n);
 	}
 	else if (obj[0].primitive.box.face_hit == 3)
 	{
-		n.x = 1;
-		n.y = 0;
-		n.z = 0;
+		n.x = 1.0f;
+		n.y = 0.0f;
+		n.z = 0.0f;
 		normal_buf[0] = normalize(n);
 	}
 	else if (obj[0].primitive.box.face_hit == 4)
 	{
-		n.x = 0;
-		n.y = 1;
-		n.z = 0;
+		n.x = 0.0f;
+		n.y = 1.0f;
+		n.z = 0.0f;
 		normal_buf[0] = normalize(n);
 	}
 	else if (obj[0].primitive.box.face_hit == 5)
 	{
+		n.x = 0.0f;
+		n.y = 0.0f;
+		n.z = 1.0f;
+		normal_buf[0] = normalize(n);
+	}
+/* 	if (dot(ray_buf[0], normal_buf[0]) > 0.0001)
+	{
+		normal_buf[0].x = normal_buf[0].x * -1.0f;
+		normal_buf[0].y = normal_buf[0].y * -1.0f;
+		normal_buf[0].z = normal_buf[0].z * -1.0f;
+	} */
+	/* float3 n;
+	if (fabs(intersection_buf[0].x - obj[0].primitive.box.a.x) < 0.01f)
+	{
+		n.x = -1.0f;
+		n.y = 0.0f;
+		n.z = 0.0f;
+	}
+	else if (fabs(intersection_buf[0].x - obj[0].primitive.box.b.x) < 0.01f)
+	{
+		n.x = 1.0f;
+		n.y = 0.0f;
+		n.z = 0.0f;
+	}
+	else if (fabs(intersection_buf[0].y - obj[0].primitive.box.a.y) < 0.01f)
+	{
+		n.x = 0.0f;
+		n.y = -1.0f;
+		n.z = 0.0f;
+	}
+	else if (fabs(intersection_buf[0].y - obj[0].primitive.box.b.y) < 0.01f)
+	{
+		n.x = 0.0f;
+		n.y = 1.0f;
+		n.z = 0.0f;
+	}
+	else if (fabs(intersection_buf[0].z - obj[0].primitive.box.a.z) < 0.01f)
+	{
+		n.x = 0.0f;
+		n.y = 0.0f;
+		n.z = -1.0f;
+	}
+	else if (fabs(intersection_buf[0].z - obj[0].primitive.box.b.z) < 0.01f)
+	{
 		n.x = 0;
 		n.y = 0;
 		n.z = 1;
-		normal_buf[0] = normalize(n);
 	}
-	if (dot(ray_buf[0], normal_buf[0]) > 0.0001)
-	{
-		normal_buf[0].x = normal_buf[0].x * -1;
-		normal_buf[0].y = normal_buf[0].y * -1;
-		normal_buf[0].z = normal_buf[0].z * -1;
-	}
+	normal_buf[0] = n;//normalize(n); */
 }
 
 void  get_normal_ellipsoid(__global t_object_d *obj, \
@@ -388,6 +461,10 @@ __kernel void get_normal_buf_cl(__global t_object_d *obj, \
 			get_normal_ellipsoid(&obj[j], &ray_buf[i], &index_buf[i], &normal_buf[i], &intersection_buf[i], buf_camera, &depth_buf[i]);
 		else if (obj[j].type == BOX)
 			get_normal_box(&obj[j], &ray_buf[i], &index_buf[i], &normal_buf[i], &intersection_buf[i], buf_camera, &depth_buf[i]);
+		else if (obj[j].type == PARABOLOID)
+			get_normal_paraboloid(&obj[j], &ray_buf[i], &index_buf[i], &normal_buf[i], &intersection_buf[i], buf_camera, &depth_buf[i]);
+		else if (obj[j].type == TORUS)
+			get_normal_torus(&obj[j], &ray_buf[i], &index_buf[i], &normal_buf[i], &intersection_buf[i], buf_camera, &depth_buf[i]);
 	}
 	else
 		normal_buf[i] = 0;
