@@ -1,0 +1,60 @@
+{
+	"plane": {
+		"point": [2, -3, 0],
+		"normal": [0, 1, 0],
+		"rotation": [0, 0.2, 0],
+		"color": [46, 0, 180, 255],
+		"specular": 10,
+		"reflection": 0.0,
+		"texture": "no"
+	},
+	"sphere": [
+		{
+			"center": [6, 0, 0],
+			"radius": 3,
+			"rotation": [0, 0, 0],
+			"color": [151, 32, 76, 255],
+			"specular": 300,
+			"reflection": 0.4,
+			"texture": "no"
+		},
+		{
+			"center": [-6, 0, 0],
+			"radius": 3,
+			"rotation": [0, 0, 0],
+			"color": [37, 193, 149, 255],
+			"specular": 500,
+			"reflection": 0.4,
+			"texture": "no"
+		},
+		{
+			"center": [0, -3, -4],
+			"radius": 3,
+			"rotation": [0, 0, 0],
+			"color": [114, 32, 151, 255],
+			"specular": 300,
+			"reflection": 0.3,
+			"texture": "no"
+		}
+	],
+	"camera": {
+		"position": [0, 0, -14],
+		"rotation": [0, 0, 0]
+	},
+	"light": [
+		{
+			"type": "ambient",
+			"intensity": 0.2
+		},
+		{
+			"type": "point",
+			"position": [10, 10, -30],
+			"intensity": 0.4
+		},
+		{
+			"type": "point",
+			"position": [-200, 0, -50],
+			"intensity": 0.4
+		}
+	]
+}
