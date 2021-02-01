@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cone.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:38:39 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/29 21:23:35 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/01 20:42:57 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ t_object	*new_cone(cl_float3 *pos_vec, float *ang_spec, t_color color, \
 	new_object->cs_nmb = 0;
 	new_object->color = color;
 	new_object->text = NULL;
+	new_object->normal_text = NULL;
 	new_object->data = (void *)new_cone;
 	new_object->tag = "cone";
 	new_object->type = CONE;

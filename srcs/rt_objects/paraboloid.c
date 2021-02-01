@@ -17,6 +17,7 @@ t_object    *new_paraboloid(cl_float3 center, float k, t_color color, cl_float3 
 	new_object->reflection = 0.0;
 	new_object->color = color;
 	new_object->text = NULL;
+	new_object->normal_text = NULL;
 	new_object->data = (void *)parab;
 	new_object->type = PARABOLOID;
 	new_object->intersect = &intersect_ray_paraboloid;

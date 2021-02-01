@@ -18,6 +18,7 @@ t_object    *new_torus(cl_float3 center, float radius1, float radius2, t_color c
 	new_object->reflection = 0.0;
 	new_object->color = color;
 	new_object->text = NULL;
+	new_object->normal_text = NULL;
 	new_object->data = (void *)torus;
 	new_object->type = TORUS;
 	new_object->cs_nmb = 0;

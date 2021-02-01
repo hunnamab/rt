@@ -1,0 +1,37 @@
+{
+	"sphere": [
+		{
+			"center": [0, 0, 0],
+			"radius": 10,
+			"rotation": [0, 0, 0],
+			"color": [255, 0, 0, 255],
+			"specular": 100,
+			"reflection": 0.4,
+			"texture": "textures/test2.png"
+		},
+		{
+			"center": [0, 0, -10000],
+			"radius": 10,
+			"rotation": [0, 0, 0],
+			"color": [255, 0, 0, 255],
+			"specular": 100,
+			"reflection": 0.4,
+			"texture": "textures/test.png"
+		}
+	],
+	"light": [
+		{
+			"type": "point",
+			"position": [0, 30, 0],
+			"intensity": 0.8
+		},
+		{
+			"type": "ambient",
+			"intensity": 0.2
+		}
+	],
+	"camera": {
+		"position": [0, 0, -40],
+		"rotation": [0, 0, 0]
+	}
+}

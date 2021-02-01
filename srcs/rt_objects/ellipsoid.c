@@ -71,6 +71,7 @@ t_object    *new_ellipsoid(cl_float3 *buf, t_color color, float *specular)
 	new_object->color = color;
 	new_object->cs_nmb = 0;
 	new_object->text = NULL;
+	new_object->normal_text = NULL;
 	new_object->data = (void *)el;
 	new_object->type = ELLIPSOID;
 	new_object->intersect = &intersect_ray_ellipsoid;

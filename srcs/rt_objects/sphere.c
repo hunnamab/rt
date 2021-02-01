@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sphere.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 22:45:20 by pmetron           #+#    #+#             */
-/*   Updated: 2021/01/29 21:18:54 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/01 20:42:40 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ t_object	*new_sphere(cl_float3 center, float *rad_spec, t_color color, \
 	new_object->reflection = rad_spec[2];
 	new_object->color = color;
 	new_object->text = NULL;
+	new_object->normal_text = NULL;
 	new_object->data = (void *)new_sphere;
 	new_object->tag = "sphere";
 	new_object->type = SPHERE;

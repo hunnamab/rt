@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:38:29 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/26 23:20:47 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/01/30 22:02:21 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ void	get_intersection_buf(t_scene *scene)
 	clSetKernelArg(scene->cl_data.kernels[6], 2, sizeof(cl_mem), &scene->cl_data.scene.depth_buf);
 	clSetKernelArg(scene->cl_data.kernels[6], 3, sizeof(cl_mem), &scene->cl_data.scene.intersection_buf);
 	clSetKernelArg(scene->cl_data.kernels[6], 4, sizeof(cl_mem), &scene->cl_data.scene.index_buf);
-
 	clGetKernelWorkGroupInfo(scene->cl_data.kernels[6], scene->cl_data.device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
     clEnqueueNDRangeKernel(scene->cl_data.commands, scene->cl_data.kernels[6], 1, NULL, &global, &local, 0, NULL, NULL);
     clFinish(scene->cl_data.commands);
@@ -75,6 +74,7 @@ void	get_normal_buf(t_scene *scene)
 	clSetKernelArg(scene->cl_data.kernels[7], 5, sizeof(cl_mem), &scene->cl_data.scene.depth_buf);
 	clSetKernelArg(scene->cl_data.kernels[7], 6, sizeof(cl_float3), (void *)&scene->camera.position);
 	clSetKernelArg(scene->cl_data.kernels[7], 7, sizeof(cl_int), (void*)&scene->bounce_cnt);
+	clSetKernelArg(scene->cl_data.kernels[7], 8, sizeof(cl_mem), &scene->cl_data.scene.textures);
 
 	clGetKernelWorkGroupInfo(scene->cl_data.kernels[7], scene->cl_data.device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
     printf("sizeof t_primitive host %lu\n", sizeof(t_primitive));

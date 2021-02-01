@@ -7,7 +7,7 @@ void	get_material_buf(t_scene *scene)
 	size_t local;
 
 	global = WID * HEI;
-    clSetKernelArg(scene->cl_data.kernels[10], 0, sizeof(cl_mem), &scene->cl_data.scene.textures);
+	clSetKernelArg(scene->cl_data.kernels[10], 0, sizeof(cl_mem), &scene->cl_data.scene.textures);
 	clSetKernelArg(scene->cl_data.kernels[10], 1, sizeof(cl_mem), &scene->cl_data.scene.obj);
     clSetKernelArg(scene->cl_data.kernels[10], 2, sizeof(cl_mem), &scene->cl_data.scene.index_buf);
 	clSetKernelArg(scene->cl_data.kernels[10], 3, sizeof(cl_mem), &scene->cl_data.scene.intersection_buf);

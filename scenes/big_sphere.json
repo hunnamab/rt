@@ -7,7 +7,7 @@
 		"specular": 100,
 		"reflection": 0.4,
 		"texture": "textures/helper.jpg"
-	},
+		},
 	"light": [
 		{
 			"type": "point",
