@@ -135,6 +135,7 @@ void		intersect_ray_triangle(t_scene *scene, int index)
 	clSetKernelArg(scene->cl_data.kernels[4], 7, sizeof(cl_int), (void*)&scene->bounce_cnt);
 	clSetKernelArg(scene->cl_data.kernels[4], 8, sizeof(cl_mem), &cs);
 	clSetKernelArg(scene->cl_data.kernels[4], 9, sizeof(cl_int), (void*)&scene->objs[index]->cs_nmb);
+	clSetKernelArg(scene->cl_data.kernels[4], 10, sizeof(cl_mem), &scene->cl_data.scene.material_buf);
 	
     clGetKernelWorkGroupInfo(scene->cl_data.kernels[4], scene->cl_data.device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
 	printf("local == max work group size == %ld\n", local);

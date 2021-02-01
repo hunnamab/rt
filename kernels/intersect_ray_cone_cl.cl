@@ -218,13 +218,16 @@ __kernel void intersect_ray_cone_cl(__global float3 *ray_arr, \
                                 t_cone cone, \
                                 __global int *index_buf, \
                                 int index, float reflection, int bounce_cnt, __global t_cutting_surface *cs, \
-								int cs_nmb)
+								int cs_nmb, __global t_material *material_buf)
 {
     int i = get_global_id(0);
 	float result = 0;
 	float3 ray;
     ray = camera_start[i] + ray_arr[i] + 0.001f;
-	result = cone_intersection(cone, ray, ray_arr[i]);
+	if (bounce_cnt == 0 || material_buf[i].reflection > 0.0)
+		result = cone_intersection(cone, ray, ray_arr[i]);
+	else
+		return ;
 	if (result > 0.01 && result < depth_buf[i])
     {
 		 float3 intersection_point;

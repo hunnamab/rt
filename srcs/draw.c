@@ -20,8 +20,8 @@ void	draw_scene(t_sdl *sdl, t_scene *scene)
 	int					j = 0;
 	float				**matrix;
 	cl_mem 				swap_pointer;
-	scene->cl_data.scene.original_index_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(int) * WID * HEI, NULL, NULL);
-
+	//scene->cl_data.scene.original_index_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(int) * WID * HEI, NULL, NULL);
+	//scene->cl_data.scene.prev_index_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(int) * WID * HEI, NULL, NULL);
 	x = -1;
 	y = -1;
 	i = 0;
@@ -48,8 +48,10 @@ void	draw_scene(t_sdl *sdl, t_scene *scene)
 		get_normal_buf(scene);
 		get_material_buf(scene);
 		get_frame_buf(scene);
-		if (scene->bounce_cnt == 0)
-			clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.index_buf, scene->cl_data.scene.original_index_buf, 0, 0, sizeof(int) * WID * HEI, 0, NULL, NULL);
+		//if (scene->bounce_cnt == 0)
+		//clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.index_buf, scene->cl_data.scene.original_index_buf, 0, 0, sizeof(int) * WID * HEI, 0, NULL, NULL);
+		//if (scene->bounce_cnt > 0)
+		//clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.index_buf, scene->cl_data.scene.prev_index_buf, 0, 0, sizeof(int) * WID * HEI, 0, NULL, NULL);
 		swap_pointer = scene->cl_data.scene.ray_buf;
 		scene->cl_data.scene.ray_buf = scene->cl_data.scene.normal_buf;
 		scene->cl_data.scene.normal_buf = swap_pointer;

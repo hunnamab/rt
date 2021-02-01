@@ -214,13 +214,17 @@ __kernel void intersect_ray_sphere_cl(__global float3 *ray_arr, \
                                 __global int *index_buf, \
                                 int index, __global t_cutting_surface *cs, \
 								int cs_nmb, float reflection, \
-								int max_bounces, int bounce_cnt)
+								int max_bounces, int bounce_cnt, \
+								__global t_material *material_buf)
 {
     int i = get_global_id(0);
     float result;
     float3 ray;
     ray = camera_start[i] + ray_arr[i] + 0.001f;
-	result = sphere_intersection(sphere, ray, ray_arr[i]);
+	if (bounce_cnt == 0 || material_buf[i].reflection > 0.0)
+		result = sphere_intersection(sphere, ray, ray_arr[i]);
+	else
+		return ;
     if (result > 0.001 && result < depth_buf[i])
     {
         float3 intersection_point;
