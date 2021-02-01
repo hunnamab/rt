@@ -87,6 +87,7 @@ t_object    *new_box(cl_float3 *buf, t_color color, float *specular)
 	new_object->reflection = specular[1];
 	new_object->color = color;
 	new_object->text = NULL;
+	new_object->normal_text = NULL;
 	new_object->data = (void *)box;
 	new_object->type = BOX;
 	new_object->cs_nmb = 0;

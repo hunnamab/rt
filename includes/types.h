@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   types.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:58 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/30 22:50:13 by npetrell         ###   ########.fr       */
+/*   Updated: 2021/02/01 21:13:08 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,9 +256,11 @@ typedef	struct			s_object3d
 	float				specular;
 	float				reflection;
 	t_texture			*text;
+	t_texture			*normal_text;
 	t_basis				basis;
 	int 				type;
 	int					texture_id;
+	int					normal_map_id;
 	t_cutting_surface	*cutting_surfaces;
 	int					cs_nmb; /*количество секущих поверхностей*/
 	void				(*get_normal)(struct s_scene *, int, int);
@@ -283,6 +285,11 @@ typedef struct			s_object3d_d
 	cl_int				texture_width;
 	cl_int				texture_height;
 	cl_int				l_size;
+	cl_int				normal_map_id; //разметка частей текстурного буфера для поиска карты нормалей
+	cl_int				texture_size_nm;
+	cl_int				texture_width_nm;
+	cl_int				texture_height_nm;
+	cl_int				l_size_nm;
 }						t_object_d;
 
 

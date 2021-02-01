@@ -82,6 +82,7 @@ t_object    *new_torus(cl_float3 *cen_buf, t_color color, float *specular)
 	new_object->reflection = specular[3];
 	new_object->color = color;
 	new_object->text = NULL;
+	new_object->normal_text = NULL;
 	new_object->data = (void *)torus;
 	new_object->type = TORUS;
 	new_object->cs_nmb = 0;

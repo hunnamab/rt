@@ -5,6 +5,8 @@ void	device_objects_init(t_scene *scene)
 	t_object_d *buf;
 	buf = (t_object_d *)malloc(sizeof(t_object_d) * scene->obj_nmb);
 	int i = 0;
+	int shift = 0;
+	int l = 0;
 	while (i < scene->obj_nmb)
 	{
 		if (scene->objs[i]->type == SPHERE)
@@ -94,8 +96,8 @@ void	device_objects_init(t_scene *scene)
 		}
 		if (scene->objs[i]->text != NULL)
         {
-			int l = 0;
-			int shift = 0;
+			l = 0;
+			shift = 0;
 			while (l < scene->objs[i]->texture_id)
 			{
 				shift += scene->texts[l]->size;
@@ -111,6 +113,26 @@ void	device_objects_init(t_scene *scene)
 		{
 			buf[i].texture_id = -1;
 			buf[i].texture_size = -1;
+		}
+		if(scene->objs[i]->normal_text != NULL)
+		{
+			l = 0;
+			shift = 0;
+			while (l < scene->objs[i]->normal_map_id)
+			{
+				shift += scene->texts[l]->size;
+				l++;
+			}
+			buf[i].normal_map_id = shift;
+			buf[i].texture_size_nm = scene->texts[l]->size;
+			buf[i].texture_width_nm = scene->texts[l]->width;
+			buf[i].texture_height_nm = scene->texts[l]->height;
+			buf[i].l_size_nm = scene->texts[l]->l_size;
+		}
+		else
+		{
+			buf[i].normal_map_id = -1;
+			buf[i].texture_size_nm = -1;
 		}
 		buf[i].rotation = get_point(0,0,0);
 		buf[i].specular = scene->objs[i]->specular;

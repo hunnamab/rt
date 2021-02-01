@@ -150,6 +150,11 @@ typedef struct		s_object3d_d
 	int				texture_width;
 	int				texture_height;
 	int				l_size;
+	int				normal_map_id; //разметка частей текстурного буфера для поиска карты нормалей
+	int				texture_size_nm;
+	int				texture_width_nm;
+	int				texture_height_nm;
+	int				l_size_nm;
 }					t_object_d;
 
 float3  change_basis(float3 vec, t_basis basis)
@@ -297,12 +302,13 @@ __kernel void    get_material_buf_cl(__global uchar *texture_data,\
                                     __global int *index_buf, \
                                     __global float3 *intersection_buf,\
                                     __global t_material *material_buf, \
-									__global int *original_index_buf)
+									__global int *original_index_buf, \
+									int bounce_cnt)
 {
     int i = get_global_id(0);
 	float3 t;
     if (index_buf[i] != -1)
-	{	
+	{
 		if (obj[index_buf[i]].texture_id != -1)
 		{
 			t = text_map_select(obj[index_buf[i]], intersection_buf[i]);
@@ -315,11 +321,15 @@ __kernel void    get_material_buf_cl(__global uchar *texture_data,\
     }
  	else
 	{
-		material_buf[i].color.red = 0;
-		material_buf[i].color.green = 0;
-		material_buf[i].color.blue = 0;
-		material_buf[i].color.alpha = 0;
-		material_buf[i].specular = -1;
-		material_buf[i].reflection = -1;
+		if (bounce_cnt == 0)
+		{
+			material_buf[i].color.red = 0;
+			material_buf[i].color.green = 0;
+			material_buf[i].color.blue = 0;
+			material_buf[i].color.alpha = 0;
+			material_buf[i].specular = -1;
+			material_buf[i].reflection = 0.0;
+		}
+		material_buf[i].reflection = 0.0;
 	}
 }

@@ -150,6 +150,11 @@ typedef struct		s_object3d_d
 	int				texture_width;
 	int				texture_height;
 	int				l_size;
+	int				normal_map_id; //разметка частей текстурного буфера для поиска карты нормалей
+	int				texture_size_nm;
+	int				texture_width_nm;
+	int				texture_height_nm;
+	int				l_size_nm;
 }					t_object_d;
 
 void get_normal_torus(__global t_object_d *obj, \
@@ -425,18 +430,115 @@ void get_normal_plane(__global t_object_d *obj, \
 	}
 }
 
+float3  change_basis(float3 vec, t_basis basis)
+{
+    float3  tmp;
+	tmp.x = dot(vec, basis.v);
+	tmp.y = dot(vec, basis.u);
+	tmp.z = dot(vec, basis.w);
+    return (tmp);
+} 
+
+float3		mapping_sphere(float3 t, t_object_d obj)
+{
+ 	float3 p;
+	float3 tmp;
+
+	t -= obj.primitive.sphere.center;
+	t = change_basis(t, obj.basis);
+	t /= obj.primitive.sphere.radius;
+	float theta = acos(t.y) / 3.14159265358979;
+	tmp.x = t.x;
+	tmp.y = t.z;
+	tmp = normalize(tmp);
+	float phi = acos(tmp.x) / 1.5707963267948;
+	phi = t.z > 0 ? 1.f - phi : phi;
+	p.x = phi;
+	p.y = theta;
+	p.z = 0;
+    return(p);
+}
+
+float3 	mapping_plane(float3 t, t_object_d obj)
+{
+	float3 p;
+	float a = fmod(t.x, 1.0f);
+	float b = fmod(t.z, 1.0f);
+ 	p.x = fabs(a);
+	p.y = fabs(b);
+	p.z = 0;
+	return (p);
+}
+
+float3 text_map_select(t_object_d obj, float3 t)
+{
+    float3 p;
+
+    if (obj.type == SPHERE)
+		p = mapping_sphere(t, obj);
+	if (obj.type == PLANE)
+		p = mapping_plane(t, obj);
+    return (p);
+} 
+
+
+void	get_color_tex(__global uchar  *texture, float x, float y, t_object_d obj, int key, __global float3 *normal)
+{
+ 	if (x < 0)
+		x = obj.texture_width_nm + x;
+	if (y < 0)
+		y = obj.texture_height_nm + y;
+	int fx = obj.texture_width_nm - (int)(obj.texture_width_nm * x) % obj.texture_width_nm;
+	int fy = (int)( obj.texture_height_nm * y) % obj.texture_height_nm;
+	t_color c;
+	c.red = texture[obj.normal_map_id + 4 * fx + obj.l_size_nm * fy + 2];
+	c.green = texture[obj.normal_map_id + 4 * fx + obj.l_size_nm * fy + 1];
+	c.blue = texture[obj.normal_map_id + 4 * fx + obj.l_size_nm * fy];
+	c.alpha = texture[obj.normal_map_id + 4 * fx + obj.l_size_nm * fy + 3];
+	float3 new_norm;
+	new_norm.x = c.red / 255.0f;
+	new_norm.y = c.green / 255.0f;
+	new_norm.z = c.blue / 255.0f;
+	new_norm = normalize(new_norm);
+	float3 buf;
+	buf.x = 0.0f;
+	buf.y = 1.0f;
+	buf.z = 0.0f;
+ 	float3 t = cross(normal[0], buf);
+	float3 b;
+ 	if (!length(t))
+	{
+		buf.y = 0.0f;
+		buf.z = 1.0f;
+		t = normal[0] * buf;
+	}
+	t = normalize(t);
+	buf = cross(normal[0], t);
+	b = normalize(buf);
+	new_norm *= 2.0f;
+	buf.x = 1.0f;
+	buf.y = 1.0f;
+	buf.z = 1.0f;
+	new_norm -= buf;
+	normal[0].x = t.x * new_norm.x + b.x * new_norm.x + new_norm.x * normal[0].x;
+	normal[0].y = t.y * new_norm.y + b.y * new_norm.y + new_norm.y * normal[0].y;
+	normal[0].z = t.z * new_norm.z + b.z * new_norm.z + new_norm.z * normal[0].z;
+	normal[0] = normalize(normal[0]);
+}
+
 __kernel void get_normal_buf_cl(__global t_object_d *obj, \
                                 __global float3 *ray_buf, \
                                 __global int *index_buf, \
                                 __global float3 *normal_buf, \
                                 __global float3 *intersection_buf, \
 								__global float *depth_buf, \
-								float3 camera_position, int bounce_cnt)
+								float3 camera_position, int bounce_cnt, __global uchar *texture)
 {
     int i = get_global_id(0);
 	int j = index_buf[i];
 	float l;
 	float3 buf_camera;
+	float3 text_point;
 	if (bounce_cnt == 0)
 		buf_camera = camera_position;
 	else
@@ -465,6 +567,11 @@ __kernel void get_normal_buf_cl(__global t_object_d *obj, \
 			get_normal_paraboloid(&obj[j], &ray_buf[i], &index_buf[i], &normal_buf[i], &intersection_buf[i], buf_camera, &depth_buf[i]);
 		else if (obj[j].type == TORUS)
 			get_normal_torus(&obj[j], &ray_buf[i], &index_buf[i], &normal_buf[i], &intersection_buf[i], buf_camera, &depth_buf[i]);
+		if(obj[j].normal_map_id != -1)
+		{
+			text_point = text_map_select(obj[j], intersection_buf[i]);
+			get_color_tex(texture, text_point.x, text_point.y, obj[j], i, &normal_buf[i]);
+		}
 	}
 	else
 		normal_buf[i] = 0;

@@ -150,6 +150,11 @@ typedef struct		s_object3d_d
 	int				texture_width;
 	int				texture_height;
 	int				l_size;
+	int				normal_map_id; //разметка частей текстурного буфера для поиска карты нормалей
+	int				texture_size_nm;
+	int				texture_width_nm;
+	int				texture_height_nm;
+	int				l_size_nm;
 }					t_object_d;
 
 float2		swap(float2 ab)
@@ -965,6 +970,12 @@ t_color		reflection_color(__global t_color *frame_buf, \
 		result.red = material_buf[index].color.red * i;
 		result.green = material_buf[index].color.green * i;
 		result.blue = material_buf[index].color.blue * i;
+		if (bounce_cnt != 0)
+		{
+			result.red = (1 - material_buf[index].reflection) * result.red + material_buf[index].reflection * frame_buf[index].red;
+			result.green = (1 - material_buf[index].reflection) * result.green + material_buf[index].reflection * frame_buf[index].green;
+			result.blue = (1 - material_buf[index].reflection) * result.blue + material_buf[index].reflection * frame_buf[index].blue;
+		}
 	}
 	else
 	{
@@ -972,7 +983,6 @@ t_color		reflection_color(__global t_color *frame_buf, \
 		result.green = frame_buf[index].green;
 		result.blue = frame_buf[index].blue;
 	}
-	
 	if (index == 1280 * 360 + 640 * 11)
 		printf("result color device in reflection_color (%hhu, %hhu, %hhu)\n", result.red, result.green, result.blue);
 	return (result);
@@ -997,7 +1007,7 @@ __kernel void get_frame_buf_cl(__global t_color *frame_buf, \
 										normal_buf, index_buf, material_buf, \
 										obj, light, light_nmb, i, obj_nmb, bounce_cnt);
 	}
-	else
+	else if (bounce_cnt == 0)
 	{
 		frame_buf[i].red = 0;
 		frame_buf[i].green = 0;

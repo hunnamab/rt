@@ -129,6 +129,7 @@ enum object_type {
 	TORUS
 };
 
+
 typedef struct		s_object3d_d
 {
 	t_primitive		primitive;
@@ -146,6 +147,11 @@ typedef struct		s_object3d_d
 	int				texture_width;
 	int				texture_height;
 	int				l_size;
+	int				normal_map_id; //разметка частей текстурного буфера для поиска карты нормалей
+	int				texture_size_nm;
+	int				texture_width_nm;
+	int				texture_height_nm;
+	int				l_size_nm;
 }					t_object_d;
 
 int cut(float3 point, __global t_cutting_surface *cs, int cs_nmb)
@@ -219,10 +225,7 @@ __kernel void intersect_ray_cylinder_cl(__global float3 *ray_arr, \
 	float result;
 	float3 ray;
     ray = camera_start[i] + ray_arr[i] + 0.001f;
-	//if (reflection > 0.001f || bounce_cnt == 0)
-		result = cylinder_intersection(cyl, ray, ray_arr[i]);
-/* 	else
-		return ; */
+	result = cylinder_intersection(cyl, ray, ray_arr[i]);
 	if (result > 0.01 && result < depth_buf[i])
     {
 		float3 intersection_point;

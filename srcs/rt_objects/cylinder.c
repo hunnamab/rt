@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cylinder.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:11:46 by pmetron           #+#    #+#             */
-/*   Updated: 2021/01/30 22:33:41 by npetrell         ###   ########.fr       */
+/*   Updated: 2021/02/01 21:13:03 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ t_object	*new_cylinder(cl_float3 *pos_vec, float *rad_spec, t_color color, \
 	new_cylinder->vec = pos_vec[1];
 	new_object->specular = rad_spec[1];
 	new_object->reflection = rad_spec[2];
-	new_object->reflection = 0.0;
 	new_object->rotation[0] = rotation[0];
 	new_object->rotation[1] = rotation[1];
 	new_object->rotation[2] = rotation[2];
@@ -37,6 +36,7 @@ t_object	*new_cylinder(cl_float3 *pos_vec, float *rad_spec, t_color color, \
 	new_object->cs_nmb = 0;
 	new_object->color = color;
 	new_object->text = NULL;
+	new_object->normal_text = NULL;
 	new_object->data = (void *)new_cylinder;
 	new_object->tag = "cylinder";
 	new_object->type = CYLINDER;

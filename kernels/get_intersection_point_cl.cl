@@ -133,6 +133,7 @@ enum object_type {
 	TORUS
 };
 
+
 typedef struct		s_object3d_d
 {
 	t_primitive		primitive;
@@ -150,7 +151,13 @@ typedef struct		s_object3d_d
 	int				texture_width;
 	int				texture_height;
 	int				l_size;
+	int				normal_map_id; //разметка частей текстурного буфера для поиска карты нормалей
+	int				texture_size_nm;
+	int				texture_width_nm;
+	int				texture_height_nm;
+	int				l_size_nm;
 }					t_object_d;
+
 __kernel void get_intersection_point(__global float3 *intersection_buf, \
                                     __global float3 *ray_buf, \
                                     __global float *depth_buf, \
@@ -169,8 +176,8 @@ __kernel void get_intersection_point(__global float3 *intersection_buf, \
     }
     else
     {
-        intersection_buf[i].x = 0;
-        intersection_buf[i].y = 0;
-        intersection_buf[i].z = 0;
+        intersection_buf[i].x = 0.0;
+        intersection_buf[i].y = 0.0;
+        intersection_buf[i].z = 0.0;
     }
 }
