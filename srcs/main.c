@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:02 by hunnamab          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2021/01/30 19:59:26 by pmetron          ###   ########.fr       */
+=======
+/*   Updated: 2021/01/30 20:16:04 by npetrell         ###   ########.fr       */
+>>>>>>> 3d136036b906f8cafbd282cc7bd5a9dd32b83a5e
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,9 +166,12 @@ int		main(int args, char **argv)
 	SDL_RenderClear(sdl.renderer);
 	scene->filter_type = DEFAULT;
 	//scene->obj_nmb += 1;
-	//scene->objs[scene->obj_nmb - 1] = new_torus(get_point(0,0,200), 200, 100, set_color(0,0,255,255), get_point(0,0,0), 100);
+	//scene->objs[scene->obj_nmb - 1] = new_torus(get_point(0,0,100), 100, 50, set_color(0,0,255,255), get_point(0,0,0), 100); */
 	//scene->obj_nmb += 1;
-	//scene->objs[scene->obj_nmb - 1] = new_box(get_point(1,1,1), get_point(10,10,10), set_color(0,0,255,255), get_point(0,0,0), 100);
+	/* cl_float3 *buf = malloc(sizeof(cl_float3) * 2);
+	buf[0] = get_point(0,0,0);
+	buf[1] = get_point(10,10,10);
+	scene->objs[scene->obj_nmb - 1] = new_box(buf, set_color(0,0,255,255), 100); */
 	//scene->objs[scene->obj_nmb - 1] = new_paraboloid(get_point(0,0,5), 50, set_color(255,0,0,255), get_point(0,0,0), 100);
 	/*инициализация секущих поверхностей
 	в будущем должна производиться из фаила*/

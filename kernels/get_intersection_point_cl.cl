@@ -81,6 +81,7 @@ typedef	struct		s_box
 {
 	float3			a;
 	float3			b;
+	int				face_hit;
 }					t_box;
 
 typedef struct		s_paraboloid
@@ -169,8 +170,8 @@ __kernel void get_intersection_point(__global float3 *intersection_buf, \
     }
     else
     {
-        intersection_buf[i].x = 0;
-        intersection_buf[i].y = 0;
-        intersection_buf[i].z = 0;
+        intersection_buf[i].x = 0.0;
+        intersection_buf[i].y = 0.0;
+        intersection_buf[i].z = 0.0;
     }
 }

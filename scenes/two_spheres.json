@@ -15,7 +15,7 @@
 		"rotation": [0, 0, 0],
 		"color": [170, 10, 98, 255],
 		"specular": 60,
-		"reflection": 0.0,
+		"reflection": 0.8,
 		"texture": "no"
 	},
 	"cone": {
@@ -25,7 +25,7 @@
 		"rotation": [0, 0, 0],
 		"color": [200, 50, 60, 255],
 		"specular": 100,
-		"reflection": 0.0,
+		"reflection": 0.4,
 		"texture": "no"
 	},
 	"light": [

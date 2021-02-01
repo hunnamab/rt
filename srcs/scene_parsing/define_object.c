@@ -6,7 +6,7 @@
 /*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 13:54:29 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/29 21:21:01 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/01/31 20:30:03 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,10 @@ void	get_parameters(char *name, char **description, t_scene *scene, int *snmi)
 		get_ellipsoid(description,  scene, snmi);
 	else if (ft_strequ(name, "\t\"box\":"))
 		get_box(description,  scene, snmi);
+	//else if (ft_strequ(name, "\t\"paraboloid\":"))
+	//	get_paraboloid(description,  scene, snmi);
+	//else if (ft_strequ(name, "\t\"torus\":"))
+	//	get_torus(description,  scene, snmi);
 	else
 		output_error(4);
 }
@@ -65,7 +69,7 @@ t_object 	*multiple_triangles(char **description, int *snmi, int i, float specul
 	cl_float3	vertex[3];
 	t_color		color;
 	cl_float3	buf;
-	float		rotation[3];
+	float		rotation[4];
 	
 	vertex[0] = get_points(description[i + 1]);
 	vertex[1] = get_points(description[i + 2]);

@@ -1,9 +1,9 @@
 {
-	"box": [
+	"paraboloid": [
 		{
-			"a": [0, 0, 0],
-			"b": [10, 100, 10],
-			"rotation": [0, 0, 0],
+			"center": [0, 0, 5],
+			"k": 50,
+			"rotation": [0, 0, 1],
 			"color": [255, 0, 0, 255],
 			"specular": 100,
 			"reflection": 0.0,

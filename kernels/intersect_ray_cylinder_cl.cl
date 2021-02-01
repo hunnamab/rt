@@ -80,6 +80,7 @@ typedef	struct		s_box
 {
 	float3			a;
 	float3			b;
+	int				face_hit;
 }					t_box;
 
 typedef struct		s_paraboloid
@@ -218,10 +219,7 @@ __kernel void intersect_ray_cylinder_cl(__global float3 *ray_arr, \
 	float result;
 	float3 ray;
     ray = camera_start[i] + ray_arr[i] + 0.001f;
-	//if (reflection > 0.001f || bounce_cnt == 0)
-		result = cylinder_intersection(cyl, ray, ray_arr[i]);
-/* 	else
-		return ; */
+	result = cylinder_intersection(cyl, ray, ray_arr[i]);
 	if (result > 0.01 && result < depth_buf[i])
     {
 		float3 intersection_point;

@@ -1,15 +1,14 @@
 {
-	"box": [
-		{
-			"a": [0, 0, 0],
-			"b": [10, 100, 10],
-			"rotation": [0, 0, 0],
-			"color": [255, 0, 0, 255],
-			"specular": 100,
-			"reflection": 0.0,
-			"texture": "no"
-		}
-	],
+	"torus": {
+		"center": [0, 0, 0],
+        "radius_one": 20,
+        "radius_two": 30,
+		"rotation": [0, 0, 0],
+		"color": [255, 0, 0, 255],
+		"specular": 100,
+		"reflection": 0.0,
+		"texture": "no"
+	},
 	"light": [
 		{
 			"type": "point",
