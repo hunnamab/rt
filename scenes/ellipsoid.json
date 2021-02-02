@@ -2,7 +2,7 @@
 	"ellipsoid": [
 		{
 			"center_one": [0, 0, -10],
-			"center_two": [10, 0, -10],
+			"center_two": [40, 0, -10],
 			"radiussum": 30,
 			"rotation": [0, 0, 0],
 			"color": [255, 0, 0, 255],

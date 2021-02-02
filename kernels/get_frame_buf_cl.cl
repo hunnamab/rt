@@ -558,7 +558,7 @@ float paraboloid_intersection(t_paraboloid parab, float3 ray_start, float3 ray_d
 
     parab_dir = ray_start - parab.center;
 	//dir_norm = normalize(parab.center);
- 	float3 dir_norm = {0.0f, -1.0f, 1.0f};
+ 	float3 dir_norm = parab.vec;
 	//dir_norm = normalize(dir_norm);
     a = dot(ray_dir, ray_dir) - pow(dot(ray_dir, dir_norm), 2);
     b = 2.0f * dot(ray_dir, parab_dir) - 2.0f * dot(ray_dir, dir_norm) * (dot(parab_dir, dir_norm) + 2.0f * parab.k);

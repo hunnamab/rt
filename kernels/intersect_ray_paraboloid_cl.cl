@@ -193,10 +193,12 @@ float paraboloid_intersection(t_paraboloid parab, float3 ray_start, float3 ray_d
     float c;
 	float t1;
     float t2;
+	// printf("\n\n %f\n", parab.center.z);
+	// printf("\n%f\n", parab.k);
 
     parab_dir = ray_start - parab.center;
 	//--------------------------------
-	float3 dir_norm = {0.0f, -1.0f, 1.0f};
+	float3 dir_norm = parab.vec;//{0.0f, -1.0f, 1.0f};
 	//--------------------------------
     a = dot(ray_dir, ray_dir) - pow(dot(ray_dir, dir_norm), 2);
     b = 2.0f * dot(ray_dir, parab_dir) - 2.0f * dot(ray_dir, dir_norm) * (dot(parab_dir, dir_norm) + 2.0f * parab.k);
@@ -229,11 +231,11 @@ __kernel  void    intersect_ray_paraboloid(__global float3 *ray_arr, \
     float result;
 	float3 ray;
     ray = camera_start[i] + ray_arr[i] + 0.001f;
-	if (bounce_cnt == 0 || material_buf[i].reflection > 0.0)
+	if (bounce_cnt == 0 || material_buf[i].reflection > 0.0f)
 		result = paraboloid_intersection(parab, ray, ray_arr[i]);
 	else
 		return ;
-    if (result > 0.01 && result < depth_buf[i])
+    if (result > 0.01f && result < depth_buf[i])
     {
 		float3 intersection_point;
         intersection_point = ray_arr[i] * result;

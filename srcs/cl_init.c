@@ -422,5 +422,6 @@ int    cl_init(t_scene *scene)
 	scene->filter_data.context = scene->cl_data.context;
 	scene->filter_data.pixels = scene->cl_data.scene.frame_buf;
 	device_objects_init(scene);
+	clFinish(scene->cl_data.commands);
 	return (0);
 }

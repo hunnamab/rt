@@ -192,7 +192,7 @@ void  get_normal_paraboloid(__global t_object_d *obj, \
 						__global float *depth_buf)
 {
  		//--------------------------------
-	float3 V = {0.0f, -1.0f, 1.0f};
+	float3 V = obj[0].primitive.paraboloid.vec;
 	//--------------------------------
 	//V = normalize(V);
 	float3 p_c = intersection_buf[0] - obj[0].primitive.paraboloid.center;

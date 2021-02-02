@@ -85,6 +85,8 @@ t_object    *new_paraboloid(cl_float3 *cen_buf, t_color color, float *specular)
 	new_object->specular = specular[1];
 	new_object->reflection = specular[2];
 	new_object->color = color;
+	new_object->cs_nmb = 0;
+	new_object->cutting_surfaces = NULL;
 	new_object->text = NULL;
 	new_object->normal_text = NULL;
 	new_object->data = (void *)parab;
@@ -109,7 +111,7 @@ void        intersect_ray_paraboloid(t_scene *scene, int index)
 		cs = NULL;
     clSetKernelArg(scene->cl_data.kernels[12], 0, sizeof(cl_mem), &scene->cl_data.scene.ray_buf);
 	clSetKernelArg(scene->cl_data.kernels[12], 1, sizeof(cl_mem), &scene->cl_data.scene.intersection_buf);
-    clSetKernelArg(scene->cl_data.kernels[12], 2, sizeof(t_paraboloid), scene->objs[index]->data);
+	clSetKernelArg(scene->cl_data.kernels[12], 2, sizeof(t_paraboloid), scene->objs[index]->data);
 	clSetKernelArg(scene->cl_data.kernels[12], 3, sizeof(cl_mem), &scene->cl_data.scene.depth_buf);
 	clSetKernelArg(scene->cl_data.kernels[12], 4, sizeof(cl_mem), &scene->cl_data.scene.index_buf);
 	clSetKernelArg(scene->cl_data.kernels[12], 5, sizeof(cl_int), (void*)&index);
@@ -117,8 +119,8 @@ void        intersect_ray_paraboloid(t_scene *scene, int index)
 	clSetKernelArg(scene->cl_data.kernels[12], 7, sizeof(cl_mem), &cs);
 	clSetKernelArg(scene->cl_data.kernels[12], 8, sizeof(cl_int), (void*)&scene->objs[index]->cs_nmb);
 	clSetKernelArg(scene->cl_data.kernels[12], 9, sizeof(cl_mem), &scene->cl_data.scene.material_buf);
-
-    clGetKernelWorkGroupInfo(scene->cl_data.kernels[12], scene->cl_data.device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
+ 	clGetKernelWorkGroupInfo(scene->cl_data.kernels[12], scene->cl_data.device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
 	printf("paraboloid local == %ld\n", local);
     clEnqueueNDRangeKernel(scene->cl_data.commands, scene->cl_data.kernels[12], 1, NULL, &global, &local, 0, NULL, NULL);
+	clFinish(scene->cl_data.commands);
 }

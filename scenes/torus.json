@@ -1,7 +1,7 @@
 {
 	"torus": {
 		"center": [0, 0, 0],
-		"vec": [0, 0, 10],
+		"vec": [1, 0, 0],
         "radius_one": 10,
 		"radius_two": 5,
 		"rotation": [0, 0, 0],

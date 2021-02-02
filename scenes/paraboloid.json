@@ -2,7 +2,7 @@
 	"paraboloid": [
 		{
 			"center": [0, 0, 10],
-			"vec": [0, 0, 10],
+			"vec": [1, 0, 1],
 			"k": 10,
 			"rotation": [0, 0, 1],
 			"color": [255, 0, 0, 255],
@@ -23,7 +23,7 @@
 		}
 	],
 	"camera": {
-		"position": [10, 0, -40],
+		"position": [0, 0, -40],
 		"rotation": [0, 0, 0]
 	}
 }

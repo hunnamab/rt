@@ -501,16 +501,12 @@ float torus_intersection(t_torus torus, float3 ray_start, float3 ray_dir)
     float c_2;
     float c_1;
     float c_0;
-	//-----------------------------
- 	float3 V = {1.0f, 0.0f, 0.0f}; 
-	torus.radius2 = 5.0f;
-	torus.radius1 = 10.0f;
-	//-----------------------------
+
 	float m = dot(ray_dir, ray_dir);
 	float n = dot(ray_dir, (ray_start - torus.center));
 	float o = dot((ray_start - torus.center), (ray_start - torus.center));
-	float p = dot(ray_dir, V);
-	float q = dot((ray_start - torus.center), V);
+	float p = dot(ray_dir, torus.vec);
+	float q = dot((ray_start - torus.center), torus.vec);
     c_4 = pow(m, 2);
     c_3 = 4.0f * m * n;
     c_2 = 4.0f * pow(m, 2) + 2.0f*m*o - 2.0f*(pow(torus.radius1, 2) + pow(torus.radius2, 2))*m + 4.0f*pow(torus.radius1, 2) *p * p;
