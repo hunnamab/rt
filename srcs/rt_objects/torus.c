@@ -12,8 +12,8 @@ void	one_argument_torus(char **description, t_scene *scene, int *snmi)
 	specular[1] = ftoi(get_coordinates(description[3]));
 	cen_buf[1] = get_points(description[4]);
 	color = get_color(description[5]);
-	specular[1] = ftoi(get_coordinates(description[6]));
-	specular[2] = ftoi(get_coordinates(description[7]));
+	specular[2] = ftoi(get_coordinates(description[6]));
+	specular[3] = ftoi(get_coordinates(description[7]));
 	torus = new_torus(cen_buf, color, specular);
 	torus->text = tex_new_bmp(get_file(description[8]));
 	scene->objs[snmi[1]] = torus;
