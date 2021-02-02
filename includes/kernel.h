@@ -87,12 +87,14 @@ typedef	struct		s_box
 typedef struct		s_paraboloid
 {
 	float3			center;
+	float3			vec;
 	float			k;
 }					t_paraboloid;
 
 typedef struct		s_torus
 {
 	float3			center;
+	float3			vec;
 	float			radius1;
 	float			radius2;
 }					t_torus;

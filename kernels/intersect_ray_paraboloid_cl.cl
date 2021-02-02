@@ -86,12 +86,14 @@ typedef	struct		s_box
 typedef struct		s_paraboloid
 {
 	float3			center;
+	float3			vec;
 	float			k;
 }					t_paraboloid;
 
 typedef struct		s_torus
 {
 	float3			center;
+	float3			vec;
 	float			radius1;
 	float			radius2;
 }					t_torus;
@@ -186,7 +188,6 @@ int cut(float3 point, __global t_cutting_surface *cs, int cs_nmb)
 float paraboloid_intersection(t_paraboloid parab, float3 ray_start, float3 ray_dir)
 {
     float3 parab_dir;
-    float3 dir_norm;
     float a;
     float b;
     float c;
@@ -194,11 +195,9 @@ float paraboloid_intersection(t_paraboloid parab, float3 ray_start, float3 ray_d
     float t2;
 
     parab_dir = ray_start - parab.center;
-	//dir_norm = normalize(parab.center);
- 	dir_norm.x = 0.0f;
-	dir_norm.y = -1.0f;
-	dir_norm.z = 1.0f;
-	//dir_norm = normalize(dir_norm);
+	//--------------------------------
+	float3 dir_norm = {0.0f, -1.0f, 1.0f};
+	//--------------------------------
     a = dot(ray_dir, ray_dir) - pow(dot(ray_dir, dir_norm), 2);
     b = 2.0f * dot(ray_dir, parab_dir) - 2.0f * dot(ray_dir, dir_norm) * (dot(parab_dir, dir_norm) + 2.0f * parab.k);
     c = dot(parab_dir, parab_dir) - dot(parab_dir, dir_norm) * (dot(parab_dir, dir_norm) + 4.0f * parab.k);

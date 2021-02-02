@@ -97,6 +97,9 @@ void        intersect_ray_torus(t_scene *scene, int index)
     size_t global = WID * HEI;
 	size_t local;
 	cl_int err = 0;
+	t_torus *t;
+	t = scene->objs[index]->data;
+	printf("torus radius host (%f,%f)\n", t->radius1, t->radius2);
     err = clSetKernelArg(scene->cl_data.kernels[13], 0, sizeof(cl_mem), &scene->cl_data.scene.normal_buf);
 	printf("%d", err);
 	err = clSetKernelArg(scene->cl_data.kernels[13], 1, sizeof(cl_mem), &scene->cl_data.scene.intersection_buf);

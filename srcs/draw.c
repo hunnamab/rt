@@ -6,7 +6,7 @@
 /*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 14:34:50 by pmetron           #+#    #+#             */
-/*   Updated: 2021/02/02 00:18:40 by npetrell         ###   ########.fr       */
+/*   Updated: 2021/02/02 22:36:28 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ void	draw_normal_buf(t_sdl *sdl, t_scene *scene)
 	x = -1;
 	y = -1;
 	i = 0;
+	scene->bounce_cnt = 0;
 	get_viewport(scene);
 	get_rays_arr(scene);
 	matrix = get_rotation_matrix(scene->camera.rotation);
@@ -107,7 +108,6 @@ void	draw_normal_buf(t_sdl *sdl, t_scene *scene)
 	clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.ray_buf, scene->cl_data.scene.normal_buf, 0, 0, sizeof(cl_float3) * WID * HEI, 0, NULL, NULL);
 	get_closest_points(scene, 0);
 	get_intersection_buf(scene);
-	clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.normal_buf, scene->cl_data.scene.ray_buf, 0, 0, sizeof(cl_float3) * WID * HEI, 0, NULL, NULL);
 	get_normal_buf(scene);
 	clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.index_buf, CL_FALSE, 0, sizeof(int) * (WID * HEI), scene->index_buf, 0, NULL, NULL);
 	clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.normal_buf, CL_FALSE, 0, sizeof(cl_float3) * (WID * HEI), scene->normal_buf, 0, NULL, NULL);
@@ -150,6 +150,7 @@ void	draw_deepth_buf(t_sdl *sdl, t_scene *scene)
 	y = -1;
 	i = 0;
 	
+	scene->bounce_cnt = 0;
 	get_viewport(scene);
 	get_rays_arr(scene);
 	matrix = get_rotation_matrix(scene->camera.rotation);
@@ -203,6 +204,7 @@ void	draw_raycast(t_sdl *sdl, t_scene *scene)
 	float	**matrix;
 	size_t global = WID * HEI;
 	
+	scene->bounce_cnt = 0;
 	get_viewport(scene);
 	get_rays_arr(scene);
 	matrix = get_rotation_matrix(scene->camera.rotation);

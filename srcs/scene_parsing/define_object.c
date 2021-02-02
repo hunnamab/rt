@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   define_object.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 13:54:29 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/31 20:30:03 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/02 20:09:42 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ void	get_parameters(char *name, char **description, t_scene *scene, int *snmi)
 		get_ellipsoid(description,  scene, snmi);
 	else if (ft_strequ(name, "\t\"box\":"))
 		get_box(description,  scene, snmi);
-	//else if (ft_strequ(name, "\t\"paraboloid\":"))
-	//	get_paraboloid(description,  scene, snmi);
-	//else if (ft_strequ(name, "\t\"torus\":"))
-	//	get_torus(description,  scene, snmi);
+	else if (ft_strequ(name, "\t\"paraboloid\":"))
+		get_paraboloid(description,  scene, snmi);
+	else if (ft_strequ(name, "\t\"torus\":"))
+		get_torus(description,  scene, snmi);
 	else
 		output_error(4);
 }

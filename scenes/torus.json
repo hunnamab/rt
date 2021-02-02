@@ -1,8 +1,8 @@
 {
 	"torus": {
 		"center": [0, 0, 0],
-        "radius_one": 4,
-		"radius_two": 4,
+        "radius_one": 10,
+		"radius_two": 5,
 		"rotation": [0, 0, 0],
 		"color": [255, 0, 0, 255],
 		"specular": 100,
@@ -12,7 +12,7 @@
 	"light": [
 		{
 			"type": "point",
-			"position": [0, 0, 100],
+			"position": [0, 0, 0],
 			"intensity": 0.8
 		},
 		{

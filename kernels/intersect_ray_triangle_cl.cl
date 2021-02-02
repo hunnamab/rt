@@ -225,7 +225,7 @@ __kernel void intersect_ray_triangle_cl(__global float3 *ray_arr, \
     int i = get_global_id(0);
     float res;
 	float3 ray;
-    ray = camera_start[i] + ray_arr[i] + 0.001f;
+    ray = camera_start[i] + ray_arr[i] * 0.00001f;
 	if (bounce_cnt == 0 || material_buf[i].reflection > 0.0)
 		res = triangle_intersection(triangle, ray, ray_arr[i]);
 	else

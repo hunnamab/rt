@@ -87,12 +87,14 @@ typedef	struct		s_box
 typedef struct		s_paraboloid
 {
 	float3			center;
+	float3			vec;
 	float			k;
 }					t_paraboloid;
 
 typedef struct		s_torus
 {
 	float3			center;
+	float3			vec;
 	float			radius1;
 	float			radius2;
 }					t_torus;
@@ -165,12 +167,20 @@ void get_normal_torus(__global t_object_d *obj, \
 						float3 camera_position, \
 						__global float *depth_buf)
 {
-	float a = 1.0f - (obj[0].primitive.torus.radius1 / sqrt(intersection_buf[0].x*intersection_buf[0].x + intersection_buf[0].y*intersection_buf[0].y));
-	float3 normal;
-	normal.x =  intersection_buf[0].x * a;
-	normal.y =  intersection_buf[0].y * a;
-	normal.z =  intersection_buf[0].z;
+	float3 V = {1.0f, 0.0f, 0.0f}; 
+	obj[0].primitive.torus.radius2 = 5;
+	obj[0].primitive.torus.radius1 = 10;
+	float k = dot((intersection_buf[0] - obj[0].primitive.torus.center), V);
+	float3 A =  intersection_buf[0] - V * k;
+	float m = sqrt(obj[0].primitive.torus.radius2 * obj[0].primitive.torus.radius2 - k * k);
+	float3 normal = intersection_buf[0] - A - (obj[0].primitive.torus.center - A) * m / (obj[0].primitive.torus.radius1 + m);
 	normal_buf[0] = normalize(normal);
+	if (dot(ray_buf[0], normal_buf[0]) > 0.0001)
+    {
+		normal_buf[0].x = normal_buf[0].x * -1;
+		normal_buf[0].y = normal_buf[0].y * -1;
+		normal_buf[0].z = normal_buf[0].z * -1;
+	}
 }
 
 void  get_normal_paraboloid(__global t_object_d *obj, \
@@ -181,10 +191,9 @@ void  get_normal_paraboloid(__global t_object_d *obj, \
 						float3 camera_position, \
 						__global float *depth_buf)
 {
-	float3 V; //= normalize(camera_position - obj[0].primitive.paraboloid.center);
- 	V.x = 0.0f;
-	V.y = -1.0f;
-	V.z = 1.0f;
+ 		//--------------------------------
+	float3 V = {0.0f, -1.0f, 1.0f};
+	//--------------------------------
 	//V = normalize(V);
 	float3 p_c = intersection_buf[0] - obj[0].primitive.paraboloid.center;
 	float m = dot(p_c, V);

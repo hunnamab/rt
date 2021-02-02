@@ -22,7 +22,7 @@
 		}
 	],
 	"camera": {
-		"position": [10, 0, -200],
+		"position": [10, 0, -40],
 		"rotation": [0, 0, 0]
 	}
 }

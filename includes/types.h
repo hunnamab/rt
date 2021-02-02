@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   types.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:58 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/01 21:13:08 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/02 22:38:16 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,12 +156,14 @@ typedef	struct			s_ellipsoid
 typedef struct			s_paraboloid
 {
 	cl_float3			center;
+	cl_float3			vec;
 	float				k;
 }						t_paraboloid;
 
 typedef struct			s_torus
 {
 	cl_float3			center;
+	cl_float3			vec;
 	float				radius1;
 	float				radius2;
 }						t_torus;
