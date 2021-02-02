@@ -6,7 +6,7 @@
 /*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:22 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/29 21:13:42 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/02 22:52:28 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,26 +109,25 @@ void	get_triangle(char **description, float specular, t_scene *scene, int *snmi)
 		one_argument_triangle(description, scene, snmi, specular);
 }
 
-void	get_plane(char **description,  t_scene *scene, int *snmi)
+void    get_plane(char **description,  t_scene *scene, int *snmi)
 {
-	t_object	*plane;
-	int i;
-
-	i = 1;
-	if (description[0][0] == '[')
-	{
-		while (description[i][1] != ']')
-		{
-			if (description[i][2] == '{')
-			{
-				plane = multiple_planes(description, scene, snmi, i);
-				plane->text = tex_new_bmp(get_file(description[i + 7]));
-				scene->objs[snmi[1]] = plane;
-				snmi[1]++;
-				i += 7;
-			}
-		}
-	}
-	if (description[0][0] == '{')
-		one_argument_plane(description, scene, snmi);
+    t_object    *plane;
+    int i;
+    i = 1;
+    if (description[0][0] == '[')
+    {
+        while (description[i][1] != ']')
+        {
+            if (description[i][2] == '{')
+            {
+                plane = multiple_planes(description, scene, snmi, i);
+                plane->text = tex_new_bmp(get_file(description[i + 7]));
+                scene->objs[snmi[1]] = plane;
+                snmi[1]++;
+                i += 9;
+            }
+        }
+    }
+    if (description[0][0] == '{')
+        one_argument_plane(description, scene, snmi);
 }

@@ -3,49 +3,72 @@
 /*                                                        :::      ::::::::   */
 /*   plane.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 14:22:24 by pmetron           #+#    #+#             */
-/*   Updated: 2021/02/01 20:42:44 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/02 22:52:54 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 #include "types.h"
 
-t_object	*new_plane(cl_float3 *poi_nor, float *specular, t_color color, \
-						float *rotation)
+t_basis get_plane_default(t_basis basis, cl_float3 normal)
 {
-	t_plane		*new_plane;
-	t_object	*new_object;
-	float		**matrix;
-
-	new_object = protected_malloc(sizeof(t_object), 1);
-	new_plane = protected_malloc(sizeof(t_plane), 1);
-	new_plane->normal = poi_nor[1];
-	normalize_vector(&new_plane->normal);
-	new_plane->point = poi_nor[0];
-	new_object->rotation[0] = rotation[0];
-	new_object->rotation[1] = rotation[1];
-	new_object->rotation[2] = rotation[2];
-	matrix = get_rotation_matrix(new_object->rotation);
-	transform(&new_plane->normal, matrix, 1);
-	matr_free(matrix, 4);
-	new_object->specular = specular[0];
-	new_object->reflection = specular[1];
-	new_object->cs_nmb = 0;
-	new_object->color = color;
-	new_object->data = (void *)new_plane;
-	new_object->tag = "plane";
-	new_object->type = PLANE;
-	new_object->text = NULL;
-	new_object->normal_text = NULL;
-	new_object->intersect = &intersect_ray_plane;
-	new_object->get_normal = &get_plane_normal;
-	new_plane->d = -new_plane->normal.x * new_plane->point.x - new_plane->\
-	normal.y * new_plane->point.y - new_plane->normal.z * new_plane->point.z;
-	new_object->clear_obj = &clear_default;
-	return (new_object);
+    if (normal.x == 1)
+    {
+        basis.u = (cl_float3){{1.0, 0.0, 0.0}};
+        basis.v = (cl_float3){{0.0, 1.0, 0.0}};
+        basis.w = (cl_float3){{0.0, 0.0, 1.0}};
+    }
+    else if (normal.y == 1)
+    {
+        basis.u = (cl_float3){{0.0, 1.0, 0.0}};
+        basis.v = (cl_float3){{1.0, 0.0, 0.0}};
+        basis.w = (cl_float3){{0.0, 0.0, 1.0}};
+    }
+    else
+    {
+        basis.u = (cl_float3){{0.0, 0.0, 1.0}};
+        basis.v = (cl_float3){{0.0, 1.0, 0.0}};
+        basis.w = (cl_float3){{1.0, 0.0, 0.0}};
+    }
+    return (basis);
+}
+t_object    *new_plane(cl_float3 *poi_nor, float *specular, t_color color, \
+                        float *rotation)
+{
+    t_plane     *new_plane;
+    t_object    *new_object;
+    float       **matrix;
+    new_object = protected_malloc(sizeof(t_object), 1);
+    new_plane = protected_malloc(sizeof(t_plane), 1);
+    new_plane->normal = poi_nor[1];
+    normalize_vector(&new_plane->normal);
+    new_plane->point = poi_nor[0];
+    new_object->rotation[0] = rotation[0];
+    new_object->rotation[1] = rotation[1];
+    new_object->rotation[2] = rotation[2];
+    matrix = get_rotation_matrix(new_object->rotation);
+    transform(&new_plane->normal, matrix, 1);
+    matr_free(matrix, 4);
+    new_object->specular = specular[0];
+    new_object->reflection = specular[1];
+    new_object->cs_nmb = 0;
+    new_object->color = color;
+    new_object->data = (void *)new_plane;
+    new_object->tag = "plane";
+    new_object->type = PLANE;
+    new_object->text = NULL;
+    new_object->normal_text = NULL;
+    new_object->intersect = &intersect_ray_plane;
+    new_object->get_normal = &get_plane_normal;
+    new_plane->d = -new_plane->normal.x * new_plane->point.x - new_plane->\
+    normal.y * new_plane->point.y - new_plane->normal.z * new_plane->point.z;
+    new_object->clear_obj = &clear_default;
+    new_object->basis = get_plane_default(new_object->basis, new_plane->normal);
+    new_object->basis = get_basis(new_object->basis, new_object->rotation);
+    return (new_object);
 }
 
 void		get_plane_normal(t_scene *scene, int index, int obj_num)

@@ -168,15 +168,18 @@ float3  change_basis(float3 vec, t_basis basis)
     return (tmp);
 }
 
-float3 	mapping_plane(float3 t, t_object_d obj)
+float3  mapping_plane(float3 t, t_object_d obj)
 {
-	float3 p;
-	float a = fmod(t.x, 1.0f);
-	float b = fmod(t.z, 1.0f);
- 	p.x = fabs(a);
-	p.y = fabs(b);
-	p.z = 0;
-	return (p);
+    float3 p;
+    t -= obj.primitive.plane.point;
+    t = change_basis(t, obj.basis);
+    t.x /= 10;
+    t.y /= 10;
+    t.z /= 10;
+    p.x = t.x;
+    p.y = t.z;
+    p.z = 0;
+    return (p);
 }
 
 float3		mapping_triangle(float3 t, t_object_d obj)
