@@ -21,24 +21,66 @@
 	],
 	"cylinder": [
 		{
-			"position": [-3, 1.5, 3],
-			"radius": 2,
+			"position": [0, 12, 0],
+			"radius": 0.8,
 			"vector": [0, 1, 0],
-			"rotation": [0, 0, 0.2],
+			"rotation": [0, 0, 0.785],
 			"color": [69, 146, 121, 255],
 			"specular": 200,
 			"reflection": 0.0,
 			"texture": "textures/helper.jpg"
 		},
 		{
-			"position": [3, 1.5, 15],
-			"radius": 4,
+			"position": [0, 12, 0],
+			"radius": 0.8,
 			"vector": [0, 1, 0],
-			"rotation": [0.2, 0, -0.3],
+			"rotation": [0, 0, -0.785],
 			"color": [32, 84, 151, 255],
 			"specular": 200,
 			"reflection": 0.3,
-			"texture": "no"
+			"texture": "textures/helper.jpg"
+		},
+		{
+			"position": [0, 12, 0],
+			"radius": 0.8,
+			"vector": [0, 1, 0],
+			"rotation": [0, 0, 1.2],
+			"color": [69, 146, 121, 255],
+			"specular": 200,
+			"reflection": 0.0,
+			"texture": "textures/helper.jpg"
+		},
+		{
+			"position": [0, 12, 0],
+			"radius": 0.8,
+			"vector": [0, 1, 0],
+			"rotation": [0, 0, -1.2],
+			"color": [32, 84, 151, 255],
+			"specular": 200,
+			"reflection": 0.3,
+			"texture": "textures/helper.jpg"
+		}
+	],
+	"triangle": [
+		{
+			"ver_one": [-25, -15, 20],
+			"ver_two": [40, 30, 140],
+			"ver_three": [-50, 40, 140],
+			"rotation": [0, 0.5, 0],
+			"color": [45, 205, 10, 255],
+			"specular": 50,
+			"reflection": 0.0,
+			"texture": "textures/helper.jpg"
+		},
+		{
+			"ver_one": [0, 10, 0],
+			"ver_two": [0, -15, 0],
+			"ver_three": [10, -10, 0],
+			"rotation": [0, 0, 0],
+			"color": [210, 205, 10, 255],
+			"specular": 50,
+			"reflection": 0.0,
+			"texture": "textures/helper.jpg"
 		}
 	],
 	"light": [
