@@ -3,22 +3,23 @@
 void	one_argument_paraboloid(char **description, t_scene *scene, int *snmi)
 {
 	t_object	*paraboloid;
-	cl_float3	cen_buf[2];
+	cl_float3	cen_buf[3];
 	float		rotation[3];
 	float		specular[3];
 	t_color		color;
 
 	cen_buf[0] = get_points(description[1]);
-	specular[0] = ftoi(get_coordinates(description[2]));
-	cen_buf[1] = get_points(description[3]);
+	cen_buf[1] = get_points(description[2]);
+	specular[0] = ftoi(get_coordinates(description[3]));
+	cen_buf[2] = get_points(description[4]);
 	rotation[0] = cen_buf[1].x;
 	rotation[1] = cen_buf[1].y;
 	rotation[2] = cen_buf[1].z;
-	color = get_color(description[4]);
-	specular[1] = ftoi(get_coordinates(description[5]));
-	specular[2] = ftoi(get_coordinates(description[6]));
+	color = get_color(description[5]);
+	specular[1] = ftoi(get_coordinates(description[6]));
+	specular[2] = ftoi(get_coordinates(description[7]));
 	paraboloid = new_paraboloid(cen_buf, color, specular);
-	paraboloid->text = tex_new_bmp(get_file(description[7]));
+	paraboloid->text = tex_new_bmp(get_file(description[8]));
 	scene->objs[snmi[1]] = paraboloid;
 	snmi[1]++;
 }
@@ -26,16 +27,17 @@ void	one_argument_paraboloid(char **description, t_scene *scene, int *snmi)
 t_object 	*multiple_paraboloids(char **description, t_scene *scene, int *snmi, int i)
 {
 	t_object	*paraboloid;
-	cl_float3	cen_buf[2];
+	cl_float3	cen_buf[3];
 	float		specular[3];
 	t_color 	color;
 
 	cen_buf[0] = get_points(description[i + 1]);
-	specular[0] = ftoi(get_coordinates(description[i + 2]));
-	cen_buf[1] = get_points(description[i + 3]);
-	color = get_color(description[i + 4]);
-	specular[1] = ftoi(get_coordinates(description[i + 5]));
-	specular[2] = ftoi(get_coordinates(description[i + 6]));
+	cen_buf[1] = get_points(description[i + 2]);
+	specular[0] = ftoi(get_coordinates(description[i + 3]));
+	cen_buf[2] = get_points(description[i + 4]);
+	color = get_color(description[i + 5]);
+	specular[1] = ftoi(get_coordinates(description[i + 6]));
+	specular[2] = ftoi(get_coordinates(description[i + 7]));
 	paraboloid = new_paraboloid(cen_buf, color, specular);
 	return (paraboloid);
 }
@@ -55,10 +57,10 @@ void	get_paraboloid(char **description, t_scene *scene, int *snmi)
 			if (description[i][2] == '{')
 			{
 				paraboloid = multiple_paraboloids(description, scene, snmi, i);
-				paraboloid->text = tex_new_bmp(get_file(description[i + 7]));
+				paraboloid->text = tex_new_bmp(get_file(description[i + 8]));
 				scene->objs[snmi[1]] = paraboloid;
 				snmi[1]++;
-				i += 9;
+				i += 10;
 			}
 		}
 	}
@@ -75,10 +77,11 @@ t_object    *new_paraboloid(cl_float3 *cen_buf, t_color color, float *specular)
 	new_object = malloc(sizeof(t_object));
 	parab = malloc(sizeof(t_paraboloid));
 	parab->center = cen_buf[0]; 
+	parab->vec = cen_buf[1]; 
 	parab->k = specular[0];
-	new_object->rotation[0] = cen_buf[1].x;
-	new_object->rotation[1] = cen_buf[1].y;
-	new_object->rotation[2] = cen_buf[1].z;
+	new_object->rotation[0] = cen_buf[2].x;
+	new_object->rotation[1] = cen_buf[2].y;
+	new_object->rotation[2] = cen_buf[2].z;
 	new_object->specular = specular[1];
 	new_object->reflection = specular[2];
 	new_object->color = color;
