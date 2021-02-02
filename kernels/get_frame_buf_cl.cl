@@ -592,13 +592,13 @@ t_color		reflection_color(__global t_color *frame_buf, \
 	result.red = material_buf[index].color.red * i;
 	result.green = material_buf[index].color.green * i;
 	result.blue = material_buf[index].color.blue * i;
-	if (bounce_cnt != 0)
+	if (bounce_cnt > 0)
 	{
-		result.red = (1 - material_buf[index].reflection) * result.red + material_buf[index].reflection * frame_buf[index].red;
-		result.green = (1 - material_buf[index].reflection) * result.green + material_buf[index].reflection * frame_buf[index].green;
-		result.blue = (1 - material_buf[index].reflection) * result.blue + material_buf[index].reflection * frame_buf[index].blue;
+		result.red = (1 - prev_material_buf[index].reflection) * result.red + prev_material_buf[index].reflection * frame_buf[index].red;
+		result.green = (1 - prev_material_buf[index].reflection) * result.green + prev_material_buf[index].reflection * frame_buf[index].green;
+		result.blue = (1 - prev_material_buf[index].reflection) * result.blue + prev_material_buf[index].reflection * frame_buf[index].blue;
 	}
-	/* if (material_buf[index].reflection == 0.1 && bounce_cnt > 0)
+/* 	if (prev_material_buf[index].reflection == 0.8 && bounce_cnt > 0)
 	{
 		result.red = 255;
 		result.green = 0;
