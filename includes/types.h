@@ -47,6 +47,7 @@ typedef struct			s_scene_device
 	cl_mem				depth_buf;
 	cl_mem				normal_buf;
 	cl_mem				material_buf;
+	cl_mem				prev_material_buf;
 	cl_mem				frame_buf;
 	cl_mem				obj;
 	cl_mem				light;

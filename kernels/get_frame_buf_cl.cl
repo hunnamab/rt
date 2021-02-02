@@ -561,7 +561,8 @@ t_color		reflection_color(__global t_color *frame_buf, \
                             __global t_object_d *obj, \
                             __global t_light *light, \
 							int light_nmb, \
-							int index, int obj_nmb, int bounce_cnt)
+							int index, int obj_nmb, int bounce_cnt, \
+							__global t_material *prev_material_buf)
 {
 	float		i;
 	float3		l;
@@ -597,6 +598,12 @@ t_color		reflection_color(__global t_color *frame_buf, \
 		result.green = (1 - material_buf[index].reflection) * result.green + material_buf[index].reflection * frame_buf[index].green;
 		result.blue = (1 - material_buf[index].reflection) * result.blue + material_buf[index].reflection * frame_buf[index].blue;
 	}
+	/* if (material_buf[index].reflection == 0.1 && bounce_cnt > 0)
+	{
+		result.red = 255;
+		result.green = 0;
+		result.blue = 0;
+	} */
 	if (index == 1280 * 360 + 640 * 11)
 		printf("result color device in reflection_color (%hhu, %hhu, %hhu)\n", result.red, result.green, result.blue);
 	return (result);
@@ -611,7 +618,8 @@ __kernel void get_frame_buf_cl(__global t_color *frame_buf, \
                             __global t_object_d *obj, \
                             __global t_light *light, \
                             int light_nmb,\
-							int obj_nmb, int bounce_cnt)
+							int obj_nmb, int bounce_cnt, \
+							__global t_material *prev_material_buf)
 {
     int i = get_global_id(0);
 	int j = index_buf[i];
@@ -619,7 +627,7 @@ __kernel void get_frame_buf_cl(__global t_color *frame_buf, \
 	{
 		frame_buf[i] = reflection_color(frame_buf, ray_buf, intersection_buf, \
 										normal_buf, index_buf, material_buf, \
-										obj, light, light_nmb, i, obj_nmb, bounce_cnt);
+										obj, light, light_nmb, i, obj_nmb, bounce_cnt, prev_material_buf);
 	}
 	else if (bounce_cnt == 0)
 	{

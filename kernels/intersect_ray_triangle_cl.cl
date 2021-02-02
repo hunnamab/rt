@@ -218,7 +218,7 @@ __kernel void intersect_ray_triangle_cl(__global float3 *ray_arr, \
                                 __global float *depth_buf, \
                                 t_triangle triangle, \
                                 __global int *index_buf, \
-                                int index, float reflection, int bounce_cnt,\
+                                int index, int bounce_cnt,\
 								 __global t_cutting_surface *cs, \
 								int cs_nmb, __global t_material *material_buf)
 {

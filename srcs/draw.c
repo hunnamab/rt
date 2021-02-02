@@ -20,13 +20,14 @@ void	draw_scene(t_sdl *sdl, t_scene *scene)
 	int					j = 0;
 	float				**matrix;
 	cl_mem 				swap_pointer;
+	size_t global = WID * HEI;
 	//scene->cl_data.scene.original_index_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(int) * WID * HEI, NULL, NULL);
 	//scene->cl_data.scene.prev_index_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(int) * WID * HEI, NULL, NULL);
 	x = -1;
 	y = -1;
 	i = 0;
 	scene->bounce_cnt = 0;
-	scene->max_bounces = 1;
+	scene->max_bounces = 2;
 	size_t local;
 	get_viewport(scene);
 	get_rays_arr(scene);
@@ -46,6 +47,7 @@ void	draw_scene(t_sdl *sdl, t_scene *scene)
 		get_closest_points(scene, 0);
 		get_intersection_buf(scene);
 		get_normal_buf(scene);
+		clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.material_buf, scene->cl_data.scene.prev_material_buf, 0, 0, sizeof(t_material) * WID * HEI, 0, NULL, NULL);
 		get_material_buf(scene);
 		get_frame_buf(scene);
 		//if (scene->bounce_cnt == 0)

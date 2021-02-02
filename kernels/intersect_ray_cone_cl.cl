@@ -217,7 +217,7 @@ __kernel void intersect_ray_cone_cl(__global float3 *ray_arr, \
                                 __global float *depth_buf, \
                                 t_cone cone, \
                                 __global int *index_buf, \
-                                int index, float reflection, int bounce_cnt, __global t_cutting_surface *cs, \
+                                int index, int bounce_cnt, __global t_cutting_surface *cs, \
 								int cs_nmb, __global t_material *material_buf)
 {
     int i = get_global_id(0);

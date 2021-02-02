@@ -109,6 +109,8 @@ void        intersect_ray_torus(t_scene *scene, int index)
 	printf("%d", err);
 	err = clSetKernelArg(scene->cl_data.kernels[13], 5, sizeof(cl_int), (void*)&index);
 	printf("%d", err);
+	clSetKernelArg(scene->cl_data.kernels[13], 6, sizeof(cl_int), (void*)&scene->bounce_cnt);
+	clSetKernelArg(scene->cl_data.kernels[13], 7, sizeof(cl_mem), &scene->cl_data.scene.material_buf);
     clGetKernelWorkGroupInfo(scene->cl_data.kernels[13], scene->cl_data.device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
 	printf("torus local == %ld\n", local);
     err = clEnqueueNDRangeKernel(scene->cl_data.commands, scene->cl_data.kernels[13], 1, NULL, &global, &local, 0, NULL, NULL);

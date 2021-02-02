@@ -6,7 +6,7 @@
 			"rotation": [0, 0, 0],
 			"color": [151, 32, 76, 255],
 			"specular": 300,
-			"reflection": 0.4,
+			"reflection": 0.1,
 			"texture": "no"
 		},
 		{
@@ -15,7 +15,7 @@
 			"rotation": [0, 0, 0],
 			"color": [37, 193, 149, 255],
 			"specular": 500,
-			"reflection": 0.0,
+			"reflection": 0.1,
 			"texture": "no"
 		},
 		{
@@ -24,7 +24,7 @@
 			"rotation": [0, 0, 0],
 			"color": [114, 32, 151, 255],
 			"specular": 300,
-			"reflection": 0.0,
+			"reflection": 0.1,
 			"texture": "no"
 		},
 		{
@@ -33,7 +33,7 @@
 			"rotation": [0, 0, 0],
 			"color": [14, 132, 51, 255],
 			"specular": 300,
-			"reflection": 0.4,
+			"reflection": 0.0,
 			"texture": "no"
 		},
 		{
@@ -42,7 +42,7 @@
 			"rotation": [0, 0, 0],
 			"color": [10, 200, 20, 255],
 			"specular": 200,
-			"reflection": 0.1,
+			"reflection": 0.8,
 			"texture": "no"
 		}
 	],

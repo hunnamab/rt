@@ -223,14 +223,17 @@ __kernel  void    intersect_ray_paraboloid(__global float3 *ray_arr, \
 											t_paraboloid parab, \
 											__global float *depth_buf, \
 											__global int *index_buf, int index, \
-											float reflection, int bounce_cnt, __global t_cutting_surface *cs, \
-											int cs_nmb)
+											int bounce_cnt, __global t_cutting_surface *cs, \
+											int cs_nmb, __global t_material *material_buf)
 {
     int i = get_global_id(0);
     float result;
 	float3 ray;
     ray = camera_start[i] + ray_arr[i] + 0.001f;
-	result = paraboloid_intersection(parab, ray, ray_arr[i]);
+	if (bounce_cnt == 0 || material_buf[i].reflection > 0.0)
+		result = paraboloid_intersection(parab, ray, ray_arr[i]);
+	else
+		return ;
     if (result > 0.01 && result < depth_buf[i])
     {
 		float3 intersection_point;

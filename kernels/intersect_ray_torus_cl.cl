@@ -537,13 +537,18 @@ __kernel  void    intersect_ray_torus(__global float3 *ray_arr, \
 											__global float3 *camera_start, \
 											t_torus torus, \
 											__global float *depth_buf, \
-											__global int *index_buf, int index)
+											__global int *index_buf, int index, \
+											int bounce_cnt, \
+											__global t_material *material_buf)
 {
     int i = get_global_id(0);
     float res;
 	float3 ray;
     ray = camera_start[i] + ray_arr[i] + 0.001f;
- 	res = torus_intersection(torus, ray, ray_arr[i]);
+	if (bounce_cnt == 0 || material_buf[i].reflection > 0.0)
+ 		res = torus_intersection(torus, ray, ray_arr[i]);
+	else
+		return ;
 	if (res > 0.001 && res < depth_buf[i])
     {
         float3 intersection_point;

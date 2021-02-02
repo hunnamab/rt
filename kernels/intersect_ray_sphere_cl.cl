@@ -213,8 +213,7 @@ __kernel void intersect_ray_sphere_cl(__global float3 *ray_arr, \
                                 __global float *depth_buf, \
                                 __global int *index_buf, \
                                 int index, __global t_cutting_surface *cs, \
-								int cs_nmb, float reflection, \
-								int max_bounces, int bounce_cnt, \
+								int cs_nmb, int bounce_cnt, \
 								__global t_material *material_buf)
 {
     int i = get_global_id(0);

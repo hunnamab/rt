@@ -217,8 +217,8 @@ __kernel void intersect_ray_cylinder_cl(__global float3 *ray_arr, \
                                 __global float *depth_buf, \
                                 t_cylinder cyl, \
                                 __global int *index_buf, \
-                                int index, float reflection, \
-								int max_bounces, int bounce_cnt, __global t_cutting_surface *cs, \
+                                int index, int bounce_cnt, \
+								__global t_cutting_surface *cs, \
 								int cs_nmb, __global t_material *material_buf)
 {
     int i = get_global_id(0);

@@ -65,12 +65,10 @@ void		intersect_ray_cylinder(t_scene *scene, int index)
 	clSetKernelArg(scene->cl_data.kernels[3], 3, sizeof(t_cylinder), scene->objs[index]->data);
 	clSetKernelArg(scene->cl_data.kernels[3], 4, sizeof(cl_mem), &scene->cl_data.scene.index_buf);
 	clSetKernelArg(scene->cl_data.kernels[3], 5, sizeof(cl_int), (void*)&index);
-	clSetKernelArg(scene->cl_data.kernels[3], 6, sizeof(cl_float), (void*)&scene->objs[index]->reflection);
-	clSetKernelArg(scene->cl_data.kernels[3], 7, sizeof(cl_int), (void*)&scene->max_bounces);
-	clSetKernelArg(scene->cl_data.kernels[3], 8, sizeof(cl_int), (void*)&scene->bounce_cnt);
-	clSetKernelArg(scene->cl_data.kernels[3], 9, sizeof(cl_mem), &cs);
-	clSetKernelArg(scene->cl_data.kernels[3], 10, sizeof(cl_int), (void*)&scene->objs[index]->cs_nmb);
-	clSetKernelArg(scene->cl_data.kernels[3], 11, sizeof(cl_mem), &scene->cl_data.scene.material_buf);
+	clSetKernelArg(scene->cl_data.kernels[3], 6, sizeof(cl_int), (void*)&scene->bounce_cnt);
+	clSetKernelArg(scene->cl_data.kernels[3], 7, sizeof(cl_mem), &cs);
+	clSetKernelArg(scene->cl_data.kernels[3], 8, sizeof(cl_int), (void*)&scene->objs[index]->cs_nmb);
+	clSetKernelArg(scene->cl_data.kernels[3], 9, sizeof(cl_mem), &scene->cl_data.scene.material_buf);
 	
     clGetKernelWorkGroupInfo(scene->cl_data.kernels[3], scene->cl_data.device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
 	printf("local == max work group size == %ld\n", local);
