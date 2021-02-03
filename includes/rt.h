@@ -209,7 +209,10 @@ t_object    *new_torus(cl_float3 *cen_buf, t_color color, float *specular);
 void        intersect_ray_torus(t_scene *scene, int index);
 
 t_object    *new_box(cl_float3 *buf, t_color color, float *specular);
-void	get_box(char **description, t_scene *scene, int *snmi);
+void		get_box(char **description, t_scene *scene, int *snmi);
+
+void		get_torus(char **description, t_scene *scene, int *snmi);
+void		get_paraboloid(char **description, t_scene *scene, int *snmi);
 
 
 #endif
