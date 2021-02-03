@@ -54,6 +54,7 @@ t_object    *new_plane(cl_float3 *poi_nor, float *specular, t_color color, \
     matr_free(matrix, 4);
     new_object->specular = specular[0];
     new_object->reflection = specular[1];
+	new_object->refraction = 0.0;
     new_object->cs_nmb = 0;
     new_object->color = color;
     new_object->data = (void *)new_plane;

@@ -73,6 +73,7 @@ t_object	*new_sphere(cl_float3 center, float *rad_spec, t_color color, \
 	new_object->rotation[2] = rotation[2];
 	new_object->specular = rad_spec[1];
 	new_object->reflection = rad_spec[2];
+	new_object->refraction = 0.0;
 	new_object->color = color;
 	new_object->text = NULL;
 	new_object->normal_text = NULL;

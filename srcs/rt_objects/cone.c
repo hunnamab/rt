@@ -32,6 +32,7 @@ t_object	*new_cone(cl_float3 *pos_vec, float *ang_spec, t_color color, \
 	matr_free(matrix, 4);
 	new_object->specular = ang_spec[1];
 	new_object->reflection = ang_spec[2];
+	new_object->refraction = 0.0;
 	new_object->cs_nmb = 0;
 	new_object->color = color;
 	new_object->text = NULL;

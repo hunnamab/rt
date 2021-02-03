@@ -83,6 +83,7 @@ t_object    *new_torus(cl_float3 *cen_buf, t_color color, float *specular)
 	new_object->rotation[2] = cen_buf[2].z;
 	new_object->specular = specular[2];
 	new_object->reflection = specular[3];
+	new_object->refraction = 0.0;
 	new_object->color = color;
 	new_object->text = NULL;
 	new_object->normal_text = NULL;

@@ -144,6 +144,7 @@ typedef	struct			s_material
 	t_color				color;
 	float				specular;
 	float				reflection;
+	float				refraction;
 }						t_material;
 
 typedef	struct			s_ellipsoid
@@ -259,6 +260,7 @@ typedef	struct			s_object3d
 	t_color				color;
 	float				specular;
 	float				reflection;
+	float				refraction;
 	t_texture			*text;
 	t_texture			*normal_text;
 	t_basis				basis;

@@ -78,6 +78,7 @@ t_object	*new_triangle(cl_float3 *vertex, float specular, t_color color, \
 	new_object->normal_text = NULL;
 	new_object->specular = specular;
 	new_object->reflection = rotation[3];
+	new_object->refraction = 0.0;
 	new_object->text = NULL;
 	new_object->color = color;
 	new_object->data = (void *)new_triangle;

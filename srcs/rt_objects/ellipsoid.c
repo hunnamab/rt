@@ -70,6 +70,7 @@ t_object    *new_ellipsoid(cl_float3 *buf, t_color color, float *specular)
 	new_object->rotation[2] = buf[2].z;
 	new_object->specular = specular[1];
 	new_object->reflection = specular[2];
+	new_object->refraction = 0.0;
 	new_object->color = color;
 	new_object->cs_nmb = 0;
 	new_object->text = NULL;
