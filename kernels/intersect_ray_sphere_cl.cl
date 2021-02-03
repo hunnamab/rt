@@ -126,9 +126,9 @@ typedef	union		primitive
 
 typedef	struct		 s_cutting_surface
 {
+	t_primitive		primitive;
 	int				type;
 	int				is_negative;
-	t_primitive		primitive;
 }					t_cutting_surface;
 
 typedef struct		s_object3d_d
@@ -221,7 +221,12 @@ __kernel void intersect_ray_sphere_cl(__global float3 *ray_arr, \
     int i = get_global_id(0);
     float result;
     float3 ray;
-    ray = camera_start[i] + ray_arr[i] * 0.00001f;
+	float buf;
+	float3 buf2;
+	if (bounce_cnt > 0)
+    	ray = camera_start[i] + ray_arr[i] * 0.00001f;
+	else
+		ray = camera_start[i];
 	if (bounce_cnt == 0 || material_buf[i].reflection > 0.0)
 		result = sphere_intersection(sphere, ray, ray_arr[i]);
 	else

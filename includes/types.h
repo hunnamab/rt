@@ -246,9 +246,9 @@ typedef	union			primitive
 
 typedef	struct		 	s_cutting_surface
 {
+	t_primitive			primitive;
 	cl_int				type;
 	cl_int				is_negative;
-	t_primitive			primitive;
 }						t_cutting_surface;
 
 typedef	struct			s_object3d
