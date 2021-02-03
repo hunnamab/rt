@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sphere.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 22:45:20 by pmetron           #+#    #+#             */
-/*   Updated: 2021/02/01 20:42:40 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/03 21:37:57 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,8 @@ void	one_argument_sphere(char **description, t_scene *scene, int *snmi)
 	rad_spec[2] = ftoi(get_coordinates(description[6]));
 	sphere = new_sphere(cen_buf[0], rad_spec, color, rotation);
 	sphere->text = tex_new_bmp(get_file(description[7]));
+	printf("KJBDKJNKAJNOAJNDOAKDNOKN\n", sphere->text->size);
+	sphere->normal_text = tex_new_bmp(get_file(description[8]));
 	scene->objs[snmi[1]] = sphere;
 	snmi[1]++;
 }

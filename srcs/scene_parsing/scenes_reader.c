@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scenes_reader.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:43 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/23 20:21:18 by npetrell         ###   ########.fr       */
+/*   Updated: 2021/02/03 22:40:04 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ static void	get_objects(char *buf, t_scene *scene, int len)
 	int snmi[4]; // start, n, m, i
 	char c;
 	int i = 0;
+	int txt_nmb = 0;
 
 	snmi[0] = 2;
 	snmi[1] = 0;
@@ -59,7 +60,7 @@ static void	get_objects(char *buf, t_scene *scene, int len)
 	split_objects(len, scene, buf);
 	scene->objs = protected_malloc(sizeof(t_object *), scene->obj_nmb + 1); // создаем массив структур для объектов
 	scene->light = protected_malloc(sizeof(t_light), scene->light_nmb);
-	scene->texts = protected_malloc(sizeof(t_texture *), scene->obj_nmb + 1);
+	//scene->texts = protected_malloc(sizeof(t_texture *), scene->obj_nmb * 2 + 1);
 	while (snmi[3] < len)
 	{
 		if (buf[snmi[3] + 1] == '{' || buf[snmi[3] + 1] == '[')
@@ -67,23 +68,48 @@ static void	get_objects(char *buf, t_scene *scene, int len)
 			c = buf[snmi[3] + 1];
 			scene_objects(snmi, scene, buf);
 		}
-		/*if (c == '{')
-		{
-			while (buf[snmi[3] + 1] != '}')
-				snmi[3]++;
-		}
-		else if (c =='[')
-		{
-			while (buf[snmi[3] + 1] != ']')
-				snmi[3]++;
-		}*/
 		snmi[3]++;
 	}
 	while (i < scene->obj_nmb)
 	{
-		scene->texts[i] = scene->objs[i]->text;
-		scene->objs[i]->texture_id = i;
+		if (scene->objs[i]->text != NULL)
+			txt_nmb++;
+		if (scene->objs[i]->normal_text != NULL)
+			txt_nmb++;
 		i++;
+	}
+	scene->texts = protected_malloc(sizeof(t_texture *), txt_nmb + 1);
+	/*i = 0;
+	int j = 0;
+	while (i < scene->obj_nmb)
+	{
+		if (i == scene->objs[i]->texture_id)
+		{
+			scene->texts[j] = scene->objs[i]->text;
+			j++;
+		}
+		i++;
+	}*/
+	int j = 0;
+	i = 0;
+	printf("KNJFFKJNSVKLGNSLKGJANLKGNALK%d\n", txt_nmb);
+	while (j < scene->obj_nmb)
+	{
+		if (scene->objs[j]->text != NULL)
+		{
+			scene->texts[i] = scene->objs[j]->text;
+			printf("%d\n", scene->texts[i]->size);
+			scene->objs[j]->texture_id = i;
+			printf("%d\n", scene->objs[j]->texture_id);
+			i++;
+		}
+		if (scene->objs[j]->normal_text != NULL)
+		{
+			scene->texts[i] = scene->objs[j]->normal_text;
+			scene->objs[j]->normal_map_id = i;
+			i++;
+		}
+		j++;
 	}
 	ft_memdel((void **)&buf);
 }

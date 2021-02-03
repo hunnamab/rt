@@ -8,7 +8,8 @@
 			"color": [45, 205, 10, 255],
 			"specular": 50,
 			"reflection": 0.0,
-			"texture": "textures/helper.jpg"
+			"texture": "textures/helper.jpg",
+			"normal_map": "no"
 		},
 		{
 			"ver_one": [25, -15, 80],
@@ -18,7 +19,8 @@
 			"color": [210, 205, 10, 255],
 			"specular": 50,
 			"reflection": 0.0,
-			"texture": "textures/helper.jpg"
+			"texture": "textures/helper.jpg",
+			"normal_map": "no"
 		}
 	],
 	"camera": {

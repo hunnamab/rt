@@ -7,16 +7,18 @@
 			"color": [123, 33, 56, 255],
 			"specular": -1,
 			"reflection": 0.0,
-			"texture": "textures/Bricks.jpg"
+			"texture": "no",
+			"normal_map": "no"
 		},
 		{
 			"point": [0, 0, 100],
 			"normal": [0, 1, 0],
 			"rotation": [0, 0, 0],
-			"color": [0, 0, 0, 0],
+			"color": [0, 255, 0, 0],
 			"specular": -1,
 			"reflection": 0.0,
-			"texture": "textures/Bricks.jpg"
+			"texture": "textures/test2.png",
+			"normal_map": "textures/test.png"
 		}
 	],
 	"light": [ 
@@ -36,7 +38,7 @@
 		}
 	],
 	"camera": {
-		"position": [0, 0, -40],
+		"position": [0, 5, -40],
 		"rotation": [0, 0, 0]
 	}
 }

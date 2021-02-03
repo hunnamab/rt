@@ -6,7 +6,8 @@
 		"color": [100, 50, 200, 255],
 		"specular": 60,
 		"reflection": 0.0,
-		"texture": "textures/Bricks.jpg"
+		"texture": "textures/helper.jpg",
+		"normal_map": "no"
 	},
 	"plane": {
 		"point": [0, 1, 0],
@@ -15,7 +16,8 @@
 		"color": [123, 33, 56, 255],
 		"specular": -1,
 		"reflection": 0.0,
-		"texture": "textures/helper.jpg"
+		"texture": "textures/helper.jpg",
+		"normal_map": "no"
 	},
 	"light": [
 		{

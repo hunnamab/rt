@@ -7,6 +7,7 @@ void	device_objects_init(t_scene *scene)
 	int i = 0;
 	int shift = 0;
 	int l = 0;
+
 	while (i < scene->obj_nmb)
 	{
 		if (scene->objs[i]->type == SPHERE)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cylinder.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:11:46 by pmetron           #+#    #+#             */
-/*   Updated: 2021/02/01 21:13:03 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/03 22:53:24 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ void	one_argument_cylinder(char **description, t_scene *scene, int *snmi)
 	rad_spec[2] = ftoi(get_coordinates(description[7]));
 	cylinder = new_cylinder(pos_vec_buf, rad_spec, color, rotation);
 	cylinder->text = tex_new_bmp(get_file(description[8]));
+	cylinder->normal_text = tex_new_bmp(get_file(description[9]));
 	scene->objs[snmi[1]] = cylinder;
 	snmi[1]++;
 }

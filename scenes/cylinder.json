@@ -7,7 +7,8 @@
 		"color": [170, 10, 98, 255],
 		"specular": 60,
 		"reflection": 0.0,
-		"texture": "textures/helper.jpg"
+		"texture": "textures/helper.jpg",
+		"normal_map": "no"
 	},
 	"sphere": [ 
 		{
@@ -17,7 +18,8 @@
 			"color": [100, 150, 4, 255],
 			"specular": 50,
 			"reflection": 0.0,
-			"texture": "textures/red.jpg"
+			"texture": "textures/helper.jpg",
+			"normal_map": "no"
 		},
 		{
 			"center": [-50, 35, 120],
@@ -26,7 +28,8 @@
 			"color": [25, 45, 170, 255],
 			"specular": 100,
 			"reflection": 0.0,
-			"texture": "textures/helper.jpg"
+			"texture": "textures/helper.jpg",
+			"normal_map": "no"
 		}
 	],
 	"light": [

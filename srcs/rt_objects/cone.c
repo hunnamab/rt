@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cone.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:38:39 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/01 20:42:57 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/03 22:53:03 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ void	one_argument_cone(char **description, t_scene *scene, int *snmi)
 	ang_spec[2] = ftoi(get_coordinates(description[7]));
 	cone = new_cone(pos_vec_buf, ang_spec, color, rotation);
 	cone->text = tex_new_bmp(get_file(description[8]));
+	cone->normal_text = tex_new_bmp(get_file(description[9]));
 	scene->objs[snmi[1]] = cone;
 	snmi[1]++;
 }
