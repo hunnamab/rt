@@ -140,7 +140,7 @@ void	device_objects_init(t_scene *scene)
 		buf[i].color = scene->objs[i]->color;
 		buf[i].roughness = 0;
 		buf[i].color_disrupt = 0;
-		buf[i].refraction = 0;
+		buf[i].refraction = scene->objs[i]->refraction;
 		buf[i].reflection = scene->objs[i]->reflection;
 		buf[i].basis = scene->objs[i]->basis;
 		i++;

@@ -321,6 +321,7 @@ __kernel void    get_material_buf_cl(__global uchar *texture_data,\
 			material_buf[i].color = obj[index_buf[i]].color;
 		material_buf[i].specular = obj[index_buf[i]].specular;
 		material_buf[i].reflection = obj[index_buf[i]].reflection;
+		material_buf[i].refraction = obj[index_buf[i]].refraction;
     }
  	else
 	{
@@ -334,5 +335,6 @@ __kernel void    get_material_buf_cl(__global uchar *texture_data,\
 			material_buf[i].reflection = 0.0;
 		}
 		material_buf[i].reflection = 0.0;
+		material_buf[i].refraction = 0.0;
 	}
 }
