@@ -1,13 +1,13 @@
 {
 	"plane": [
 		{
-			"point": [0, 0, 100],
+			"point": [0, 0, 30],
 			"normal": [0, 0, 1],
-			"rotation": [0, 0, 0],
+			"rotation": [0, 0, 0.0],
 			"color": [255, 0, 255, 255],
 			"specular": 10,
 			"reflection": 0.0,
-			"texture": "textures/Pattern1.jpg",
+			"texture": "no",
 			"normal_map": "no"
 		},
 		{
@@ -23,22 +23,12 @@
 	],
 	"sphere": [
 		{
-			"center": [6, -3, 5],
-			"radius": 4,
-			"rotation": [0, 0, 0],
-			"color": [151, 32, 76, 255],
-			"specular": 100,
-			"reflection": 0.4,
-			"texture": "no",
-			"normal_map": "no"
-		},
-		{
 			"center": [-6, -3, 0],
 			"radius": 3,
 			"rotation": [0, 0, 0],
 			"color": [37, 193, 149, 255],
 			"specular": 200,
-			"reflection": 0.8,
+			"reflection": 0.0,
 			"texture": "no",
 			"normal_map": "no"
 		}
@@ -54,7 +44,7 @@
 		},
 		{
 			"type": "point",
-			"position": [10, 10, -20],
+			"position": [10, 10, -10],
 			"intensity": 0.4
 		}
 	]

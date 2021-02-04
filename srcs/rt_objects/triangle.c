@@ -114,7 +114,7 @@ void		get_triangle_normal(t_scene *scene, int index, int obj_num)
 		scene->normal_buf[index] = vector_scale(&scene->normal_buf[index], -1);
 }
 
-void		intersect_ray_triangle(t_scene *scene, int index)
+void		intersect_ray_triangle(t_scene *scene, int index, int is_refractive)
 {
 	size_t global = WID * HEI;
 	size_t local;

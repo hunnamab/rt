@@ -987,6 +987,17 @@ t_color		reflection_color(__global t_color *frame_buf, \
 		printf("result color device in reflection_color (%hhu, %hhu, %hhu)\n", result.red, result.green, result.blue);
 	return (result);
 }
+void reflect(__global float3 *normal_buf, int i, __global float3 *ray_buf)
+{
+	float buf;
+	float3 buf2;
+
+	buf = dot(ray_buf[i], normal_buf[i]);
+	buf2.x = 2 * normal_buf[i].x * buf;
+	buf2.y = 2 * normal_buf[i].y * buf;
+	buf2.z = 2 * normal_buf[i].z * buf;
+	normal_buf[i] = ray_buf[i] - buf2;
+}
 
 __kernel void get_frame_buf_cl(__global t_color *frame_buf, \
                             __global float3 *ray_buf, \
@@ -1002,8 +1013,6 @@ __kernel void get_frame_buf_cl(__global t_color *frame_buf, \
 {
     int i = get_global_id(0);
 	int j = index_buf[i];
-	float buf;
-	float3 buf2;
 	if (j != -1)
 	{
 		frame_buf[i] = reflection_color(frame_buf, ray_buf, intersection_buf, \
@@ -1017,9 +1026,5 @@ __kernel void get_frame_buf_cl(__global t_color *frame_buf, \
 		frame_buf[i].blue = 0;
 		frame_buf[i].alpha = 255;
 	}
-	buf = dot(ray_buf[i], normal_buf[i]);
-	buf2.x = 2 * normal_buf[i].x * buf;
-	buf2.y = 2 * normal_buf[i].y * buf;
-	buf2.z = 2 * normal_buf[i].z * buf;
-	normal_buf[i] = ray_buf[i] - buf2;
+	reflect(normal_buf, i, ray_buf);
 }

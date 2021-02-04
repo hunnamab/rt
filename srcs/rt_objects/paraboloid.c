@@ -98,7 +98,7 @@ t_object    *new_paraboloid(cl_float3 *cen_buf, t_color color, float *specular)
 	return (new_object);
 }
 
-void        intersect_ray_paraboloid(t_scene *scene, int index)
+void        intersect_ray_paraboloid(t_scene *scene, int index, int is_refractive)
 {
     size_t global = WID * HEI;
 	size_t local;

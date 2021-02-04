@@ -83,24 +83,24 @@ t_color		set_color(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha);
 void		set_color_zero(t_color *color);
 t_color		color_mul_by_scalar(t_color *color, float scalar);
 // sphere.c
-void		intersect_ray_sphere(t_scene *scene, int index);
+void		intersect_ray_sphere(t_scene *scene, int index, int is_refractive);
 t_object	*new_sphere(cl_float3 center, float *rad_spec, t_color color, \
 							float *rotation);
 // triangle.c
-void		intersect_ray_triangle(t_scene *scene, int index);
+void		intersect_ray_triangle(t_scene *scene, int index, int is_refractive);
 t_object	*new_triangle(cl_float3 *vertex, float specular, t_color color, \
 							float *rotation);
 void		clear_triangle(t_object *obj);
 // plane.c
-void		intersect_ray_plane(t_scene *scene, int index);
+void		intersect_ray_plane(t_scene *scene, int index, int is_refractive);
 t_object	*new_plane(cl_float3 *poi_nor, float *specular, t_color color, \
 						float *rotation);
 // cylinder.c
-void		intersect_ray_cylinder(t_scene *scene, int index);
+void		intersect_ray_cylinder(t_scene *scene, int index, int is_refractive);
 t_object	*new_cylinder(cl_float3 *pos_vec, float *rad_spec, t_color color, \
 							float *rotation);
 // cone.c
-void		intersect_ray_cone(t_scene *scene, int index);
+void		intersect_ray_cone(t_scene *scene, int index, int is_refractive);
 t_object	*new_cone(cl_float3 *pos_vec, float *ang_spec, t_color color, \
 						float *rotation);
 
@@ -132,9 +132,9 @@ float		**rotate_y(float y);
 void		get_rays_arr(t_scene *scene);
 void		get_buffers(t_scene *scene);
 void		get_normal_buf(t_scene *scene);
-void		get_intersection_buf(t_scene *scene);
-void		get_closest_points(t_scene *scene, float t);
-void		get_frame_buf(t_scene *scene);
+void		get_intersection_buf(t_scene *scene, int is_refractive);
+void		get_closest_points(t_scene *scene, float t, int is_refractive);
+void 		get_frame_buf(t_scene *scene, int is_refractive);
 // buffers_material_buf.c
 void		get_material_buf(t_scene *scene);
 // normal.c
@@ -186,10 +186,10 @@ t_object	*multiple_triangles(char **description, int *snmi, int i, float specula
 void		one_argument_cone(char **description, t_scene *scene, int *snmi);
 //texture_loading
 void		load_textures(t_scene *scene);
-void		intersect_ray_ellipsoid(t_scene *scene, int index);
+void		intersect_ray_ellipsoid(t_scene *scene, int index, int is_refractive);
 //t_object	*new_ellipsoid(cl_float3 center, cl_float3 abc, t_color color, cl_float3 rotation, float specular);
 //box
-void		intersect_ray_box(t_scene *scene, int index);
+void		intersect_ray_box(t_scene *scene, int index, int is_refractive);
 //t_object	*new_box(cl_float3 a, cl_float3 b, t_color color, cl_float3 rotation, float specular);
 
 void		device_objects_init(t_scene *scene);
@@ -200,13 +200,13 @@ cl_float3	clvec_rot_y(cl_float3 v, double a);
 cl_float3	clvec_rot_z(cl_float3 v, double a);
 void		draw_ui(SDL_Renderer *renderer, t_ui *rt_ui);
 
-void		intersect_ray_paraboloid(t_scene *scene, int index);
+void		intersect_ray_paraboloid(t_scene *scene, int index, int is_refractive);
 t_object    *new_paraboloid(cl_float3 *cen_buf, t_color color, float *specular);
 void		get_ellipsoid(char **description, t_scene *scene, int *snmi);
 t_object    *new_ellipsoid(cl_float3 *buf, t_color color, float *specular);
 
 t_object    *new_torus(cl_float3 *cen_buf, t_color color, float *specular);
-void        intersect_ray_torus(t_scene *scene, int index);
+void        intersect_ray_torus(t_scene *scene, int index, int is_refractive);
 
 t_object    *new_box(cl_float3 *buf, t_color color, float *specular);
 void		get_box(char **description, t_scene *scene, int *snmi);

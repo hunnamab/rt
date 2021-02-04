@@ -304,8 +304,6 @@ __kernel void    get_material_buf_cl(__global uchar *texture_data,\
                                     __global int *index_buf, \
                                     __global float3 *intersection_buf,\
                                     __global t_material *material_buf, \
-									__global int *original_index_buf, \
-									__global int *prev_index_buf, \
 									int bounce_cnt)
 {
     int i = get_global_id(0);

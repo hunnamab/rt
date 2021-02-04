@@ -70,7 +70,7 @@ void		get_cone_normal(t_scene *scene, int index, int obj_num)
 		*normal = vector_scale(normal, -1);
 }
 
-void		intersect_ray_cone(t_scene *scene, int index)
+void		intersect_ray_cone(t_scene *scene, int index, int is_refractive)
 {
 	size_t global = WID * HEI;
 	size_t local;

@@ -210,6 +210,35 @@ float sphere_intersection(t_sphere sphere, float3 ray_start, float3 ray_dir)
     return (0);
 }
 
+float3 refract(float3 I, float3 N)
+{
+	float3 Nrefr = N;
+	float NdotI = dot(Nrefr, I);
+	float etai = 1;
+	float etat = 1.5;
+	float swap;
+	if (NdotI < 0)
+	{
+		NdotI = -NdotI;
+	}
+	else
+	{
+		Nrefr = -N;
+		swap = etai;
+		etai = etat;
+		etat = swap;
+	}
+	float eta = etai / etat;
+	float k = 1 - (eta * eta) * (1 - NdotI * NdotI);
+	if (k < 0)
+		return (0);
+	else
+	{
+		return (eta * I + (eta * NdotI - sqrt(k)) * Nrefr);
+	}
+	return (0);
+}
+
 __kernel void intersect_ray_sphere_cl(__global float3 *ray_arr, \
                                 __global float3 *camera_start, \
                                 t_sphere sphere, \
@@ -217,15 +246,26 @@ __kernel void intersect_ray_sphere_cl(__global float3 *ray_arr, \
                                 __global int *index_buf, \
                                 int index, __global t_cutting_surface *cs, \
 								int cs_nmb, int bounce_cnt, \
-								__global t_material *material_buf)
+								__global t_material *material_buf, \
+								int is_refractive, __global float3 *normal_buf, \
+								int refraction)
 {
     int i = get_global_id(0);
     float result;
     float3 ray;
 	float buf;
 	float3 buf2;
+
+	if (is_refractive == 1 && material_buf[i].refraction > 0.0)
+	{
+		ray_arr[i] = refract(ray_arr[i], normal_buf[i]);
+	}
+	else if (is_refractive == 1 && material_buf[i].refraction == 0.0)
+		return ;
 	if (bounce_cnt > 0)
     	ray = camera_start[i] + ray_arr[i] * 0.00001f;
+	else if (is_refractive == 1)
+		ray = camera_start[i] * 0.00001f;
 	else
 		ray = camera_start[i];
 	if (bounce_cnt == 0 || material_buf[i].reflection > 0.0)
