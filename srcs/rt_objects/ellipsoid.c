@@ -56,15 +56,10 @@ t_object    *new_ellipsoid(cl_float3 *buf, t_color color, float *specular)
 
 	new_object = malloc(sizeof(t_object));
 	el = malloc(sizeof(t_ellipsoid));
-
-	///
-	//cl_float3 center1 = get_point(0, 0, -10); // добавить в парсер, два центра эллипсоида
-	//cl_float3 center2 = get_point(10, 0, -10);
-	//float radius = 20; // сумма радиусов из центров
-	///
-	el->center1 = buf[0]; 
-	el->center2 = buf[1];  
-	el->radius = specular[0];
+	el->center = buf[0]; 
+	el->a = 3;//buf[1];  
+	el->b = 4; //specular[0];
+	el->c = 5;//specular[0];
 	new_object->rotation[0] = buf[2].x;
 	new_object->rotation[1] = buf[2].y;
 	new_object->rotation[2] = buf[2].z;

@@ -71,9 +71,10 @@ typedef struct		s_triangle
 
 typedef	struct		s_ellipsoid
 {
-	float3			center1;
-	float3			center2;
-	float			radius;
+	float3			center;
+	float			a;
+	float			b;
+	float			c;
 }					t_ellipsoid;
 
 typedef	struct		s_box
@@ -185,17 +186,16 @@ int cut(float3 point, __global t_cutting_surface *cs, int cs_nmb)
 
 float ellipsoid_intersection(t_ellipsoid el, float3 ray_start, float3 ray_dir)
 {
-    float k1;
+ 	float k1;
     float k2;
     float k3;
-	float dist;
- 
-	dist = distance(el.center2, el.center1);
-    float3 el_dir = ray_start - el.center1;
-    float3 center_norm = normalize((el.center2 - el.center1) / dist);
-    k1 = 4 * pow(el.radius, 2) * dot(ray_dir, ray_dir) - 4 * pow(dist, 2) * pow(dot(ray_dir, center_norm), 2);
-    k2 = 8 * pow(el.radius, 2) * dot(ray_dir, el_dir) - 4 * dot(ray_dir, center_norm) * dist * (pow(el.radius, 2) + 2 * dot(el_dir, center_norm) * dist - dist);
-    k3 = 4 * pow(el.radius, 2) * dot(el_dir, el_dir) - pow((pow(el.radius, 2) + 2 * dot(el_dir, center_norm) * dist - dist), 2);
+	float a = el.a;
+	float b = el.b;
+	float c = el.c;
+	float3 co = ray_start - el.center;
+    k1 = ray_dir.x * ray_dir.x / (a * a) + ray_dir.y * ray_dir.y / (b * b) + ray_dir.z * ray_dir.z / (c * c);
+    k2 = 2 * co.x * ray_dir.x / (a * a) + 2 * co.y * ray_dir.y / (b * b) + 2 * co.z * ray_dir.z / (c * c);
+    k3 = co.x * co.x / (a * a) + co.y * co.y / (b * b) + co.z * co.z / (c * c) - 1;
     float d = k2 * k2 - 4 * k1 * k3;
     if (d >= 0)
     {

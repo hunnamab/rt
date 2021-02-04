@@ -72,9 +72,10 @@ typedef struct		s_triangle
 
 typedef	struct		s_ellipsoid
 {
-	float3			center1;
-	float3			center2;
-	float			radius;
+	float3			center;
+	float			a;
+	float			b;
+	float			c;
 }					t_ellipsoid;
 
 typedef	struct		s_box
@@ -94,10 +95,17 @@ typedef struct		s_paraboloid
 typedef struct		s_torus
 {
 	float3			center;
-	float3			vec;
 	float			radius1;
 	float			radius2;
 }					t_torus;
+
+typedef struct		s_hyperboloid
+{
+	float3			center;
+	float			a;
+	float			b;
+	float			c;
+}					t_hyperboloid;
 
 typedef	union		primitive
 {
@@ -107,20 +115,19 @@ typedef	union		primitive
 	t_plane			plane;
 	t_triangle		triangle;
 	t_ellipsoid		ellipsoid;
+    t_hyperboloid   hyperboloid;
 	t_paraboloid	paraboloid;
 	t_box			box;
 	t_torus			torus;
 }					t_primitive;
 
-typedef	struct		s_cutting_surface
+typedef	struct		 	s_cutting_surface
 {
-	int 			type;
-	t_sphere		sphere;
-	t_plane			plane;
-	t_triangle		triangle;
-	t_cone			cone;
-	t_cylinder		cylinder;
-}					t_cutting_surface;
+	int					type;
+	int					is_negative;
+	t_primitive			primitive;
+}						t_cutting_surface;
+
 
 enum object_type {
 	SPHERE,
@@ -134,6 +141,7 @@ enum object_type {
 	BOX,
 	TORUS
 };
+
 
 typedef struct		s_object3d_d
 {
@@ -159,6 +167,32 @@ typedef struct		s_object3d_d
 	int				l_size_nm;
 }					t_object_d;
 
+float hyperboloid_intersection(t_hyperboloid hyper, float3 ray_start, float3 ray_dir)
+{
+ 	float k1;
+    float k2;
+    float k3;
+	float a = hyper.a;
+	float b = hyper.b;
+	float c = hyper.c;
+	float3 co = ray_start - hyper.center;
+    k1 = ray_dir.x * ray_dir.x / (a * a) + ray_dir.y * ray_dir.y / (b * b) - ray_dir.z * ray_dir.z / (c * c);
+    k2 = 2 * co.x * ray_dir.x / (a * a) + 2 * co.y * ray_dir.y / (b * b) - 2 * co.z * ray_dir.z / (c * c);
+    k3 = co.x * co.x / (a * a) + co.y * co.y / (b * b) - co.z * co.z / (c * c) + 1;
+    float d = k2 * k2 - 4 * k1 * k3;
+    if (d >= 0)
+    {
+        float t1 = (-k2 + sqrt(d)) / (2 * k1);
+        float t2 = (-k2 - sqrt(d)) / (2 * k1);
+        if ((t1 < t2 && t1 > 0) || (t2 < 0 && t1 >= 0))
+            return (t1);
+        if ((t2 < t1 && t2 > 0) || (t1 < 0 && t2 >= 0))
+            return (t2);
+        if (t2 == t1 && t2 >= 0)
+            return (t2);
+    }
+    return (0);
+}
 
 float2		swap(float2 ab)
 {
@@ -549,7 +583,7 @@ float torus_intersection(t_torus torus, float3 ray_start, float3 ray_dir)
 
 float paraboloid_intersection(t_paraboloid parab, float3 ray_start, float3 ray_dir)
 {
-    float3 parab_dir;
+	float3 parab_dir;
     float a;
     float b;
     float c;
@@ -560,7 +594,7 @@ float paraboloid_intersection(t_paraboloid parab, float3 ray_start, float3 ray_d
 	//dir_norm = normalize(parab.center);
  	float3 dir_norm = parab.vec;
 	//dir_norm = normalize(dir_norm);
-    a = dot(ray_dir, ray_dir) - pow(dot(ray_dir, dir_norm), 2);
+    a = dot(ray_dir, ray_dir) - pow(dot(ray_dir, dir_norm), 2.0f);
     b = 2.0f * dot(ray_dir, parab_dir) - 2.0f * dot(ray_dir, dir_norm) * (dot(parab_dir, dir_norm) + 2.0f * parab.k);
     c = dot(parab_dir, parab_dir) - dot(parab_dir, dir_norm) * (dot(parab_dir, dir_norm) + 4.0f * parab.k);
     c = b * b - 4 * a * c;
@@ -702,17 +736,16 @@ float box_intersection(__global t_object_d *box, float3 ray_start, float3 ray_di
 
 float ellipsoid_intersection(t_ellipsoid el, float3 ray_start, float3 ray_dir)
 {
-    float k1;
+   float k1;
     float k2;
     float k3;
-	float dist;
- 
-	dist = distance(el.center2, el.center1);
-    float3 el_dir = ray_start - el.center1;
-    float3 center_norm = normalize((el.center2 - el.center1) / dist);
-    k1 = 4 * pow(el.radius, 2) * dot(ray_dir, ray_dir) - 4 * pow(dist, 2) * pow(dot(ray_dir, center_norm), 2);
-    k2 = 8 * pow(el.radius, 2) * dot(ray_dir, el_dir) - 4 * dot(ray_dir, center_norm) * dist * (pow(el.radius, 2) + 2 * dot(el_dir, center_norm) * dist - dist);
-    k3 = 4 * pow(el.radius, 2) * dot(el_dir, el_dir) - pow((pow(el.radius, 2) + 2 * dot(el_dir, center_norm) * dist - dist), 2);
+	float a = el.a;
+	float b = el.b;
+	float c = el.c;
+	float3 co = ray_start - el.center;
+    k1 = ray_dir.x * ray_dir.x / (a * a) + ray_dir.y * ray_dir.y / (b * b) + ray_dir.z * ray_dir.z / (c * c);
+    k2 = 2 * co.x * ray_dir.x / (a * a) + 2 * co.y * ray_dir.y / (b * b) + 2 * co.z * ray_dir.z / (c * c);
+    k3 = co.x * co.x / (a * a) + co.y * co.y / (b * b) + co.z * co.z / (c * c) - 1;
     float d = k2 * k2 - 4 * k1 * k3;
     if (d >= 0)
     {
@@ -890,6 +923,8 @@ int			in_shadow(int index, float3 l, __global float3 *intersection_buf, \
 			t = paraboloid_intersection(obj[i].primitive.paraboloid, ray_start, l);
 		if (obj[i].type == TORUS)
 			t = torus_intersection(obj[i].primitive.torus, ray_start, l);
+		if (obj[i].type == HYPERBOLOID)
+			t = hyperboloid_intersection(obj[i].primitive.hyperboloid, ray_start, l);
 		if (t < 1.0f && t > 0.00001f)
 			break ;
 		i++;

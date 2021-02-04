@@ -93,10 +93,17 @@ typedef struct		s_paraboloid
 typedef struct		s_torus
 {
 	float3			center;
-	float3			vec;
 	float			radius1;
 	float			radius2;
 }					t_torus;
+
+typedef struct		s_hyperboloid
+{
+	float3			center;
+	float			a;
+	float			b;
+	float			c;
+}					t_hyperboloid;
 
 typedef	union		primitive
 {
@@ -106,6 +113,7 @@ typedef	union		primitive
 	t_plane			plane;
 	t_triangle		triangle;
 	t_ellipsoid		ellipsoid;
+    t_hyperboloid   hyperboloid;
 	t_paraboloid	paraboloid;
 	t_box			box;
 	t_torus			torus;
@@ -193,8 +201,6 @@ float paraboloid_intersection(t_paraboloid parab, float3 ray_start, float3 ray_d
     float c;
 	float t1;
     float t2;
-	// printf("\n\n %f\n", parab.center.z);
-	// printf("\n%f\n", parab.k);
 
     parab_dir = ray_start - parab.center;
 	//--------------------------------

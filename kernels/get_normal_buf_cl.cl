@@ -72,9 +72,10 @@ typedef struct		s_triangle
 
 typedef	struct		s_ellipsoid
 {
-	float3			center1;
-	float3			center2;
-	float			radius;
+	float3			center;
+	float			a;
+	float			b;
+	float			c;
 }					t_ellipsoid;
 
 typedef	struct		s_box
@@ -94,10 +95,17 @@ typedef struct		s_paraboloid
 typedef struct		s_torus
 {
 	float3			center;
-	float3			vec;
 	float			radius1;
 	float			radius2;
 }					t_torus;
+
+typedef struct		s_hyperboloid
+{
+	float3			center;
+	float			a;
+	float			b;
+	float			c;
+}					t_hyperboloid;
 
 typedef	union		primitive
 {
@@ -107,20 +115,19 @@ typedef	union		primitive
 	t_plane			plane;
 	t_triangle		triangle;
 	t_ellipsoid		ellipsoid;
+    t_hyperboloid   hyperboloid;
 	t_paraboloid	paraboloid;
 	t_box			box;
 	t_torus			torus;
 }					t_primitive;
 
-typedef	struct		s_cutting_surface
+typedef	struct		 	s_cutting_surface
 {
-	int 			type;
-	t_sphere		sphere;
-	t_plane			plane;
-	t_triangle		triangle;
-	t_cone			cone;
-	t_cylinder		cylinder;
-}					t_cutting_surface;
+	int					type;
+	int					is_negative;
+	t_primitive			primitive;
+}						t_cutting_surface;
+
 
 enum object_type {
 	SPHERE,
@@ -134,6 +141,7 @@ enum object_type {
 	BOX,
 	TORUS
 };
+
 
 typedef struct		s_object3d_d
 {
@@ -159,6 +167,26 @@ typedef struct		s_object3d_d
 	int				l_size_nm;
 }					t_object_d;
 
+void  get_normal_hyperboloid(__global t_object_d *obj, \
+                        __global float3 *ray_buf, \
+                        __global int *index_buf, \
+						__global float3 *normal_buf, \
+                        __global float3 *intersection_buf, \
+						float3 camera_position, \
+						__global float *depth_buf)
+{
+	normal_buf[0].x = intersection_buf[0].x;
+	normal_buf[0].y = intersection_buf[0].y;
+	normal_buf[0].z = -intersection_buf[0].z;
+	normal_buf[0] = normalize(normal_buf[0]);
+    if (dot(ray_buf[0], normal_buf[0]) > 0.0001)
+	{
+		normal_buf[0].x = normal_buf[0].x * -1;
+		normal_buf[0].y = normal_buf[0].y * -1;
+		normal_buf[0].z = normal_buf[0].z * -1;
+	}
+}
+ 
 void get_normal_torus(__global t_object_d *obj, \
                         __global float3 *ray_buf, \
                         __global int *index_buf, \
@@ -251,13 +279,13 @@ void  get_normal_box(__global t_object_d *obj, \
 		n.y = 0.0f;
 		n.z = 1.0f;
 		normal_buf[0] = normalize(n);
-	}
-/* 	if (dot(ray_buf[0], normal_buf[0]) > 0.0001)
+	} 
+ 	if (dot(ray_buf[0], normal_buf[0]) > 0.0001)
 	{
 		normal_buf[0].x = normal_buf[0].x * -1.0f;
 		normal_buf[0].y = normal_buf[0].y * -1.0f;
 		normal_buf[0].z = normal_buf[0].z * -1.0f;
-	} */
+	}
 	/* float3 n;
 	if (fabs(intersection_buf[0].x - obj[0].primitive.box.a.x) < 0.01f)
 	{
@@ -296,7 +324,7 @@ void  get_normal_box(__global t_object_d *obj, \
 		n.z = 1;
 	}
 	normal_buf[0] = n;//normalize(n); */
-}
+ }
 
 void  get_normal_ellipsoid(__global t_object_d *obj, \
                         __global float3 *ray_buf, \
@@ -306,37 +334,18 @@ void  get_normal_ellipsoid(__global t_object_d *obj, \
 						float3 camera_position, \
 						__global float *depth_buf)
 {
-	float dist = distance(obj[0].primitive.ellipsoid.center2, obj[0].primitive.ellipsoid.center1);
-    float3 el_dir = camera_position - obj[0].primitive.ellipsoid.center1;
-	float radius = obj[0].primitive.ellipsoid.radius;
-    float3 center_norm = normalize((obj[0].primitive.ellipsoid.center2 - obj[0].primitive.ellipsoid.center1) / dist);
- /*   float k1 = 4 * pow(radius, 2) * dot(ray_buf[0], ray_buf[0]) - 4 * pow(dist, 2) * pow(dot(ray_buf[0], center_norm), 2);
-    float k2 = 8 * pow(radius, 2) * dot(ray_buf[0], el_dir) - 4 * dot(ray_buf[0], center_norm) * dist * (pow(radius, 2) + 2 * dot(el_dir, center_norm) * dist - dist);
-    float k3 = 4 * pow(radius, 2) * dot(el_dir, el_dir) - pow((pow(radius, 2) + 2 * dot(el_dir, center_norm) * dist - dist), 2); */
-/* 	float a = k1;
-	float b = k2;
-	float3 Cmid = obj[0].primitive.ellipsoid.center2 + (center_norm * dist / 2);
-	float3 R = intersection_buf[0] - Cmid;
-	normal_buf[0] = normalize(R - center_norm * (1 - ((b * b) / (a * a)) * dot(R, center_norm))); */
-	float3 center;
-	center.x = obj[0].primitive.ellipsoid.center1.x + center_norm.x * dist / 2;
-	center.y = obj[0].primitive.ellipsoid.center1.y + center_norm.y * dist / 2;
-	center.z = obj[0].primitive.ellipsoid.center1.z + center_norm.z * dist / 2;
-	//float radius = obj[0].primitive.ellipsoid.radius;
-	float3 intersection = intersection_buf[0];
-	float3 normal;
-	normal.x = intersection.x - center.x;
-	normal.y = intersection.y - center.y;
-	normal.z = intersection.z - center.z;
-	normal.x *= 2 / (pow(radius,2));
-	normal.y *= 2 / (pow(radius,2));
-	normal.z *= 2 / (pow(radius,2));
-	normal_buf[0] = normalize(normal);
-	if (dot(ray_buf[0], normal_buf[0]) > 0.0001)
-    {
-		normal_buf[0].x = normal_buf[0].x * -1;
-		normal_buf[0].y = normal_buf[0].y * -1;
-		normal_buf[0].z = normal_buf[0].z * -1;
+	float a = obj[0].primitive.ellipsoid.a;
+	float b = obj[0].primitive.ellipsoid.b;
+	float c = obj[0].primitive.ellipsoid.c;
+ 	normal_buf[0].x = 2.0f * intersection_buf[0].x / (a * a);
+	normal_buf[0].y = 2.0f * intersection_buf[0].y / (b * b);
+	normal_buf[0].z = 2.0f * intersection_buf[0].z / (c * c);
+	normal_buf[0] = native_divide(normal_buf[0], length(normal_buf[0]));
+    if (dot(ray_buf[0], normal_buf[0]) > 0.0001)
+	{
+		normal_buf[0].x = normal_buf[0].x * -1.0f;
+		normal_buf[0].y = normal_buf[0].y * -1.0f;
+		normal_buf[0].z = normal_buf[0].z * -1.0f;
 	}
 }
 
@@ -576,6 +585,8 @@ __kernel void get_normal_buf_cl(__global t_object_d *obj, \
 			get_normal_paraboloid(&obj[j], &ray_buf[i], &index_buf[i], &normal_buf[i], &intersection_buf[i], buf_camera, &depth_buf[i]);
 		else if (obj[j].type == TORUS)
 			get_normal_torus(&obj[j], &ray_buf[i], &index_buf[i], &normal_buf[i], &intersection_buf[i], buf_camera, &depth_buf[i]);
+		else  if (obj[j].type == HYPERBOLOID)
+			get_normal_hyperboloid(&obj[j], &ray_buf[i], &index_buf[i], &normal_buf[i], &intersection_buf[i], buf_camera, &depth_buf[i]);
 		if(obj[j].normal_map_id != -1)
 		{
 			text_point = text_map_select(obj[j], intersection_buf[i]);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:02 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/01 21:14:09 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/04 23:40:14 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,7 @@ int		main(int args, char **argv)
 	SDL_RenderClear(sdl.renderer);
 	scene->filter_type = DEFAULT;
 	//scene->obj_nmb += 1;
-	//scene->objs[scene->obj_nmb - 1] = new_torus(get_point(0,0,100), 100, 50, set_color(0,0,255,255), get_point(0,0,0), 100); */
+	//scene->objs[scene->obj_nmb - 1] = new_hyperboloid(get_point(0,0,0), 1, 1, 1,set_color(0,0,255,255));
 	//scene->obj_nmb += 1;
 	/* cl_float3 *buf = malloc(sizeof(cl_float3) * 2);
 	buf[0] = get_point(0,0,0);

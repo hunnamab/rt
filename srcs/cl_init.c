@@ -94,6 +94,16 @@ void	device_objects_init(t_scene *scene)
 			buf[i].primitive.torus.radius1 = torus->radius1;
 			buf[i].primitive.torus.radius2 = torus->radius2;
 		}
+		if (scene->objs[i]->type == HYPERBOLOID)
+		{
+			t_hyperboloid	*hyperboloid;
+			hyperboloid = (t_hyperboloid *)scene->objs[i]->data;
+			buf[i].type = HYPERBOLOID;
+			buf[i].primitive.hyperboloid.center = hyperboloid->center;
+			buf[i].primitive.hyperboloid.a = hyperboloid->a;
+			buf[i].primitive.hyperboloid.b = hyperboloid->b;
+			buf[i].primitive.hyperboloid.c = hyperboloid->c;
+		}
 		if (scene->objs[i]->text != NULL)
         {
 			l = 0;
@@ -403,6 +413,22 @@ int    cl_init(t_scene *scene)
 		printf("не собрана программа 1, error %d intersect_ray_torus_cl\n", err);
 	ft_strdel(&intersect_ray_torus_cl);
 	close(fd14);
+
+	int		ret15;
+	char	*intersect_ray_hyperboloid_cl;
+	int fd15 = open("./kernels/intersect_ray_hyperboloid_cl.cl", O_RDONLY);
+	intersect_ray_hyperboloid_cl = protected_malloc(sizeof(char), 256000);
+	ret15 = read(fd15, intersect_ray_hyperboloid_cl, 64000);
+	intersect_ray_hyperboloid_cl[ret15] = '\0';
+	
+	if ((scene->cl_data.programs[14] = clCreateProgramWithSource(scene->cl_data.context, 1, (const char **)&intersect_ray_hyperboloid_cl, NULL, &err)))
+		printf("cоздана программа intersect_ray_hyperboloid_cl\n");
+	if ((clBuildProgram(scene->cl_data.programs[14], 0, NULL, "-I includes", NULL, &err)))
+		printf("собрана программа intersect_ray_hyperboloid_cl\n");
+	if (!(scene->cl_data.kernels[14] = clCreateKernel(scene->cl_data.programs[14], "intersect_ray_hyperboloid", &err)))
+		printf("не собрана программа 1, error %d intersect_ray_hyperboloid_cl\n", err);
+	ft_strdel(&intersect_ray_hyperboloid_cl);
+	close(fd15);
 
 	//Создание буферов на гпу
 	scene->cl_data.scene.ray_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, NULL);
