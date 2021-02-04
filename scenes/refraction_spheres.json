@@ -7,6 +7,7 @@
 			"color": [255, 0, 255, 255],
 			"specular": 10,
 			"reflection": 0.0,
+			"refraction": 0,
 			"surface_id": 0,
 			"texture": "textures/Pattern1.jpg",
 			"normal_map": "no"
@@ -18,6 +19,7 @@
 			"color": [255, 0, 255, 255],
 			"specular": 10,
 			"reflection": 0.0,
+			"refraction": 0,
 			"surface_id": 0,
 			"texture": "textures/red.jpg",
 			"normal_map": "no"
@@ -31,6 +33,7 @@
 			"color": [151, 32, 76, 255],
 			"specular": 100,
 			"reflection": 0.4,
+			"refraction": 0,
 			"surface_id": 0,
 			"texture": "no",
 			"normal_map": "no"
@@ -42,6 +45,7 @@
 			"color": [37, 193, 149, 255],
 			"specular": 200,
 			"reflection": 0.8,
+			"refraction": 0,
 			"surface_id": 0,
 			"texture": "no",
 			"normal_map": "no"

@@ -6,6 +6,7 @@
 		"color": [100, 50, 200, 255],
 		"specular": 60,
 		"reflection": 0.0,
+		"refraction": 0,
 		"surface_id": 0,
 		"texture": "textures/helper.jpg",
 		"normal_map": "no"
@@ -17,6 +18,7 @@
 		"color": [123, 33, 56, 255],
 		"specular": -1,
 		"reflection": 0.0,
+		"refraction": 0,
 		"surface_id": 0,
 		"texture": "textures/helper.jpg",
 		"normal_map": "no"

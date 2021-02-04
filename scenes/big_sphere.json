@@ -6,6 +6,7 @@
 		"color": [255, 0, 0, 255],
 		"specular": 100,
 		"reflection": 0.2,
+		"refraction": 0,
 		"surface_id": 1,
 		"texture": "textures/test2.png",
 		"normal_map": "textures/test.png"

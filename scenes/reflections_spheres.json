@@ -7,6 +7,7 @@
 			"color": [151, 32, 76, 255],
 			"specular": 300,
 			"reflection": 0.4,
+			"refraction": 0,
 			"surface_id": 0,
 			"texture": "textures/helper.jpg",
 			"normal_map": "no"
@@ -18,6 +19,7 @@
 			"color": [37, 193, 149, 255],
 			"specular": 500,
 			"reflection": 0.8,
+			"refraction": 0,
 			"surface_id": 0,
 			"texture": "textures/helper.jpg",
 			"normal_map": "no"
@@ -29,6 +31,7 @@
 			"color": [114, 32, 151, 255],
 			"specular": 300,
 			"reflection": 0.8,
+			"refraction": 0,
 			"surface_id": 0,
 			"texture": "textures/helper.jpg",
 			"normal_map": "no"
@@ -40,6 +43,7 @@
 			"color": [14, 132, 51, 255],
 			"specular": 300,
 			"reflection": 0.0,
+			"refraction": 0,
 			"surface_id": 0,
 			"texture": "textures/helper.jpg",
 			"normal_map": "no"
@@ -51,6 +55,7 @@
 			"color": [10, 200, 20, 255],
 			"specular": 200,
 			"reflection": 0.2,
+			"refraction": 0,
 			"surface_id": 0,
 			"texture": "textures/helper.jpg",
 			"normal_map": "no"
