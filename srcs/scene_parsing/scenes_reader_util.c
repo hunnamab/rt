@@ -6,7 +6,7 @@
 /*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 14:44:06 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/12 18:08:14 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/04 20:52:05 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,25 @@ static void	split_else(int *scij, char *buf)
 	}
 }
 
+static void split_surface(int *scij, t_scene *scene,char *buf)
+{
+	if (buf[scij[2] + 1] == '[')
+	{
+		while (buf[scij[2]] != ']')
+		{
+			if (buf[scij[2]] == '{')
+				scene->srf_nmb++;
+			scij[2]++;
+			if (buf[scij[2]] == ']' && ft_isdigit(buf[scij[2]- 1]))
+				scij[2]++;
+		}
+	}
+	else
+		scene->srf_nmb++;
+}
+
+
+
 void		split_objects(int len, t_scene *scene, char *buf)
 {
 	char	*obj_name;
@@ -134,6 +153,8 @@ void		split_objects(int len, t_scene *scene, char *buf)
 				output_error(6);
 			if (ft_strequ(obj_name, "\t\"light\"") || ft_strequ(obj_name, "{\n\t\"light\""))
 				split_light(scij, scene, buf);
+			if (ft_strequ(obj_name, "\t\"surface\"") || ft_strequ(obj_name, "{\n\t\"surface\""))
+				split_surface(scij, scene, buf);
 			if (ft_strequ(obj_name, "\t\"camera\"") || ft_strequ(obj_name, "{\n\t\"camera\""))
 				scij[1]++;
 			ft_memdel((void **)&obj_name);
@@ -142,7 +163,7 @@ void		split_objects(int len, t_scene *scene, char *buf)
 			scij[3]++;
 		}
 	}
-	scene->obj_nmb = scene->obj_nmb - scene->light_nmb - scij[1];
+	scene->obj_nmb = scene->obj_nmb - scene->light_nmb - scene->srf_nmb - scij[1];
 	if (scene->obj_nmb < 1 || scene->light_nmb < 1 || scij[1] != 1)
 		output_error(0);
 }

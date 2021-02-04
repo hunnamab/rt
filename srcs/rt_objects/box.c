@@ -7,6 +7,7 @@ void	one_argument_box(char **description, t_scene *scene, int *snmi)
 	float		rotation[3];
 	float		specular[2];
 	t_color		color;
+	int			surface_id;
 
 	cen_buf[0] = get_points(description[1]);
 	cen_buf[1] = get_points(description[2]);
@@ -17,8 +18,9 @@ void	one_argument_box(char **description, t_scene *scene, int *snmi)
 	color = get_color(description[4]);
 	specular[0] = ftoi(get_coordinates(description[5]));
 	specular[1] = ftoi(get_coordinates(description[6]));
-	box = new_box(cen_buf, color, specular);
-	box->text = tex_new_bmp(get_file(description[7]));
+	surface_id = ftoi(get_coordinates(description[7]));
+	box = new_box(cen_buf, color, specular, surface_id);
+	box->text = tex_new_bmp(get_file(description[8]));
 	scene->objs[snmi[1]] = box;
 	snmi[1]++;
 }
@@ -30,6 +32,7 @@ t_object 	*multiple_boxes(char **description, t_scene *scene, int *snmi, int i)
 	float		rotation[3];
 	float		specular[2];
 	t_color 	color;
+	int surface_id;
 
 	cen_buf[0] = get_points(description[i + 1]);
 	cen_buf[1] = get_points(description[i + 2]);
@@ -40,7 +43,8 @@ t_object 	*multiple_boxes(char **description, t_scene *scene, int *snmi, int i)
 	color = get_color(description[i + 4]);
 	specular[0] = ftoi(get_coordinates(description[i + 5]));
 	specular[1] = ftoi(get_coordinates(description[i + 6]));
-	box = new_box(cen_buf, color, specular);
+	surface_id = ftoi(get_coordinates(description[i + 7]));
+	box = new_box(cen_buf, color, specular, surface_id);
 	return (box);
 }
 
@@ -59,10 +63,10 @@ void	get_box(char **description, t_scene *scene, int *snmi)
 			if (description[i][2] == '{')
 			{
 				box = multiple_boxes(description, scene, snmi, i);
-				box->text = tex_new_bmp(get_file(description[i + 7]));
+				box->text = tex_new_bmp(get_file(description[i + 8]));
 				scene->objs[snmi[1]] = box;
 				snmi[1]++;
-				i += 9;
+				i += 10;
 			}
 		}
 	}
@@ -70,7 +74,7 @@ void	get_box(char **description, t_scene *scene, int *snmi)
 		one_argument_box(description, scene, snmi);
 }
 
-t_object    *new_box(cl_float3 *buf, t_color color, float *specular)
+t_object    *new_box(cl_float3 *buf, t_color color, float *specular, int surface_id)
 {
     t_box *box;
 	t_object	*new_object;
@@ -92,6 +96,8 @@ t_object    *new_box(cl_float3 *buf, t_color color, float *specular)
 	new_object->data = (void *)box;
 	new_object->type = BOX;
 	new_object->cs_nmb = 0;
+	new_object->surface_id = surface_id;
+	new_object->cutting_surfaces = NULL;
 	new_object->intersect = &intersect_ray_box;
 	//new_object->get_normal = &get_box_normal;
 	new_object->clear_obj = &clear_default;

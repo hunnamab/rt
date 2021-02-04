@@ -6,9 +6,18 @@
 		"color": [255, 0, 0, 255],
 		"specular": 100,
 		"reflection": 0.2,
+		"surface_id": 1,
 		"texture": "textures/test2.png",
 		"normal_map": "textures/test.png"
 		},
+	"surface": {
+		"object": 1,
+		"type": "plane",
+		"is_negative": 0,
+		"param_one": [1, 0, 0],
+		"param_two": [0, 0, 0],
+		"param_three": 5
+	},
 	"light": [
 		{
 			"type": "point",

@@ -6,6 +6,7 @@ void	one_argument_torus(char **description, t_scene *scene, int *snmi)
 	cl_float3	cen_buf[3];
 	float		specular[4];
 	t_color		color;
+	int surface_id;
 
 	cen_buf[0] = get_points(description[1]);
 	cen_buf[1] = get_points(description[2]);
@@ -15,8 +16,9 @@ void	one_argument_torus(char **description, t_scene *scene, int *snmi)
 	color = get_color(description[6]);
 	specular[2] = ftoi(get_coordinates(description[7]));
 	specular[3] = ftoi(get_coordinates(description[8]));
-	torus = new_torus(cen_buf, color, specular);
-	torus->text = tex_new_bmp(get_file(description[9]));
+	surface_id = ftoi(get_coordinates(description[9]));
+	torus = new_torus(cen_buf, color, specular, surface_id);
+	torus->text = tex_new_bmp(get_file(description[10]));
 	scene->objs[snmi[1]] = torus;
 	snmi[1]++;
 }
@@ -27,6 +29,7 @@ t_object 	*multiple_torus(char **description, t_scene *scene, int *snmi, int i)
 	cl_float3	cen_buf[3];
 	float		specular[4];
 	t_color		color;
+	int surface_id;
 
 	cen_buf[0] = get_points(description[i + 1]);
 	cen_buf[1] = get_points(description[i + 2]);
@@ -36,7 +39,8 @@ t_object 	*multiple_torus(char **description, t_scene *scene, int *snmi, int i)
 	color = get_color(description[i + 6]);
 	specular[1] = ftoi(get_coordinates(description[i + 7]));
 	specular[2] = ftoi(get_coordinates(description[i + 8]));
-	torus = new_torus(cen_buf, color, specular);
+	surface_id = ftoi(get_coordinates(description[i + 9]));
+	torus = new_torus(cen_buf, color, specular, surface_id);
 	return (torus);
 }
 
@@ -55,10 +59,10 @@ void	get_torus(char **description, t_scene *scene, int *snmi)
 			if (description[i][2] == '{')
 			{
 				torus = multiple_torus(description, scene, snmi, i);
-				torus->text = tex_new_bmp(get_file(description[i + 9]));
+				torus->text = tex_new_bmp(get_file(description[i + 10]));
 				scene->objs[snmi[1]] = torus;
 				snmi[1]++;
-				i += 11;
+				i += 12;
 			}
 		}
 	}
@@ -66,7 +70,7 @@ void	get_torus(char **description, t_scene *scene, int *snmi)
 		one_argument_torus(description, scene, snmi);
 }
 
-t_object    *new_torus(cl_float3 *cen_buf, t_color color, float *specular)
+t_object    *new_torus(cl_float3 *cen_buf, t_color color, float *specular, int surface_id)
 {
     t_torus	*torus;
 	t_object		*new_object;
@@ -90,6 +94,8 @@ t_object    *new_torus(cl_float3 *cen_buf, t_color color, float *specular)
 	new_object->data = (void *)torus;
 	new_object->type = TORUS;
 	new_object->cs_nmb = 0;
+	new_object->surface_id = surface_id;
+	new_object->cutting_surfaces = NULL;
 	new_object->intersect = &intersect_ray_torus;
 	//new_object->get_normal = &get_torus_normal;
 	new_object->clear_obj = &clear_default;

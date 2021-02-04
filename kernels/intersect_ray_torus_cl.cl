@@ -125,12 +125,15 @@ typedef	union		primitive
 	t_torus			torus;
 }					t_primitive;
 
-typedef	struct		 s_cutting_surface
+typedef	struct		 	s_cutting_surface
 {
-	t_primitive		primitive;
+	float3			param1;
+	float3			param2;
 	int				type;
+	int				object;
 	int				is_negative;
-}					t_cutting_surface;
+	float			param3;
+}						t_cutting_surface;
 
 typedef struct		s_object3d_d
 {

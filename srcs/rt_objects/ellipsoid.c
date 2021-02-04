@@ -7,6 +7,7 @@ void	one_argument_ellipsoid(char **description, t_scene *scene, int *snmi)
 	float		rotation[3];
 	float		specular[3];
 	t_color		color;
+	int			surface_id;
 
 	cen_buf[0] = get_points(description[1]);
 	cen_buf[1] = get_points(description[2]);
@@ -18,8 +19,9 @@ void	one_argument_ellipsoid(char **description, t_scene *scene, int *snmi)
 	color = get_color(description[5]);
 	specular[1] = ftoi(get_coordinates(description[6]));
 	specular[2] = ftoi(get_coordinates(description[7]));
-	ellipsoid = new_ellipsoid(cen_buf, color, specular);
-	ellipsoid->text = tex_new_bmp(get_file(description[8]));
+	surface_id = ftoi(get_coordinates(description[8]));
+	ellipsoid = new_ellipsoid(cen_buf, color, specular, surface_id);
+	ellipsoid->text = tex_new_bmp(get_file(description[9]));
 	scene->objs[snmi[1]] = ellipsoid;
 	snmi[1]++;
 }
@@ -31,6 +33,7 @@ t_object 	*multiple_ellipsoids(char **description, t_scene *scene, int *snmi, in
 	float		rotation[3];
 	float		specular[3];
 	t_color 	color;
+	int			surface_id;
 
 	printf("{} %s\n", description[i + 1]);
 	cen_buf[0] = get_points(description[i + 1]);
@@ -43,12 +46,13 @@ t_object 	*multiple_ellipsoids(char **description, t_scene *scene, int *snmi, in
 	color = get_color(description[i + 5]);
 	specular[1] = ftoi(get_coordinates(description[i + 6]));
 	specular[2] = ftoi(get_coordinates(description[i + 7]));
-	ellipsoid = new_ellipsoid(cen_buf, color, specular);
+	surface_id = ftoi(get_coordinates(description[i + 8]));
+	ellipsoid = new_ellipsoid(cen_buf, color, specular, surface_id);
 	return (ellipsoid);
 }
 
 
-t_object    *new_ellipsoid(cl_float3 *buf, t_color color, float *specular)
+t_object    *new_ellipsoid(cl_float3 *buf, t_color color, float *specular, int surface_id)
 {
     t_ellipsoid *el;
 	t_object	*new_object;
@@ -73,6 +77,8 @@ t_object    *new_ellipsoid(cl_float3 *buf, t_color color, float *specular)
 	new_object->refraction = 0.0;
 	new_object->color = color;
 	new_object->cs_nmb = 0;
+	new_object->surface_id = surface_id;
+	new_object->cutting_surfaces = NULL;
 	new_object->text = NULL;
 	new_object->normal_text = NULL;
 	new_object->data = (void *)el;
@@ -99,10 +105,10 @@ void	get_ellipsoid(char **description, t_scene *scene, int *snmi)
 			if (description[i][2] == '{')
 			{
 				ellipsoid = multiple_ellipsoids(description, scene, snmi, i);
-				ellipsoid->text = tex_new_bmp(get_file(description[i + 8]));
+				ellipsoid->text = tex_new_bmp(get_file(description[i + 9]));
 				scene->objs[snmi[1]] = ellipsoid;
 				snmi[1]++;
-				i += 10;
+				i += 11;
 			}
 		}
 	}

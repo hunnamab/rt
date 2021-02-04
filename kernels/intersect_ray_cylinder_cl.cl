@@ -125,13 +125,15 @@ typedef	union		primitive
 	t_torus			torus;
 }					t_primitive;
 
-typedef	struct		 s_cutting_surface
+typedef	struct		 	s_cutting_surface
 {
-	t_primitive		primitive;
+	float3			param1;
+	float3			param2;
 	int				type;
+	int				object;
 	int				is_negative;
-}					t_cutting_surface;
-
+	float			param3;
+}						t_cutting_surface;
 typedef struct		s_object3d_d
 {
 	t_primitive		primitive;
@@ -165,18 +167,18 @@ int cut(float3 point, __global t_cutting_surface *cs, int cs_nmb)
     {
         if (cs[i].type == PLANE)
         {
-            result = cs[i].primitive.plane.normal.x * point.x + cs[i].primitive.plane.normal.y * point.y + cs[i].primitive.plane.normal.z * point.z + cs[i].primitive.plane.d;
+            result = cs[i].param1.x * point.x + cs[i].param1.y * point.y + cs[i].param1.z * point.z + cs[i].param3;
             if (result >= 0)
                 return (0);
         }
 		if(cs[i].type == SPHERE)
 		{
 			float3 buf;
-			buf = point - cs[i].primitive.sphere.center;
+			buf = point - cs[i].param1;
 			result = length(buf);
-			if (result >= cs[i].primitive.sphere.radius && !cs[i].is_negative)
+			if (result >= cs[i].param3 && !cs[i].is_negative)
 				return(0);
-			if(result <= cs[i].primitive.sphere.radius && cs[i].is_negative)
+			if(result <= cs[i].param3 && cs[i].is_negative)
 				return(0);
 		}
         i++;
