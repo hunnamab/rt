@@ -6,7 +6,7 @@
 /*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 22:45:20 by pmetron           #+#    #+#             */
-/*   Updated: 2021/02/04 21:27:46 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/04 21:54:25 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ t_object	*new_sphere(cl_float3 center, float *rad_spec, t_color color, \
 	new_object->rotation[2] = rotation[2];
 	new_object->specular = rad_spec[1];
 	new_object->reflection = rad_spec[2];
-	new_object->refraction = 1.5;
+	new_object->refraction = rad_spec[3];
 	new_object->color = color;
 	new_object->cs_nmb = 0;
 	new_object->surface_id = surface_id;
@@ -145,7 +145,7 @@ void	one_argument_sphere(char **description, t_scene *scene, int *snmi)
 	t_object	*sphere;
 	cl_float3	cen_buf[2];
 	float		rotation[3];
-	float		rad_spec[3];
+	float		rad_spec[4];
 	t_color		color;
 	int			surface_id;
 
@@ -158,10 +158,11 @@ void	one_argument_sphere(char **description, t_scene *scene, int *snmi)
 	color = get_color(description[4]);
 	rad_spec[1] = ftoi(get_coordinates(description[5]));
 	rad_spec[2] = ftoi(get_coordinates(description[6]));
-	surface_id = ftoi(get_coordinates(description[7]));
+	rad_spec[3] = ftoi(get_coordinates(description[7]));
+	surface_id = ftoi(get_coordinates(description[8]));
 	sphere = new_sphere(cen_buf[0], rad_spec, color, rotation, surface_id);
-	sphere->text = tex_new_bmp(get_file(description[8]));
-	sphere->normal_text = tex_new_bmp(get_file(description[9]));
+	sphere->text = tex_new_bmp(get_file(description[9]));
+	sphere->normal_text = tex_new_bmp(get_file(description[10]));
 	scene->objs[snmi[1]] = sphere;
 	snmi[1]++;
 }
@@ -171,7 +172,7 @@ t_object 	*multiple_spheres(char **description, t_scene *scene, int *snmi, int i
 	t_object	*sphere;
 	cl_float3	cen_buf[2];
 	float		rotation[3];
-	float		rad_spec[3];
+	float		rad_spec[4];
 	t_color 	color;
 	int			surface_id;
 
@@ -184,7 +185,8 @@ t_object 	*multiple_spheres(char **description, t_scene *scene, int *snmi, int i
 	color = get_color(description[i + 4]);
 	rad_spec[1] = ftoi(get_coordinates(description[i + 5]));
 	rad_spec[2] = ftoi(get_coordinates(description[i + 6]));
-	surface_id = ftoi(get_coordinates(description[i + 7]));
+	rad_spec[3] = ftoi(get_coordinates(description[i + 7]));
+	surface_id = ftoi(get_coordinates(description[i + 8]));
 	sphere = new_sphere(cen_buf[0], rad_spec, color, rotation, surface_id);
 	return (sphere);
 }

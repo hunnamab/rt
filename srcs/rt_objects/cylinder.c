@@ -6,7 +6,7 @@
 /*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:11:46 by pmetron           #+#    #+#             */
-/*   Updated: 2021/02/04 21:13:34 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/04 22:00:12 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_object	*new_cylinder(cl_float3 *pos_vec, float *rad_spec, t_color color, \
 	new_cylinder->vec = pos_vec[1];
 	new_object->specular = rad_spec[1];
 	new_object->reflection = rad_spec[2];
-	new_object->refraction = 0.0;
+	new_object->refraction = rad_spec[3];
 	new_object->rotation[0] = rotation[0];
 	new_object->rotation[1] = rotation[1];
 	new_object->rotation[2] = rotation[2];
@@ -84,7 +84,7 @@ void	one_argument_cylinder(char **description, t_scene *scene, int *snmi)
 	t_color		color;
 	cl_float3	pos_vec_buf[3];
 	float		rotation[3];
-	float		rad_spec[3];
+	float		rad_spec[4];
 	int surface_id;
 	
 	pos_vec_buf[0] = get_points(description[1]);
@@ -97,10 +97,11 @@ void	one_argument_cylinder(char **description, t_scene *scene, int *snmi)
 	color = get_color(description[5]);
 	rad_spec[1] = ftoi(get_coordinates(description[6]));
 	rad_spec[2] = ftoi(get_coordinates(description[7]));
-	surface_id = ftoi(get_coordinates(description[8]));
+	rad_spec[3] = ftoi(get_coordinates(description[8]));
+	surface_id = ftoi(get_coordinates(description[9]));
 	cylinder = new_cylinder(pos_vec_buf, rad_spec, color, rotation, surface_id);
-	cylinder->text = tex_new_bmp(get_file(description[9]));
-	cylinder->normal_text = tex_new_bmp(get_file(description[10]));
+	cylinder->text = tex_new_bmp(get_file(description[10]));
+	cylinder->normal_text = tex_new_bmp(get_file(description[11]));
 	scene->objs[snmi[1]] = cylinder;
 	snmi[1]++;
 }
@@ -111,7 +112,7 @@ t_object 	*multiple_cylinders(char **description, t_scene *scene, int *snmi, int
 	t_color		color;
 	cl_float3	pos_vec_buf[3];
 	float		rotation[3];
-	float		rad_spec[2];
+	float		rad_spec[4];
 	int surface_id;
 	
 	pos_vec_buf[0] = get_points(description[i + 1]);
@@ -124,7 +125,8 @@ t_object 	*multiple_cylinders(char **description, t_scene *scene, int *snmi, int
 	color = get_color(description[i + 5]);
 	rad_spec[1] = ftoi(get_coordinates(description[i + 6]));
 	rad_spec[2] = ftoi(get_coordinates(description[i + 7]));
-	surface_id = ftoi(get_coordinates(description[i + 8]));
+	rad_spec[3] = ftoi(get_coordinates(description[i + 8]));
+	surface_id = ftoi(get_coordinates(description[i + 9]));
 	cylinder = new_cylinder(pos_vec_buf, rad_spec, color, rotation, surface_id);
 	return (cylinder);
 }

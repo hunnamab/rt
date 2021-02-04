@@ -5,7 +5,7 @@ void	one_argument_box(char **description, t_scene *scene, int *snmi)
 	t_object	*box;
 	cl_float3	cen_buf[3];
 	float		rotation[3];
-	float		specular[2];
+	float		specular[3];
 	t_color		color;
 	int			surface_id;
 
@@ -18,9 +18,10 @@ void	one_argument_box(char **description, t_scene *scene, int *snmi)
 	color = get_color(description[4]);
 	specular[0] = ftoi(get_coordinates(description[5]));
 	specular[1] = ftoi(get_coordinates(description[6]));
-	surface_id = ftoi(get_coordinates(description[7]));
+	specular[2] = ftoi(get_coordinates(description[7]));
+	surface_id = ftoi(get_coordinates(description[8]));
 	box = new_box(cen_buf, color, specular, surface_id);
-	box->text = tex_new_bmp(get_file(description[8]));
+	box->text = tex_new_bmp(get_file(description[9]));
 	scene->objs[snmi[1]] = box;
 	snmi[1]++;
 }
@@ -30,7 +31,7 @@ t_object 	*multiple_boxes(char **description, t_scene *scene, int *snmi, int i)
 	t_object	*box;
 	cl_float3	cen_buf[3];
 	float		rotation[3];
-	float		specular[2];
+	float		specular[3];
 	t_color 	color;
 	int surface_id;
 
@@ -43,7 +44,8 @@ t_object 	*multiple_boxes(char **description, t_scene *scene, int *snmi, int i)
 	color = get_color(description[i + 4]);
 	specular[0] = ftoi(get_coordinates(description[i + 5]));
 	specular[1] = ftoi(get_coordinates(description[i + 6]));
-	surface_id = ftoi(get_coordinates(description[i + 7]));
+	specular[2] = ftoi(get_coordinates(description[i + 7]));
+	surface_id = ftoi(get_coordinates(description[i + 8]));
 	box = new_box(cen_buf, color, specular, surface_id);
 	return (box);
 }
@@ -63,10 +65,10 @@ void	get_box(char **description, t_scene *scene, int *snmi)
 			if (description[i][2] == '{')
 			{
 				box = multiple_boxes(description, scene, snmi, i);
-				box->text = tex_new_bmp(get_file(description[i + 8]));
+				box->text = tex_new_bmp(get_file(description[i + 9]));
 				scene->objs[snmi[1]] = box;
 				snmi[1]++;
-				i += 10;
+				i += 11;
 			}
 		}
 	}
@@ -89,7 +91,7 @@ t_object    *new_box(cl_float3 *buf, t_color color, float *specular, int surface
 	new_object->rotation[2] = buf[2].z;
 	new_object->specular = specular[0];
 	new_object->reflection = specular[1];
-	new_object->refraction = 0.0;
+	new_object->refraction = specular[2];
 	new_object->color = color;
 	new_object->text = NULL;
 	new_object->normal_text = NULL;

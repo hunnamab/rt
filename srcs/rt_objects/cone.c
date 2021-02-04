@@ -6,7 +6,7 @@
 /*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:38:39 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/04 21:42:14 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/04 21:59:11 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_object	*new_cone(cl_float3 *pos_vec, float *ang_spec, t_color color, \
 	matr_free(matrix, 4);
 	new_object->specular = ang_spec[1];
 	new_object->reflection = ang_spec[2];
-	new_object->refraction = 0.0;
+	new_object->refraction = ang_spec[3];
 	new_object->cs_nmb = 0;
 	new_object->cutting_surfaces = NULL;
 	new_object->surface_id = surface_id;
@@ -106,7 +106,7 @@ void	one_argument_cone(char **description, t_scene *scene, int *snmi)
 	t_color		color;
 	cl_float3	pos_vec_buf[3];
 	float		rotation[3];
-	float		ang_spec[3];
+	float		ang_spec[4];
 	int			surface_id;
 	
 	pos_vec_buf[0] = get_points(description[1]);
@@ -119,10 +119,11 @@ void	one_argument_cone(char **description, t_scene *scene, int *snmi)
 	color = get_color(description[5]);
 	ang_spec[1] = ftoi(get_coordinates(description[6]));
 	ang_spec[2] = ftoi(get_coordinates(description[7]));
-	surface_id = ftoi(get_coordinates(description[8]));
+	ang_spec[3] = ftoi(get_coordinates(description[8]));
+	surface_id = ftoi(get_coordinates(description[9]));
 	cone = new_cone(pos_vec_buf, ang_spec, color, rotation, surface_id);
-	cone->text = tex_new_bmp(get_file(description[9]));
-	cone->normal_text = tex_new_bmp(get_file(description[10]));
+	cone->text = tex_new_bmp(get_file(description[10]));
+	cone->normal_text = tex_new_bmp(get_file(description[11]));
 	scene->objs[snmi[1]] = cone;
 	snmi[1]++;
 }
@@ -133,7 +134,7 @@ t_object 	*multiple_cones(char **description, t_scene *scene, int *snmi, int i)
 	t_color		color;
 	cl_float3	pos_vec_buf[3];
 	float		rotation[3];
-	float		ang_spec[2];
+	float		ang_spec[4];
 	int			surface_id;
 
 	pos_vec_buf[0] = get_points(description[i + 1]);
@@ -146,7 +147,8 @@ t_object 	*multiple_cones(char **description, t_scene *scene, int *snmi, int i)
 	color = get_color(description[i + 5]);
 	ang_spec[1] = ftoi(get_coordinates(description[i + 6]));
 	ang_spec[2] = ftoi(get_coordinates(description[i + 7]));
-	surface_id = ftoi(get_coordinates(description[i + 8]));
+	ang_spec[3] = ftoi(get_coordinates(description[i + 8]));
+	surface_id = ftoi(get_coordinates(description[i + 9]));
 	cone = new_cone(pos_vec_buf, ang_spec, color, rotation, surface_id);
 	return (cone);
 }
