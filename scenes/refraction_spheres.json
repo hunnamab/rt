@@ -7,13 +7,9 @@
 			"color": [255, 0, 255, 255],
 			"specular": 10,
 			"reflection": 0.0,
-<<<<<<< HEAD
-			"texture": "no",
-=======
 			"refraction": 0,
 			"surface_id": 0,
 			"texture": "textures/Pattern1.jpg",
->>>>>>> 619bedc
 			"normal_map": "no"
 		},
 		{
@@ -31,8 +27,6 @@
 	],
 	"sphere": [
 		{
-<<<<<<< HEAD
-=======
 			"center": [6, -3, 5],
 			"radius": 4,
 			"rotation": [0, 0, 0],
@@ -45,19 +39,14 @@
 			"normal_map": "no"
 		},
 		{
->>>>>>> 619bedc
 			"center": [-6, -3, 0],
 			"radius": 3,
 			"rotation": [0, 0, 0],
 			"color": [37, 193, 149, 255],
 			"specular": 200,
-<<<<<<< HEAD
-			"reflection": 0.0,
-=======
 			"reflection": 0.8,
 			"refraction": 0,
 			"surface_id": 0,
->>>>>>> 619bedc
 			"texture": "no",
 			"normal_map": "no"
 		}
