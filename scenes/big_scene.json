@@ -6,6 +6,8 @@
 		"color": [255, 0, 255, 255],
 		"specular": 10,
 		"reflection": 0.0,
+		"refraction": 0,
+		"surface_id": 0,
 		"texture": "no",
 		"normal_map": "no"
 	},
@@ -18,6 +20,8 @@
 			"color": [178, 42, 42, 255],
 			"specular": 10,
 			"reflection": 0.6,
+			"refraction": 0,
+			"surface_id": 0,
 			"texture": "no",
 			"normal_map": "no"
 		},
@@ -29,6 +33,8 @@
 			"color": [194, 176, 41, 255],
 			"specular": 100,
 			"reflection": 0.0,
+			"refraction": 0,
+			"surface_id": 0,
 			"texture": "no",
 			"normal_map": "no"
 		}
@@ -42,6 +48,8 @@
 			"color": [46, 27, 116, 255],
 			"specular": 50,
 			"reflection": 0.0,
+			"refraction": 0,
+			"surface_id": 0,
 			"texture": "no",
 			"normal_map": "no"
 		},
@@ -53,6 +61,8 @@
 			"color": [70, 116, 27, 255],
 			"specular": 50,
 			"reflection": 0.0,
+			"refraction": 0,
+			"surface_id": 0,
 			"texture": "textures/helper.jpg",
 			"normal_map": "no"
 		}
@@ -66,6 +76,8 @@
 			"color": [69, 146, 121, 255],
 			"specular": 200,
 			"reflection": 0.0,
+			"refraction": 0,
+			"surface_id": 0,
 			"texture": "textures/helper.jpg",
 			"normal_map": "no"
 		},
@@ -77,6 +89,8 @@
 			"color": [32, 84, 151, 255],
 			"specular": 200,
 			"reflection": 0.3,
+			"refraction": 0,
+			"surface_id": 0,
 			"texture": "no",
 			"normal_map": "no"
 		}
@@ -89,6 +103,8 @@
 			"color": [151, 32, 76, 255],
 			"specular": 300,
 			"reflection": 0.0,
+			"refraction": 0,
+			"surface_id": 0,
 			"texture": "textures/helper.jpg",
 			"normal_map": "no"
 		},
@@ -99,6 +115,8 @@
 			"color": [37, 193, 149, 255],
 			"specular": 500,
 			"reflection": 0.9,
+			"refraction": 0,
+			"surface_id": 0,
 			"texture": "no",
 			"normal_map": "no"
 		},
@@ -109,6 +127,8 @@
 			"color": [114, 32, 151, 255],
 			"specular": 300,
 			"reflection": 0.3,
+			"refraction": 0,
+			"surface_id": 0,
 			"texture": "textures/helper.jpg",
 			"normal_map": "no"
 		},
@@ -119,10 +139,20 @@
 			"color": [160, 77, 44, 255],
 			"specular": 30,
 			"reflection": 0.4,
+			"refraction": 0,
+			"surface_id": 0,
 			"texture": "no",
 			"normal_map": "no"
 		}
 	],
+	"surface": {
+		"object": 1,
+		"type": "plane",
+		"is_negative": 0,
+		"param_one": [1, 0, 0],
+		"param_two": [0, 0, 0],
+		"param_three": 5
+	},
 	"camera": {
 		"position": [0, 5, -30],
 		"rotation": [0, 0.2, 0]

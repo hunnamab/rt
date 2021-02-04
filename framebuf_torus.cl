@@ -1010,7 +1010,8 @@ __kernel void get_frame_buf_cl(__global t_color *frame_buf, \
                             __global t_light *light, \
                             int light_nmb,\
 							int obj_nmb, int bounce_cnt, \
-							__global t_material *prev_material_buf)
+							__global t_material *prev_material_buf, \
+							int is_refractive)
 {
     int i = get_global_id(0);
 	int j = index_buf[i];

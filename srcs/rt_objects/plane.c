@@ -6,7 +6,7 @@
 /*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 14:22:24 by pmetron           #+#    #+#             */
-/*   Updated: 2021/02/03 22:24:20 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/04 21:56:21 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_basis get_plane_default(t_basis basis, cl_float3 normal)
     return (basis);
 }
 t_object    *new_plane(cl_float3 *poi_nor, float *specular, t_color color, \
-                        float *rotation)
+                        float *rotation, int surface_id)
 {
     t_plane     *new_plane;
     t_object    *new_object;
@@ -54,8 +54,10 @@ t_object    *new_plane(cl_float3 *poi_nor, float *specular, t_color color, \
     matr_free(matrix, 4);
     new_object->specular = specular[0];
     new_object->reflection = specular[1];
-	new_object->refraction = 0.0;
+	new_object->refraction = specular[2];
     new_object->cs_nmb = 0;
+	new_object->surface_id = surface_id;
+	new_object->cutting_surfaces = NULL;
     new_object->color = color;
     new_object->data = (void *)new_plane;
     new_object->tag = "plane";
@@ -119,8 +121,9 @@ void	one_argument_plane(char **description, t_scene *scene, int *snmi)
 	t_object	*plane;
 	t_color		color;
 	cl_float3	poi_nor_buf[3];
-	float		specular[2];
+	float		specular[3];
 	double		rotation[3];
+	int surface_id;
 
 	poi_nor_buf[0] = get_points(description[1]);
 	poi_nor_buf[1] = get_points(description[2]);
@@ -131,9 +134,11 @@ void	one_argument_plane(char **description, t_scene *scene, int *snmi)
 	color = get_color(description[4]);
 	specular[0] = ftoi(get_coordinates(description[5]));
 	specular[1] = ftoi(get_coordinates(description[6]));
-	plane = new_plane(poi_nor_buf, specular, color, rotation);
-	plane->text = tex_new_bmp(get_file(description[7]));
-	plane->normal_text = tex_new_bmp(get_file(description[8]));
+	specular[2] = ftoi(get_coordinates(description[7]));
+	surface_id = ftoi(get_coordinates(description[8]));
+	plane = new_plane(poi_nor_buf, specular, color, rotation, surface_id);
+	plane->text = tex_new_bmp(get_file(description[9]));
+	plane->normal_text = tex_new_bmp(get_file(description[10]));
 	scene->objs[snmi[1]] = plane;
 	snmi[1]++;
 }
@@ -143,8 +148,9 @@ t_object 	*multiple_planes(char **description, t_scene *scene, int *snmi, int i)
 	t_object	*plane;
 	t_color		color;
 	cl_float3	poi_nor_buf[3];
-	float		specular[2];
+	float		specular[3];
 	double		rotation[3];
+	int surface_id;
 
 	poi_nor_buf[0] = get_points(description[i + 1]);
 	poi_nor_buf[1] = get_points(description[i + 2]);
@@ -154,7 +160,9 @@ t_object 	*multiple_planes(char **description, t_scene *scene, int *snmi, int i)
 	rotation[2] = poi_nor_buf[2].z;
 	color = get_color(description[i + 4]);
 	specular[0] = ftoi(get_coordinates(description[i + 5]));
-	specular[1] = ftoi(get_coordinates(description[6]));
-	plane = new_plane(poi_nor_buf, specular, color, rotation);
+	specular[1] = ftoi(get_coordinates(description[i + 6]));
+	specular[2] = ftoi(get_coordinates(description[i + 7]));
+	surface_id = ftoi(get_coordinates(description[i + 8]));
+	plane = new_plane(poi_nor_buf, specular, color, rotation, surface_id);
 	return (plane);
 }

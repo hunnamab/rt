@@ -8,6 +8,8 @@
 			"color": [255, 0, 0, 255],
 			"specular": 100,
 			"reflection": 0.0,
+			"refraction": 0,
+			"surface_id": 0,
 			"texture": "no"
 		},
 		{
@@ -18,6 +20,8 @@
 			"color": [255, 255, 0, 255],
 			"specular": 100,
 			"reflection": 0.0,
+			"refraction": 0,
+			"surface_id": 0,
 			"texture": "no"
 		}
 	],

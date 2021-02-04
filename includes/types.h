@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   types.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:58 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/02 22:38:16 by npetrell         ###   ########.fr       */
+/*   Updated: 2021/02/04 20:41:12 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -246,9 +246,12 @@ typedef	union			primitive
 
 typedef	struct		 	s_cutting_surface
 {
-	t_primitive			primitive;
+	cl_float3			param1;
+	cl_float3			param2;
 	cl_int				type;
+	cl_int				object;
 	cl_int				is_negative;
+	cl_float			param3;
 }						t_cutting_surface;
 
 typedef	struct			s_object3d
@@ -265,6 +268,7 @@ typedef	struct			s_object3d
 	t_basis				basis;
 	int 				type;
 	int					texture_id;
+	int					surface_id;
 	int					normal_map_id;
 	t_cutting_surface	*cutting_surfaces;
 	int					cs_nmb; /*количество секущих поверхностей*/
@@ -327,6 +331,8 @@ struct					s_scene
 	float				*depth_buf;
 	t_texture			**texts;
 	t_color				*frame_buf;
+	t_cutting_surface	*srfs;
+	int					srf_nmb;
 	int					filter_type;
 	int					mode; // 0 - default, 1 - normal, 2 - depth, 3 - flat_light
 	int					max_bounces;

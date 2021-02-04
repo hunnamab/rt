@@ -6,7 +6,7 @@
 /*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:34 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/31 20:36:13 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/04 21:17:12 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,24 +85,24 @@ t_color		color_mul_by_scalar(t_color *color, float scalar);
 // sphere.c
 void		intersect_ray_sphere(t_scene *scene, int index, int is_refractive);
 t_object	*new_sphere(cl_float3 center, float *rad_spec, t_color color, \
-							float *rotation);
+							float *rotation, int surface_id);
 // triangle.c
 void		intersect_ray_triangle(t_scene *scene, int index, int is_refractive);
 t_object	*new_triangle(cl_float3 *vertex, float specular, t_color color, \
-							float *rotation);
+							float *rotation, int surface_id);
 void		clear_triangle(t_object *obj);
 // plane.c
 void		intersect_ray_plane(t_scene *scene, int index, int is_refractive);
 t_object	*new_plane(cl_float3 *poi_nor, float *specular, t_color color, \
-						float *rotation);
+						float *rotation, int surface_id);
 // cylinder.c
 void		intersect_ray_cylinder(t_scene *scene, int index, int is_refractive);
 t_object	*new_cylinder(cl_float3 *pos_vec, float *rad_spec, t_color color, \
-							float *rotation);
+							float *rotation, int surface_id);
 // cone.c
 void		intersect_ray_cone(t_scene *scene, int index, int is_refractive);
 t_object	*new_cone(cl_float3 *pos_vec, float *ang_spec, t_color color, \
-						float *rotation);
+						float *rotation, int surface_id);
 
 void		get_sphere(char **description, t_scene *scene, int *snmi);
 void		get_triangle(char **description, float specular, t_scene *scene, int *snmi);
@@ -201,18 +201,19 @@ cl_float3	clvec_rot_z(cl_float3 v, double a);
 void		draw_ui(SDL_Renderer *renderer, t_ui *rt_ui);
 
 void		intersect_ray_paraboloid(t_scene *scene, int index, int is_refractive);
-t_object    *new_paraboloid(cl_float3 *cen_buf, t_color color, float *specular);
+t_object    *new_paraboloid(cl_float3 *cen_buf, t_color color, float *specular, int surface_id);
 void		get_ellipsoid(char **description, t_scene *scene, int *snmi);
-t_object    *new_ellipsoid(cl_float3 *buf, t_color color, float *specular);
+t_object    *new_ellipsoid(cl_float3 *buf, t_color color, float *specular, int surface_id);
 
-t_object    *new_torus(cl_float3 *cen_buf, t_color color, float *specular);
+t_object    *new_torus(cl_float3 *cen_buf, t_color color, float *specular, int surface_id);
 void        intersect_ray_torus(t_scene *scene, int index, int is_refractive);
 
-t_object    *new_box(cl_float3 *buf, t_color color, float *specular);
+t_object    *new_box(cl_float3 *buf, t_color color, float *specular, int surface_id);
 void		get_box(char **description, t_scene *scene, int *snmi);
 
 void		get_torus(char **description, t_scene *scene, int *snmi);
 void		get_paraboloid(char **description, t_scene *scene, int *snmi);
 
+char		*get_light_type(char *description);
 
 #endif
