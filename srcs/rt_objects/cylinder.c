@@ -50,7 +50,7 @@ t_object	*new_cylinder(cl_float3 *pos_vec, float *rad_spec, t_color color, \
 	return (new_object);
 }
 
-void		intersect_ray_cylinder(t_scene *scene, int index)
+void		intersect_ray_cylinder(t_scene *scene, int index, int is_refractive)
 {
 	size_t global = WID * HEI;
 	size_t local;

@@ -30,13 +30,12 @@ typedef struct			s_scene_device
 	cl_mem				intersection_buf;
 	cl_mem				viewport;
 	cl_mem				index_buf;
-	cl_mem				original_index_buf;
-	cl_mem				prev_index_buf;
 	cl_mem				depth_buf;
 	cl_mem				normal_buf;
 	cl_mem				material_buf;
 	cl_mem				prev_material_buf;
 	cl_mem				frame_buf;
+	cl_mem				prev_frame_buf;
 	cl_mem				obj;
 	cl_mem				light;
 	cl_mem				textures;
@@ -272,7 +271,7 @@ typedef	struct			s_object3d
 	t_cutting_surface	*cutting_surfaces;
 	int					cs_nmb; /*количество секущих поверхностей*/
 	void				(*get_normal)(struct s_scene *, int, int);
-	void				(*intersect)(t_scene *, int);
+	void				(*intersect)(t_scene *, int, int);
 	void				(*clear_obj)(struct s_object3d *);
 }						t_object;
 

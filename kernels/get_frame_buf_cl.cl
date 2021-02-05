@@ -166,6 +166,7 @@ typedef struct		s_object3d_d
 	int				l_size_nm;
 }					t_object_d;
 
+<<<<<<< HEAD
 float hyperboloid_intersection(t_hyperboloid hyper, float3 ray_start, float3 ray_dir)
 {
  	float k1;
@@ -193,6 +194,8 @@ float hyperboloid_intersection(t_hyperboloid hyper, float3 ray_start, float3 ray
     return (0);
 }
 
+=======
+>>>>>>> 1d0f804c9bf62f488b1850965fdb2b6dafdcfc9d
 float2		swap(float2 ab)
 {
 	float tmp;
@@ -203,6 +206,12 @@ float2		swap(float2 ab)
 	return ab;
 }
 
+<<<<<<< HEAD
+=======
+//=============================================================================
+// _root3, root3 from http://prografix.narod.ru
+//=============================================================================
+>>>>>>> 1d0f804c9bf62f488b1850965fdb2b6dafdcfc9d
 float _root3 (float x)
 {
     float s = 1.0f;
@@ -224,17 +233,33 @@ float _root3 (float x)
     r -= 1/3 * ( r - x / ( r * r ) );
     r -= 1/3 * ( r - x / ( r * r ) );
     return r * s;
+<<<<<<< HEAD
 }
+=======
+} //!
+>>>>>>> 1d0f804c9bf62f488b1850965fdb2b6dafdcfc9d
 
 float root3 ( float x )
 {
     if ( x > 0 ) return _root3 ( x ); else
     if ( x < 0 ) return ((_root3(-x)) * (-1.0f)); else
     return 0;
+<<<<<<< HEAD
 }
 
 float8 SolveP3(float8 x,float a,float b,float c)
 {
+=======
+} //!
+
+//---------------------------------------------------------------------------
+// x - array of size 3
+// In case 3 real roots: => x[0], x[1], x.s2, return 3
+//         2 real roots: x[0], x[1],          return 2
+//         1 real root : x[0], x[1] ± i*x.s2, return 1
+float8 SolveP3(float8 x,float a,float b,float c)
+{	// solve cubic equation x^3 + a*x^2 + b*x + c = 0
+>>>>>>> 1d0f804c9bf62f488b1850965fdb2b6dafdcfc9d
 	float a2 = a*a;
     float q  = (a2 - 3.0f*b)/9.0f; 
 	float r  = (a*(2.0f*a2-9.0f*b) + 27.0f*c)/54.0f;
@@ -272,8 +297,15 @@ float8 SolveP3(float8 x,float a,float b,float c)
     }
 	return (x);
 }
+<<<<<<< HEAD
 
 float2  CSqrt( float x, float y, float2 ab)
+=======
+// SolveP3(float *x,float a,float b,float c) {	
+//---------------------------------------------------------------------------
+// a>=0!
+float2  CSqrt( float x, float y, float2 ab) // returns:  a+i*s = sqrt(x+i*y)
+>>>>>>> 1d0f804c9bf62f488b1850965fdb2b6dafdcfc9d
 {
 	float r  = sqrt(x*x+y*y);
 	if( y==0 ) { 
@@ -285,8 +317,13 @@ float2  CSqrt( float x, float y, float2 ab)
 	}
 	return ab;
 }
+<<<<<<< HEAD
 
 float8   SolveP4Bi(float8 x, float b, float d)
+=======
+//---------------------------------------------------------------------------
+float8   SolveP4Bi(float8 x, float b, float d)	// solve equation x^4 + b*x^2 + d = 0
+>>>>>>> 1d0f804c9bf62f488b1850965fdb2b6dafdcfc9d
 {
 	float D = b*b-4.0f*d;
 	if( D>=0 ) 
@@ -339,9 +376,15 @@ float8   SolveP4Bi(float8 x, float b, float d)
 		x.s3 = ab.y;
 		x.s4 = 0;
 		return x;
+<<<<<<< HEAD
 	}
 }
 
+=======
+	} // if( D>=0 ) 
+} // SolveP4Bi(float *x, float b, float d)	// solve equation x^4 + b*x^2 d
+//---------------------------------------------------------------------------
+>>>>>>> 1d0f804c9bf62f488b1850965fdb2b6dafdcfc9d
 float8  dblSort3(float8 abc) // make: a <= b <= c
 {
 	float2 k;
@@ -371,8 +414,13 @@ float8  dblSort3(float8 abc) // make: a <= b <= c
 	}
 	return abc;
 }
+<<<<<<< HEAD
 
 float8   SolveP4De(float8 x, float b, float c, float d)	
+=======
+//---------------------------------------------------------------------------
+float8   SolveP4De(float8 x, float b, float c, float d)	// solve equation x^4 + b*x^2 + c*x + d
+>>>>>>> 1d0f804c9bf62f488b1850965fdb2b6dafdcfc9d
 {
 	if( fabs(c)< FLT_EPSILON * (fabs(b)+fabs(d)) )
 	{
@@ -449,17 +497,33 @@ float8   SolveP4De(float8 x, float b, float c, float d)
 	x.s3 = szi;
 	x.s4 = 2;
 	return x;
+<<<<<<< HEAD
 } 
 
 float N4Step(float x, float a,float b,float c,float d)
+=======
+} // SolveP4De(float *x, float b, float c, float d)	// solve equation x^4 + b*x^2 + c*x + d
+//-----------------------------------------------------------------------------
+float N4Step(float x, float a,float b,float c,float d)	// one Newton step for x^4 + a*x^3 + b*x^2 + c*x + d
+>>>>>>> 1d0f804c9bf62f488b1850965fdb2b6dafdcfc9d
 {
 	float fxs= ((4.0f*x+3.0f*a)*x+2.0f*b)*x+c;
 	if (fxs == 0) return x;
 	float fx = (((x+a)*x+b)*x+c)*x+d;
 	return (x - fx / fxs);
 } 
+<<<<<<< HEAD
 
 float8   SolveP4(float8 x,float a,float b,float c,float d) {
+=======
+//-----------------------------------------------------------------------------
+// x - array of size 4
+// return 4: 4 real roots x[0], x[1], x.s2, x.s3, possible multiple roots
+// return 2: 2 real roots x[0], x[1] and complex x.s2±i*x.s3, 
+// return 0: two pair of complex roots: x[0]±i*x[1],  x.s2±i*x.s3, 
+float8   SolveP4(float8 x,float a,float b,float c,float d) {	// solve equation x^4 + a*x^3 + b*x^2 + c*x + d by Dekart-Euler method
+	// move to a=0:
+>>>>>>> 1d0f804c9bf62f488b1850965fdb2b6dafdcfc9d
 	float d1 = d + 0.25f * a * (0.25f * b * a - 3.0f/64.0f * a * a * a - c);
 	float c1 = c + 0.5f * a *(0.25f * a * a - b);
 	float b1 = b - 0.375f * a * a;
@@ -987,7 +1051,8 @@ __kernel void get_frame_buf_cl(__global t_color *frame_buf, \
                             __global t_light *light, \
                             int light_nmb,\
 							int obj_nmb, int bounce_cnt, \
-							__global t_material *prev_material_buf)
+							__global t_material *prev_material_buf, \
+							int is_refractive)
 {
     int i = get_global_id(0);
 	int j = index_buf[i];

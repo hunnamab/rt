@@ -1,9 +1,9 @@
 {
 	"plane": [
 		{
-			"point": [0, 0, 100],
+			"point": [0, 0, 30],
 			"normal": [0, 0, 1],
-			"rotation": [0, 0, 0],
+			"rotation": [0, 0, 0.0],
 			"color": [255, 0, 255, 255],
 			"specular": 10,
 			"reflection": 0.0,
@@ -62,7 +62,7 @@
 		},
 		{
 			"type": "point",
-			"position": [10, 10, -20],
+			"position": [10, 10, -10],
 			"intensity": 0.4
 		}
 	]

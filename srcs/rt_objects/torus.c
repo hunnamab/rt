@@ -104,7 +104,7 @@ t_object    *new_torus(cl_float3 *cen_buf, t_color color, float *specular, int s
 	return (new_object);
 }
 
-void        intersect_ray_torus(t_scene *scene, int index)
+void        intersect_ray_torus(t_scene *scene, int index, int is_refractive)
 {
     size_t global = WID * HEI;
 	size_t local;

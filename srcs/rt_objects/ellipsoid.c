@@ -113,7 +113,7 @@ void	get_ellipsoid(char **description, t_scene *scene, int *snmi)
 		one_argument_ellipsoid(description, scene, snmi);
 }
 
-void        intersect_ray_ellipsoid(t_scene *scene, int index)
+void        intersect_ray_ellipsoid(t_scene *scene, int index, int is_refractive)
 {
     size_t global = WID * HEI;
 	size_t local;

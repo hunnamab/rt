@@ -32,29 +32,32 @@ void	get_rays_arr(t_scene *scene)
     clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.ray_buf, CL_TRUE, 0, sizeof(cl_float3) * global, scene->ray_buf, 0, NULL, NULL);
 }
 
-void	get_closest_points(t_scene *scene, float t)
+void	get_closest_points(t_scene *scene, float t, int is_refractive)
 {
 	size_t global = WID * HEI;
 	int x = -1;
 	int i = 0;
 	x = -1;
-	while (++x < WID * HEI)
+	if (is_refractive != 1)
 	{
-		scene->index_buf[x] = -1;
-		scene->depth_buf[x] = 100000000;
+		while (++x < WID * HEI)
+		{
+			scene->index_buf[x] = -1;
+			scene->depth_buf[x] = 100000000;
+		}
+		clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.index_buf, CL_FALSE, 0, sizeof(int) * global, scene->index_buf, 0, NULL, NULL);
+		clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.depth_buf, CL_FALSE, 0, sizeof(float) * global, scene->depth_buf, 0, NULL, NULL);
+		clFinish(scene->cl_data.commands);
 	}
-	clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.index_buf, CL_FALSE, 0, sizeof(int) * global, scene->index_buf, 0, NULL, NULL);
-	clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.depth_buf, CL_FALSE, 0, sizeof(float) * global, scene->depth_buf, 0, NULL, NULL);
-	clFinish(scene->cl_data.commands);
 	while (i < scene->obj_nmb)
 	{
-		scene->objs[i]->intersect(scene, i);
+		scene->objs[i]->intersect(scene, i, is_refractive);
 		clFinish(scene->cl_data.commands);
 		i++;
 	}
 }
 
-void	get_intersection_buf(t_scene *scene)
+void	get_intersection_buf(t_scene *scene, int is_refractive)
 {
 	size_t global = WID * HEI;
 	size_t local;
@@ -65,6 +68,7 @@ void	get_intersection_buf(t_scene *scene)
 	clSetKernelArg(scene->cl_data.kernels[6], 2, sizeof(cl_mem), &scene->cl_data.scene.depth_buf);
 	clSetKernelArg(scene->cl_data.kernels[6], 3, sizeof(cl_mem), &scene->cl_data.scene.intersection_buf);
 	clSetKernelArg(scene->cl_data.kernels[6], 4, sizeof(cl_mem), &scene->cl_data.scene.index_buf);
+	clSetKernelArg(scene->cl_data.kernels[6], 5, sizeof(cl_int), (void*)&is_refractive);
 	clGetKernelWorkGroupInfo(scene->cl_data.kernels[6], scene->cl_data.device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
     clEnqueueNDRangeKernel(scene->cl_data.commands, scene->cl_data.kernels[6], 1, NULL, &global, &local, 0, NULL, NULL);
     clFinish(scene->cl_data.commands);
@@ -96,7 +100,7 @@ void	get_normal_buf(t_scene *scene)
     clFinish(scene->cl_data.commands);
 }
 
-void get_frame_buf(t_scene *scene)
+void get_frame_buf(t_scene *scene, int is_refractive)
 {
 	size_t global = WID * HEI;
 	size_t local;
@@ -113,6 +117,7 @@ void get_frame_buf(t_scene *scene)
 	clSetKernelArg(scene->cl_data.kernels[9], 9, sizeof(int), (void *)&scene->obj_nmb);
 	clSetKernelArg(scene->cl_data.kernels[9], 10, sizeof(int), (void *)&scene->bounce_cnt);
 	clSetKernelArg(scene->cl_data.kernels[9], 11, sizeof(cl_mem), &scene->cl_data.scene.prev_material_buf);
+	clSetKernelArg(scene->cl_data.kernels[9], 12, sizeof(cl_int), (void *)&is_refractive);
 	clGetKernelWorkGroupInfo(scene->cl_data.kernels[9], scene->cl_data.device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
 	clEnqueueNDRangeKernel(scene->cl_data.commands, scene->cl_data.kernels[9], 1, NULL, &global, &local, 0, NULL, NULL);
 	clFinish(scene->cl_data.commands);
