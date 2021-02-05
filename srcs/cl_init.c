@@ -7,6 +7,7 @@ void	device_objects_init(t_scene *scene)
 	int i = 0;
 	int shift = 0;
 	int l = 0;
+
 	while (i < scene->obj_nmb)
 	{
 		if (scene->objs[i]->type == SPHERE)
@@ -58,16 +59,13 @@ void	device_objects_init(t_scene *scene)
 		}
 		if (scene->objs[i]->type == ELLIPSOID)
 		{
-			///
-			///
 			t_ellipsoid *el;
 			el = (t_ellipsoid *)scene->objs[i]->data;
 			buf[i].type = ELLIPSOID;
-			buf[i].primitive.ellipsoid.center1 = el->center1;
-			buf[i].primitive.ellipsoid.center2 = el->center2;
-			buf[i].primitive.ellipsoid.radius = el->radius;
-			//buf[i].primitive.ellipsoid.abc = el->abc;
-			//buf[i].primitive.ellipsoid.center = el->center;
+			buf[i].primitive.ellipsoid.center = el->center;
+			buf[i].primitive.ellipsoid.a = el->a;
+			buf[i].primitive.ellipsoid.b = el->b;
+			buf[i].primitive.ellipsoid.c = el->c;
 		}
 		if (scene->objs[i]->type == BOX)
 		{
@@ -149,7 +147,7 @@ void	device_objects_init(t_scene *scene)
 		buf[i].color = scene->objs[i]->color;
 		buf[i].roughness = 0;
 		buf[i].color_disrupt = 0;
-		buf[i].refraction = 0;
+		buf[i].refraction = scene->objs[i]->refraction;
 		buf[i].reflection = scene->objs[i]->reflection;
 		buf[i].basis = scene->objs[i]->basis;
 		i++;

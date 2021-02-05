@@ -1,6 +1,19 @@
 #ifndef KERNEL_H
 # define KERNEL_H
 
+enum object_type {
+	SPHERE,
+	CONE,
+	TRIANGLE,
+	CYLINDER,
+	PLANE,
+	ELLIPSOID,
+	HYPERBOLOID,
+	PARABOLOID,
+	BOX,
+	TORUS
+};
+
 enum light_type{
 	POINT,
 	AMBIENT,
@@ -35,6 +48,7 @@ typedef	struct		s_material
 	t_color			color;
 	float			specular;
 	float			reflection;
+	float			refraction;
 }					t_material;
 
 typedef struct		s_sphere
@@ -122,25 +136,12 @@ typedef	union		primitive
 	t_torus			torus;
 }					t_primitive;
 
-typedef	struct		 	s_cutting_surface
+typedef	struct		 s_cutting_surface
 {
-	int					type;
-	int					is_negative;
-	t_primitive			primitive;
-}						t_cutting_surface;
-
-enum object_type {
-	SPHERE,
-	CONE,
-	TRIANGLE,
-	CYLINDER,
-	PLANE,
-	ELLIPSOID,
-	HYPERBOLOID,
-	PARABOLOID,
-	BOX,
-	TORUS
-};
+	t_primitive		primitive;
+	int				type;
+	int				is_negative;
+}					t_cutting_surface;
 
 typedef struct		s_object3d_d
 {
@@ -159,6 +160,11 @@ typedef struct		s_object3d_d
 	int				texture_width;
 	int				texture_height;
 	int				l_size;
+	int				normal_map_id; //разметка частей текстурного буфера для поиска карты нормалей
+	int				texture_size_nm;
+	int				texture_width_nm;
+	int				texture_height_nm;
+	int				l_size_nm;
 }					t_object_d;
 
 #endif

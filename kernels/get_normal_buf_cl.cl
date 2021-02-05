@@ -1,5 +1,17 @@
-
 //#include "kernel.h"
+
+enum object_type {
+	SPHERE,
+	CONE,
+	TRIANGLE,
+	CYLINDER,
+	PLANE,
+	ELLIPSOID,
+	HYPERBOLOID,
+	PARABOLOID,
+	BOX,
+	TORUS
+};
 
 enum light_type{
 	POINT,
@@ -35,6 +47,7 @@ typedef	struct		s_material
 	t_color			color;
 	float			specular;
 	float			reflection;
+	float			refraction;
 }					t_material;
 
 typedef struct		s_sphere
@@ -82,7 +95,7 @@ typedef	struct		s_box
 {
 	float3			a;
 	float3			b;
-	int				face_hit;
+	float			face_hit;
 }					t_box;
 
 typedef struct		s_paraboloid
@@ -95,6 +108,7 @@ typedef struct		s_paraboloid
 typedef struct		s_torus
 {
 	float3			center;
+	float3			vec;
 	float			radius1;
 	float			radius2;
 }					t_torus;
@@ -115,33 +129,18 @@ typedef	union		primitive
 	t_plane			plane;
 	t_triangle		triangle;
 	t_ellipsoid		ellipsoid;
-    t_hyperboloid   hyperboloid;
+	t_hyperboloid   hyperboloid;
 	t_paraboloid	paraboloid;
 	t_box			box;
 	t_torus			torus;
 }					t_primitive;
 
-typedef	struct		 	s_cutting_surface
+typedef	struct		 s_cutting_surface
 {
-	int					type;
-	int					is_negative;
-	t_primitive			primitive;
-}						t_cutting_surface;
-
-
-enum object_type {
-	SPHERE,
-	CONE,
-	TRIANGLE,
-	CYLINDER,
-	PLANE,
-	ELLIPSOID,
-	HYPERBOLOID,
-	PARABOLOID,
-	BOX,
-	TORUS
-};
-
+	t_primitive		primitive;
+	int				type;
+	int				is_negative;
+}					t_cutting_surface;
 
 typedef struct		s_object3d_d
 {
@@ -219,10 +218,7 @@ void  get_normal_paraboloid(__global t_object_d *obj, \
 						float3 camera_position, \
 						__global float *depth_buf)
 {
- 		//--------------------------------
 	float3 V = obj[0].primitive.paraboloid.vec;
-	//--------------------------------
-	//V = normalize(V);
 	float3 p_c = intersection_buf[0] - obj[0].primitive.paraboloid.center;
 	float m = dot(p_c, V);
 	float3 normal = p_c - V * (m + obj[0].primitive.paraboloid.k);

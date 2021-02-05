@@ -1,5 +1,17 @@
-
 //#include "kernel.h"
+
+enum object_type {
+	SPHERE,
+	CONE,
+	TRIANGLE,
+	CYLINDER,
+	PLANE,
+	ELLIPSOID,
+	HYPERBOLOID,
+	PARABOLOID,
+	BOX,
+	TORUS
+};
 
 enum light_type{
 	POINT,
@@ -35,6 +47,7 @@ typedef	struct		s_material
 	t_color			color;
 	float			specular;
 	float			reflection;
+	float			refraction;
 }					t_material;
 
 typedef struct		s_sphere
@@ -72,18 +85,18 @@ typedef struct		s_triangle
 
 typedef	struct		s_ellipsoid
 {
-	float3			center1;
-	float3			center2;
-	float			radius;
+	float3			center;
+	float			a;
+	float			b;
+	float			c;
 }					t_ellipsoid;
 
 typedef	struct		s_box
 {
 	float3			a;
 	float3			b;
-	int				face_hit;
+	float			face_hit;
 }					t_box;
-
 
 typedef struct		s_paraboloid
 {
@@ -116,34 +129,18 @@ typedef	union		primitive
 	t_plane			plane;
 	t_triangle		triangle;
 	t_ellipsoid		ellipsoid;
-    t_hyperboloid   hyperboloid;
+	t_hyperboloid   hyperboloid;
 	t_paraboloid	paraboloid;
 	t_box			box;
 	t_torus			torus;
 }					t_primitive;
 
-typedef	struct		s_cutting_surface
+typedef	struct		 s_cutting_surface
 {
-	int 			type;
-	t_sphere		sphere;
-	t_plane			plane;
-	t_triangle		triangle;
-	t_cone			cone;
-	t_cylinder		cylinder;
+	t_primitive		primitive;
+	int				type;
+	int				is_negative;
 }					t_cutting_surface;
-
-enum object_type {
-	SPHERE,
-	CONE,
-	TRIANGLE,
-	CYLINDER,
-	PLANE,
-	ELLIPSOID,
-	HYPERBOLOID,
-	PARABOLOID,
-	BOX,
-	TORUS
-};
 
 typedef struct		s_object3d_d
 {
@@ -334,6 +331,7 @@ __kernel void    get_material_buf_cl(__global uchar *texture_data,\
 			material_buf[i].color = obj[index_buf[i]].color;
 		material_buf[i].specular = obj[index_buf[i]].specular;
 		material_buf[i].reflection = obj[index_buf[i]].reflection;
+		material_buf[i].refraction = obj[index_buf[i]].refraction;
     }
  	else
 	{
@@ -347,5 +345,6 @@ __kernel void    get_material_buf_cl(__global uchar *texture_data,\
 			material_buf[i].reflection = 0.0;
 		}
 		material_buf[i].reflection = 0.0;
+		material_buf[i].refraction = 0.0;
 	}
 }

@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   types.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/07 15:39:58 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/04 23:59:40 by npetrell         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef TYPES_H
 # define TYPES_H
 # define FILTERS_NUM 5
@@ -144,6 +132,7 @@ typedef	struct			s_material
 	t_color				color;
 	float				specular;
 	float				reflection;
+	float				refraction;
 }						t_material;
 
 typedef	struct			s_ellipsoid
@@ -256,9 +245,12 @@ typedef	union			primitive
 
 typedef	struct		 	s_cutting_surface
 {
+	cl_float3			param1;
+	cl_float3			param2;
 	cl_int				type;
+	cl_int				object;
 	cl_int				is_negative;
-	t_primitive			primitive;
+	cl_float			param3;
 }						t_cutting_surface;
 
 typedef	struct			s_object3d
@@ -269,11 +261,13 @@ typedef	struct			s_object3d
 	t_color				color;
 	float				specular;
 	float				reflection;
+	float				refraction;
 	t_texture			*text;
 	t_texture			*normal_text;
 	t_basis				basis;
 	int 				type;
 	int					texture_id;
+	int					surface_id;
 	int					normal_map_id;
 	t_cutting_surface	*cutting_surfaces;
 	int					cs_nmb; /*количество секущих поверхностей*/
@@ -336,6 +330,8 @@ struct					s_scene
 	float				*depth_buf;
 	t_texture			**texts;
 	t_color				*frame_buf;
+	t_cutting_surface	*srfs;
+	int					srf_nmb;
 	int					filter_type;
 	int					mode; // 0 - default, 1 - normal, 2 - depth, 3 - flat_light
 	int					max_bounces;

@@ -7,7 +7,10 @@
 			"color": [255, 0, 0, 255],
 			"specular": 100,
 			"reflection": 0.0,
-			"texture": "textures/helper.jpg"
+			"refraction": 0,
+			"surface_id": 0,
+			"texture": "textures/helper.jpg",
+			"normal_map": "no"
 		},
 		{
 			"center": [0, 0, 0],
@@ -16,7 +19,10 @@
 			"color": [0, 255, 0, 255],
 			"specular": 100,
 			"reflection": 0.0,
-			"texture": "textures/helper.jpg"
+			"refraction": 0,
+			"surface_id": 0,
+			"texture": "textures/helper.jpg",
+			"normal_map": "no"
 		}
 	],
 	"cylinder": [
@@ -28,7 +34,10 @@
 			"color": [69, 146, 121, 255],
 			"specular": 200,
 			"reflection": 0.0,
-			"texture": "textures/helper.jpg"
+			"refraction": 0,
+			"surface_id": 0,
+			"texture": "textures/helper.jpg",
+			"normal_map": "no"
 		},
 		{
 			"position": [0, 12, 0],
@@ -38,7 +47,10 @@
 			"color": [32, 84, 151, 255],
 			"specular": 200,
 			"reflection": 0.3,
-			"texture": "textures/helper.jpg"
+			"refraction": 0,
+			"surface_id": 0,
+			"texture": "textures/helper.jpg",
+			"normal_map": "no"
 		},
 		{
 			"position": [0, 12, 0],
@@ -48,7 +60,10 @@
 			"color": [69, 146, 121, 255],
 			"specular": 200,
 			"reflection": 0.0,
-			"texture": "textures/helper.jpg"
+			"refraction": 0,
+			"surface_id": 0,
+			"texture": "textures/helper.jpg",
+			"normal_map": "no"
 		},
 		{
 			"position": [0, 12, 0],
@@ -58,7 +73,10 @@
 			"color": [32, 84, 151, 255],
 			"specular": 200,
 			"reflection": 0.3,
-			"texture": "textures/helper.jpg"
+			"refraction": 0,
+			"surface_id": 0,
+			"texture": "textures/helper.jpg",
+			"normal_map": "no"
 		}
 	],
 	"triangle": [
@@ -70,7 +88,10 @@
 			"color": [45, 205, 10, 255],
 			"specular": 50,
 			"reflection": 0.0,
-			"texture": "textures/helper.jpg"
+			"refraction": 0,
+			"surface_id": 0,
+			"texture": "textures/helper.jpg",
+			"normal_map": "no"
 		},
 		{
 			"ver_one": [0, 10, 0],
@@ -80,7 +101,10 @@
 			"color": [210, 205, 10, 255],
 			"specular": 50,
 			"reflection": 0.0,
-			"texture": "textures/helper.jpg"
+			"refraction": 0,
+			"surface_id": 0,
+			"texture": "textures/helper.jpg",
+			"normal_map": "no"
 		}
 	],
 	"light": [

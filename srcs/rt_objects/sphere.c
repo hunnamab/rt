@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sphere.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 22:45:20 by pmetron           #+#    #+#             */
-/*   Updated: 2021/02/01 20:42:40 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/04 21:54:25 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ t_basis get_default(t_basis basis)
 }
 
 t_object	*new_sphere(cl_float3 center, float *rad_spec, t_color color, \
-						float *rotation)
+						float *rotation, int surface_id)
 {
 	t_sphere *new_sphere;
 	t_object *new_object;
@@ -73,7 +73,10 @@ t_object	*new_sphere(cl_float3 center, float *rad_spec, t_color color, \
 	new_object->rotation[2] = rotation[2];
 	new_object->specular = rad_spec[1];
 	new_object->reflection = rad_spec[2];
+	new_object->refraction = rad_spec[3];
 	new_object->color = color;
+	new_object->cs_nmb = 0;
+	new_object->surface_id = surface_id;
 	new_object->text = NULL;
 	new_object->normal_text = NULL;
 	new_object->data = (void *)new_sphere;
@@ -111,6 +114,12 @@ void		intersect_ray_sphere(t_scene *scene, int index)
 	cl_mem cs;
 	if (scene->objs[index]->cs_nmb > 0)
 	{
+		/*printf("PLANE D %f\n", scene->objs[0]->cutting_surfaces[0].param3);
+	scene->objs[0]->cutting_surfaces[0].param3 = -scene->objs[0]->cutting_surfaces[0].param1.x * scene->objs[0]->cutting_surfaces[0].param2.x -\
+												scene->objs[0]->cutting_surfaces[0].param1.y * scene->objs[0]->cutting_surfaces[0].param2.y - 
+												-scene->objs[0]->cutting_surfaces[0].param1.z * scene->objs[0]->cutting_surfaces[0].param2.z;
+	printf("PLANE D %f\n", scene->objs[0]->cutting_surfaces[0].param3);*/
+		printf("\n\n\n%f%f%f\n\n\n", scene->objs[0]->cutting_surfaces->param1.x, scene->objs[0]->cutting_surfaces->param1.y,scene->objs[0]->cutting_surfaces->param1.z);
 		cs = clCreateBuffer(scene->cl_data.context, CL_MEM_READ_ONLY |
 		CL_MEM_HOST_WRITE_ONLY | CL_MEM_COPY_HOST_PTR, sizeof(t_cutting_surface) * scene->objs[index]->cs_nmb, scene->objs[index]->cutting_surfaces, NULL);
 	}
@@ -136,8 +145,9 @@ void	one_argument_sphere(char **description, t_scene *scene, int *snmi)
 	t_object	*sphere;
 	cl_float3	cen_buf[2];
 	float		rotation[3];
-	float		rad_spec[3];
+	float		rad_spec[4];
 	t_color		color;
+	int			surface_id;
 
 	cen_buf[0] = get_points(description[1]);
 	rad_spec[0] = ftoi(get_coordinates(description[2]));
@@ -148,8 +158,11 @@ void	one_argument_sphere(char **description, t_scene *scene, int *snmi)
 	color = get_color(description[4]);
 	rad_spec[1] = ftoi(get_coordinates(description[5]));
 	rad_spec[2] = ftoi(get_coordinates(description[6]));
-	sphere = new_sphere(cen_buf[0], rad_spec, color, rotation);
-	sphere->text = tex_new_bmp(get_file(description[7]));
+	rad_spec[3] = ftoi(get_coordinates(description[7]));
+	surface_id = ftoi(get_coordinates(description[8]));
+	sphere = new_sphere(cen_buf[0], rad_spec, color, rotation, surface_id);
+	sphere->text = tex_new_bmp(get_file(description[9]));
+	sphere->normal_text = tex_new_bmp(get_file(description[10]));
 	scene->objs[snmi[1]] = sphere;
 	snmi[1]++;
 }
@@ -159,8 +172,9 @@ t_object 	*multiple_spheres(char **description, t_scene *scene, int *snmi, int i
 	t_object	*sphere;
 	cl_float3	cen_buf[2];
 	float		rotation[3];
-	float		rad_spec[3];
+	float		rad_spec[4];
 	t_color 	color;
+	int			surface_id;
 
 	cen_buf[0] = get_points(description[i + 1]);
 	rad_spec[0] = ftoi(get_coordinates(description[i + 2]));
@@ -171,6 +185,8 @@ t_object 	*multiple_spheres(char **description, t_scene *scene, int *snmi, int i
 	color = get_color(description[i + 4]);
 	rad_spec[1] = ftoi(get_coordinates(description[i + 5]));
 	rad_spec[2] = ftoi(get_coordinates(description[i + 6]));
-	sphere = new_sphere(cen_buf[0], rad_spec, color, rotation);
+	rad_spec[3] = ftoi(get_coordinates(description[i + 7]));
+	surface_id = ftoi(get_coordinates(description[i + 8]));
+	sphere = new_sphere(cen_buf[0], rad_spec, color, rotation, surface_id);
 	return (sphere);
 }

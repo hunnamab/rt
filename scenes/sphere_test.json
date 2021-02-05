@@ -7,7 +7,10 @@
 			"color": [255, 0, 0, 255],
 			"specular": 100,
 			"reflection": 0.0,
-			"texture": "no"
+			"refraction": 0,
+			"surface_id": 0,
+			"texture": "textures/helper.jpg",
+			"normal_map": "no"
 		},
 		{
 			"center": [0, -10, 30],
@@ -16,7 +19,10 @@
 			"color": [0, 255, 0, 255],
 			"specular": 100,
 			"reflection": 0.0,
-			"texture": "no"
+			"refraction": 0,
+			"surface_id": 0,
+			"texture": "textures/helper.jpg",
+			"normal_map": "no"
 		},
 		{
 			"center": [-20, 0, 40],
@@ -25,7 +31,10 @@
 			"color": [0, 0, 255, 255],
 			"specular": 100,
 			"reflection": 0.0,
-			"texture": "no"
+			"refraction": 0,
+			"surface_id": 0,
+			"texture": "textures/helper.jpg",
+			"normal_map": "no"
 		},
 		{
 			"center": [-30, 20, 30],
@@ -34,7 +43,10 @@
 			"color": [255, 0, 255, 255],
 			"specular": 10,
 			"reflection": 0.0,
-			"texture": "no"
+			"refraction": 0,
+			"surface_id": 0,
+			"texture": "textures/helper.jpg",
+			"normal_map": "no"
 		}
 	],
 	"cone": {
@@ -45,7 +57,10 @@
 		"color": [79, 50, 180, 255],
 		"specular": 0.3,
 		"reflection": 0.0,
-		"texture": "no"
+		"refraction": 0,
+		"surface_id": 0,
+		"texture": "textures/helper.jpg",
+		"normal_map": "no"
 	},
 	"cylinder": {
 		"position": [-30, 15, 30],
@@ -55,7 +70,10 @@
 		"color": [65, 20, 98, 255],
 		"specular": 60,
 		"reflection": 0.0,
-		"texture": "no"
+		"refraction": 0,
+		"surface_id": 0,
+		"texture": "textures/helper.jpg",
+		"normal_map": "no"
 	},
 	"plane": {
 		"point": [0, -10, 0],
@@ -64,7 +82,10 @@
 		"color": [123, 133, 156, 255],
 		"specular": 50,
 		"reflection": 0.0,
-		"texture": "no"
+		"refraction": 0,
+		"surface_id": 0,
+		"texture": "textures/helper.jpg",
+		"normal_map": "no"
 	},
 	"light": [
 		{

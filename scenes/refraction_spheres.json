@@ -1,0 +1,69 @@
+{
+	"plane": [
+		{
+			"point": [0, 0, 100],
+			"normal": [0, 0, 1],
+			"rotation": [0, 0, 0],
+			"color": [255, 0, 255, 255],
+			"specular": 10,
+			"reflection": 0.0,
+			"refraction": 0,
+			"surface_id": 0,
+			"texture": "textures/Pattern1.jpg",
+			"normal_map": "no"
+		},
+		{
+			"point": [0, -10, 0],
+			"normal": [0, 1, 0],
+			"rotation": [0, 0, 0],
+			"color": [255, 0, 255, 255],
+			"specular": 10,
+			"reflection": 0.0,
+			"refraction": 0,
+			"surface_id": 0,
+			"texture": "textures/red.jpg",
+			"normal_map": "no"
+		}
+	],
+	"sphere": [
+		{
+			"center": [6, -3, 5],
+			"radius": 4,
+			"rotation": [0, 0, 0],
+			"color": [151, 32, 76, 255],
+			"specular": 100,
+			"reflection": 0.4,
+			"refraction": 0,
+			"surface_id": 0,
+			"texture": "no",
+			"normal_map": "no"
+		},
+		{
+			"center": [-6, -3, 0],
+			"radius": 3,
+			"rotation": [0, 0, 0],
+			"color": [37, 193, 149, 255],
+			"specular": 200,
+			"reflection": 0.8,
+			"refraction": 0,
+			"surface_id": 0,
+			"texture": "no",
+			"normal_map": "no"
+		}
+	],
+	"camera": {
+		"position": [0, 1, -25],
+		"rotation": [0.2, 0, 0]
+	},
+	"light": [
+		{
+			"type": "ambient",
+			"intensity": 0.2
+		},
+		{
+			"type": "point",
+			"position": [10, 10, -20],
+			"intensity": 0.4
+		}
+	]
+}

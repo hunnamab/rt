@@ -6,7 +6,10 @@
 		"color": [255, 0, 255, 255],
 		"specular": 10,
 		"reflection": 0.0,
-		"texture": "textures/red.jpg"
+		"refraction": 0,
+		"surface_id": 0,
+		"texture": "no",
+		"normal_map": "no"
 	},
 	"cone": [
 		{
@@ -17,7 +20,10 @@
 			"color": [178, 42, 42, 255],
 			"specular": 10,
 			"reflection": 0.6,
-			"texture": "textures/red.jpg"
+			"refraction": 0,
+			"surface_id": 0,
+			"texture": "no",
+			"normal_map": "no"
 		},
 		{
 			"position": [8, 5, -10],
@@ -27,7 +33,10 @@
 			"color": [194, 176, 41, 255],
 			"specular": 100,
 			"reflection": 0.0,
-			"texture": "textures/helper.jpg"
+			"refraction": 0,
+			"surface_id": 0,
+			"texture": "no",
+			"normal_map": "no"
 		}
 	],
 	"triangle": [
@@ -39,7 +48,10 @@
 			"color": [46, 27, 116, 255],
 			"specular": 50,
 			"reflection": 0.0,
-			"texture": "textures/helper.jpg"
+			"refraction": 0,
+			"surface_id": 0,
+			"texture": "no",
+			"normal_map": "no"
 		},
 		{
 			"ver_one": [50, 50, 30],
@@ -49,7 +61,10 @@
 			"color": [70, 116, 27, 255],
 			"specular": 50,
 			"reflection": 0.0,
-			"texture": "textures/helper.jpg"
+			"refraction": 0,
+			"surface_id": 0,
+			"texture": "textures/helper.jpg",
+			"normal_map": "no"
 		}
 	],
 	"cylinder": [
@@ -61,7 +76,10 @@
 			"color": [69, 146, 121, 255],
 			"specular": 200,
 			"reflection": 0.0,
-			"texture": "textures/helper.jpg"
+			"refraction": 0,
+			"surface_id": 0,
+			"texture": "textures/helper.jpg",
+			"normal_map": "no"
 		},
 		{
 			"position": [3, 1.5, 15],
@@ -71,7 +89,10 @@
 			"color": [32, 84, 151, 255],
 			"specular": 200,
 			"reflection": 0.3,
-			"texture": "no"
+			"refraction": 0,
+			"surface_id": 0,
+			"texture": "no",
+			"normal_map": "no"
 		}
 	],
 	"sphere": [
@@ -81,8 +102,11 @@
 			"rotation": [0, 0, 0],
 			"color": [151, 32, 76, 255],
 			"specular": 300,
-			"reflection": 0.4,
-			"texture": "no"
+			"reflection": 0.0,
+			"refraction": 0,
+			"surface_id": 0,
+			"texture": "textures/helper.jpg",
+			"normal_map": "no"
 		},
 		{
 			"center": [10, -0.5, -17],
@@ -90,8 +114,11 @@
 			"rotation": [0, 0, 0],
 			"color": [37, 193, 149, 255],
 			"specular": 500,
-			"reflection": 0.7,
-			"texture": "no"
+			"reflection": 0.9,
+			"refraction": 0,
+			"surface_id": 0,
+			"texture": "no",
+			"normal_map": "no"
 		},
 		{
 			"center": [-5, 2, -8],
@@ -100,7 +127,10 @@
 			"color": [114, 32, 151, 255],
 			"specular": 300,
 			"reflection": 0.3,
-			"texture": "no"
+			"refraction": 0,
+			"surface_id": 0,
+			"texture": "textures/helper.jpg",
+			"normal_map": "no"
 		},
 		{
 			"center": [15, 0, 10],
@@ -109,9 +139,20 @@
 			"color": [160, 77, 44, 255],
 			"specular": 30,
 			"reflection": 0.4,
-			"texture": "no"
+			"refraction": 0,
+			"surface_id": 0,
+			"texture": "no",
+			"normal_map": "no"
 		}
 	],
+	"surface": {
+		"object": 1,
+		"type": "plane",
+		"is_negative": 0,
+		"param_one": [1, 0, 0],
+		"param_two": [0, 0, 0],
+		"param_three": 5
+	},
 	"camera": {
 		"position": [0, 5, -30],
 		"rotation": [0, 0.2, 0]

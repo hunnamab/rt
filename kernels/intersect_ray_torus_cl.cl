@@ -1,5 +1,18 @@
 //#include "kernel.h"
 
+enum object_type {
+	SPHERE,
+	CONE,
+	TRIANGLE,
+	CYLINDER,
+	PLANE,
+	ELLIPSOID,
+	HYPERBOLOID,
+	PARABOLOID,
+	BOX,
+	TORUS
+};
+
 enum light_type{
 	POINT,
 	AMBIENT,
@@ -34,6 +47,7 @@ typedef	struct		s_material
 	t_color			color;
 	float			specular;
 	float			reflection;
+	float			refraction;
 }					t_material;
 
 typedef struct		s_sphere
@@ -71,16 +85,17 @@ typedef struct		s_triangle
 
 typedef	struct		s_ellipsoid
 {
-	float3			center1;
-	float3			center2;
-	float			radius;
+	float3			center;
+	float			a;
+	float			b;
+	float			c;
 }					t_ellipsoid;
 
 typedef	struct		s_box
 {
 	float3			a;
 	float3			b;
-	int				face_hit;
+	float			face_hit;
 }					t_box;
 
 typedef struct		s_paraboloid
@@ -98,6 +113,14 @@ typedef struct		s_torus
 	float			radius2;
 }					t_torus;
 
+typedef struct		s_hyperboloid
+{
+	float3			center;
+	float			a;
+	float			b;
+	float			c;
+}					t_hyperboloid;
+
 typedef	union		primitive
 {
 	t_cylinder		cylinder;
@@ -106,34 +129,18 @@ typedef	union		primitive
 	t_plane			plane;
 	t_triangle		triangle;
 	t_ellipsoid		ellipsoid;
+	t_hyperboloid   hyperboloid;
 	t_paraboloid	paraboloid;
 	t_box			box;
 	t_torus			torus;
 }					t_primitive;
 
-typedef	struct		s_cutting_surface
+typedef	struct		 s_cutting_surface
 {
-	int 			type;
-	t_sphere		sphere;
-	t_plane			plane;
-	t_triangle		triangle;
-	t_cone			cone;
-	t_cylinder		cylinder;
+	t_primitive		primitive;
+	int				type;
+	int				is_negative;
 }					t_cutting_surface;
-
-enum object_type {
-	SPHERE,
-	CONE,
-	TRIANGLE,
-	CYLINDER,
-	PLANE,
-	ELLIPSOID,
-	HYPERBOLOID,
-	PARABOLOID,
-	BOX,
-	TORUS
-};
-
 
 typedef struct		s_object3d_d
 {
@@ -169,9 +176,6 @@ float2		swap(float2 ab)
 	return ab;
 }
 
-//=============================================================================
-// _root3, root3 from http://prografix.narod.ru
-//=============================================================================
 float _root3 (float x)
 {
     float s = 1.0f;
@@ -193,27 +197,21 @@ float _root3 (float x)
     r -= 1/3 * ( r - x / ( r * r ) );
     r -= 1/3 * ( r - x / ( r * r ) );
     return r * s;
-} //!
+}
 
 float root3 ( float x )
 {
     if ( x > 0 ) return _root3 ( x ); else
     if ( x < 0 ) return ((_root3(-x)) * (-1.0f)); else
     return 0;
-} //!
+}
 
-//---------------------------------------------------------------------------
-// x - array of size 3
-// In case 3 real roots: => x[0], x[1], x.s2, return 3
-//         2 real roots: x[0], x[1],          return 2
-//         1 real root : x[0], x[1] ± i*x.s2, return 1
 float8 SolveP3(float8 x,float a,float b,float c)
-{	// solve cubic equation x^3 + a*x^2 + b*x + c = 0
+{
 	float a2 = a*a;
     float q  = (a2 - 3.0f*b)/9.0f; 
 	float r  = (a*(2.0f*a2-9.0f*b) + 27.0f*c)/54.0f;
-	// equation x^3 + q*x + r = 0
-     float r2 = r*r;
+    float r2 = r*r;
 	float q3 = q*q*q;
 	float A,B;
 	if (r2 <= (q3 + FLT_EPSILON)) {
@@ -247,10 +245,8 @@ float8 SolveP3(float8 x,float a,float b,float c)
     }
 	return (x);
 }
-// SolveP3(float *x,float a,float b,float c) {	
-//---------------------------------------------------------------------------
-// a>=0!
-float2  CSqrt( float x, float y, float2 ab) // returns:  a+i*s = sqrt(x+i*y)
+
+float2  CSqrt( float x, float y, float2 ab)
 {
 	float r  = sqrt(x*x+y*y);
 	if( y==0 ) { 
@@ -262,16 +258,16 @@ float2  CSqrt( float x, float y, float2 ab) // returns:  a+i*s = sqrt(x+i*y)
 	}
 	return ab;
 }
-//---------------------------------------------------------------------------
-float8   SolveP4Bi(float8 x, float b, float d)	// solve equation x^4 + b*x^2 + d = 0
+
+float8   SolveP4Bi(float8 x, float b, float d)
 {
 	float D = b*b-4.0f*d;
 	if( D>=0 ) 
 	{
 		float sD = sqrt(D);
 		float x1 = (-b+sD)/2.0f;
-		float x2 = (-b-sD)/2.0f;	// x2 <= x1
-		if( x2>=0 )				// 0 <= x2 <= x1, 4 real roots
+		float x2 = (-b-sD)/2.0f;
+		if( x2>=0 )			
 		{
 			float sx1 = sqrt(x1);
 			float sx2 = sqrt(x2);
@@ -282,7 +278,7 @@ float8   SolveP4Bi(float8 x, float b, float d)	// solve equation x^4 + b*x^2 + d
 			x.s4 = 4.0f;
 			return x;
 		}
-		if( x1 < 0 )				// x2 <= x1 < 0, two pair of imaginary roots
+		if( x1 < 0 )			
 		{
 			float sx1 = sqrt(-x1);
 			float sx2 = sqrt(-x2);
@@ -293,7 +289,6 @@ float8   SolveP4Bi(float8 x, float b, float d)	// solve equation x^4 + b*x^2 + d
 			x.s4 = 0;
 			return x;
 		}
-		// now x2 < 0 <= x1 , two real roots and one pair of imginary root
 			float sx1 = sqrt( x1);
 			float sx2 = sqrt(-x2);
 			x.s0 = -sx1;
@@ -302,7 +297,7 @@ float8   SolveP4Bi(float8 x, float b, float d)	// solve equation x^4 + b*x^2 + d
 			x.s3 = sx2;
 			x.s4 = 2.0f;
 			return x;
-	} else { // if( D < 0 ), two pair of compex roots
+	} else {
 		float sD2 = 0.5f*sqrt(-D);
 		float2 ab;
 		ab.x = x.s0;
@@ -317,9 +312,9 @@ float8   SolveP4Bi(float8 x, float b, float d)	// solve equation x^4 + b*x^2 + d
 		x.s3 = ab.y;
 		x.s4 = 0;
 		return x;
-	} // if( D>=0 ) 
-} // SolveP4Bi(float *x, float b, float d)	// solve equation x^4 + b*x^2 d
-//---------------------------------------------------------------------------
+	}
+}
+
 float8  dblSort3(float8 abc) // make: a <= b <= c
 {
 	float2 k;
@@ -327,7 +322,7 @@ float8  dblSort3(float8 abc) // make: a <= b <= c
 	{
 		k.x = abc.s0;
 		k.y = abc.s1;
-		k = swap(k);	// now a<=b
+		k = swap(k);	
 		abc.s0 = k.x;
 		abc.s1 = k.y;
 	}
@@ -335,42 +330,38 @@ float8  dblSort3(float8 abc) // make: a <= b <= c
 	{
 		k.x = abc.s1;
 		k.y = abc.s2;
-		k = swap(k);			// now a<=b, b<=c
+		k = swap(k);		
 		abc.s1 = k.x;
 		abc.s2 = k.y;
 		if (abc.s0 > abc.s1)
 		{
 			k.x = abc.s0;
 			k.y = abc.s1;
-			k = swap(k);	// now a<=b
+			k = swap(k);	
 			abc.s0 = k.x;
 			abc.s1 = k.y;
 		}
 	}
 	return abc;
 }
-//---------------------------------------------------------------------------
-float8   SolveP4De(float8 x, float b, float c, float d)	// solve equation x^4 + b*x^2 + c*x + d
+
+float8   SolveP4De(float8 x, float b, float c, float d)	
 {
-	//if( c==0 ) return SolveP4Bi(x,b,d); // After that, c!=0
 	if( fabs(c)< FLT_EPSILON * (fabs(b)+fabs(d)) )
 	{
 		x = SolveP4Bi(x,b,d);
-		return x; // After that, c!=0
+		return x;
 	}
 	x = SolveP3( x, 2.0f*b, b*b-4.0f*d, -c*c);
-	int res3 = x.s4; // solve resolvent
-	// by Viet theorem:  x1*x2*x3=-c*c not equals to 0, so x1!=0, x2!=0, x3!=0
-	if( res3>1.0f )	// 3 real roots, 
+	int res3 = x.s4;
+	if( res3>1.0f )
 	{				
-		x = dblSort3(x);	// sort roots to x[0] <= x[1] <= x.s2
-		// Note: x[0]*x[1]*x.s2= c*c > 0
-		if( x.s0 > 0) // all roots are positive
+		x = dblSort3(x);
+		if( x.s0 > 0)
 		{
 			float sz1 = sqrt(x.s0);
 			float sz2 = sqrt(x.s1);
 			float sz3 = sqrt(x.s2);
-			// Note: sz1*sz2*sz3= -c (and not equal to 0)
 			if( c>0 )
 			{
 				x.s0 = (-sz1 -sz2 -sz3)/2.0f;
@@ -380,82 +371,68 @@ float8   SolveP4De(float8 x, float b, float c, float d)	// solve equation x^4 + 
 				x.s4 = 4.0f;
 				return x;
 			}
-			// now: c<0
 			x.s0 = (-sz1 -sz2 +sz3)/2.0f;
 			x.s1 = (-sz1 +sz2 -sz3)/2.0f;
 			x.s2 = (+sz1 -sz2 -sz3)/2.0f;
 			x.s3 = (+sz1 +sz2 +sz3)/2.0f;
 			x.s4 = 4.0f;
 			return x;
-		} // if( x[0] > 0) // all roots are positive
-		// now x[0] <= x[1] < 0, x.s2 > 0
-		// two pair of comlex roots
+		} 
 		float sz1 = sqrt(-x.s0);
 		float sz2 = sqrt(-x.s1);
 		float sz3 = sqrt( x.s2);
 
-		if( c>0 )	// sign = -1
+		if( c>0 )
 		{
 			x.s0 = -sz3/2.0f;					
-			x.s1 = ( sz1 -sz2)/2.0f;		// x[0]±i*x[1]
+			x.s1 = ( sz1 -sz2)/2.0f;	
 			x.s2 =  sz3/2.0f;
-			x.s3 = (-sz1 -sz2)/2.0f;		// x.s2±i*x.s3
+			x.s3 = (-sz1 -sz2)/2.0f;	
 			x.s4 = 0;
 			return x;
 		}
-		// now: c<0 , sign = +1
 		x.s0 =   sz3/2.0f;
 		x.s1 = (-sz1 +sz2)/2.0f;
 		x.s2 =  -sz3/2.0f;
 		x.s3 = ( sz1 +sz2)/2.0f;
 		x.s4 = 0;
 		return x;
-	} // if( res3>1 )	// 3 real roots, 
-	// now resoventa have 1 real and pair of compex roots
-	// x[0] - real root, and x[0]>0, 
-	// x[1]±i*x.s2 - complex roots, 
-	// x[0] must be >=0. But one times x[0]=~ 1e-17, so:
+	} 
 	if (x.s0 < 0) x.s0 = 0;
 	float sz1 = sqrt(x.s0);
 	float szr, szi;
 	float2 ab;
 	ab.x = szr;
 	ab.y = szi;
-	ab = CSqrt(x.s1, x.s2, ab);  // (szr+i*szi)^2 = x[1]+i*x.s2
+	ab = CSqrt(x.s1, x.s2, ab); 
 	szr = ab.x;
 	szi = ab.y;
-	if( c>0 )	// sign = -1
+	if( c>0 )	
 	{
-		x.s0 = -sz1/2.0f-szr;			// 1st real root
-		x.s1 = -sz1/2.0f+szr;			// 2nd real root
+		x.s0 = -sz1/2.0f-szr;			
+		x.s1 = -sz1/2.0f+szr;			
 		x.s2 = sz1/2.0f; 
 		x.s3 = szi;
 		x.s4 = 2.0f;
 		return x;
 	}
-	// now: c<0 , sign = +1
-	x.s0 = sz1/2-szr;			// 1st real root
-	x.s1 = sz1/2+szr;			// 2nd real root
+	x.s0 = sz1/2-szr;		
+	x.s1 = sz1/2+szr;		
 	x.s2 = -sz1/2;
 	x.s3 = szi;
 	x.s4 = 2;
 	return x;
-} // SolveP4De(float *x, float b, float c, float d)	// solve equation x^4 + b*x^2 + c*x + d
-//-----------------------------------------------------------------------------
-float N4Step(float x, float a,float b,float c,float d)	// one Newton step for x^4 + a*x^3 + b*x^2 + c*x + d
+} 
+
+float N4Step(float x, float a,float b,float c,float d)
 {
-	float fxs= ((4.0f*x+3.0f*a)*x+2.0f*b)*x+c;	// f'(x)
-	if (fxs == 0) return x;	//return 1e99; <<-- FIXED!
-	float fx = (((x+a)*x+b)*x+c)*x+d;	// f(x)
+	float fxs= ((4.0f*x+3.0f*a)*x+2.0f*b)*x+c;
+	if (fxs == 0) return x;
+	float fx = (((x+a)*x+b)*x+c)*x+d;
 	return (x - fx / fxs);
 } 
-//-----------------------------------------------------------------------------
-// x - array of size 4
-// return 4: 4 real roots x[0], x[1], x.s2, x.s3, possible multiple roots
-// return 2: 2 real roots x[0], x[1] and complex x.s2±i*x.s3, 
-// return 0: two pair of complex roots: x[0]±i*x[1],  x.s2±i*x.s3, 
-float8   SolveP4(float8 x,float a,float b,float c,float d) {	// solve equation x^4 + a*x^3 + b*x^2 + c*x + d by Dekart-Euler method
-	// move to a=0:
+
+float8   SolveP4(float8 x,float a,float b,float c,float d) {
 	float d1 = d + 0.25f * a * (0.25f * b * a - 3.0f/64.0f * a * a * a - c);
 	float c1 = c + 0.5f * a *(0.25f * a * a - b);
 	float b1 = b - 0.375f * a * a;
@@ -466,7 +443,6 @@ float8   SolveP4(float8 x,float a,float b,float c,float d) {	// solve equation x
 	if( res==4) { x.s0 -= a/4.0f; x.s1 -= a/4.0f; x.s2 -= a/4.0f; x.s3 -= a/4.0f; }
 	else if (res==2) { x.s0-= a/4.0f; x.s1-= a/4.0f; x.s2-= a/4.0f; }
 	else             { x.s0-= a/4.0f; x.s2-= a/4.0f; }
-	// one Newton step for each real root:
 	if( res>0 )
 	{
 		x.s0 = N4Step(x.s0, a,b,c,d);

@@ -6,6 +6,8 @@
 		"color": [255, 0, 0, 255],
 		"specular": 50.0,
 		"reflection": 0.0,
+		"refraction": 0,
+		"surface_id": 0,
 		"texture": "no"
 	},
 	"plane": {
@@ -15,6 +17,8 @@
 		"color": [255, 255, 0, 255],
 		"specular": 0,
 		"reflection": 0.0,
+		"refraction": 0,
+		"surface_id": 0,
 		"texture": "no"
 	},
 	"cone": {
@@ -25,6 +29,8 @@
 		"color": [200, 50, 60, 255],
 		"specular": 100,
 		"reflection": 0.0,
+		"refraction": 0,
+		"surface_id": 0,
 		"texture": "no"
 	},
 	"cylinder": {
@@ -35,6 +41,8 @@
 		"color": [255, 255, 0, 255],
 		"specular": 0,
 		"reflection": 0.0,
+		"refraction": 0,
+		"surface_id": 0,
 		"texture": "no"
 	},
 	"triangle": {
@@ -45,6 +53,8 @@
 		"color": [0, 255, 0, 255],
 		"specular": 50.0,
 		"reflection": 0.0,
+		"refraction": 0,
+		"surface_id": 0,
 		"texture": "no"
 	},
 	"light": [

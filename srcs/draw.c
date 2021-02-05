@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/07 14:34:50 by pmetron           #+#    #+#             */
-/*   Updated: 2021/02/04 23:40:44 by npetrell         ###   ########.fr       */
+/*   Created: 2021/02/05 00:18:09 by npetrell          #+#    #+#             */
+/*   Updated: 2021/02/05 00:18:14 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	draw_scene(t_sdl *sdl, t_scene *scene)
 	y = -1;
 	i = 0;
 	scene->bounce_cnt = 0;
-	scene->max_bounces = 3;
+	scene->max_bounces = 1;
 	size_t local;
 	get_viewport(scene);
 	get_rays_arr(scene);

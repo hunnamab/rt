@@ -6,7 +6,10 @@
 		"color": [255, 0, 0, 255],
 		"specular": 100,
 		"reflection": 0.0,
-		"texture": "no"
+		"refraction": 0,
+		"surface_id": 0,
+		"texture": "textures/helper.jpg",
+		"normal_map": "no"
 	},
 	"cylinder": {
 		"position": [0, 0, 35],
@@ -16,7 +19,10 @@
 		"color": [170, 10, 98, 255],
 		"specular": 60,
 		"reflection": 0.8,
-		"texture": "no"
+		"refraction": 0,
+		"surface_id": 0,
+		"texture": "textures/helper.jpg",
+		"normal_map": "no"
 	},
 	"cone": {
 		"position": [5, 0, -20],
@@ -26,7 +32,10 @@
 		"color": [200, 50, 60, 255],
 		"specular": 100,
 		"reflection": 0.4,
-		"texture": "no"
+		"refraction": 0,
+		"surface_id": 0,
+		"texture": "textures/helper.jpg",
+		"normal_map": "no"
 	},
 	"light": [
 		{

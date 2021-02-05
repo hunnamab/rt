@@ -1,5 +1,18 @@
 //#include "kernel.h"
 
+enum object_type {
+	SPHERE,
+	CONE,
+	TRIANGLE,
+	CYLINDER,
+	PLANE,
+	ELLIPSOID,
+	HYPERBOLOID,
+	PARABOLOID,
+	BOX,
+	TORUS
+};
+
 enum light_type{
 	POINT,
 	AMBIENT,
@@ -34,6 +47,7 @@ typedef	struct		s_material
 	t_color			color;
 	float			specular;
 	float			reflection;
+	float			refraction;
 }					t_material;
 
 typedef struct		s_sphere
@@ -71,30 +85,41 @@ typedef struct		s_triangle
 
 typedef	struct		s_ellipsoid
 {
-	float3			center1;
-	float3			center2;
-	float			radius;
+	float3			center;
+	float			a;
+	float			b;
+	float			c;
 }					t_ellipsoid;
 
 typedef	struct		s_box
 {
 	float3			a;
 	float3			b;
-	int				face_hit;
+	float			face_hit;
 }					t_box;
 
 typedef struct		s_paraboloid
 {
 	float3			center;
+	float3			vec;
 	float			k;
 }					t_paraboloid;
 
 typedef struct		s_torus
 {
 	float3			center;
+	float3			vec;
 	float			radius1;
 	float			radius2;
 }					t_torus;
+
+typedef struct		s_hyperboloid
+{
+	float3			center;
+	float			a;
+	float			b;
+	float			c;
+}					t_hyperboloid;
 
 typedef	union		primitive
 {
@@ -104,30 +129,20 @@ typedef	union		primitive
 	t_plane			plane;
 	t_triangle		triangle;
 	t_ellipsoid		ellipsoid;
-	t_paraboloid	paraboloid;
 	t_box			box;
+	t_paraboloid	paraboloid;
 	t_torus			torus;
 }					t_primitive;
 
 typedef	struct		 	s_cutting_surface
 {
-	int					type;
-	int					is_negative;
-	t_primitive			primitive;
+	float3			param1;
+	float3			param2;
+	int				type;
+	int				object;
+	int				is_negative;
+	float			param3;
 }						t_cutting_surface;
-
-enum object_type {
-	SPHERE,
-	CONE,
-	TRIANGLE,
-	CYLINDER,
-	PLANE,
-	ELLIPSOID,
-	HYPERBOLOID,
-	PARABOLOID,
-	BOX,
-	TORUS
-};
 
 typedef struct		s_object3d_d
 {
@@ -153,6 +168,7 @@ typedef struct		s_object3d_d
 	int				l_size_nm;
 }					t_object_d;
 
+
 int cut(float3 point, __global t_cutting_surface *cs, int cs_nmb)
 {
     int i;
@@ -162,18 +178,18 @@ int cut(float3 point, __global t_cutting_surface *cs, int cs_nmb)
     {
         if (cs[i].type == PLANE)
         {
-            result = cs[i].primitive.plane.normal.x * point.x + cs[i].primitive.plane.normal.y * point.y + cs[i].primitive.plane.normal.z * point.z + cs[i].primitive.plane.d;
+            result = cs[i].param1.x * point.x + cs[i].param1.y * point.y + cs[i].param1.z * point.z + cs[i].param3;
             if (result >= 0)
                 return (0);
         }
 		if(cs[i].type == SPHERE)
 		{
 			float3 buf;
-			buf = point - cs[i].primitive.sphere.center;
+			buf = point - cs[i].param1;
 			result = length(buf);
-			if (result >= cs[i].primitive.sphere.radius && !cs[i].is_negative)
+			if (result >= cs[i].param3 && !cs[i].is_negative)
 				return(0);
-			if(result <= cs[i].primitive.sphere.radius && cs[i].is_negative)
+			if(result <= cs[i].param3 && cs[i].is_negative)
 				return(0);
 		}
         i++;
@@ -219,7 +235,12 @@ __kernel void intersect_ray_sphere_cl(__global float3 *ray_arr, \
     int i = get_global_id(0);
     float result;
     float3 ray;
-    ray = camera_start[i] + ray_arr[i] * 0.00001f;
+	float buf;
+	float3 buf2;
+	if (bounce_cnt > 0)
+    	ray = camera_start[i] + ray_arr[i] * 0.00001f;
+	else
+		ray = camera_start[i];
 	if (bounce_cnt == 0 || material_buf[i].reflection > 0.0)
 		result = sphere_intersection(sphere, ray, ray_arr[i]);
 	else

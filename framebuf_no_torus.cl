@@ -83,20 +83,19 @@ typedef struct		s_triangle
 	float3			normal;
 }					t_triangle;
 
-typedef	struct		s_ellipsoid
-{
-	float3			center;
-	float			a;
-	float			b;
-	float			c;
-}					t_ellipsoid;
-
 typedef	struct		s_box
 {
 	float3			a;
 	float3			b;
 	float			face_hit;
 }					t_box;
+
+typedef	struct		s_ellipsoid
+{
+	float3			center1;
+	float3			center2;
+	float			radius;
+}					t_ellipsoid;
 
 typedef struct		s_paraboloid
 {
@@ -113,14 +112,6 @@ typedef struct		s_torus
 	float			radius2;
 }					t_torus;
 
-typedef struct		s_hyperboloid
-{
-	float3			center;
-	float			a;
-	float			b;
-	float			c;
-}					t_hyperboloid;
-
 typedef	union		primitive
 {
 	t_cylinder		cylinder;
@@ -129,9 +120,8 @@ typedef	union		primitive
 	t_plane			plane;
 	t_triangle		triangle;
 	t_ellipsoid		ellipsoid;
-	t_hyperboloid   hyperboloid;
-	t_paraboloid	paraboloid;
 	t_box			box;
+	t_paraboloid	paraboloid;
 	t_torus			torus;
 }					t_primitive;
 
@@ -166,34 +156,7 @@ typedef struct		s_object3d_d
 	int				l_size_nm;
 }					t_object_d;
 
-float hyperboloid_intersection(t_hyperboloid hyper, float3 ray_start, float3 ray_dir)
-{
- 	float k1;
-    float k2;
-    float k3;
-	float a = hyper.a;
-	float b = hyper.b;
-	float c = hyper.c;
-	float3 co = ray_start - hyper.center;
-    k1 = ray_dir.x * ray_dir.x / (a * a) + ray_dir.y * ray_dir.y / (b * b) - ray_dir.z * ray_dir.z / (c * c);
-    k2 = 2 * co.x * ray_dir.x / (a * a) + 2 * co.y * ray_dir.y / (b * b) - 2 * co.z * ray_dir.z / (c * c);
-    k3 = co.x * co.x / (a * a) + co.y * co.y / (b * b) - co.z * co.z / (c * c) + 1;
-    float d = k2 * k2 - 4 * k1 * k3;
-    if (d >= 0)
-    {
-        float t1 = (-k2 + sqrt(d)) / (2 * k1);
-        float t2 = (-k2 - sqrt(d)) / (2 * k1);
-        if ((t1 < t2 && t1 > 0) || (t2 < 0 && t1 >= 0))
-            return (t1);
-        if ((t2 < t1 && t2 > 0) || (t1 < 0 && t2 >= 0))
-            return (t2);
-        if (t2 == t1 && t2 >= 0)
-            return (t2);
-    }
-    return (0);
-}
-
-float2		swap(float2 ab)
+/* float2		swap(float2 ab)
 {
 	float tmp;
 
@@ -201,9 +164,12 @@ float2		swap(float2 ab)
 	ab.x = ab.y;
 	ab.y = tmp;
 	return ab;
-}
+} */
 
-float _root3 (float x)
+//=============================================================================
+// _root3, root3 from http://prografix.narod.ru
+//=============================================================================
+/* float _root3 (float x)
 {
     float s = 1.0f;
     while ( x < 1.0f)
@@ -224,21 +190,27 @@ float _root3 (float x)
     r -= 1/3 * ( r - x / ( r * r ) );
     r -= 1/3 * ( r - x / ( r * r ) );
     return r * s;
-}
+} //! */
 
-float root3 ( float x )
+/* float root3 ( float x )
 {
     if ( x > 0 ) return _root3 ( x ); else
     if ( x < 0 ) return ((_root3(-x)) * (-1.0f)); else
     return 0;
-}
+} //! */
 
-float8 SolveP3(float8 x,float a,float b,float c)
-{
+//---------------------------------------------------------------------------
+// x - array of size 3
+// In case 3 real roots: => x[0], x[1], x.s2, return 3
+//         2 real roots: x[0], x[1],          return 2
+//         1 real root : x[0], x[1] ± i*x.s2, return 1
+/* float8 SolveP3(float8 x,float a,float b,float c)
+{	// solve cubic equation x^3 + a*x^2 + b*x + c = 0
 	float a2 = a*a;
     float q  = (a2 - 3.0f*b)/9.0f; 
 	float r  = (a*(2.0f*a2-9.0f*b) + 27.0f*c)/54.0f;
-    float r2 = r*r;
+	// equation x^3 + q*x + r = 0
+     float r2 = r*r;
 	float q3 = q*q*q;
 	float A,B;
 	if (r2 <= (q3 + FLT_EPSILON)) {
@@ -271,9 +243,11 @@ float8 SolveP3(float8 x,float a,float b,float c)
         return (x);
     }
 	return (x);
-}
-
-float2  CSqrt( float x, float y, float2 ab)
+} */
+// SolveP3(float *x,float a,float b,float c) {	
+//---------------------------------------------------------------------------
+// a>=0!
+/* float2  CSqrt( float x, float y, float2 ab) // returns:  a+i*s = sqrt(x+i*y)
 {
 	float r  = sqrt(x*x+y*y);
 	if( y==0 ) { 
@@ -284,17 +258,17 @@ float2  CSqrt( float x, float y, float2 ab)
 		ab.y = 0.5f * y / ab.x;
 	}
 	return ab;
-}
-
-float8   SolveP4Bi(float8 x, float b, float d)
+} */
+//---------------------------------------------------------------------------
+/* float8   SolveP4Bi(float8 x, float b, float d)	// solve equation x^4 + b*x^2 + d = 0
 {
 	float D = b*b-4.0f*d;
 	if( D>=0 ) 
 	{
 		float sD = sqrt(D);
 		float x1 = (-b+sD)/2.0f;
-		float x2 = (-b-sD)/2.0f;
-		if( x2>=0 )			
+		float x2 = (-b-sD)/2.0f;	// x2 <= x1
+		if( x2>=0 )				// 0 <= x2 <= x1, 4 real roots
 		{
 			float sx1 = sqrt(x1);
 			float sx2 = sqrt(x2);
@@ -305,7 +279,7 @@ float8   SolveP4Bi(float8 x, float b, float d)
 			x.s4 = 4.0f;
 			return x;
 		}
-		if( x1 < 0 )			
+		if( x1 < 0 )				// x2 <= x1 < 0, two pair of imaginary roots
 		{
 			float sx1 = sqrt(-x1);
 			float sx2 = sqrt(-x2);
@@ -316,6 +290,7 @@ float8   SolveP4Bi(float8 x, float b, float d)
 			x.s4 = 0;
 			return x;
 		}
+		// now x2 < 0 <= x1 , two real roots and one pair of imginary root
 			float sx1 = sqrt( x1);
 			float sx2 = sqrt(-x2);
 			x.s0 = -sx1;
@@ -324,7 +299,7 @@ float8   SolveP4Bi(float8 x, float b, float d)
 			x.s3 = sx2;
 			x.s4 = 2.0f;
 			return x;
-	} else {
+	} else { // if( D < 0 ), two pair of compex roots
 		float sD2 = 0.5f*sqrt(-D);
 		float2 ab;
 		ab.x = x.s0;
@@ -339,17 +314,17 @@ float8   SolveP4Bi(float8 x, float b, float d)
 		x.s3 = ab.y;
 		x.s4 = 0;
 		return x;
-	}
-}
-
-float8  dblSort3(float8 abc) // make: a <= b <= c
+	} // if( D>=0 ) 
+} */ // SolveP4Bi(float *x, float b, float d)	// solve equation x^4 + b*x^2 d
+//---------------------------------------------------------------------------
+/* float8  dblSort3(float8 abc) // make: a <= b <= c
 {
 	float2 k;
 	if (abc.s0 > abc.s1 )
 	{
 		k.x = abc.s0;
 		k.y = abc.s1;
-		k = swap(k);	
+		k = swap(k);	// now a<=b
 		abc.s0 = k.x;
 		abc.s1 = k.y;
 	}
@@ -357,38 +332,42 @@ float8  dblSort3(float8 abc) // make: a <= b <= c
 	{
 		k.x = abc.s1;
 		k.y = abc.s2;
-		k = swap(k);		
+		k = swap(k);			// now a<=b, b<=c
 		abc.s1 = k.x;
 		abc.s2 = k.y;
 		if (abc.s0 > abc.s1)
 		{
 			k.x = abc.s0;
 			k.y = abc.s1;
-			k = swap(k);	
+			k = swap(k);	// now a<=b
 			abc.s0 = k.x;
 			abc.s1 = k.y;
 		}
 	}
 	return abc;
-}
-
-float8   SolveP4De(float8 x, float b, float c, float d)	
+} */
+//---------------------------------------------------------------------------
+/* float8   SolveP4De(float8 x, float b, float c, float d)	// solve equation x^4 + b*x^2 + c*x + d
 {
+	//if( c==0 ) return SolveP4Bi(x,b,d); // After that, c!=0
 	if( fabs(c)< FLT_EPSILON * (fabs(b)+fabs(d)) )
 	{
 		x = SolveP4Bi(x,b,d);
-		return x;
+		return x; // After that, c!=0
 	}
 	x = SolveP3( x, 2.0f*b, b*b-4.0f*d, -c*c);
-	int res3 = x.s4;
-	if( res3>1.0f )
+	int res3 = x.s4; // solve resolvent
+	// by Viet theorem:  x1*x2*x3=-c*c not equals to 0, so x1!=0, x2!=0, x3!=0
+	if( res3>1.0f )	// 3 real roots, 
 	{				
-		x = dblSort3(x);
-		if( x.s0 > 0)
+		x = dblSort3(x);	// sort roots to x[0] <= x[1] <= x.s2
+		// Note: x[0]*x[1]*x.s2= c*c > 0
+		if( x.s0 > 0) // all roots are positive
 		{
 			float sz1 = sqrt(x.s0);
 			float sz2 = sqrt(x.s1);
 			float sz3 = sqrt(x.s2);
+			// Note: sz1*sz2*sz3= -c (and not equal to 0)
 			if( c>0 )
 			{
 				x.s0 = (-sz1 -sz2 -sz3)/2.0f;
@@ -398,68 +377,82 @@ float8   SolveP4De(float8 x, float b, float c, float d)
 				x.s4 = 4.0f;
 				return x;
 			}
+			// now: c<0
 			x.s0 = (-sz1 -sz2 +sz3)/2.0f;
 			x.s1 = (-sz1 +sz2 -sz3)/2.0f;
 			x.s2 = (+sz1 -sz2 -sz3)/2.0f;
 			x.s3 = (+sz1 +sz2 +sz3)/2.0f;
 			x.s4 = 4.0f;
 			return x;
-		} 
+		} // if( x[0] > 0) // all roots are positive
+		// now x[0] <= x[1] < 0, x.s2 > 0
+		// two pair of comlex roots
 		float sz1 = sqrt(-x.s0);
 		float sz2 = sqrt(-x.s1);
 		float sz3 = sqrt( x.s2);
 
-		if( c>0 )
+		if( c>0 )	// sign = -1
 		{
 			x.s0 = -sz3/2.0f;					
-			x.s1 = ( sz1 -sz2)/2.0f;	
+			x.s1 = ( sz1 -sz2)/2.0f;		// x[0]±i*x[1]
 			x.s2 =  sz3/2.0f;
-			x.s3 = (-sz1 -sz2)/2.0f;	
+			x.s3 = (-sz1 -sz2)/2.0f;		// x.s2±i*x.s3
 			x.s4 = 0;
 			return x;
 		}
+		// now: c<0 , sign = +1
 		x.s0 =   sz3/2.0f;
 		x.s1 = (-sz1 +sz2)/2.0f;
 		x.s2 =  -sz3/2.0f;
 		x.s3 = ( sz1 +sz2)/2.0f;
 		x.s4 = 0;
 		return x;
-	} 
+	} // if( res3>1 )	// 3 real roots, 
+	// now resoventa have 1 real and pair of compex roots
+	// x[0] - real root, and x[0]>0, 
+	// x[1]±i*x.s2 - complex roots, 
+	// x[0] must be >=0. But one times x[0]=~ 1e-17, so:
 	if (x.s0 < 0) x.s0 = 0;
 	float sz1 = sqrt(x.s0);
 	float szr, szi;
 	float2 ab;
 	ab.x = szr;
 	ab.y = szi;
-	ab = CSqrt(x.s1, x.s2, ab); 
+	ab = CSqrt(x.s1, x.s2, ab);  // (szr+i*szi)^2 = x[1]+i*x.s2
 	szr = ab.x;
 	szi = ab.y;
-	if( c>0 )	
+	if( c>0 )	// sign = -1
 	{
-		x.s0 = -sz1/2.0f-szr;			
-		x.s1 = -sz1/2.0f+szr;			
+		x.s0 = -sz1/2.0f-szr;			// 1st real root
+		x.s1 = -sz1/2.0f+szr;			// 2nd real root
 		x.s2 = sz1/2.0f; 
 		x.s3 = szi;
 		x.s4 = 2.0f;
 		return x;
 	}
-	x.s0 = sz1/2-szr;		
-	x.s1 = sz1/2+szr;		
+	// now: c<0 , sign = +1
+	x.s0 = sz1/2-szr;			// 1st real root
+	x.s1 = sz1/2+szr;			// 2nd real root
 	x.s2 = -sz1/2;
 	x.s3 = szi;
 	x.s4 = 2;
 	return x;
-} 
-
-float N4Step(float x, float a,float b,float c,float d)
+} */ // SolveP4De(float *x, float b, float c, float d)	// solve equation x^4 + b*x^2 + c*x + d
+//-----------------------------------------------------------------------------
+/* float N4Step(float x, float a,float b,float c,float d)	// one Newton step for x^4 + a*x^3 + b*x^2 + c*x + d
 {
-	float fxs= ((4.0f*x+3.0f*a)*x+2.0f*b)*x+c;
-	if (fxs == 0) return x;
-	float fx = (((x+a)*x+b)*x+c)*x+d;
+	float fxs= ((4.0f*x+3.0f*a)*x+2.0f*b)*x+c;	// f'(x)
+	if (fxs == 0) return x;	//return 1e99; <<-- FIXED!
+	float fx = (((x+a)*x+b)*x+c)*x+d;	// f(x)
 	return (x - fx / fxs);
-} 
-
-float8   SolveP4(float8 x,float a,float b,float c,float d) {
+}  */
+//-----------------------------------------------------------------------------
+// x - array of size 4
+// return 4: 4 real roots x[0], x[1], x.s2, x.s3, possible multiple roots
+// return 2: 2 real roots x[0], x[1] and complex x.s2±i*x.s3, 
+// return 0: two pair of complex roots: x[0]±i*x[1],  x.s2±i*x.s3, 
+/* float8   SolveP4(float8 x,float a,float b,float c,float d) {	// solve equation x^4 + a*x^3 + b*x^2 + c*x + d by Dekart-Euler method
+	// move to a=0:
 	float d1 = d + 0.25f * a * (0.25f * b * a - 3.0f/64.0f * a * a * a - c);
 	float c1 = c + 0.5f * a *(0.25f * a * a - b);
 	float b1 = b - 0.375f * a * a;
@@ -470,6 +463,7 @@ float8   SolveP4(float8 x,float a,float b,float c,float d) {
 	if( res==4) { x.s0 -= a/4.0f; x.s1 -= a/4.0f; x.s2 -= a/4.0f; x.s3 -= a/4.0f; }
 	else if (res==2) { x.s0-= a/4.0f; x.s1-= a/4.0f; x.s2-= a/4.0f; }
 	else             { x.s0-= a/4.0f; x.s2-= a/4.0f; }
+	// one Newton step for each real root:
 	if( res>0 )
 	{
 		x.s0 = N4Step(x.s0, a,b,c,d);
@@ -504,12 +498,16 @@ float torus_intersection(t_torus torus, float3 ray_start, float3 ray_dir)
     float c_2;
     float c_1;
     float c_0;
-
+	//-----------------------------
+ 	float3 V = {1.0f, 0.0f, 0.0f}; 
+	torus.radius2 = 5.0f;
+	torus.radius1 = 10.0f;
+	//-----------------------------
 	float m = dot(ray_dir, ray_dir);
 	float n = dot(ray_dir, (ray_start - torus.center));
 	float o = dot((ray_start - torus.center), (ray_start - torus.center));
-	float p = dot(ray_dir, torus.vec);
-	float q = dot((ray_start - torus.center), torus.vec);
+	float p = dot(ray_dir, V);
+	float q = dot((ray_start - torus.center), V);
     c_4 = pow(m, 2);
     c_3 = 4.0f * m * n;
     c_2 = 4.0f * pow(m, 2) + 2.0f*m*o - 2.0f*(pow(torus.radius1, 2) + pow(torus.radius2, 2))*m + 4.0f*pow(torus.radius1, 2) *p * p;
@@ -543,11 +541,11 @@ float torus_intersection(t_torus torus, float3 ray_start, float3 ray_dir)
 		return (root[0]);
 	}
 	return (0.0f);
-}
+} */
 
 float paraboloid_intersection(t_paraboloid parab, float3 ray_start, float3 ray_dir)
 {
-	float3 parab_dir;
+    float3 parab_dir;
     float a;
     float b;
     float c;
@@ -558,7 +556,7 @@ float paraboloid_intersection(t_paraboloid parab, float3 ray_start, float3 ray_d
 	//dir_norm = normalize(parab.center);
  	float3 dir_norm = parab.vec;
 	//dir_norm = normalize(dir_norm);
-    a = dot(ray_dir, ray_dir) - pow(dot(ray_dir, dir_norm), 2.0f);
+    a = dot(ray_dir, ray_dir) - pow(dot(ray_dir, dir_norm), 2);
     b = 2.0f * dot(ray_dir, parab_dir) - 2.0f * dot(ray_dir, dir_norm) * (dot(parab_dir, dir_norm) + 2.0f * parab.k);
     c = dot(parab_dir, parab_dir) - dot(parab_dir, dir_norm) * (dot(parab_dir, dir_norm) + 4.0f * parab.k);
     c = b * b - 4 * a * c;
@@ -579,6 +577,32 @@ float paraboloid_intersection(t_paraboloid parab, float3 ray_start, float3 ray_d
 
 float box_intersection(__global t_object_d *box, float3 ray_start, float3 ray_dir)
 {
+	/* float 	t_min;
+	float 	t_max;
+	float3		a;
+	float		b;
+	float		c;
+	float		t0;
+	float		t1;
+	int		face_in;
+	int		face_out;
+	float		tmin;
+
+	float lo = a.x*(box[0].primitive.box.a.x - ray_start.x);
+	float hi = a.x*(box[0].primitive.box.b.x - ray_start.x);
+	t_min  = min(lo, hi);
+	t_max = max(lo, hi);
+	float lo1 = a.y*(box[0].primitive.box.a.y - ray_start.y);
+	float hi1 = a.y*(box[0].primitive.box.b.y - ray_start.y);
+	t_min  = max(t_min, min(lo1, hi1));
+	t_max = min(t_max, max(lo1, hi1));
+	float lo2 = a.z*(box[0].primitive.box.a.z - ray_start.z);
+	float hi2 = a.z*(box[0].primitive.box.b.z - ray_start.z);
+	t_min  = max(t_min, min(lo2, hi2));
+	t_max = min(t_max, max(lo2, hi2));
+	if (t_min <= t_max && t_max > 0.0f)
+		return (1);
+	return (0); */
 	float3 	t_min;
 	float3 	t_max;
 	float		a;
@@ -674,16 +698,17 @@ float box_intersection(__global t_object_d *box, float3 ray_start, float3 ray_di
 
 float ellipsoid_intersection(t_ellipsoid el, float3 ray_start, float3 ray_dir)
 {
-   float k1;
+    float k1;
     float k2;
     float k3;
-	float a = el.a;
-	float b = el.b;
-	float c = el.c;
-	float3 co = ray_start - el.center;
-    k1 = ray_dir.x * ray_dir.x / (a * a) + ray_dir.y * ray_dir.y / (b * b) + ray_dir.z * ray_dir.z / (c * c);
-    k2 = 2 * co.x * ray_dir.x / (a * a) + 2 * co.y * ray_dir.y / (b * b) + 2 * co.z * ray_dir.z / (c * c);
-    k3 = co.x * co.x / (a * a) + co.y * co.y / (b * b) + co.z * co.z / (c * c) - 1;
+	float dist;
+ 
+	dist = distance(el.center2, el.center1);
+    float3 el_dir = ray_start - el.center1;
+    float3 center_norm = normalize((el.center2 - el.center1) / dist);
+    k1 = 4 * pow(el.radius, 2) * dot(ray_dir, ray_dir) - 4 * pow(dist, 2) * pow(dot(ray_dir, center_norm), 2);
+    k2 = 8 * pow(el.radius, 2) * dot(ray_dir, el_dir) - 4 * dot(ray_dir, center_norm) * dist * (pow(el.radius, 2) + 2 * dot(el_dir, center_norm) * dist - dist);
+    k3 = 4 * pow(el.radius, 2) * dot(el_dir, el_dir) - pow((pow(el.radius, 2) + 2 * dot(el_dir, center_norm) * dist - dist), 2);
     float d = k2 * k2 - 4 * k1 * k3;
     if (d >= 0)
     {
@@ -859,10 +884,8 @@ int			in_shadow(int index, float3 l, __global float3 *intersection_buf, \
 			t = box_intersection(&obj[i].primitive.box, ray_start, l);
 		if (obj[i].type == PARABOLOID)
 			t = paraboloid_intersection(obj[i].primitive.paraboloid, ray_start, l);
-		if (obj[i].type == TORUS)
-			t = torus_intersection(obj[i].primitive.torus, ray_start, l);
-		if (obj[i].type == HYPERBOLOID)
-			t = hyperboloid_intersection(obj[i].primitive.hyperboloid, ray_start, l);
+		/* if (obj[i].type == TORUS)
+			t = torus_intersection(obj[i].primitive.torus, ray_start, l); */
 		if (t < 1.0f && t > 0.00001f)
 			break ;
 		i++;
@@ -965,18 +988,6 @@ t_color		reflection_color(__global t_color *frame_buf, \
 	return (result);
 }
 
-void reflect(__global float3 *normal_buf, int i, __global float3 *ray_buf)
-{
-	float buf;
-	float3 buf2;
-
-	buf = dot(ray_buf[i], normal_buf[i]);
-	buf2.x = 2 * normal_buf[i].x * buf;
-	buf2.y = 2 * normal_buf[i].y * buf;
-	buf2.z = 2 * normal_buf[i].z * buf;
-	normal_buf[i] = ray_buf[i] - buf2;
-}
-
 __kernel void get_frame_buf_cl(__global t_color *frame_buf, \
                             __global float3 *ray_buf, \
                             __global float3 *intersection_buf, \
@@ -991,6 +1002,8 @@ __kernel void get_frame_buf_cl(__global t_color *frame_buf, \
 {
     int i = get_global_id(0);
 	int j = index_buf[i];
+	float buf;
+	float3 buf2;
 	if (j != -1)
 	{
 		frame_buf[i] = reflection_color(frame_buf, ray_buf, intersection_buf, \
@@ -1004,5 +1017,9 @@ __kernel void get_frame_buf_cl(__global t_color *frame_buf, \
 		frame_buf[i].blue = 0;
 		frame_buf[i].alpha = 255;
 	}
-	reflect(normal_buf, i, ray_buf);
+	buf = dot(ray_buf[i], normal_buf[i]);
+	buf2.x = 2 * normal_buf[i].x * buf;
+	buf2.y = 2 * normal_buf[i].y * buf;
+	buf2.z = 2 * normal_buf[i].z * buf;
+	normal_buf[i] = ray_buf[i] - buf2;
 }

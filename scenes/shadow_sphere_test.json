@@ -7,7 +7,10 @@
 			"color": [150, 0, 60, 255],
 			"specular": 60,
 			"reflection": 0.0,
-			"texture": "no"
+			"refraction": 0,
+			"surface_id": 0,
+			"texture": "textures/helper.jpg",
+			"normal_map": "no"
 		},
 		{
 			"center": [0, 0, 1],
@@ -16,7 +19,10 @@
 			"color": [100, 50, 200, 255],
 			"specular": 60,
 			"reflection": 0.0,
-			"texture": "no"
+			"refraction": 0,
+			"surface_id": 0,
+			"texture": "textures/helper.jpg",
+			"normal_map": "no"
 		}
 	],
 	"light": [
