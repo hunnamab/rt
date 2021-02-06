@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:34 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/05 00:16:31 by npetrell         ###   ########.fr       */
+/*   Updated: 2021/02/06 21:11:48 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,7 +211,7 @@ void        intersect_ray_torus(t_scene *scene, int index, int is_refractive);
 t_object    *new_box(cl_float3 *buf, t_color color, float *specular, int surface_id);
 void		get_box(char **description, t_scene *scene, int *snmi);
 
-t_object    *new_hyperboloid(cl_float3 center, float a, float b, float c, t_color color);
+t_object    *new_hyperboloid(cl_float3 *cen_buf, float *specular, t_color color, int surface_id);
 void        intersect_ray_hyperboloid(t_scene *scene, int index);
 
 void		get_torus(char **description, t_scene *scene, int *snmi);

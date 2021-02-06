@@ -6,7 +6,7 @@
 /*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 13:54:29 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/04 21:57:42 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/06 20:56:54 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void	get_parameters(char *name, char **description, t_scene *scene, int *snmi)
 		get_paraboloid(description,  scene, snmi);
 	else if (ft_strequ(name, "\t\"torus\":"))
 		get_torus(description,  scene, snmi);
+	else if (ft_strequ(name, "\t\"hyperboloid\":"))
+		get_hyperboloid(description,  scene, snmi);
 	else
 		output_error(4);
 }
