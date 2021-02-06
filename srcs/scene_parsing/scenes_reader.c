@@ -6,7 +6,7 @@
 /*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:43 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/04 21:34:23 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/06 22:03:01 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ static 	void	get_surface(char **description, t_scene *scene, int *snmi)
 				srf = many_srfs(description, snmi, i);
 				scene->srfs[snmi[4]] = srf;
 				snmi[4]++;
-				i += 7;
+				i += 8;
 				//free(type);
 			}
 		}
@@ -181,20 +181,8 @@ static void	get_objects(char *buf, t_scene *scene, int len)
 		i++;
 	}
 	scene->texts = protected_malloc(sizeof(t_texture *), txt_nmb + 1);
-	/*i = 0;
-	int j = 0;
-	while (i < scene->obj_nmb)
-	{
-		if (i == scene->objs[i]->texture_id)
-		{
-			scene->texts[j] = scene->objs[i]->text;
-			j++;
-		}
-		i++;
-	}*/
 	int j = 0;
 	i = 0;
-	printf("KNJFFKJNSVKLGNSLKGJANLKGNALK%d\n", txt_nmb);
 	while (j < scene->obj_nmb)
 	{
 		if (scene->objs[j]->text != NULL)

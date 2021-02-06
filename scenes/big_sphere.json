@@ -6,16 +6,29 @@
 		"color": [255, 0, 0, 255],
 		"specular": 100,
 		"reflection": 0.4,
-		"texture": "no"
+		"refraction": 0,
+		"surface_id": 1,
+		"texture": "textures/helper.jpg",
+		"normal_map": "no"
 		},
-	"surface": {
-		"object": 1,
-		"type": "plane",
-		"is_negative": 0,
-		"param_one": [1, 0, 0],
-		"param_two": [0, 0, 0],
-		"param_three": 5
-	},
+	"surface": [
+		{
+			"object": 1,
+			"type": "plane",
+			"is_negative": 0,
+			"param_one": [1, 0, 0],
+			"param_two": [0, 0, 0],
+			"param_three": 5
+		},
+		{
+			"object": 1,
+			"type": "plane",
+			"is_negative": 0,
+			"param_one": [0, 1, 0],
+			"param_two": [0, 0, 0],
+			"param_three": 5
+		}
+	],
 	"light": [
 		{
 			"type": "point",
