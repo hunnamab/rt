@@ -18,7 +18,7 @@ void	one_argument_ellipsoid(char **description, t_scene *scene, int *snmi)
 	specular[4] = ftoi(get_coordinates(description[8]));
 	specular[5] = ftoi(get_coordinates(description[9]));
 	surface_id = ftoi(get_coordinates(description[10]));
-	ellipsoid = new_hyperboloid(cen_buf, specular, color, surface_id);
+	ellipsoid = new_ellipsoid(cen_buf, color, specular, surface_id);
 	ellipsoid->text = tex_new_bmp(get_file(description[11]));
 	scene->objs[snmi[1]] = ellipsoid;
 	snmi[1]++;
