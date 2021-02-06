@@ -6,7 +6,7 @@
 /*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:34 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/06 21:11:48 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/06 21:47:26 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,5 +218,6 @@ void		get_torus(char **description, t_scene *scene, int *snmi);
 void		get_paraboloid(char **description, t_scene *scene, int *snmi);
 
 char		*get_light_type(char *description);
+void	get_hyperboloid(char **description, t_scene *scene, int *snmi);
 
 #endif
