@@ -1,9 +1,9 @@
 {
 	"ellipsoid": {
 			"center_one": [0, 0, 0],
-			"a": 5,
-			"b": 6,
-			"c": 3,
+			"a": 2,
+			"b": 3,
+			"c": 4,
 			"rotation": [0, 0, 0],
 			"color": [255, 0, 0, 255],
 			"specular": 100,

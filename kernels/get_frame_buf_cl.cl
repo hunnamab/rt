@@ -154,6 +154,7 @@ typedef struct		s_object3d_d
 	float			reflection;
 	int				color_disrupt;
 	int				type;
+	int				t_scale;
 	int				texture_id;
 	int				texture_size;
 	int				texture_width;

@@ -154,6 +154,7 @@ typedef struct		s_object3d_d
 	float			reflection;
 	int				color_disrupt;
 	int				type;
+	int				t_scale;
 	int				texture_id;
 	int				texture_size;
 	int				texture_width;
@@ -180,9 +181,9 @@ float3  mapping_plane(float3 t, t_object_d obj)
     float3 p;
     t -= obj.primitive.plane.point;
     t = change_basis(t, obj.basis);
-    t.x /= 10;
-    t.y /= 10;
-    t.z /= 10;
+    t.x /= obj.t_scale;
+    t.y /= obj.t_scale;
+    t.z /= obj.t_scale;
     p.x = t.x;
     p.y = t.z;
     p.z = 0;
@@ -195,9 +196,9 @@ float3		mapping_triangle(float3 t, t_object_d obj)
 
 	t -= obj.primitive.triangle.vertex[0];
 	t = change_basis(t, obj.basis);
-	t.x /= 1000;
-	t.y /= 1000;
-	t.z /= 1000;
+	t.x /= obj.t_scale;
+	t.y /= obj.t_scale;
+	t.z /= obj.t_scale;
 	p.x = t.x;
 	p.y = t.z;
 	p.z = 0;
@@ -216,9 +217,9 @@ float3		mapping_cone(float3 t, t_object_d obj)
 	tmp = normalize(tmp);
 	float phi = acos(tmp.x) / 1.5707963267948;
 	phi = tmp.y > 0 ? 1.f - phi : phi;
-	t.x /= 20;
-	t.y /= 20;
-	t.z /= 20;
+	t.x /= obj.t_scale;
+	t.y /= obj.t_scale;
+	t.z /= obj.t_scale;
 	p.x = fabs(-phi);
 	p.y = fabs(t.y);
 	p.z = 0;
@@ -233,7 +234,7 @@ float3		mapping_cylinder(float3 t, t_object_d obj)
 	t = change_basis(t, obj.basis);
 	float phi = acos(t.x / obj.primitive.cylinder.radius) / 1.5707963267948;
 	phi = t.z > 0 ? 1.f - phi : phi;
-	t /= obj.primitive.cylinder.radius;
+	t /= obj.t_scale;
 	p.x = phi;
 	p.y = -t.y;
 	p.z = 0;
@@ -247,7 +248,7 @@ float3		mapping_sphere(float3 t, t_object_d obj)
 
 	t -= obj.primitive.sphere.center;
 	t = change_basis(t, obj.basis);
-	t /= obj.primitive.sphere.radius;
+	t /= obj.t_scale;
 	float theta = acos(t.y) / 3.14159265358979;
 	tmp.x = t.x;
 	tmp.y = t.z;

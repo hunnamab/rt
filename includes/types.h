@@ -265,6 +265,7 @@ typedef	struct			s_object3d
 	t_texture			*normal_text;
 	t_basis				basis;
 	int 				type;
+	int					t_scale;
 	int					texture_id;
 	int					surface_id;
 	int					normal_map_id;
@@ -287,6 +288,7 @@ typedef struct			s_object3d_d
 	cl_float			reflection;
 	cl_int				color_disrupt;
 	cl_int				type;
+	cl_int				t_scale;
 	cl_int				texture_id;
 	cl_int				texture_size;
 	cl_int				texture_width;

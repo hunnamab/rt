@@ -8,6 +8,7 @@
 			"specular": -1,
 			"reflection": 0.0,
 			"refraction": 0,
+			"t_scale": 10,
 			"surface_id": 0,
 			"texture": "no",
 			"normal_map": "no"
@@ -20,6 +21,7 @@
 			"specular": -1,
 			"reflection": 0.0,
 			"refraction": 0,
+			"t_scale": 10,
 			"surface_id": 0,
 			"texture": "textures/test2.png",
 			"normal_map": "textures/test.png"

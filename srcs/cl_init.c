@@ -149,6 +149,10 @@ void	device_objects_init(t_scene *scene)
 		buf[i].color_disrupt = 0;
 		buf[i].refraction = scene->objs[i]->refraction;
 		buf[i].reflection = scene->objs[i]->reflection;
+		if (scene->objs[i]->t_scale)
+			buf[i].t_scale = scene->objs[i]->t_scale;
+		else
+			buf[i].t_scale = 1;
 		buf[i].basis = scene->objs[i]->basis;
 		i++;
 	}

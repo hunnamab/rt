@@ -8,6 +8,7 @@
 		"specular": 100,
 		"reflection": 0.0,
 		"refraction": 0,
+		"t_scale": 20,
 		"surface_id": 1,
 		"texture": "textures/helper.jpg",
 		"normal_map": "no"

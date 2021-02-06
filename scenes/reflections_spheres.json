@@ -8,6 +8,7 @@
 			"specular": 300,
 			"reflection": 0.4,
 			"refraction": 0,
+			"t_scale": 3,
 			"surface_id": 0,
 			"texture": "textures/helper.jpg",
 			"normal_map": "no"
@@ -20,6 +21,7 @@
 			"specular": 500,
 			"reflection": 0.8,
 			"refraction": 0,
+			"t_scale": 3,
 			"surface_id": 0,
 			"texture": "textures/helper.jpg",
 			"normal_map": "no"
@@ -32,6 +34,7 @@
 			"specular": 300,
 			"reflection": 0.8,
 			"refraction": 0,
+			"t_scale": 3,
 			"surface_id": 0,
 			"texture": "textures/helper.jpg",
 			"normal_map": "no"
@@ -44,6 +47,7 @@
 			"specular": 300,
 			"reflection": 0.0,
 			"refraction": 0,
+			"t_scale": 3,
 			"surface_id": 0,
 			"texture": "textures/helper.jpg",
 			"normal_map": "no"
@@ -56,6 +60,7 @@
 			"specular": 200,
 			"reflection": 0.2,
 			"refraction": 0,
+			"t_scale": 200,
 			"surface_id": 0,
 			"texture": "textures/helper.jpg",
 			"normal_map": "no"

@@ -8,6 +8,7 @@
 		"specular": 60,
 		"reflection": 0.0,
 		"refraction": 0,
+		"t_scale": 11,
 		"surface_id": 0,
 		"texture": "textures/helper.jpg",
 		"normal_map": "no"
@@ -21,6 +22,7 @@
 			"specular": 50,
 			"reflection": 0.0,
 			"refraction": 0,
+			"t_scale": 20,
 			"surface_id": 0,
 			"texture": "textures/helper.jpg",
 			"normal_map": "no"
@@ -33,6 +35,7 @@
 			"specular": 100,
 			"reflection": 0.0,
 			"refraction": 0,
+			"t_scale": 10,
 			"surface_id": 0,
 			"texture": "textures/helper.jpg",
 			"normal_map": "no"
