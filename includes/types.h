@@ -333,6 +333,7 @@ struct					s_scene
 	t_color				*frame_buf;
 	t_cutting_surface	*srfs;
 	int					srf_nmb;
+	int					scrshot_nmb;
 	int					filter_type;
 	int					mode; // 0 - default, 1 - normal, 2 - depth, 3 - flat_light
 	int					max_bounces;

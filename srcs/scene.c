@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scene.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 14:21:11 by pmetron           #+#    #+#             */
-/*   Updated: 2021/01/27 23:09:45 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/06 23:20:15 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,5 @@ void	init_scene(t_scene *scene)
 	scene->index_buf = NULL;
 	scene->depth_buf = NULL;
 	scene->init[scene->mode](scene);
+	scene->scrshot_nmb = 1;
 }

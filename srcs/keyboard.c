@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   keyboard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/06 13:38:13 by pmetron           #+#    #+#             */
-/*   Updated: 2021/02/02 22:25:53 by npetrell         ###   ########.fr       */
+/*   Updated: 2021/02/06 23:25:54 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,15 +92,30 @@ uint8_t	*copy_frame_buf(t_scene *scene, uint8_t *frame_buf)
 	return (frame_buf);
 }
 
+static	char *get_name(int nmb)
+{
+	char	*tmp;
+
+	tmp = ft_itoa(nmb);
+	tmp = ft_strjoin(tmp, "_screenshot.png");
+	if (!tmp)
+		return (NULL);
+	return (tmp);
+}
+
 void	screen_png(t_scene *scene)
 {
 	SDL_Surface *srf;
+	char *name;
 
 	srf = SDL_CreateRGBSurface(0, WID , HEI, 32, 0, 0, 0, 0);
 	srf->pixels = copy_frame_buf(scene, (uint8_t *)srf->pixels);
-	IMG_SavePNG(srf, "screenshot.png");
+	name = get_name(scene->scrshot_nmb);
+	IMG_SavePNG(srf, name);
 	ft_putstr("Saved image in png\n");
+	scene->scrshot_nmb++;
 	free(srf->pixels);
+	free(name);
 	SDL_FreeSurface(srf);
 }
 
