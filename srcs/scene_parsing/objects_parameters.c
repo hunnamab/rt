@@ -6,7 +6,7 @@
 /*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:22 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/06 22:27:26 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/07 20:21:29 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	get_sphere(char **description, t_scene *scene, int *snmi)
 		{
 			if (description[i][2] == '{')
 			{
-				sphere = multiple_spheres(description, scene, snmi, i);
+				sphere = multiple_spheres(description, i);
 				sphere->text = tex_new_bmp(get_file(description[i + 10]));
 				sphere->normal_text = tex_new_bmp(get_file(description[i + 11]));
 				scene->objs[snmi[1]] = sphere;
@@ -49,7 +49,7 @@ void	get_cylinder(char **description, t_scene *scene, int *snmi)
 		{
 			if (description[i][2] == '{')
 			{
-				cylinder = multiple_cylinders(description, scene, snmi, i);
+				cylinder = multiple_cylinders(description, i);
 				cylinder->text = tex_new_bmp(get_file(description[i + 11]));
 				cylinder->normal_text = tex_new_bmp(get_file(description[i + 12]));
 				scene->objs[snmi[1]] = cylinder;
@@ -74,7 +74,7 @@ void	get_cone(char **description, t_scene *scene, int *snmi)
 		{
 			if (description[i][2] == '{')
 			{
-				cone = multiple_cones(description, scene, snmi, i);
+				cone = multiple_cones(description, i);
 				cone->text = tex_new_bmp(get_file(description[i + 11]));
 				cone->normal_text = tex_new_bmp(get_file(description[i + 12]));
 				scene->objs[snmi[1]] = cone;
@@ -100,7 +100,7 @@ void	get_triangle(char **description, float specular, t_scene *scene, int *snmi)
 		{
 			if (description[i][2] == '{')
 			{
-				triangle = multiple_triangles(description, snmi, i, specular);
+				triangle = multiple_triangles(description, i, specular);
 				triangle->text = tex_new_bmp(get_file(description[i + 11]));
 				triangle->normal_text = tex_new_bmp(get_file(description[i + 12]));
 				scene->objs[snmi[1]] = triangle;
@@ -124,7 +124,7 @@ void    get_plane(char **description,  t_scene *scene, int *snmi)
         {
             if (description[i][2] == '{')
             {
-                plane = multiple_planes(description, scene, snmi, i);
+                plane = multiple_planes(description, i);
                 plane->text = tex_new_bmp(get_file(description[i + 10]));
 				plane->normal_text = tex_new_bmp(get_file(description[i + 11]));
                 scene->objs[snmi[1]] = plane;

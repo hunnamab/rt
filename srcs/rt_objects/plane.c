@@ -6,7 +6,7 @@
 /*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 14:22:24 by pmetron           #+#    #+#             */
-/*   Updated: 2021/02/06 22:29:48 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/07 20:18:14 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ void	one_argument_plane(char **description, t_scene *scene, int *snmi)
 	snmi[1]++;
 }
 
-t_object 	*multiple_planes(char **description, t_scene *scene, int *snmi, int i)
+t_object 	*multiple_planes(char **description, int i)
 {
 	t_object	*plane;
 	t_color		color;

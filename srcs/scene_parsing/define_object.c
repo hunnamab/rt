@@ -6,7 +6,7 @@
 /*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 13:54:29 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/06 22:33:45 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/07 20:18:42 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	one_argument_triangle(char **description, t_scene *scene, int *snmi, float 
 	snmi[1]++;
 }
 
-t_object 	*multiple_triangles(char **description, int *snmi, int i, float specular)
+t_object 	*multiple_triangles(char **description, int i, float specular)
 {
 	t_object	*triangle;
 	cl_float3	vertex[3];

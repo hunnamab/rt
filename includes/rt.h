@@ -6,7 +6,7 @@
 /*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:34 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/07 20:11:44 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/07 20:19:34 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,16 +173,16 @@ cl_float3	mapping_cylinder(cl_float3 t, t_object *obj);
 cl_float3	mapping_cone(cl_float3 t, t_object *obj);
 cl_float3	normalize(cl_float3 vec);
 cl_float3	mapping_triangle(cl_float3 t, t_object *obj);
-t_object	*multiple_spheres(char **description, t_scene *scene, int *snmi, int i);
+t_object	*multiple_spheres(char **description, int i);
 void		one_argument_sphere(char **description, t_scene *scene, int *snmi);
 void		one_argument_cylinder(char **description, t_scene *scene, int *snmi);
-t_object	*multiple_cylinders(char **description, t_scene *scene, int *snmi, int i);
-t_object	*multiple_cones(char **description, t_scene *scene, int *snmi, int i);
+t_object	*multiple_cylinders(char **description,int i);
+t_object	*multiple_cones(char **description, int i);
 void		one_argument_cylinder(char **description, t_scene *scene, int *snmi);
 void		one_argument_plane(char **description, t_scene *scene, int *snmi);
-t_object	*multiple_planes(char **description, t_scene *scene, int *snmi, int i);
+t_object	*multiple_planes(char **description, int i);
 void		one_argument_triangle(char **description, t_scene *scene, int *snmi, float specular);
-t_object	*multiple_triangles(char **description, int *snmi, int i, float specular);
+t_object	*multiple_triangles(char **description, int i, float specular);
 void		one_argument_cone(char **description, t_scene *scene, int *snmi);
 //texture_loading
 void		load_textures(t_scene *scene);

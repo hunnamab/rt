@@ -6,7 +6,7 @@
 /*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 22:45:20 by pmetron           #+#    #+#             */
-/*   Updated: 2021/02/06 22:25:43 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/07 20:18:21 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,7 @@ void	one_argument_sphere(char **description, t_scene *scene, int *snmi)
 	snmi[1]++;
 }
 
-t_object 	*multiple_spheres(char **description, t_scene *scene, int *snmi, int i)
+t_object 	*multiple_spheres(char **description, int i)
 {
 	t_object	*sphere;
 	cl_float3	cen_buf[2];

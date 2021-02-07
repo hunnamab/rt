@@ -25,7 +25,7 @@ void	one_argument_hyperboloid(char **description, t_scene *scene, int *snmi)
 	snmi[1]++;
 }
 
-t_object 	*multiple_hyperboloids(char **description, t_scene *scene, int *snmi, int i)
+t_object 	*multiple_hyperboloids(char **description, int i)
 {
 	t_object	*hyperboloid;
 	cl_float3	cen_buf[2];
@@ -59,7 +59,7 @@ void	get_hyperboloid(char **description, t_scene *scene, int *snmi)
 		{
 			if (description[i][2] == '{')
 			{
-				hyperboloid = multiple_hyperboloids(description, scene, snmi, i);
+				hyperboloid = multiple_hyperboloids(description, i);
 				hyperboloid->text = tex_new_bmp(get_file(description[i + 11]));
 				scene->objs[snmi[1]] = hyperboloid;
 				snmi[1]++;

@@ -26,7 +26,7 @@ void	one_argument_box(char **description, t_scene *scene, int *snmi)
 	snmi[1]++;
 }
 
-t_object 	*multiple_boxes(char **description, t_scene *scene, int *snmi, int i)
+t_object 	*multiple_boxes(char **description, int i)
 {
 	t_object	*box;
 	cl_float3	cen_buf[3];
@@ -64,7 +64,7 @@ void	get_box(char **description, t_scene *scene, int *snmi)
 			//printf("text %c\n", description[i][2]);
 			if (description[i][2] == '{')
 			{
-				box = multiple_boxes(description, scene, snmi, i);
+				box = multiple_boxes(description, i);
 				box->text = tex_new_bmp(get_file(description[i + 9]));
 				scene->objs[snmi[1]] = box;
 				snmi[1]++;

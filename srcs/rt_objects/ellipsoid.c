@@ -24,7 +24,7 @@ void	one_argument_ellipsoid(char **description, t_scene *scene, int *snmi)
 	snmi[1]++;
 }
 
-t_object 	*multiple_ellipsoids(char **description, t_scene *scene, int *snmi, int i)
+t_object 	*multiple_ellipsoids(char **description, int i)
 {
 	t_object	*ellipsoid;
 	cl_float3	cen_buf[2];
@@ -94,7 +94,7 @@ void	get_ellipsoid(char **description, t_scene *scene, int *snmi)
 			//printf("text %c\n", description[i][2]);
 			if (description[i][2] == '{')
 			{
-				ellipsoid = multiple_ellipsoids(description, scene, snmi, i);
+				ellipsoid = multiple_ellipsoids(description, i);
 				ellipsoid->text = tex_new_bmp(get_file(description[i + 11]));
 				scene->objs[snmi[1]] = ellipsoid;
 				snmi[1]++;

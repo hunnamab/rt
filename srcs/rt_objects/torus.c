@@ -24,7 +24,7 @@ void	one_argument_torus(char **description, t_scene *scene, int *snmi)
 	snmi[1]++;
 }
 
-t_object 	*multiple_torus(char **description, t_scene *scene, int *snmi, int i)
+t_object 	*multiple_torus(char **description, int i)
 {
 	t_object	*torus;
 	cl_float3	cen_buf[3];
@@ -60,7 +60,7 @@ void	get_torus(char **description, t_scene *scene, int *snmi)
 			//printf("text %c\n", description[i][2]);
 			if (description[i][2] == '{')
 			{
-				torus = multiple_torus(description, scene, snmi, i);
+				torus = multiple_torus(description, i);
 				torus->text = tex_new_bmp(get_file(description[i + 11]));
 				scene->objs[snmi[1]] = torus;
 				snmi[1]++;

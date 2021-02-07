@@ -6,7 +6,7 @@
 /*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:38:39 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/06 22:35:46 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/07 20:17:37 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ void	one_argument_cone(char **description, t_scene *scene, int *snmi)
 	snmi[1]++;
 }
 
-t_object 	*multiple_cones(char **description, t_scene *scene, int *snmi, int i)
+t_object 	*multiple_cones(char **description, int i)
 {
 	t_object	*cone;
 	t_color		color;

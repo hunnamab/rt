@@ -27,7 +27,7 @@ void	one_argument_paraboloid(char **description, t_scene *scene, int *snmi)
 	snmi[1]++;
 }
 
-t_object 	*multiple_paraboloids(char **description, t_scene *scene, int *snmi, int i)
+t_object 	*multiple_paraboloids(char **description, int i)
 {
 	t_object	*paraboloid;
 	cl_float3	cen_buf[3];
@@ -62,7 +62,7 @@ void	get_paraboloid(char **description, t_scene *scene, int *snmi)
 			//printf("text %c\n", description[i][2]);
 			if (description[i][2] == '{')
 			{
-				paraboloid = multiple_paraboloids(description, scene, snmi, i);
+				paraboloid = multiple_paraboloids(description, i);
 				paraboloid->text = tex_new_bmp(get_file(description[i + 10]));
 				scene->objs[snmi[1]] = paraboloid;
 				snmi[1]++;

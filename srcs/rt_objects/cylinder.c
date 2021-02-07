@@ -6,7 +6,7 @@
 /*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:11:46 by pmetron           #+#    #+#             */
-/*   Updated: 2021/02/06 22:31:59 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/07 20:17:44 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void	one_argument_cylinder(char **description, t_scene *scene, int *snmi)
 	snmi[1]++;
 }
 
-t_object 	*multiple_cylinders(char **description, t_scene *scene, int *snmi, int i)
+t_object 	*multiple_cylinders(char **description, int i)
 {
 	t_object	*cylinder;
 	t_color		color;

@@ -41,7 +41,7 @@ void	one_srf(char **description, t_scene *scene, int * snmi)
 	char		*type;
 	
 	obj_neg[0] = atoi(get_coordinates(description[1]));
-	type = get_light_type(description[2]); // printf("light type = |%s|\n", type);
+	type = get_light_type(description[2]);
 	obj_neg[1] = atoi(get_coordinates(description[3]));
 	param[0] = get_points(description[4]);
 	param[1] = get_points(description[5]);
