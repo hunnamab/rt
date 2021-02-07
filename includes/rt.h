@@ -6,7 +6,7 @@
 /*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:34 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/07 20:19:34 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/07 20:37:39 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,25 +84,21 @@ void		set_color_zero(t_color *color);
 t_color		color_mul_by_scalar(t_color *color, float scalar);
 // sphere.c
 void		intersect_ray_sphere(t_scene *scene, int index, int is_refractive);
-t_object	*new_sphere(cl_float3 center, float *rad_spec, t_color color, \
-							float *rotation, int surface_id);
+t_object	*new_sphere(cl_float3 center, float *rad_spec, t_color color, float *rotation);
 // triangle.c
 void		intersect_ray_triangle(t_scene *scene, int index, int is_refractive);
 t_object	*new_triangle(cl_float3 *vertex, float specular, t_color color, \
-							float *rotation, int surface_id);
+							float *rotation);
 void		clear_triangle(t_object *obj);
 // plane.c
 void		intersect_ray_plane(t_scene *scene, int index, int is_refractive);
-t_object	*new_plane(cl_float3 *poi_nor, float *specular, t_color color, \
-						float *rotation, int surface_id);
+t_object	*new_plane(cl_float3 *poi_nor, float *specular, t_color color);
 // cylinder.c
 void		intersect_ray_cylinder(t_scene *scene, int index, int is_refractive);
-t_object	*new_cylinder(cl_float3 *pos_vec, float *rad_spec, t_color color, \
-							float *rotation, int surface_id);
+t_object	*new_cylinder(cl_float3 *pos_vec, float *rad_spec, t_color color);
 // cone.c
 void		intersect_ray_cone(t_scene *scene, int index, int is_refractive);
-t_object	*new_cone(cl_float3 *pos_vec, float *ang_spec, t_color color, \
-						float *rotation, int surface_id);
+t_object	*new_cone(cl_float3 *pos_vec, float *ang_spec, t_color color, float *rotation);
 
 void		get_sphere(char **description, t_scene *scene, int *snmi);
 void		get_triangle(char **description, float specular, t_scene *scene, int *snmi);

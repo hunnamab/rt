@@ -6,7 +6,7 @@
 /*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 13:54:29 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/07 20:18:42 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/07 20:33:40 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,15 @@ void	get_parameters(char *name, char **description, t_scene *scene, int *snmi)
 	t_object	*obj;
 
 	obj = NULL;
-	if (ft_strequ(name, "\t\"sphere\":")) //printf("sphere\n");
-		get_sphere(description, scene, snmi); // objects_parameters.c
-	else if (ft_strequ(name, "\t\"triangle\":")) //printf("triangle\n");
+	if (ft_strequ(name, "\t\"sphere\":"))
+		get_sphere(description, scene, snmi);
+	else if (ft_strequ(name, "\t\"triangle\":"))
 		get_triangle(description, 0.0, scene, snmi);
-	else if (ft_strequ(name, "\t\"plane\":")) //printf("plane\n");
+	else if (ft_strequ(name, "\t\"plane\":"))
 		get_plane(description,  scene, snmi);
-	else if (ft_strequ(name, "\t\"cylinder\":")) //printf("cylinder\n");
+	else if (ft_strequ(name, "\t\"cylinder\":"))
 		get_cylinder(description,  scene, snmi);
-	else if (ft_strequ(name, "\t\"cone\":")) //printf("cone\n");
+	else if (ft_strequ(name, "\t\"cone\":"))
 		get_cone(description,  scene, snmi);
 	else if (ft_strequ(name, "\t\"ellipsoid\":"))
 		get_ellipsoid(description,  scene, snmi);
@@ -47,8 +47,7 @@ void	one_argument_triangle(char **description, t_scene *scene, int *snmi, float 
 	cl_float3	vertex[3];
 	t_color		color;
 	cl_float3	buf;
-	float		rotation[6];
-	int			surface_id;
+	float		rotation[7];
 
 	vertex[0] = get_points(description[1]);
 	vertex[1] = get_points(description[2]);
@@ -62,8 +61,8 @@ void	one_argument_triangle(char **description, t_scene *scene, int *snmi, float 
 	rotation[3] = ftoi(get_coordinates(description[7]));
 	rotation[4] = ftoi(get_coordinates(description[8]));
 	rotation[5] = ftoi(get_coordinates(description[9]));
-	surface_id = ftoi(get_coordinates(description[10]));
-	triangle = new_triangle(vertex, specular, color, rotation, surface_id);
+	rotation[6] = ftoi(get_coordinates(description[10]));
+	triangle = new_triangle(vertex, specular, color, rotation);
 	triangle->text = tex_new_bmp(get_file(description[11]));
 	triangle->normal_text = tex_new_bmp(get_file(description[12]));
 	scene->objs[snmi[1]] = triangle;
@@ -76,8 +75,7 @@ t_object 	*multiple_triangles(char **description, int i, float specular)
 	cl_float3	vertex[3];
 	t_color		color;
 	cl_float3	buf;
-	float		rotation[6];
-	int			surface_id;
+	float		rotation[7];
 	
 	vertex[0] = get_points(description[i + 1]);
 	vertex[1] = get_points(description[i + 2]);
@@ -91,7 +89,7 @@ t_object 	*multiple_triangles(char **description, int i, float specular)
 	rotation[3] = ftoi(get_coordinates(description[i + 7]));
 	rotation[4] = ftoi(get_coordinates(description[i + 8]));
 	rotation[5] = ftoi(get_coordinates(description[i + 9]));
-	surface_id = ftoi(get_coordinates(description[i + 10]));
-	triangle = new_triangle(vertex, specular, color, rotation, surface_id);
+	rotation[6] = ftoi(get_coordinates(description[i + 10]));
+	triangle = new_triangle(vertex, specular, color, rotation);
 	return (triangle);
 }

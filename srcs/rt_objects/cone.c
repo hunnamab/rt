@@ -6,14 +6,14 @@
 /*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:38:39 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/07 20:17:37 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/07 20:30:42 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
 t_object	*new_cone(cl_float3 *pos_vec, float *ang_spec, t_color color, \
-						float *rotation, int surface_id)
+						float *rotation)
 {
 	t_cone		*new_cone;
 	t_object	*new_object;
@@ -36,7 +36,7 @@ t_object	*new_cone(cl_float3 *pos_vec, float *ang_spec, t_color color, \
 	new_object->t_scale = ang_spec[4];
 	new_object->cs_nmb = 0;
 	new_object->cutting_surfaces = NULL;
-	new_object->surface_id = surface_id;
+	new_object->surface_id = ang_spec[5];
 	new_object->color = color;
 	new_object->text = NULL;
 	new_object->normal_text = NULL;
@@ -108,7 +108,6 @@ void	one_argument_cone(char **description, t_scene *scene, int *snmi)
 	cl_float3	pos_vec_buf[3];
 	float		rotation[3];
 	float		ang_spec[5];
-	int			surface_id;
 	
 	pos_vec_buf[0] = get_points(description[1]);
 	pos_vec_buf[1] = get_points(description[2]);
@@ -122,8 +121,8 @@ void	one_argument_cone(char **description, t_scene *scene, int *snmi)
 	ang_spec[2] = ftoi(get_coordinates(description[7]));
 	ang_spec[3] = ftoi(get_coordinates(description[8]));
 	ang_spec[4] = ftoi(get_coordinates(description[9]));
-	surface_id = ftoi(get_coordinates(description[10]));
-	cone = new_cone(pos_vec_buf, ang_spec, color, rotation, surface_id);
+	ang_spec[5] = ftoi(get_coordinates(description[10]));
+	cone = new_cone(pos_vec_buf, ang_spec, color, rotation);
 	cone->text = tex_new_bmp(get_file(description[11]));
 	cone->normal_text = tex_new_bmp(get_file(description[12]));
 	scene->objs[snmi[1]] = cone;
@@ -137,7 +136,6 @@ t_object 	*multiple_cones(char **description, int i)
 	cl_float3	pos_vec_buf[3];
 	float		rotation[3];
 	float		ang_spec[5];
-	int			surface_id;
 
 	pos_vec_buf[0] = get_points(description[i + 1]);
 	pos_vec_buf[1] = get_points(description[i + 2]);
@@ -151,7 +149,7 @@ t_object 	*multiple_cones(char **description, int i)
 	ang_spec[2] = ftoi(get_coordinates(description[i + 7]));
 	ang_spec[3] = ftoi(get_coordinates(description[i + 8]));
 	ang_spec[4] = ftoi(get_coordinates(description[i + 9]));
-	surface_id = ftoi(get_coordinates(description[i + 10]));
-	cone = new_cone(pos_vec_buf, ang_spec, color, rotation, surface_id);
+	ang_spec[5] = ftoi(get_coordinates(description[i + 10]));
+	cone = new_cone(pos_vec_buf, ang_spec, color, rotation);
 	return (cone);
 }

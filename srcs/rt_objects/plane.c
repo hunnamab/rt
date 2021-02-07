@@ -6,7 +6,7 @@
 /*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 14:22:24 by pmetron           #+#    #+#             */
-/*   Updated: 2021/02/07 20:18:14 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/07 20:29:52 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,7 @@ t_basis get_plane_default(t_basis basis, cl_float3 normal)
     }
     return (basis);
 }
-t_object    *new_plane(cl_float3 *poi_nor, float *specular, t_color color, \
-                        float *rotation, int surface_id)
+t_object    *new_plane(cl_float3 *poi_nor, float *specular, t_color color)
 {
     t_plane     *new_plane;
     t_object    *new_object;
@@ -46,9 +45,9 @@ t_object    *new_plane(cl_float3 *poi_nor, float *specular, t_color color, \
     new_plane->normal = poi_nor[1];
     normalize_vector(&new_plane->normal);
     new_plane->point = poi_nor[0];
-    new_object->rotation[0] = rotation[0];
-    new_object->rotation[1] = rotation[1];
-    new_object->rotation[2] = rotation[2];
+    new_object->rotation[0] = poi_nor[2].x;
+    new_object->rotation[1] = poi_nor[2].y;
+    new_object->rotation[2] = poi_nor[2].z;
     matrix = get_rotation_matrix(new_object->rotation);
     transform(&new_plane->normal, matrix, 1);
     matr_free(matrix, 4);
@@ -57,7 +56,7 @@ t_object    *new_plane(cl_float3 *poi_nor, float *specular, t_color color, \
 	new_object->refraction = specular[2];
 	new_object->t_scale = specular[3];
     new_object->cs_nmb = 0;
-	new_object->surface_id = surface_id;
+	new_object->surface_id = specular[4];;
 	new_object->cutting_surfaces = NULL;
     new_object->color = color;
     new_object->data = (void *)new_plane;
@@ -122,23 +121,18 @@ void	one_argument_plane(char **description, t_scene *scene, int *snmi)
 	t_object	*plane;
 	t_color		color;
 	cl_float3	poi_nor_buf[3];
-	float		specular[4];
-	double		rotation[3];
-	int surface_id;
+	float		specular[5];
 
 	poi_nor_buf[0] = get_points(description[1]);
 	poi_nor_buf[1] = get_points(description[2]);
 	poi_nor_buf[2] = get_points(description[3]);
-	rotation[0] = poi_nor_buf[2].x;
-	rotation[1] = poi_nor_buf[2].y;
-	rotation[2] = poi_nor_buf[2].z;
 	color = get_color(description[4]);
 	specular[0] = ftoi(get_coordinates(description[5]));
 	specular[1] = ftoi(get_coordinates(description[6]));
 	specular[2] = ftoi(get_coordinates(description[7]));
 	specular[3] = ftoi(get_coordinates(description[8]));
-	surface_id = ftoi(get_coordinates(description[9]));
-	plane = new_plane(poi_nor_buf, specular, color, rotation, surface_id);
+	specular[5] = ftoi(get_coordinates(description[9]));
+	plane = new_plane(poi_nor_buf, specular, color);
 	plane->text = tex_new_bmp(get_file(description[10]));
 	plane->normal_text = tex_new_bmp(get_file(description[11]));
 	scene->objs[snmi[1]] = plane;
@@ -150,22 +144,17 @@ t_object 	*multiple_planes(char **description, int i)
 	t_object	*plane;
 	t_color		color;
 	cl_float3	poi_nor_buf[3];
-	float		specular[4];
-	double		rotation[3];
-	int surface_id;
+	float		specular[5];
 
 	poi_nor_buf[0] = get_points(description[i + 1]);
 	poi_nor_buf[1] = get_points(description[i + 2]);
 	poi_nor_buf[2] = get_points(description[i + 3]);
-	rotation[0] = poi_nor_buf[2].x;
-	rotation[1] = poi_nor_buf[2].y;
-	rotation[2] = poi_nor_buf[2].z;
 	color = get_color(description[i + 4]);
 	specular[0] = ftoi(get_coordinates(description[i + 5]));
 	specular[1] = ftoi(get_coordinates(description[i + 6]));
 	specular[2] = ftoi(get_coordinates(description[i + 7]));
 	specular[3] = ftoi(get_coordinates(description[i + 8]));
-	surface_id = ftoi(get_coordinates(description[i + 9]));
-	plane = new_plane(poi_nor_buf, specular, color, rotation, surface_id);
+	specular[4]= ftoi(get_coordinates(description[i + 9]));
+	plane = new_plane(poi_nor_buf, specular, color);
 	return (plane);
 }

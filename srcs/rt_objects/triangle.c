@@ -6,7 +6,7 @@
 /*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 21:42:26 by pmetron           #+#    #+#             */
-/*   Updated: 2021/02/06 22:35:27 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/07 20:33:52 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ t_basis			get_basis_tr(t_basis basis, cl_float3 *vert)
 }
 
 t_object	*new_triangle(cl_float3 *vertex, float specular, t_color color, \
-							float *rotation, int surface_id)
+							float *rotation)
 {
 	t_triangle	*new_triangle;
 	t_object	*new_object;
@@ -84,7 +84,7 @@ t_object	*new_triangle(cl_float3 *vertex, float specular, t_color color, \
 	new_object->refraction = rotation[4];
 	new_object->t_scale = rotation[5];
 	new_object->text = NULL;
-	new_object->surface_id = surface_id;
+	new_object->surface_id = rotation[6];
 	new_object->color = color;
 	new_object->data = (void *)new_triangle;
 	new_object->tag = "triangle";

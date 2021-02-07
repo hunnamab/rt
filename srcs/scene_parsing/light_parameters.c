@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   light_parameters.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 11:58:35 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/18 19:41:09 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/07 20:25:12 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,6 @@ void	get_light(char **description, t_scene *scene, int *snmi)
 	char		*type;
 	int 		i;
 
-	//light = NULL;
 	i = 1;
 	if (description[0][0] == '[')
 	{

@@ -6,7 +6,7 @@
 /*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 14:44:06 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/04 20:52:05 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/07 20:25:43 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,8 +136,6 @@ static void split_surface(int *scij, t_scene *scene,char *buf)
 	else
 		scene->srf_nmb++;
 }
-
-
 
 void		split_objects(int len, t_scene *scene, char *buf)
 {

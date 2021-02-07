@@ -6,7 +6,7 @@
 /*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:22 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/07 20:21:29 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/07 20:25:21 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ void	get_cone(char **description, t_scene *scene, int *snmi)
 	if (description[0][0] == '{')
 		one_argument_cone(description, scene, snmi);
 }
-
 
 void	get_triangle(char **description, float specular, t_scene *scene, int *snmi)
 {
