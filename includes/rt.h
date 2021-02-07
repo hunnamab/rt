@@ -6,7 +6,7 @@
 /*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:34 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/06 21:47:26 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/07 20:11:44 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,6 +218,11 @@ void		get_torus(char **description, t_scene *scene, int *snmi);
 void		get_paraboloid(char **description, t_scene *scene, int *snmi);
 
 char		*get_light_type(char *description);
-void	get_hyperboloid(char **description, t_scene *scene, int *snmi);
+void		get_hyperboloid(char **description, t_scene *scene, int *snmi);
+int			choose_type(char *type);
+t_cutting_surface		new_srf(cl_float3 *param, int *obj_neg, cl_float param3, char *type);
+void	one_srf(char **description, t_scene *scene, int * snmi);
+t_cutting_surface		many_srfs(char **description, int *snmi, int i);
+void	get_surface(char **description, t_scene *scene, int *snmi);
 
 #endif

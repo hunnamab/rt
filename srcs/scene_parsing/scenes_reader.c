@@ -6,121 +6,23 @@
 /*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:43 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/06 22:03:01 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/07 20:10:13 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
-
-int	choose_type(char *type)
-{
-	int lol = 0;
-
-	if (ft_strequ(type, "\"plane\","))
-		lol = PLANE;
-	else if (ft_strequ(type, "\"sphere\","))
-		lol = SPHERE;
-	else if (ft_strequ(type, "\"cylinder\","))
-		lol = CYLINDER;
-	else
-		output_error(5);
-	return (lol);
-}
-
-t_cutting_surface		new_srf(cl_float3 *param, int *obj_neg, cl_float param3, char *type)
-{
-	t_cutting_surface new_srf;
-	new_srf.type = choose_type(type);
-	new_srf.object = obj_neg[0];
-	new_srf.is_negative = obj_neg[1];
-	new_srf.param1 = param[0];
-	new_srf.param2 = param[1];
-	new_srf.param3 = param3;
-	if(new_srf.type == PLANE)
-	{
-		new_srf.param3 = -(new_srf.param1.x * new_srf.param2.x) - new_srf.param1.y * new_srf.param2.y - new_srf.param1.z * new_srf.param2.z;
-		printf("new_srf d == %f\n", new_srf.param3);
-	}
-	return (new_srf);
-}
-
-static void	one_srf(char **description, t_scene *scene, int * snmi)
-{
-	t_cutting_surface		srf;
-	cl_float3	param[2];
-	cl_float	param3;
-	int			obj_neg[2];
-	char		*type;
-	
-	obj_neg[0] = atoi(get_coordinates(description[1]));
-	type = get_light_type(description[2]); // printf("light type = |%s|\n", type);
-	obj_neg[1] = atoi(get_coordinates(description[3]));
-	param[0] = get_points(description[4]);
-	param[1] = get_points(description[5]);
-	param3 = ftoi(get_coordinates(description[6]));
-	srf = new_srf(param, obj_neg, param3, type);
-	scene->srfs[snmi[4]] = srf;
-	snmi[4]++;
-	free(type);
-}
-
-static t_cutting_surface		many_srfs(char **description, int *snmi, int i)
-{
-	t_cutting_surface		srf;
-	cl_float3	param[2];
-	cl_float	param3;
-	int			obj_neg[2];
-	char		*type;
-
-	obj_neg[0] = atoi(get_coordinates(description[i + 1]));
-	type = get_light_type(description[i + 2]);
-	obj_neg[1] = atoi(get_coordinates(description[i + 3]));
-	param[0] = get_points(description[i + 4]);
-	param[1] = get_points(description[i + 5]);
-	param3 = ftoi(get_coordinates(description[i + 6]));
-	srf = new_srf(param, obj_neg, param3, type);
-	free(type);
-	return (srf);
-}
-
-static 	void	get_surface(char **description, t_scene *scene, int *snmi)
-{
-	t_cutting_surface		srf;
-	//char		*type;
-	int 		i;
-
-	i = 1;
-	if (description[0][0] == '[')
-	{
-		while (description[i][1] != ']')
-		{
-			if (description[i][2] == '{')
-			{
-				//type = get_light_type(description[i + 1]);
-				srf = many_srfs(description, snmi, i);
-				scene->srfs[snmi[4]] = srf;
-				snmi[4]++;
-				i += 8;
-				//free(type);
-			}
-		}
-	}
-	if (description[0][0] == '{')
-		one_srf(description, scene, snmi);
-}
-
 
 static void	scene_objects(int *snmi, t_scene *scene, char *buf)
 {
 	char		*obj_name;
 	char		**obj_desc;
 
-	obj_name = ft_strsub(buf, snmi[0], (snmi[3] - snmi[0])); // записываем название объекта
-	obj_desc = get_description(buf, snmi[3] + 2); // записываем описание объекта
+	obj_name = ft_strsub(buf, snmi[0], (snmi[3] - snmi[0]));
+	obj_desc = get_description(buf, snmi[3] + 2);
 	if (!(ft_strequ(obj_name, "\t\"camera\":")) && \
 		!(ft_strequ(obj_name, "\t\"light\":")) && snmi[1] < scene->obj_nmb)
 	{
-		get_parameters(obj_name, obj_desc, scene, snmi); // создаем объект и получаем его характеристики
+		get_parameters(obj_name, obj_desc, scene, snmi);
 	}
 	else if ((ft_strequ(obj_name, "\t\"camera\":")))
 		get_camera(obj_desc, scene);
@@ -128,14 +30,14 @@ static void	scene_objects(int *snmi, t_scene *scene, char *buf)
 		get_surface(obj_desc, scene, snmi);
 	else if ((ft_strequ(obj_name, "\t\"light\":")) && snmi[2] < scene->light_nmb)
 		get_light(obj_desc, scene, snmi);
-	ft_memdel((void **)&obj_name); // освобождаем строки
+	ft_memdel((void **)&obj_name);
 	ft_memdel_float((void **)obj_desc);
 	if (buf[snmi[3] + 1] == '{')
-		while (buf[snmi[3]] != '}') // переходим к описанию следующего объекта
+		while (buf[snmi[3]] != '}')
 			snmi[3]++;
 	else
 		while (buf[snmi[3]] != ']')
-		{// переходим к описанию следующего объекта
+		{
 			snmi[3]++;
 			if (buf[snmi[3]] == ']' && ft_isdigit(buf[snmi[3]- 1]))
 				snmi[3]++;
@@ -145,7 +47,7 @@ static void	scene_objects(int *snmi, t_scene *scene, char *buf)
 
 static void	get_objects(char *buf, t_scene *scene, int len)
 {
-	int snmi[5]; // start, n, m, i
+	int snmi[5];
 	char c;
 	int i = 0;
 	int txt_nmb = 0;
@@ -157,12 +59,11 @@ static void	get_objects(char *buf, t_scene *scene, int len)
 	snmi[4] = 0;
 	//if (!brackets(buf))
 	//	output_error(6);
-	scene->obj_nmb = count_objects(len, buf); // выясняем кол-во объектов сцены
+	scene->obj_nmb = count_objects(len, buf);
 	split_objects(len, scene, buf);
 	scene->srfs = protected_malloc(sizeof(t_cutting_surface), scene->srf_nmb);
-	scene->objs = protected_malloc(sizeof(t_object *), scene->obj_nmb + 1); // создаем массив структур для объектов
+	scene->objs = protected_malloc(sizeof(t_object *), scene->obj_nmb + 1);
 	scene->light = protected_malloc(sizeof(t_light), scene->light_nmb);
-	//scene->texts = protected_malloc(sizeof(t_texture *), scene->obj_nmb * 2 + 1);
 	while (snmi[3] < len)
 	{
 		if (buf[snmi[3] + 1] == '{' || buf[snmi[3] + 1] == '[')
@@ -188,9 +89,7 @@ static void	get_objects(char *buf, t_scene *scene, int len)
 		if (scene->objs[j]->text != NULL)
 		{
 			scene->texts[i] = scene->objs[j]->text;
-			printf("%d\n", scene->texts[i]->size);
 			scene->objs[j]->texture_id = i;
-			printf("%d\n", scene->objs[j]->texture_id);
 			i++;
 		}
 		if (scene->objs[j]->normal_text != NULL)
