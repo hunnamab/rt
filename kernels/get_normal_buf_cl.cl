@@ -454,6 +454,71 @@ float3  change_basis(float3 vec, t_basis basis)
     return (tmp);
 } 
 
+float3  mapping_plane(float3 t, t_object_d obj)
+{
+    float3 p;
+    t -= obj.primitive.plane.point;
+    t = change_basis(t, obj.basis);
+    t.x /= obj.t_scale;
+    t.y /= obj.t_scale;
+    t.z /= obj.t_scale;
+    p.x = t.x;
+    p.y = t.z;
+    p.z = 0;
+    return (p);
+}
+
+float3		mapping_triangle(float3 t, t_object_d obj)
+{
+	float3 p;
+
+	t -= obj.primitive.triangle.vertex[0];
+	t = change_basis(t, obj.basis);
+	t.x /= obj.t_scale;
+	t.y /= obj.t_scale;
+	t.z /= obj.t_scale;
+	p.x = t.x;
+	p.y = t.z;
+	p.z = 0;
+	return (p);
+}
+
+float3		mapping_cone(float3 t, t_object_d obj)
+{
+	float3 p;
+	float3 tmp;
+
+	t -= obj.primitive.cone.position;
+	t = change_basis(t, obj.basis);
+	tmp.x = t.x;
+	tmp.y = t.z;
+	tmp = normalize(tmp);
+	float phi = acos(tmp.x) / 1.5707963267948;
+	phi = tmp.y > 0 ? 1.f - phi : phi;
+	t.x /= obj.t_scale;
+	t.y /= obj.t_scale;
+	t.z /= obj.t_scale;
+	p.x = fabs(-phi);
+	p.y = fabs(t.y);
+	p.z = 0;
+	return (p);
+}
+
+float3		mapping_cylinder(float3 t, t_object_d obj)
+{
+	float3 p;
+
+	t -= obj.primitive.cylinder.position;
+	t = change_basis(t, obj.basis);
+	float phi = acos(t.x / obj.primitive.cylinder.radius) / 1.5707963267948;
+	phi = t.z > 0 ? 1.f - phi : phi;
+	t /= obj.t_scale;
+	p.x = phi;
+	p.y = -t.y;
+	p.z = 0;
+	return (p);
+}
+
 float3		mapping_sphere(float3 t, t_object_d obj)
 {
  	float3 p;
@@ -461,7 +526,7 @@ float3		mapping_sphere(float3 t, t_object_d obj)
 
 	t -= obj.primitive.sphere.center;
 	t = change_basis(t, obj.basis);
-	t /= obj.primitive.sphere.radius;
+	t /= obj.t_scale;
 	float theta = acos(t.y) / 3.14159265358979;
 	tmp.x = t.x;
 	tmp.y = t.z;
@@ -474,25 +539,20 @@ float3		mapping_sphere(float3 t, t_object_d obj)
     return(p);
 }
 
-float3 	mapping_plane(float3 t, t_object_d obj)
-{
-	float3 p;
-	float a = fmod(t.x, 1.0f);
-	float b = fmod(t.z, 1.0f);
- 	p.x = fabs(a);
-	p.y = fabs(b);
-	p.z = 0;
-	return (p);
-}
-
 float3 text_map_select(t_object_d obj, float3 t)
 {
     float3 p;
 
     if (obj.type == SPHERE)
 		p = mapping_sphere(t, obj);
-	if (obj.type == PLANE)
+ 	if (obj.type == PLANE)
 		p = mapping_plane(t, obj);
+	if (obj.type == CYLINDER)
+		p = mapping_cylinder(t, obj);
+	if (obj.type == CONE)
+		p = mapping_cone(t, obj);
+	if (obj.type == TRIANGLE)
+		p = mapping_triangle(t, obj);
     return (p);
 } 
 

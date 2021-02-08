@@ -9,8 +9,8 @@
 		"refraction": 0,
 		"t_scale": 10,
 		"surface_id": 0,
-		"texture": "no",
-		"normal_map": "no"
+		"texture": "textures/helper.jpg",
+		"normal_map": "textures/test.png"
 	},
 	"cone": [
 		{
@@ -24,8 +24,8 @@
 			"refraction": 0,
 			"t_scale": 20,
 			"surface_id": 0,
-			"texture": "no",
-			"normal_map": "no"
+			"texture": "textures/helper.jpg",
+			"normal_map": "textures/test.png"
 		},
 		{
 			"position": [8, 5, -10],
@@ -38,8 +38,8 @@
 			"refraction": 0,
 			"t_scale": 20,
 			"surface_id": 0,
-			"texture": "no",
-			"normal_map": "no"
+			"texture": "textures/test2.png",
+			"normal_map": "textures/bump04.jpg"
 		}
 	],
 	"triangle": [
@@ -54,7 +54,7 @@
 			"refraction": 0,
 			"t_scale": 1000,
 			"surface_id": 0,
-			"texture": "no",
+			"texture": "textures/helper.jpg",
 			"normal_map": "no"
 		},
 		{
@@ -68,8 +68,8 @@
 			"refraction": 0,
 			"t_scale": 1000,
 			"surface_id": 0,
-			"texture": "textures/helper.jpg",
-			"normal_map": "no"
+			"texture": "textures/test2.png",
+			"normal_map": "textures/test.png"
 		}
 	],
 	"cylinder": [
@@ -84,8 +84,8 @@
 			"refraction": 0,
 			"t_scale": 2,
 			"surface_id": 0,
-			"texture": "textures/helper.jpg",
-			"normal_map": "no"
+			"texture": "textures/test2.png",
+			"normal_map": "textures/test.png"
 		},
 		{
 			"position": [3, 1.5, 15],
@@ -98,8 +98,8 @@
 			"refraction": 0,
 			"t_scale": 4,
 			"surface_id": 0,
-			"texture": "no",
-			"normal_map": "no"
+			"texture": "textures/test2.png",
+			"normal_map": "textures/test.png"
 		}
 	],
 	"sphere": [
@@ -113,8 +113,8 @@
 			"refraction": 0,
 			"t_scale": 8,
 			"surface_id": 0,
-			"texture": "textures/helper.jpg",
-			"normal_map": "no"
+			"texture": "textures/test2.png",
+			"normal_map": "textures/test.png"
 		},
 		{
 			"center": [10, -0.5, -17],
@@ -126,8 +126,8 @@
 			"refraction": 0,
 			"t_scale": 3,
 			"surface_id": 0,
-			"texture": "no",
-			"normal_map": "no"
+			"texture": "textures/test2.png",
+			"normal_map": "textures/test.png"
 		},
 		{
 			"center": [-5, 2, -8],
@@ -139,8 +139,8 @@
 			"refraction": 0,
 			"t_scale": 3,
 			"surface_id": 0,
-			"texture": "textures/helper.jpg",
-			"normal_map": "no"
+			"texture": "textures/test2.png",
+			"normal_map": "textures/test.png"
 		},
 		{
 			"center": [15, 0, 10],
@@ -152,8 +152,8 @@
 			"refraction": 0,
 			"t_scale": 10,
 			"surface_id": 0,
-			"texture": "no",
-			"normal_map": "no"
+			"texture": "textures/test2.png",
+			"normal_map": "textures/test.png"
 		}
 	],
 	"surface": {

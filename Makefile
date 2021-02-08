@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+         #
+#    By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/07 15:39:13 by hunnamab          #+#    #+#              #
-#    Updated: 2021/02/04 21:31:08 by npetrell         ###   ########.fr        #
+#    Updated: 2021/02/08 16:26:12 by pmetron          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,7 +48,7 @@ SRC_NAME = ../matrix_lib/matr_add_matr.c ../matrix_lib/create_matrix.c \
 	rt_objects/cylinder.c rt_objects/cone.c \
 	rt_objects/ellipsoid.c rt_objects/box.c rt_objects/paraboloid.c \
 	rt_objects/torus.c rt_objects/hyperboloid.c \
-	filters/filters.c
+	filters/filters.c scene_parsing/surfaces.c
 
 OBJ_NAME = $(SRC_NAME:.c=.o)
 

@@ -151,12 +151,17 @@ void	sharpen_filter(t_filter_data *data)
 	size_t local;
 	cl_int err;
 	cl_mem buffer;
-
+	int num = 0;
 	buffer = clCreateBuffer(data->context, 0, sizeof(t_color) * WID * HEI, NULL, &err);
 	clEnqueueCopyBuffer(data->commands, data->pixels, buffer, 0, 0, sizeof(t_color) * WID * HEI, 0,0,0);
 	err = clSetKernelArg(data->kernels[SHARPEN], 0, sizeof(cl_mem), &data->pixels);
 	err = clSetKernelArg(data->kernels[SHARPEN], 1, sizeof(cl_mem), &buffer);
+	err = clSetKernelArg(data->kernels[SHARPEN], 2, sizeof(cl_mem), &num);
 	err = clGetKernelWorkGroupInfo(data->kernels[SHARPEN], data->device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
+	err = clEnqueueNDRangeKernel(data->commands, data->kernels[SHARPEN], 1, NULL, &global, &local, 0, NULL, NULL);
+	clFinish(data->commands);
+	num++;
+	clEnqueueCopyBuffer(data->commands, data->pixels, buffer, 0, 0, sizeof(t_color) * WID * HEI, 0,0,0);
 	err = clEnqueueNDRangeKernel(data->commands, data->kernels[SHARPEN], 1, NULL, &global, &local, 0, NULL, NULL);
 	clFinish(data->commands);
 	clReleaseMemObject(buffer);

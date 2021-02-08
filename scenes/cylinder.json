@@ -10,8 +10,8 @@
 		"refraction": 0,
 		"t_scale": 11,
 		"surface_id": 0,
-		"texture": "textures/helper.jpg",
-		"normal_map": "no"
+		"texture": "textures/test2.png",
+		"normal_map": "textures/test.png"
 	},
 	"sphere": [ 
 		{
@@ -24,8 +24,8 @@
 			"refraction": 0,
 			"t_scale": 20,
 			"surface_id": 0,
-			"texture": "textures/helper.jpg",
-			"normal_map": "no"
+			"texture": "textures/test2.png",
+			"normal_map": "textures/test.png"
 		},
 		{
 			"center": [-50, 35, 120],
@@ -37,11 +37,16 @@
 			"refraction": 0,
 			"t_scale": 10,
 			"surface_id": 0,
-			"texture": "textures/helper.jpg",
-			"normal_map": "no"
+			"texture": "textures/test2.png",
+			"normal_map": "textures/test.png"
 		}
 	],
 	"light": [
+		{
+			"type": "point",
+			"position": [0, 0, 60],
+			"intensity": 0.8
+		},
 		{
 			"type": "point",
 			"position": [0, 10, -20],

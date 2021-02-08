@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 00:17:47 by npetrell          #+#    #+#             */
-/*   Updated: 2021/02/05 19:36:11 by npetrell         ###   ########.fr       */
+/*   Updated: 2021/02/08 20:51:51 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,7 +190,6 @@ int		main(int args, char **argv)
 	scene->objs[0]->cutting_surfaces[1].type = PLANE; */
 	/***********************************/
 	cl_init(scene); // cl_init.c, инициализируем кернели для дальнейшей работы
-	load_textures(scene);
 	init_scene(scene);
 	init_ui(&sdl, scene);
 	filters_init(&scene->filter_data);

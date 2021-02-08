@@ -104,18 +104,11 @@ void	device_objects_init(t_scene *scene)
 		}
 		if (scene->objs[i]->text != NULL)
         {
-			l = 0;
-			shift = 0;
-			while (l < scene->objs[i]->texture_id)
-			{
-				shift += scene->texts[l]->size;
-				l++;
-			}
-			buf[i].texture_id = shift;
-			buf[i].texture_size = scene->texts[l]->size;
-			buf[i].texture_width = scene->texts[l]->width;
-			buf[i].texture_height =  scene->texts[l]->height;
-			buf[i].l_size = scene->texts[l]->l_size;
+			buf[i].texture_id = scene->objs[i]->texture_id;
+			buf[i].texture_size = scene->objs[i]->text->size;
+			buf[i].texture_width = scene->objs[i]->text->width;
+			buf[i].texture_height =  scene->objs[i]->text->height;
+			buf[i].l_size = scene->objs[i]->text->l_size;
 		}
 		else
 		{
@@ -124,18 +117,11 @@ void	device_objects_init(t_scene *scene)
 		}
 		if(scene->objs[i]->normal_text != NULL)
 		{
-			l = 0;
-			shift = 0;
-			while (l < scene->objs[i]->normal_map_id)
-			{
-				shift += scene->texts[l]->size;
-				l++;
-			}
-			buf[i].normal_map_id = shift;
-			buf[i].texture_size_nm = scene->texts[l]->size;
-			buf[i].texture_width_nm = scene->texts[l]->width;
-			buf[i].texture_height_nm = scene->texts[l]->height;
-			buf[i].l_size_nm = scene->texts[l]->l_size;
+			buf[i].normal_map_id = scene->objs[i]->normal_map_id;
+			buf[i].texture_size_nm = scene->objs[i]->normal_text->size;
+			buf[i].texture_width_nm = scene->objs[i]->normal_text->width;
+			buf[i].texture_height_nm = scene->objs[i]->normal_text->height;
+			buf[i].l_size_nm = scene->objs[i]->normal_text->l_size;
 		}
 		else
 		{
@@ -156,6 +142,7 @@ void	device_objects_init(t_scene *scene)
 		buf[i].basis = scene->objs[i]->basis;
 		i++;
 	}
+	printf("buf[5] texture id %d\n", buf[5].texture_id);
 	scene->cl_data.scene.obj = clCreateBuffer(scene->cl_data.context, CL_MEM_READ_ONLY |
 		CL_MEM_HOST_WRITE_ONLY | CL_MEM_COPY_HOST_PTR, sizeof(t_object_d) * scene->obj_nmb, buf, NULL);
 	printf("t_object_d host = %lu\n", sizeof(t_object_d));
@@ -449,6 +436,7 @@ int    cl_init(t_scene *scene)
 	scene->filter_data.device_id = scene->cl_data.device_id;
 	scene->filter_data.context = scene->cl_data.context;
 	scene->filter_data.pixels = scene->cl_data.scene.frame_buf;
+	load_textures(scene);
 	device_objects_init(scene);
 	clFinish(scene->cl_data.commands);
 	return (0);
