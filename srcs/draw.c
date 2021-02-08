@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 00:18:09 by npetrell          #+#    #+#             */
-/*   Updated: 2021/02/05 00:18:14 by npetrell         ###   ########.fr       */
+/*   Updated: 2021/02/08 17:34:15 by hunnamab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,17 @@
 
 void	get_refraction_ray(t_scene *scene)
 {
-	get_closest_points(scene, 0, 1);
-	get_intersection_buf(scene, 1);
-	get_normal_buf(scene);
-	clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.material_buf, scene->cl_data.scene.prev_material_buf, 0, 0, sizeof(t_material) * WID * HEI, 0, NULL, NULL);
-	get_material_buf(scene);
-	get_frame_buf(scene, 1);
+	size_t global = WID * HEI;
+	size_t local;
+
+	clSetKernelArg(scene->cl_data.kernels[15], 0, sizeof(cl_mem), &scene->cl_data.scene.ray_buf);
+	clSetKernelArg(scene->cl_data.kernels[15], 1, sizeof(cl_mem), &scene->cl_data.scene.index_buf);
+	clSetKernelArg(scene->cl_data.kernels[15], 2, sizeof(cl_mem), &scene->cl_data.scene.normal_buf);
+	clSetKernelArg(scene->cl_data.kernels[15], 3, sizeof(cl_mem), &scene->cl_data.scene.exception_buf);
+	clSetKernelArg(scene->cl_data.kernels[15], 4, sizeof(cl_mem), &scene->cl_data.scene.obj);
+	clGetKernelWorkGroupInfo(scene->cl_data.kernels[15], scene->cl_data.device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
+	clEnqueueNDRangeKernel(scene->cl_data.commands, scene->cl_data.kernels[15], 1, NULL, &global, &local, 0, NULL, NULL);
+	clFinish(scene->cl_data.commands);
 }
 
 void	draw_scene(t_sdl *sdl, t_scene *scene)
@@ -59,13 +64,11 @@ void	draw_scene(t_sdl *sdl, t_scene *scene)
 		clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.material_buf, scene->cl_data.scene.prev_material_buf, 0, 0, sizeof(t_material) * WID * HEI, 0, NULL, NULL);
 		get_material_buf(scene);
 		get_frame_buf(scene, 0);
-		if (scene->bounce_cnt == 0)
-			clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.frame_buf, scene->cl_data.scene.prev_frame_buf, 0, 0, sizeof(t_material) * WID * HEI, 0, NULL, NULL);
-		//get_refraction_ray(scene);
 		clFinish(scene->cl_data.commands);
 		swap_pointer = scene->cl_data.scene.ray_buf;
 		scene->cl_data.scene.ray_buf = scene->cl_data.scene.normal_buf;
 		scene->cl_data.scene.normal_buf = swap_pointer;
+		//get_refraction_ray(scene); ray_buf, exception_buf, normal_buf, obj, index_buf
 		scene->bounce_cnt++;
 	}
 	if (scene->filter_type != DEFAULT)

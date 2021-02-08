@@ -190,3 +190,4 @@ __kernel void get_intersection_point(__global float3 *intersection_buf, \
         intersection_buf[i].z = 0.0;
     }
 }
+    

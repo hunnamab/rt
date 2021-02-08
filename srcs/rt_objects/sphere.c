@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sphere.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 22:45:20 by pmetron           #+#    #+#             */
-/*   Updated: 2021/02/07 20:27:43 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/08 16:43:22 by hunnamab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,7 @@ void		intersect_ray_sphere(t_scene *scene, int index, int is_refractive)
 	clSetKernelArg(scene->cl_data.kernels[1], 10, sizeof(cl_int), (void*)&is_refractive);
 	clSetKernelArg(scene->cl_data.kernels[1], 11, sizeof(cl_mem), &scene->cl_data.scene.normal_buf);
 	clSetKernelArg(scene->cl_data.kernels[1], 12, sizeof(cl_float), (void*)&scene->objs[index]->refraction);
+	clSetKernelArg(scene->cl_data.kernels[1], 13, sizeof(cl_mem), &scene->cl_data.scene.exception_buf);
     clGetKernelWorkGroupInfo(scene->cl_data.kernels[1], scene->cl_data.device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
 	printf("sphere local == max work group size == %ld\n", local);
     clEnqueueNDRangeKernel(scene->cl_data.commands, scene->cl_data.kernels[1], 1, NULL, &global, &local, 0, NULL, NULL);

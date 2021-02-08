@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   types.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/02/08 16:33:03 by hunnamab          #+#    #+#             */
+/*   Updated: 2021/02/08 16:35:41 by hunnamab         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef TYPES_H
 # define TYPES_H
 # define FILTERS_NUM 5
@@ -30,6 +42,7 @@ typedef struct			s_scene_device
 	cl_mem				intersection_buf;
 	cl_mem				viewport;
 	cl_mem				index_buf;
+	cl_mem				exception_buf;
 	cl_mem				depth_buf;
 	cl_mem				normal_buf;
 	cl_mem				material_buf;
