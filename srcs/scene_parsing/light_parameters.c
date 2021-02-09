@@ -6,7 +6,7 @@
 /*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 11:58:35 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/07 20:25:12 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/09 23:03:48 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ static t_light		many_lights(char **description, int *snmi, int i, char *type)
 	double		intensity;
 	int 		new_type;
 	init_norme(pos_dir, &intensity);
+	printf("TYYPEPEPEPEPEEP %s\n", type);
 	new_type = AMBIENT;
 	if (ft_strequ(type, "\"point\","))
 	{

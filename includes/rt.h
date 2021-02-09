@@ -6,7 +6,7 @@
 /*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:34 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/07 20:37:39 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/09 22:32:08 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,7 +218,7 @@ void		get_hyperboloid(char **description, t_scene *scene, int *snmi);
 int			choose_type(char *type);
 t_cutting_surface		new_srf(cl_float3 *param, int *obj_neg, cl_float param3, char *type);
 void	one_srf(char **description, t_scene *scene, int * snmi);
-t_cutting_surface		many_srfs(char **description, int *snmi, int i);
+t_cutting_surface		many_srfs(char **description, int i);
 void	get_surface(char **description, t_scene *scene, int *snmi);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parameters_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 12:02:06 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/01/18 20:07:58 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/09 23:05:30 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ char		*get_coordinates(char *description)
 	int		i;
 	int		len;
 
+printf("lol");
 	if (!description)
 		output_error(5);
 	i = 0;
@@ -25,8 +26,8 @@ char		*get_coordinates(char *description)
 	printf("descrition cor buf !!!! %s\n", description);
 	while (!(ft_isdigit(description[i])) && description[i] != '-')
 	{
-		if (description[i + 1] == '\0')
-			output_error(5);
+		if (description[i + 1] == '\0'){
+			output_error(5);}
 		i++;
 	}
 	if (description[len - 2] == ']')

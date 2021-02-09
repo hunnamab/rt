@@ -140,6 +140,7 @@ typedef	struct		 	s_cutting_surface
 	float3			param2;
 	int				type;
 	int				object;
+	int				is_local;
 	int				is_negative;
 	float			param3;
 }						t_cutting_surface;

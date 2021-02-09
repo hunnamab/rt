@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   types.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/08 16:33:03 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/08 16:35:41 by hunnamab         ###   ########.fr       */
+/*   Updated: 2021/02/09 22:28:34 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -261,6 +261,7 @@ typedef	struct		 	s_cutting_surface
 	cl_float3			param2;
 	cl_int				type;
 	cl_int				object;
+	cl_int				is_local;
 	cl_int				is_negative;
 	cl_float			param3;
 }						t_cutting_surface;

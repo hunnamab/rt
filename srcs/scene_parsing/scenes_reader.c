@@ -6,7 +6,7 @@
 /*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:43 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/07 20:10:13 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/09 23:17:42 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ static void associate_obj_with_srf(t_scene *scene, int id, int i)
 	{
 		if (scene->srfs[n].object == id)
 		{
-			scene->objs[i]->cutting_surfaces[j] = scene->srfs[n];
+			ft_memcpy(&scene->objs[i]->cutting_surfaces[j], &scene->srfs[n], sizeof(t_cutting_surface));
 			scene->objs[i]->cs_nmb++;
 			j++;
 		}
