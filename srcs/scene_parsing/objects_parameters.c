@@ -6,7 +6,7 @@
 /*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:22 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/07 20:25:21 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/09 23:33:02 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,10 @@ void	get_sphere(char **description, t_scene *scene, int *snmi)
 			}
 		}
 	}
-	if (description[0][0] == '{')
+	else if (description[0][0] == '{')
 		one_argument_sphere(description, scene, snmi);
+	else
+		output_error(6);
 }
 
 void	get_cylinder(char **description, t_scene *scene, int *snmi)
@@ -58,8 +60,10 @@ void	get_cylinder(char **description, t_scene *scene, int *snmi)
 			}
 		}
 	}
-	if (description[0][0] == '{')
+	else if (description[0][0] == '{')
 		one_argument_cylinder(description, scene, snmi);
+	else
+		output_error(6);
 }
 
 void	get_cone(char **description, t_scene *scene, int *snmi)
@@ -83,8 +87,10 @@ void	get_cone(char **description, t_scene *scene, int *snmi)
 			}
 		}
 	}
-	if (description[0][0] == '{')
+	else if (description[0][0] == '{')
 		one_argument_cone(description, scene, snmi);
+	else
+		output_error(6);
 }
 
 void	get_triangle(char **description, float specular, t_scene *scene, int *snmi)
@@ -108,8 +114,10 @@ void	get_triangle(char **description, float specular, t_scene *scene, int *snmi)
 			}
 		}
 	}
-	if (description[0][0] == '{')
+	else if (description[0][0] == '{')
 		one_argument_triangle(description, scene, snmi, specular);
+	else
+		output_error(6);
 }
 
 void    get_plane(char **description,  t_scene *scene, int *snmi)
@@ -132,6 +140,8 @@ void    get_plane(char **description,  t_scene *scene, int *snmi)
             }
         }
     }
-    if (description[0][0] == '{')
+    else if (description[0][0] == '{')
         one_argument_plane(description, scene, snmi);
+	else
+		output_error(6);
 }

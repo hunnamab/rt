@@ -67,8 +67,10 @@ void	get_hyperboloid(char **description, t_scene *scene, int *snmi)
 			}
 		}
 	}
-	if (description[0][0] == '{')
+	else if (description[0][0] == '{')
 		one_argument_hyperboloid(description, scene, snmi);
+	else
+		output_error(6);
 }
 
 t_object    *new_hyperboloid(cl_float3 *cen_buf, float *specular, t_color color, int surface_id)

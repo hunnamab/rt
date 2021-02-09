@@ -72,8 +72,10 @@ void	get_box(char **description, t_scene *scene, int *snmi)
 			}
 		}
 	}
-	if (description[0][0] == '{')
+	else if (description[0][0] == '{')
 		one_argument_box(description, scene, snmi);
+	else
+		output_error(6);
 }
 
 t_object    *new_box(cl_float3 *buf, t_color color, float *specular, int surface_id)

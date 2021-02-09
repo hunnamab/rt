@@ -93,7 +93,9 @@ void	get_surface(char **description, t_scene *scene, int *snmi)
 			}
 		}
 	}
-	if (description[0][0] == '{')
+	else if (description[0][0] == '{')
 		one_srf(description, scene, snmi);
+	else
+		output_error(6);
 }
 

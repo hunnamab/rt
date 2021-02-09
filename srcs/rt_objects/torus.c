@@ -68,8 +68,10 @@ void	get_torus(char **description, t_scene *scene, int *snmi)
 			}
 		}
 	}
-	if (description[0][0] == '{')
+	else if (description[0][0] == '{')
 		one_argument_torus(description, scene, snmi);
+	else
+		output_error(6);
 }
 
 t_object    *new_torus(cl_float3 *cen_buf, t_color color, float *specular, int surface_id)

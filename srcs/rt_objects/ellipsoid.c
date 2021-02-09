@@ -102,8 +102,10 @@ void	get_ellipsoid(char **description, t_scene *scene, int *snmi)
 			}
 		}
 	}
-	if (description[0][0] == '{')
+	else if (description[0][0] == '{')
 		one_argument_ellipsoid(description, scene, snmi);
+	else
+		output_error(6);
 }
 
 void        intersect_ray_ellipsoid(t_scene *scene, int index, int is_refractive)
