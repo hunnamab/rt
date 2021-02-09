@@ -1,7 +1,7 @@
 {
 	"hyperboloid": [
 		{
-			"center": [0, 0, 30],
+			"center": [0, 0, 0],
             "a": 1,
             "b": 1,
             "c": 1,
@@ -17,7 +17,7 @@
 	"light": [
 		{
 			"type": "point",
-			"position": [10, 100, 10],
+			"position": [0, 0, 0],
 			"intensity": 0.8
 		},
 		{
@@ -26,7 +26,7 @@
 		}
 	],
 	"camera": {
-		"position": [0, 0, 20],
-		"rotation": [0, 0, 0]
+		"position": [30, 0, 0],
+		"rotation": [0, -1.6, 0]
 	}
 }
