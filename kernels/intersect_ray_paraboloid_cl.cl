@@ -129,11 +129,11 @@ typedef	union		primitive
 	t_plane			plane;
 	t_triangle		triangle;
 	t_ellipsoid		ellipsoid;
+	t_hyperboloid	hyperboloid;
 	t_box			box;
 	t_paraboloid	paraboloid;
 	t_torus			torus;
 }					t_primitive;
-
 typedef	struct		 	s_cutting_surface
 {
 	float3			param1;

@@ -129,6 +129,7 @@ typedef	union		primitive
 	t_plane			plane;
 	t_triangle		triangle;
 	t_ellipsoid		ellipsoid;
+	t_hyperboloid	hyperboloid;
 	t_box			box;
 	t_paraboloid	paraboloid;
 	t_torus			torus;
@@ -171,16 +172,16 @@ typedef struct		s_object3d_d
 
 float hyperboloid_intersection(t_hyperboloid hyper, float3 ray_start, float3 ray_dir)
 {
- 	float k1;
-    float k2;
-    float k3;
+	float k1;
+     float k2;
+    float k3; 
 	float a = hyper.a;
 	float b = hyper.b;
 	float c = hyper.c;
 	float3 co = ray_start - hyper.center;
     k1 = ray_dir.x * ray_dir.x / (a * a) + ray_dir.y * ray_dir.y / (b * b) - ray_dir.z * ray_dir.z / (c * c);
     k2 = 2 * co.x * ray_dir.x / (a * a) + 2 * co.y * ray_dir.y / (b * b) - 2 * co.z * ray_dir.z / (c * c);
-    k3 = co.x * co.x / (a * a) + co.y * co.y / (b * b) - co.z * co.z / (c * c) + 1;
+    k3 = co.x * co.x / (a * a) + co.y * co.y / (b * b) - co.z * co.z / (c * c) + 1.0f;
     float d = k2 * k2 - 4 * k1 * k3;
     if (d >= 0)
     {
@@ -192,7 +193,7 @@ float hyperboloid_intersection(t_hyperboloid hyper, float3 ray_start, float3 ray
             return (t2);
         if (t2 == t1 && t2 >= 0)
             return (t2);
-    }
+    } 
     return (0);
 }
 
@@ -836,7 +837,7 @@ float plane_intersection(t_plane plane, float3 ray_start, float3 ray_dir)
 
 int			in_shadow(int index, float3 l, __global float3 *intersection_buf, \
 						int obj_nmb, __global t_object_d *obj)
-{
+{ 
 	float3	ray_start;
 	int		i;
 	float	t;
@@ -862,7 +863,7 @@ int			in_shadow(int index, float3 l, __global float3 *intersection_buf, \
 			t = box_intersection(&obj[i].primitive.box, ray_start, l);
 		if (obj[i].type == PARABOLOID)
 			t = paraboloid_intersection(obj[i].primitive.paraboloid, ray_start, l);
-		if (obj[i].type == TORUS)
+		 if (obj[i].type == TORUS)
 			t = torus_intersection(obj[i].primitive.torus, ray_start, l);
 		if (obj[i].type == HYPERBOLOID)
 			t = hyperboloid_intersection(obj[i].primitive.hyperboloid, ray_start, l);
@@ -871,7 +872,7 @@ int			in_shadow(int index, float3 l, __global float3 *intersection_buf, \
 		i++;
 	}
 	if (t < 1.0f && t > 0.0001f)
-		return (1);
+		return (1); 
 	return (0);
 }
 
@@ -963,12 +964,10 @@ t_color		reflection_color(__global t_color *frame_buf, \
 		result.green = (1 - prev_material_buf[index].reflection) * result.green + prev_material_buf[index].reflection * frame_buf[index].green;
 		result.blue = (1 - prev_material_buf[index].reflection) * result.blue + prev_material_buf[index].reflection * frame_buf[index].blue;
 	}
-	if (index == 1280 * 360 + 640 * 11)
-		printf("result color device in reflection_color (%hhu, %hhu, %hhu)\n", result.red, result.green, result.blue);
 	return (result);
 }
 
-void reflect(__global float3 *normal_buf, int i, __global float3 *ray_buf)
+/* void reflect(__global float3 *normal_buf, int i, __global float3 *ray_buf)
 {
 	float buf;
 	float3 buf2;
@@ -978,7 +977,7 @@ void reflect(__global float3 *normal_buf, int i, __global float3 *ray_buf)
 	buf2.y = 2 * normal_buf[i].y * buf;
 	buf2.z = 2 * normal_buf[i].z * buf;
 	normal_buf[i] = ray_buf[i] - buf2;
-}
+} */
 
 __kernel void get_frame_buf_cl(__global t_color *frame_buf, \
                             __global float3 *ray_buf, \
@@ -1008,5 +1007,5 @@ __kernel void get_frame_buf_cl(__global t_color *frame_buf, \
 		frame_buf[i].blue = 0;
 		frame_buf[i].alpha = 255;
 	}
-	reflect(normal_buf, i, ray_buf);
+	//reflect(normal_buf, i, ray_buf);
 }

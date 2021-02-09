@@ -116,7 +116,7 @@ void        intersect_ray_hyperboloid(t_scene *scene, int index)
 	}
 	else
 		cs = NULL;
-    printf("\n\nsizeof hyperbaloid HOST %lu\n\n", sizeof(t_hyperboloid));
+    printf("\n\n%hhu\n\n", scene->objs[index]->color.red);
 	clSetKernelArg(scene->cl_data.kernels[14], 0, sizeof(cl_mem), &scene->cl_data.scene.ray_buf);
 	clSetKernelArg(scene->cl_data.kernels[14], 1, sizeof(cl_mem), &scene->cl_data.scene.intersection_buf);
     clSetKernelArg(scene->cl_data.kernels[14], 2, sizeof(t_hyperboloid), scene->objs[index]->data);

@@ -129,6 +129,7 @@ typedef	union		primitive
 	t_plane			plane;
 	t_triangle		triangle;
 	t_ellipsoid		ellipsoid;
+	t_hyperboloid	hyperboloid;
 	t_box			box;
 	t_paraboloid	paraboloid;
 	t_torus			torus;

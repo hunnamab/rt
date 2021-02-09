@@ -142,7 +142,6 @@ void	device_objects_init(t_scene *scene)
 		buf[i].basis = scene->objs[i]->basis;
 		i++;
 	}
-	printf("buf[5] texture id %d\n", buf[5].texture_id);
 	scene->cl_data.scene.obj = clCreateBuffer(scene->cl_data.context, CL_MEM_READ_ONLY |
 		CL_MEM_HOST_WRITE_ONLY | CL_MEM_COPY_HOST_PTR, sizeof(t_object_d) * scene->obj_nmb, buf, NULL);
 	printf("t_object_d host = %lu\n", sizeof(t_object_d));
