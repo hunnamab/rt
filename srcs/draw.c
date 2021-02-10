@@ -6,7 +6,7 @@
 /*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 00:18:09 by npetrell          #+#    #+#             */
-/*   Updated: 2021/02/10 21:15:31 by hunnamab         ###   ########.fr       */
+/*   Updated: 2021/02/10 23:04:52 by hunnamab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	get_refraction_ray(t_scene *scene)
 	get_closest_points(scene, 0, 1);
 	get_intersection_buf(scene);
 	get_normal_buf(scene);
-	clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.material_buf, scene->cl_data.scene.prev_material_buf, 0, 0, sizeof(t_material) * WID * HEI, 0, NULL, NULL);
+	//clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.material_buf, scene->cl_data.scene.prev_material_buf, 0, 0, sizeof(t_material) * WID * HEI, 0, NULL, NULL);
 	get_material_buf(scene);
 	get_frame_buf(scene, 1);
 }
@@ -88,14 +88,16 @@ void	draw_scene(t_sdl *sdl, t_scene *scene)
 		get_material_buf(scene);
 		clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.normal_buf, scene->cl_data.scene.copy_normal_buf, 0, 0, sizeof(cl_float3) * WID * HEI, 0, NULL, NULL);
 		clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.intersection_buf, scene->cl_data.scene.copy_intersec_buf, 0, 0, sizeof(cl_float3) * WID * HEI, 0, NULL, NULL);
+		swap_pointer = scene->cl_data.scene.ray_buf;
 		get_frame_buf(scene, 0);
-		get_refraction_ray(scene);
+		/* get_refraction_ray(scene);
 		if (scene->max_bounces > 1)
 		{
 			scene->cl_data.scene.ray_buf = scene->cl_data.scene.copy_normal_buf;
+			scene->cl_data.scene.normal_buf = swap_pointer;
 			scene->cl_data.scene.intersection_buf = scene->cl_data.scene.copy_intersec_buf;
 			get_reflection_ray(scene);
-		}
+		} */
 		clFinish(scene->cl_data.commands);
 		scene->bounce_cnt++;
 	}
