@@ -434,14 +434,33 @@ int    cl_init(t_scene *scene)
 	ft_strdel(&get_refraction_ray_cl);
 	close(fd16);
 
+	int		ret17;
+	char	*get_reflection_ray_cl;
+	int fd17 = open("./kernels/get_reflection_ray_cl.cl", O_RDONLY);
+	get_reflection_ray_cl = protected_malloc(sizeof(char), 256000);
+	ret17 = read(fd17, get_reflection_ray_cl, 64000);
+	get_reflection_ray_cl[ret17] = '\0';
+	
+	if ((scene->cl_data.programs[16] = clCreateProgramWithSource(scene->cl_data.context, 1, (const char **)&get_reflection_ray_cl, NULL, &err)))
+		printf("cоздана программа get_reflection_ray_cl\n");
+	if ((clBuildProgram(scene->cl_data.programs[16], 0, NULL, "-I includes", NULL, &err)))
+		printf("собрана программа get_reflection_ray_cl\n");
+	if (!(scene->cl_data.kernels[16] = clCreateKernel(scene->cl_data.programs[16], "get_reflection_ray_cl", &err)))
+		printf("не собрана программа 1, error %d get_reflection_ray_cl\n", err);
+	ft_strdel(&get_reflection_ray_cl);
+	close(fd17);
+
 	//Создание буферов на гпу
 	scene->cl_data.scene.ray_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, NULL);
 	scene->cl_data.scene.viewport = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, NULL);
 	scene->cl_data.scene.intersection_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, NULL);
+	scene->cl_data.scene.copy_intersec_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, NULL);
 	scene->cl_data.scene.index_buf = clCreateBuffer(scene->cl_data.context,  0,  sizeof(int) * count, NULL, NULL);
+	scene->cl_data.scene.orig_index_buf = clCreateBuffer(scene->cl_data.context,  0,  sizeof(int) * count, NULL, NULL);
 	scene->cl_data.scene.exception_buf = clCreateBuffer(scene->cl_data.context,  0,  sizeof(int) * count, NULL, NULL);
 	scene->cl_data.scene.depth_buf = clCreateBuffer(scene->cl_data.context,  0,  sizeof(float) * count, NULL, NULL);
 	scene->cl_data.scene.normal_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, NULL);
+	scene->cl_data.scene.copy_normal_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, NULL);
 	scene->cl_data.scene.frame_buf = clCreateBuffer(scene->cl_data.context, CL_MEM_READ_WRITE, sizeof(t_color) * count, NULL, NULL);
 	scene->cl_data.scene.light = clCreateBuffer(scene->cl_data.context, CL_MEM_READ_ONLY |
 		CL_MEM_HOST_WRITE_ONLY | CL_MEM_COPY_HOST_PTR, sizeof(t_light) * scene->light_nmb, scene->light, NULL);

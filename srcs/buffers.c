@@ -6,7 +6,7 @@
 /*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:38:29 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/08 16:50:46 by hunnamab         ###   ########.fr       */
+/*   Updated: 2021/02/10 21:02:29 by hunnamab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,16 @@ void	get_closest_points(t_scene *scene, float t, int is_refractive)
 	x = -1;
 	if (is_refractive != 1)
 	{
-		while (++x < WID * HEI)
-		{
-			scene->index_buf[x] = -1;
-			scene->depth_buf[x] = 100000000;
-		}
-		clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.index_buf, CL_FALSE, 0, sizeof(int) * global, scene->index_buf, 0, NULL, NULL);
-		clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.depth_buf, CL_FALSE, 0, sizeof(float) * global, scene->depth_buf, 0, NULL, NULL);
 		clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.index_buf, scene->cl_data.scene.exception_buf, 0, 0, sizeof(int) * global, 0, NULL, NULL);
-		clFinish(scene->cl_data.commands);
 	}
+	while (++x < WID * HEI)
+	{
+		scene->index_buf[x] = -1;
+		scene->depth_buf[x] = 100000000;
+	}
+	clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.index_buf, CL_FALSE, 0, sizeof(int) * global, scene->index_buf, 0, NULL, NULL);
+	clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.depth_buf, CL_FALSE, 0, sizeof(float) * global, scene->depth_buf, 0, NULL, NULL);
+	clFinish(scene->cl_data.commands);
 	while (i < scene->obj_nmb)
 	{
 		scene->objs[i]->intersect(scene, i, is_refractive);
@@ -58,7 +58,7 @@ void	get_closest_points(t_scene *scene, float t, int is_refractive)
 	}
 }
 
-void	get_intersection_buf(t_scene *scene, int is_refractive)
+void	get_intersection_buf(t_scene *scene)
 {
 	size_t global = WID * HEI;
 	size_t local;
@@ -69,7 +69,6 @@ void	get_intersection_buf(t_scene *scene, int is_refractive)
 	clSetKernelArg(scene->cl_data.kernels[6], 2, sizeof(cl_mem), &scene->cl_data.scene.depth_buf);
 	clSetKernelArg(scene->cl_data.kernels[6], 3, sizeof(cl_mem), &scene->cl_data.scene.intersection_buf);
 	clSetKernelArg(scene->cl_data.kernels[6], 4, sizeof(cl_mem), &scene->cl_data.scene.index_buf);
-	clSetKernelArg(scene->cl_data.kernels[6], 5, sizeof(cl_int), (void*)&is_refractive);
 	clGetKernelWorkGroupInfo(scene->cl_data.kernels[6], scene->cl_data.device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
     clEnqueueNDRangeKernel(scene->cl_data.commands, scene->cl_data.kernels[6], 1, NULL, &global, &local, 0, NULL, NULL);
     clFinish(scene->cl_data.commands);

@@ -959,26 +959,14 @@ t_color		reflection_color(__global t_color *frame_buf, \
 	result.red = material_buf[index].color.red * i;
 	result.green = material_buf[index].color.green * i;
 	result.blue = material_buf[index].color.blue * i;
-	if (bounce_cnt > 0)
+/* 	if (bounce_cnt > 0)
 	{
 		result.red = (1 - prev_material_buf[index].reflection) * result.red + prev_material_buf[index].reflection * frame_buf[index].red;
 		result.green = (1 - prev_material_buf[index].reflection) * result.green + prev_material_buf[index].reflection * frame_buf[index].green;
 		result.blue = (1 - prev_material_buf[index].reflection) * result.blue + prev_material_buf[index].reflection * frame_buf[index].blue;
-	}
+	} */
 	return (result);
 }
-
-/* void reflect(__global float3 *normal_buf, int i, __global float3 *ray_buf)
-{
-	float buf;
-	float3 buf2;
-
-	buf = dot(ray_buf[i], normal_buf[i]);
-	buf2.x = 2 * normal_buf[i].x * buf;
-	buf2.y = 2 * normal_buf[i].y * buf;
-	buf2.z = 2 * normal_buf[i].z * buf;
-	normal_buf[i] = ray_buf[i] - buf2;
-} */
 
 __kernel void get_frame_buf_cl(__global t_color *frame_buf, \
                             __global float3 *ray_buf, \
@@ -995,18 +983,36 @@ __kernel void get_frame_buf_cl(__global t_color *frame_buf, \
 {
     int i = get_global_id(0);
 	int j = index_buf[i];
-	if (j != -1)
+	t_color buf;
+	if (j != -1 && bounce_cnt == 0 && !is_refractive)
 	{
 		frame_buf[i] = reflection_color(frame_buf, ray_buf, intersection_buf, \
 										normal_buf, index_buf, material_buf, \
 										obj, light, light_nmb, i, obj_nmb, bounce_cnt, prev_material_buf);
 	}
-	else if (bounce_cnt == 0)
+	else if (j != -1 && bounce_cnt == 0 && is_refractive)
+	{
+		buf = reflection_color(frame_buf, ray_buf, intersection_buf, \
+										normal_buf, index_buf, material_buf, \
+										obj, light, light_nmb, i, obj_nmb, bounce_cnt, prev_material_buf);
+		frame_buf[i].red = frame_buf[i].red / 2 + buf.red / 2;
+		frame_buf[i].green = frame_buf[i].green / 2 + buf.green / 2;
+		frame_buf[i].blue = frame_buf[i].blue / 2 + buf.blue / 2;
+	}
+	else if (j != -1 && bounce_cnt > 0)
+	{
+		buf = reflection_color(frame_buf, ray_buf, intersection_buf, \
+										normal_buf, index_buf, material_buf, \
+										obj, light, light_nmb, i, obj_nmb, bounce_cnt, prev_material_buf);
+		frame_buf[i].red = frame_buf[i].red / 2 + buf.red / 2;
+		frame_buf[i].green = frame_buf[i].green / 2 + buf.green / 2;
+		frame_buf[i].blue = frame_buf[i].blue / 2 + buf.blue / 2;
+	}
+	else if (bounce_cnt == 0 && !is_refractive)
 	{
 		frame_buf[i].red = 0;
 		frame_buf[i].green = 0;
 		frame_buf[i].blue = 0;
 		frame_buf[i].alpha = 255;
 	}
-	//reflect(normal_buf, i, ray_buf);
 }

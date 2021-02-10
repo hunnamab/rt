@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   types.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/08 16:33:03 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/09 22:28:34 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/10 20:03:39 by hunnamab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +40,17 @@ typedef struct			s_scene_device
 {
 	cl_mem				ray_buf;
 	cl_mem				intersection_buf;
+	cl_mem				copy_intersec_buf;
 	cl_mem				viewport;
 	cl_mem				index_buf;
+	cl_mem				orig_index_buf;
 	cl_mem				exception_buf;
 	cl_mem				depth_buf;
 	cl_mem				normal_buf;
+	cl_mem				copy_normal_buf;
 	cl_mem				material_buf;
 	cl_mem				prev_material_buf;
 	cl_mem				frame_buf;
-	cl_mem				prev_frame_buf;
 	cl_mem				obj;
 	cl_mem				light;
 	cl_mem				textures;

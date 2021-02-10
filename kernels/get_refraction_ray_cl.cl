@@ -207,12 +207,12 @@ __kernel void get_refraction_ray_cl(__global float3 *ray_arr, \
                                 __global t_object_d *obj)
 {
     int i = get_global_id(0);
-
+	
 	if (index_buf[i] != -1)
 	{
 		if (obj[index_buf[i]].refraction > 0.0)
 		{
-			ray_arr[i] = refract(normal_buf[i], ray_arr[i], obj[index_buf[i]].refraction);
+			normal_buf[i] = refract(ray_arr[i], normal_buf[i], obj[index_buf[i]].refraction);
 			exception_buf[i] = index_buf[i];
 		}
 		else

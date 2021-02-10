@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:34 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/09 22:32:08 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/10 19:30:20 by hunnamab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ float		**rotate_y(float y);
 void		get_rays_arr(t_scene *scene);
 void		get_buffers(t_scene *scene);
 void		get_normal_buf(t_scene *scene);
-void		get_intersection_buf(t_scene *scene, int is_refractive);
+void		get_intersection_buf(t_scene *scene);
 void		get_closest_points(t_scene *scene, float t, int is_refractive);
 void 		get_frame_buf(t_scene *scene, int is_refractive);
 // buffers_material_buf.c

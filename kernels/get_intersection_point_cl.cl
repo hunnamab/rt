@@ -175,7 +175,7 @@ __kernel void get_intersection_point(__global float3 *intersection_buf, \
                                     __global float3 *ray_buf, \
                                     __global float *depth_buf, \
                                     __global float3 *camera, \
-                                    __global int *index_buf, int is_refractive)
+                                    __global int *index_buf)
  {
     int i = get_global_id(0);
 	float3 buf;
