@@ -6,7 +6,7 @@
 /*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 11:58:35 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/11 22:12:46 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/11 22:44:22 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ char		*get_light_type(char *description)
 		output_error(5);
 	i = 0;
 	len = ft_strlen(description);
+	if (len < 6)
+		output_error(5);
 	while (description[i] != ':' && description[i] != '\0')
 		i++;
 	i++;
