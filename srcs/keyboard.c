@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   keyboard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/06 13:38:13 by pmetron           #+#    #+#             */
-/*   Updated: 2021/02/06 23:25:54 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/11 13:49:31 by hunnamab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,7 +197,6 @@ void	draw_filters(t_scene *scene, int i)
 		scene->rt_ui->filt = 5;
 		scene->filter_type = MAGIC;
 	}
-	
 	//scene->filter[scene->rt_ui->filt](scene);
 	//refresh_scene(scene);
 }

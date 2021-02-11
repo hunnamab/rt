@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   surfaces.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/02/11 13:48:30 by hunnamab          #+#    #+#             */
+/*   Updated: 2021/02/11 13:48:36 by hunnamab         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "rt.h"
 
 int	choose_type(char *type)
@@ -98,4 +110,3 @@ void	get_surface(char **description, t_scene *scene, int *snmi)
 	else
 		output_error(6);
 }
-

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   texture_loading.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/02/11 13:45:38 by hunnamab          #+#    #+#             */
+/*   Updated: 2021/02/11 13:46:22 by hunnamab         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "rt.h"
 
 int		is_copy(t_scene *scene, int index) /*возвращает индекс текстуры в массиве текстур, если проверяемая текстура это копия*/
@@ -7,11 +19,11 @@ int		is_copy(t_scene *scene, int index) /*возвращает индекс те
 
 	j = 0;
 	i = 0;
-	while(i < index)
+	while (i < index)
 	{
 		if (scene->texts[i] && scene->texts[i]->size == scene->texts[index]->size)
 		{
-			while(j < scene->texts[i]->size / 2)
+			while (j < scene->texts[i]->size / 2)
 			{
 				if (scene->texts[i]->pixels[j] == scene->texts[index]->pixels[j])
 					j++;
@@ -21,14 +33,14 @@ int		is_copy(t_scene *scene, int index) /*возвращает индекс те
 					break;
 				}
 			}
-			if(j > 0)
+			if (j > 0)
 			{
-				return(i);
+				return (i);
 			}
 		}
 		i++;
 	}
-	return(-1);
+	return (-1);
 }
 
 void	load_textures(t_scene *scene)
@@ -44,7 +56,7 @@ void	load_textures(t_scene *scene)
 	cl_int2 *shift_buf = malloc(sizeof(cl_int2) * scene->obj_nmb);
 	cl_int4 *index_buf = malloc(sizeof(cl_int4) * scene->obj_nmb);
 	ft_memset((void *)index_buf, -1, sizeof(cl_int4) * scene->obj_nmb);
-	while(i < scene->obj_nmb)
+	while (i < scene->obj_nmb)
 	{
 		if (scene->objs[i]->text && is_copy(scene, scene->objs[i]->texture_id) < 0)
 		{
@@ -83,12 +95,12 @@ void	load_textures(t_scene *scene)
 	{
 		ft_memset((void *)texture_buf, 0, sizeoftextures);
 		i = 0;
-		while(i < scene->obj_nmb)
+		while (i < scene->obj_nmb)
 		{
 			if (scene->objs[i]->text != NULL)
 			{
 				id = is_copy(scene, scene->objs[i]->texture_id);
-				if(id < 0)
+				if (id < 0)
 				{
 					shift_buf[i].x = shift;
 					scene->objs[i]->texture_id = shift_buf[i].x;
@@ -98,7 +110,7 @@ void	load_textures(t_scene *scene)
 				}
 				else
 				{
-					while(id != index_buf[j].s1)
+					while (id != index_buf[j].s1)
 						j++;
 					scene->objs[i]->texture_id = shift_buf[index_buf[j].s0].x;
 					j = 0;
@@ -107,7 +119,7 @@ void	load_textures(t_scene *scene)
 			if (scene->objs[i]->normal_text != NULL)
 			{
 				id = is_copy(scene, scene->objs[i]->normal_map_id);
-				if(id < 0)
+				if (id < 0)
 				{
 					shift_buf[i].y = shift;
 					scene->objs[i]->normal_map_id = shift_buf[i].y;
@@ -126,7 +138,7 @@ void	load_textures(t_scene *scene)
 			i++;
 		}
 		texture_buf -= shift;
-		if(sizeoftextures > 0)
+		if (sizeoftextures > 0)
 			scene->cl_data.scene.textures = clCreateBuffer(scene->cl_data.context, CL_MEM_READ_ONLY |
 				CL_MEM_HOST_WRITE_ONLY | CL_MEM_COPY_HOST_PTR, sizeoftextures, texture_buf, &err);
 		printf("загрузка текстур в видеопамять %d\n", err);

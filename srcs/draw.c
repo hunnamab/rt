@@ -6,7 +6,7 @@
 /*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 00:18:09 by npetrell          #+#    #+#             */
-/*   Updated: 2021/02/10 23:04:52 by hunnamab         ###   ########.fr       */
+/*   Updated: 2021/02/11 13:42:33 by hunnamab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,14 @@ void	get_refraction_ray(t_scene *scene)
 	get_frame_buf(scene, 1);
 }
 
-void	get_reflection_ray(t_scene *scene)
+void	get_reflection_ray(t_scene *scene, cl_mem swap_pointer)
 {
 	size_t global = WID * HEI;
 	size_t local;
 
+	scene->cl_data.scene.ray_buf = scene->cl_data.scene.copy_normal_buf;
+	scene->cl_data.scene.normal_buf = swap_pointer;
+	scene->cl_data.scene.intersection_buf = scene->cl_data.scene.copy_intersec_buf;
 	clSetKernelArg(scene->cl_data.kernels[16], 0, sizeof(cl_mem), &scene->cl_data.scene.ray_buf);
 	clSetKernelArg(scene->cl_data.kernels[16], 1, sizeof(cl_mem), &scene->cl_data.scene.normal_buf);
 	clGetKernelWorkGroupInfo(scene->cl_data.kernels[16], scene->cl_data.device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
@@ -63,7 +66,7 @@ void	draw_scene(t_sdl *sdl, t_scene *scene)
 	y = -1;
 	i = 0;
 	scene->bounce_cnt = 0;
-	scene->max_bounces = 1;
+	scene->max_bounces = 2;
 	size_t local;
 	get_viewport(scene);
 	get_rays_arr(scene);
@@ -90,14 +93,9 @@ void	draw_scene(t_sdl *sdl, t_scene *scene)
 		clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.intersection_buf, scene->cl_data.scene.copy_intersec_buf, 0, 0, sizeof(cl_float3) * WID * HEI, 0, NULL, NULL);
 		swap_pointer = scene->cl_data.scene.ray_buf;
 		get_frame_buf(scene, 0);
-		/* get_refraction_ray(scene);
+		get_refraction_ray(scene);
 		if (scene->max_bounces > 1)
-		{
-			scene->cl_data.scene.ray_buf = scene->cl_data.scene.copy_normal_buf;
-			scene->cl_data.scene.normal_buf = swap_pointer;
-			scene->cl_data.scene.intersection_buf = scene->cl_data.scene.copy_intersec_buf;
-			get_reflection_ray(scene);
-		} */
+			get_reflection_ray(scene, swap_pointer);
 		clFinish(scene->cl_data.commands);
 		scene->bounce_cnt++;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture_mapping.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/19 19:15:41 by ldeirdre          #+#    #+#             */
-/*   Updated: 2021/01/20 18:44:55 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/11 13:47:00 by hunnamab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static cl_float3  change_basis(cl_float3 vec, t_basis basis)
     tmp.x = vec.x * basis.v.x + vec.y * basis.v.y + vec.z * basis.v.z;
     tmp.y = vec.x * basis.u.x + vec.y * basis.u.y + vec.z * basis.u.z;
     tmp.z = vec.x * basis.w.x + vec.y * basis.w.y + vec.z * basis.w.z;
-    return tmp;
+    return (tmp);
 }
 
 cl_float3 	mapping_plane(cl_float3 t, t_object *obj)
@@ -61,8 +61,7 @@ cl_float3 	mapping_plane(cl_float3 t, t_object *obj)
 
 cl_float3		mapping_triangle(cl_float3 t, t_object *obj)
 {
-	cl_float3
- p;
+	cl_float3 p;
 	t_triangle *lol;
 
 	lol = obj->data;
@@ -124,7 +123,7 @@ cl_float3		mapping_cylinder(cl_float3 t, t_object *obj)
 	p.y = (-t.y);
 	p.z = 0;
 	return (p);
-	}
+}
 
 cl_float3		normalize(cl_float3 vec)
 {

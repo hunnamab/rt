@@ -6,14 +6,15 @@
 /*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/08 16:32:50 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/08 16:32:52 by hunnamab         ###   ########.fr       */
+/*   Updated: 2021/02/11 13:59:39 by hunnamab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef KERNEL_H
 # define KERNEL_H
 
-enum object_type {
+enum 				object_type 
+{
 	SPHERE,
 	CONE,
 	TRIANGLE,
@@ -26,7 +27,8 @@ enum object_type {
 	TORUS
 };
 
-enum light_type{
+enum 				light_type
+{
 	POINT,
 	AMBIENT,
 	DIRECTIONAL

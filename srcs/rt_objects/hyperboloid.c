@@ -1,5 +1,16 @@
-#include "rt.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   hyperboloid.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/02/11 13:45:13 by hunnamab          #+#    #+#             */
+/*   Updated: 2021/02/11 13:51:03 by hunnamab         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include "rt.h"
 
 void	one_argument_hyperboloid(char **description, t_scene *scene, int *snmi)
 {
@@ -106,7 +117,7 @@ t_object    *new_hyperboloid(cl_float3 *cen_buf, float *specular, t_color color,
 	return (new_object);
 }
 
-void        intersect_ray_hyperboloid(t_scene *scene, int index)
+void        intersect_ray_hyperboloid(t_scene *scene, int index, int is_refractive)
 {
     size_t global = WID * HEI;
 	size_t local;
