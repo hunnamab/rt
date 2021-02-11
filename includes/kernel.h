@@ -6,7 +6,7 @@
 /*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/08 16:32:50 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/11 13:59:39 by hunnamab         ###   ########.fr       */
+/*   Updated: 2021/02/11 14:32:41 by hunnamab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ typedef	struct		s_material
 	float			specular;
 	float			reflection;
 	float			refraction;
+	float			transparency;
 }					t_material;
 
 typedef struct		s_sphere
@@ -152,9 +153,13 @@ typedef	union		primitive
 
 typedef	struct		 s_cutting_surface
 {
-	t_primitive		primitive;
+	float3			param1;
+	float3			param2;
 	int				type;
+	int				object;
+	int				is_local;
 	int				is_negative;
+	float			param3;
 }					t_cutting_surface;
 
 typedef struct		s_object3d_d
@@ -167,8 +172,10 @@ typedef struct		s_object3d_d
 	float			roughness;
 	float			refraction;
 	float			reflection;
+	float			transparency;
 	int				color_disrupt;
 	int				type;
+	int				t_scale;
 	int				texture_id;
 	int				texture_size;
 	int				texture_width;

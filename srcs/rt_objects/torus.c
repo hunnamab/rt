@@ -6,7 +6,7 @@
 /*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 13:45:29 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/11 13:45:30 by hunnamab         ###   ########.fr       */
+/*   Updated: 2021/02/11 14:27:29 by hunnamab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ t_object    *new_torus(cl_float3 *cen_buf, t_color color, float *specular, int s
 	new_object->specular = specular[2];
 	new_object->reflection = specular[3];
 	new_object->refraction = specular[4];
+	new_object->transparency = 0.0;
 	new_object->color = color;
 	new_object->text = NULL;
 	new_object->normal_text = NULL;

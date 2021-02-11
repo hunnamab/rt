@@ -6,7 +6,7 @@
 /*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 13:45:06 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/11 13:45:08 by hunnamab         ###   ########.fr       */
+/*   Updated: 2021/02/11 14:28:11 by hunnamab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ t_object    *new_ellipsoid(cl_float3 *buf, t_color color, float *specular, int s
 	new_object->specular = specular[3];
 	new_object->reflection = specular[4];
 	new_object->refraction = specular[5];
+	new_object->transparency = 0.0;
 	new_object->color = color;
 	new_object->cs_nmb = 0;
 	new_object->surface_id = surface_id;

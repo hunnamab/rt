@@ -6,7 +6,7 @@
 /*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/08 16:33:03 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/10 20:03:39 by hunnamab         ###   ########.fr       */
+/*   Updated: 2021/02/11 14:20:09 by hunnamab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,7 @@ typedef	struct			s_material
 	float				specular;
 	float				reflection;
 	float				refraction;
+	float				transparency;
 }						t_material;
 
 typedef	struct			s_ellipsoid
@@ -218,30 +219,30 @@ typedef struct			s_butt
 	SDL_Texture			*text;
 }						t_butt;
 
-typedef	struct		s_ui
+typedef	struct			s_ui
 {
-	t_butt 			save_png;
-	t_butt			ambiance;
-	t_butt			am_plus;
-	t_butt			am_minus;
-	t_butt			modes;
-	t_butt			normal;
-	t_butt			deepth;
-	t_butt			raycast;
-	t_butt			def;
-	t_butt			back;
-	t_butt			left;
-	t_butt			right;
-	t_butt			filters;
-	t_butt			sepia;
-	t_butt			gauss;
-	t_butt			grey;
-	t_butt			fault;
-	t_butt			negative;
-	t_butt			magic;
-	int				filt;
-	int 			i;
-}					t_ui;
+	t_butt 				save_png;
+	t_butt				ambiance;
+	t_butt				am_plus;
+	t_butt				am_minus;
+	t_butt				modes;
+	t_butt				normal;
+	t_butt				deepth;
+	t_butt				raycast;
+	t_butt				def;
+	t_butt				back;
+	t_butt				left;
+	t_butt				right;
+	t_butt				filters;
+	t_butt				sepia;
+	t_butt				gauss;
+	t_butt				grey;
+	t_butt				fault;
+	t_butt				negative;
+	t_butt				magic;
+	int					filt;
+	int 				i;
+}						t_ui;
 
 typedef	union			primitive
 {
@@ -277,6 +278,7 @@ typedef	struct			s_object3d
 	float				specular;
 	float				reflection;
 	float				refraction;
+	float				transparency;
 	t_texture			*text;
 	t_texture			*normal_text;
 	t_basis				basis;
@@ -302,6 +304,7 @@ typedef struct			s_object3d_d
 	cl_float			roughness;
 	cl_float			refraction;
 	cl_float			reflection;
+	cl_float			transparency;
 	cl_int				color_disrupt;
 	cl_int				type;
 	cl_int				t_scale;

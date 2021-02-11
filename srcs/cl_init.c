@@ -6,7 +6,7 @@
 /*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 13:48:55 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/11 13:48:57 by hunnamab         ###   ########.fr       */
+/*   Updated: 2021/02/11 14:29:02 by hunnamab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,7 @@ void	device_objects_init(t_scene *scene)
 		buf[i].color_disrupt = 0;
 		buf[i].refraction = scene->objs[i]->refraction;
 		buf[i].reflection = scene->objs[i]->reflection;
+		buf[i].transparency = scene->objs[i]->transparency;
 		if (scene->objs[i]->t_scale)
 			buf[i].t_scale = scene->objs[i]->t_scale;
 		else

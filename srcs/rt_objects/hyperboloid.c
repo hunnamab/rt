@@ -6,7 +6,7 @@
 /*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 13:45:13 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/11 13:51:03 by hunnamab         ###   ########.fr       */
+/*   Updated: 2021/02/11 14:28:06 by hunnamab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ t_object    *new_hyperboloid(cl_float3 *cen_buf, float *specular, t_color color,
 	new_object->specular = specular[3];
 	new_object->reflection = specular[4];
 	new_object->refraction = specular[5];
+	new_object->transparency = 0.0;
 	new_object->color = color;
 	new_object->cs_nmb = 0;
 	new_object->surface_id = surface_id;

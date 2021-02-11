@@ -6,7 +6,7 @@
 /*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 14:22:24 by pmetron           #+#    #+#             */
-/*   Updated: 2021/02/10 20:43:38 by hunnamab         ###   ########.fr       */
+/*   Updated: 2021/02/11 14:27:49 by hunnamab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ t_object    *new_plane(cl_float3 *poi_nor, float *specular, t_color color)
     new_object->specular = specular[0];
     new_object->reflection = specular[1];
 	new_object->refraction = specular[2];
+	new_object->transparency = 0.0;
 	new_object->t_scale = specular[3];
     new_object->cs_nmb = 0;
 	new_object->surface_id = specular[4];;
