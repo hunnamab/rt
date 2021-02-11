@@ -6,7 +6,7 @@
 /*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 11:58:35 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/09 23:03:48 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/11 22:12:46 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ static void	one_light(char **description, t_scene *scene, int * snmi)
 	double		intensity;
 	char		*type;
 	int			new_type;
+	
 	type = get_light_type(description[1]); // printf("light type = |%s|\n", type);
 	init_norme(pos_dir, &intensity);
 	new_type = AMBIENT;
@@ -81,8 +82,8 @@ static t_light		many_lights(char **description, int *snmi, int i, char *type)
 	cl_float3	pos_dir[2];
 	double		intensity;
 	int 		new_type;
+	
 	init_norme(pos_dir, &intensity);
-	printf("TYYPEPEPEPEPEEP %s\n", type);
 	new_type = AMBIENT;
 	if (ft_strequ(type, "\"point\","))
 	{

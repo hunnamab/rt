@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   objects_parameters.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:22 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/11 13:48:02 by hunnamab         ###   ########.fr       */
+/*   Updated: 2021/02/11 22:16:39 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ void	get_sphere(char **description, t_scene *scene, int *snmi)
 			if (description[i][2] == '{')
 			{
 				sphere = multiple_spheres(description, i);
-				sphere->text = tex_new_bmp(get_file(description[i + 10]));
-				sphere->normal_text = tex_new_bmp(get_file(description[i + 11]));
+				sphere->text = tex_new_bmp(get_file(description[i + 11]));
+				sphere->normal_text = tex_new_bmp(get_file(description[i + 12]));
 				scene->objs[snmi[1]] = sphere;
 				snmi[1]++;
-				i += 13;
+				i += 14;
 			}
 		}
 	}
@@ -52,11 +52,11 @@ void	get_cylinder(char **description, t_scene *scene, int *snmi)
 			if (description[i][2] == '{')
 			{
 				cylinder = multiple_cylinders(description, i);
-				cylinder->text = tex_new_bmp(get_file(description[i + 11]));
-				cylinder->normal_text = tex_new_bmp(get_file(description[i + 12]));
+				cylinder->text = tex_new_bmp(get_file(description[i + 12]));
+				cylinder->normal_text = tex_new_bmp(get_file(description[i + 13]));
 				scene->objs[snmi[1]] = cylinder;
 				snmi[1]++;
-				i += 14;
+				i += 15;
 			}
 		}
 	}
@@ -79,11 +79,11 @@ void	get_cone(char **description, t_scene *scene, int *snmi)
 			if (description[i][2] == '{')
 			{
 				cone = multiple_cones(description, i);
-				cone->text = tex_new_bmp(get_file(description[i + 11]));
-				cone->normal_text = tex_new_bmp(get_file(description[i + 12]));
+				cone->text = tex_new_bmp(get_file(description[i + 12]));
+				cone->normal_text = tex_new_bmp(get_file(description[i + 13]));
 				scene->objs[snmi[1]] = cone;
 				snmi[1]++;
-				i += 14;
+				i += 15;
 			}
 		}
 	}
@@ -106,11 +106,11 @@ void	get_triangle(char **description, float specular, t_scene *scene, int *snmi)
 			if (description[i][2] == '{')
 			{
 				triangle = multiple_triangles(description, i, specular);
-				triangle->text = tex_new_bmp(get_file(description[i + 11]));
-				triangle->normal_text = tex_new_bmp(get_file(description[i + 12]));
+				triangle->text = tex_new_bmp(get_file(description[i + 12]));
+				triangle->normal_text = tex_new_bmp(get_file(description[i + 13]));
 				scene->objs[snmi[1]] = triangle;
 				snmi[1]++;
-				i += 14;
+				i += 15;
 			}
 		}
 	}
@@ -132,11 +132,11 @@ void    get_plane(char **description,  t_scene *scene, int *snmi)
             if (description[i][2] == '{')
             {
                 plane = multiple_planes(description, i);
-                plane->text = tex_new_bmp(get_file(description[i + 10]));
-				plane->normal_text = tex_new_bmp(get_file(description[i + 11]));
+                plane->text = tex_new_bmp(get_file(description[i + 11]));
+				plane->normal_text = tex_new_bmp(get_file(description[i + 12]));
                 scene->objs[snmi[1]] = plane;
                 snmi[1]++;
-                i += 13;
+                i += 14;
             }
         }
     }

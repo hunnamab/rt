@@ -8,8 +8,9 @@
 		"specular": 60,
 		"reflection": 0.0,
 		"refraction": 0,
+		"transparency": 0,
 		"t_scale": 11,
-		"surface_id": 0,
+		"surface_id": 1,
 		"texture": "textures/test2.png",
 		"normal_map": "textures/test.png"
 	},
@@ -22,6 +23,7 @@
 			"specular": 50,
 			"reflection": 0.0,
 			"refraction": 0,
+			"transparency": 0,
 			"t_scale": 20,
 			"surface_id": 0,
 			"texture": "textures/test2.png",
@@ -35,10 +37,40 @@
 			"specular": 100,
 			"reflection": 0.0,
 			"refraction": 0,
+			"transparency": 0,
 			"t_scale": 10,
-			"surface_id": 0,
+			"surface_id": 2,
 			"texture": "textures/test2.png",
 			"normal_map": "textures/test.png"
+		}
+	],
+	"surface": [
+		{
+			"object": 1,
+			"type": "plane",
+			"is_negative": 0,
+			"is_local": 0,
+			"param_one": [0, 1, 0],
+			"param_two": [0, 0, 0],
+			"param_three": 5
+		},
+		{
+			"object": 1,
+			"type": "plane",
+			"is_negative": 0,
+			"is_local": 0,
+			"param_one": [0, 1, 0],
+			"param_two": [0, 0, 0],
+			"param_three": 5
+		}, 
+		{
+			"object": 2,
+			"type": "plane",
+			"is_negative": 0,
+			"is_local": 0,
+			"param_one": [0, 1, 0],
+			"param_two": [-50, 0, 0],
+			"param_three": 5
 		}
 	],
 	"light": [

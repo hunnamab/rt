@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scenes_reader.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:43 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/11 13:48:25 by hunnamab         ###   ########.fr       */
+/*   Updated: 2021/02/11 22:10:29 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ static void	scene_objects(int *snmi, t_scene *scene, char *buf)
 		get_surface(obj_desc, scene, snmi);
 	else if ((ft_strequ(obj_name, "\t\"light\":")) && snmi[2] < scene->light_nmb)
 		get_light(obj_desc, scene, snmi);
+	else
+		output_error(6);
 	ft_memdel((void **)&obj_name);
 	ft_memdel_float((void **)obj_desc);
 	if (buf[snmi[3] + 1] == '{')
@@ -125,6 +127,7 @@ static void associate_obj_with_srf(t_scene *scene, int id, int i)
 			ft_memcpy(&scene->objs[i]->cutting_surfaces[j], &scene->srfs[n], sizeof(t_cutting_surface));
 			scene->objs[i]->cs_nmb++;
 			j++;
+			printf("CS_NMB %s\n", scene->objs[i]->tag);
 		}
 		n++;
 	}

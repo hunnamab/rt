@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   torus.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 13:45:29 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/11 14:27:29 by hunnamab         ###   ########.fr       */
+/*   Updated: 2021/02/11 21:34:07 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	one_argument_torus(char **description, t_scene *scene, int *snmi)
 {
 	t_object	*torus;
 	cl_float3	cen_buf[3];
-	float		specular[5];
+	float		specular[6];
 	t_color		color;
 	int surface_id;
 
@@ -29,9 +29,10 @@ void	one_argument_torus(char **description, t_scene *scene, int *snmi)
 	specular[2] = ftoi(get_coordinates(description[7]));
 	specular[3] = ftoi(get_coordinates(description[8]));
 	specular[4] = ftoi(get_coordinates(description[9]));
-	surface_id = ftoi(get_coordinates(description[10]));
+	specular[5] = ftoi(get_coordinates(description[10]));
+	surface_id = ftoi(get_coordinates(description[11]));
 	torus = new_torus(cen_buf, color, specular, surface_id);
-	torus->text = tex_new_bmp(get_file(description[11]));
+	torus->text = tex_new_bmp(get_file(description[12]));
 	scene->objs[snmi[1]] = torus;
 	snmi[1]++;
 }
@@ -40,7 +41,7 @@ t_object 	*multiple_torus(char **description, int i)
 {
 	t_object	*torus;
 	cl_float3	cen_buf[3];
-	float		specular[5];
+	float		specular[6];
 	t_color		color;
 	int surface_id;
 
@@ -53,7 +54,8 @@ t_object 	*multiple_torus(char **description, int i)
 	specular[2] = ftoi(get_coordinates(description[i + 7]));
 	specular[3] = ftoi(get_coordinates(description[i + 8]));
 	specular[4] = ftoi(get_coordinates(description[i + 9]));
-	surface_id = ftoi(get_coordinates(description[i + 10]));
+	specular[5] = ftoi(get_coordinates(description[i + 10]));
+	surface_id = ftoi(get_coordinates(description[i + 11]));
 	torus = new_torus(cen_buf, color, specular, surface_id);
 	return (torus);
 }
@@ -73,10 +75,10 @@ void	get_torus(char **description, t_scene *scene, int *snmi)
 			if (description[i][2] == '{')
 			{
 				torus = multiple_torus(description, i);
-				torus->text = tex_new_bmp(get_file(description[i + 11]));
+				torus->text = tex_new_bmp(get_file(description[i + 12]));
 				scene->objs[snmi[1]] = torus;
 				snmi[1]++;
-				i += 13;
+				i += 14;
 			}
 		}
 	}
@@ -104,7 +106,7 @@ t_object    *new_torus(cl_float3 *cen_buf, t_color color, float *specular, int s
 	new_object->specular = specular[2];
 	new_object->reflection = specular[3];
 	new_object->refraction = specular[4];
-	new_object->transparency = 0.0;
+	new_object->transparency = specular[5];
 	new_object->color = color;
 	new_object->text = NULL;
 	new_object->normal_text = NULL;

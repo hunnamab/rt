@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hyperboloid.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 13:45:13 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/11 14:28:06 by hunnamab         ###   ########.fr       */
+/*   Updated: 2021/02/11 21:29:47 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	one_argument_hyperboloid(char **description, t_scene *scene, int *snmi)
 {
 	t_object	*hyperboloid;
 	cl_float3	cen_buf[2];
-	float		specular[6];
+	float		specular[7];
 	t_color		color;
 	int			surface_id;
 
@@ -29,9 +29,10 @@ void	one_argument_hyperboloid(char **description, t_scene *scene, int *snmi)
 	specular[3] = ftoi(get_coordinates(description[7]));
 	specular[4] = ftoi(get_coordinates(description[8]));
 	specular[5] = ftoi(get_coordinates(description[9]));
-	surface_id = ftoi(get_coordinates(description[10]));
+	specular[6] = ftoi(get_coordinates(description[10]));
+	surface_id = ftoi(get_coordinates(description[11]));
 	hyperboloid = new_hyperboloid(cen_buf, specular, color, surface_id);
-	hyperboloid->text = tex_new_bmp(get_file(description[11]));
+	hyperboloid->text = tex_new_bmp(get_file(description[12]));
 	scene->objs[snmi[1]] = hyperboloid;
 	snmi[1]++;
 }
@@ -40,7 +41,7 @@ t_object 	*multiple_hyperboloids(char **description, int i)
 {
 	t_object	*hyperboloid;
 	cl_float3	cen_buf[2];
-	float		specular[6];
+	float		specular[7];
 	t_color 	color;
 	int 		surface_id;
 
@@ -53,7 +54,8 @@ t_object 	*multiple_hyperboloids(char **description, int i)
 	specular[3] = ftoi(get_coordinates(description[i + 7]));
 	specular[4] = ftoi(get_coordinates(description[i + 8]));
 	specular[5] = ftoi(get_coordinates(description[i + 9]));
-	surface_id = ftoi(get_coordinates(description[i + 10]));
+	specular[6] = ftoi(get_coordinates(description[i + 10]));
+	surface_id = ftoi(get_coordinates(description[i + 11]));
 	hyperboloid = new_hyperboloid(cen_buf, specular, color, surface_id);
 	return (hyperboloid);
 }
@@ -71,10 +73,10 @@ void	get_hyperboloid(char **description, t_scene *scene, int *snmi)
 			if (description[i][2] == '{')
 			{
 				hyperboloid = multiple_hyperboloids(description, i);
-				hyperboloid->text = tex_new_bmp(get_file(description[i + 11]));
+				hyperboloid->text = tex_new_bmp(get_file(description[i + 12]));
 				scene->objs[snmi[1]] = hyperboloid;
 				snmi[1]++;
-				i += 13;
+				i += 14;
 			}
 		}
 	}
@@ -102,7 +104,7 @@ t_object    *new_hyperboloid(cl_float3 *cen_buf, float *specular, t_color color,
 	new_object->specular = specular[3];
 	new_object->reflection = specular[4];
 	new_object->refraction = specular[5];
-	new_object->transparency = 0.0;
+	new_object->transparency = specular[6];
 	new_object->color = color;
 	new_object->cs_nmb = 0;
 	new_object->surface_id = surface_id;

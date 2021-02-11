@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sphere.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 22:45:20 by pmetron           #+#    #+#             */
-/*   Updated: 2021/02/11 14:27:38 by hunnamab         ###   ########.fr       */
+/*   Updated: 2021/02/11 21:32:58 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,11 @@ t_object	*new_sphere(cl_float3 center, float *rad_spec, t_color color, \
 	new_object->specular = rad_spec[1];
 	new_object->reflection = rad_spec[2];
 	new_object->refraction = rad_spec[3];
-	new_object->transparency = 0.0;
-	new_object->t_scale = rad_spec[4];
+	new_object->transparency = rad_spec[4];
+	new_object->t_scale = rad_spec[5];
 	new_object->color = color;
 	new_object->cs_nmb = 0;
-	new_object->surface_id = rad_spec[5];
+	new_object->surface_id = rad_spec[6];
 	new_object->text = NULL;
 	new_object->normal_text = NULL;
 	new_object->data = (void *)new_sphere;
@@ -151,7 +151,7 @@ void	one_argument_sphere(char **description, t_scene *scene, int *snmi)
 	t_object	*sphere;
 	cl_float3	cen_buf[2];
 	float		rotation[3];
-	float		rad_spec[6];
+	float		rad_spec[7];
 	t_color		color;
 
 	cen_buf[0] = get_points(description[1]);
@@ -166,9 +166,10 @@ void	one_argument_sphere(char **description, t_scene *scene, int *snmi)
 	rad_spec[3] = ftoi(get_coordinates(description[7]));
 	rad_spec[4] = ftoi(get_coordinates(description[8]));
 	rad_spec[5] = ftoi(get_coordinates(description[9]));
+	rad_spec[6] = ftoi(get_coordinates(description[10]));
 	sphere = new_sphere(cen_buf[0], rad_spec, color, rotation);
-	sphere->text = tex_new_bmp(get_file(description[10]));
-	sphere->normal_text = tex_new_bmp(get_file(description[11]));
+	sphere->text = tex_new_bmp(get_file(description[11]));
+	sphere->normal_text = tex_new_bmp(get_file(description[12]));
 	scene->objs[snmi[1]] = sphere;
 	snmi[1]++;
 }
@@ -178,7 +179,7 @@ t_object 	*multiple_spheres(char **description, int i)
 	t_object	*sphere;
 	cl_float3	cen_buf[2];
 	float		rotation[3];
-	float		rad_spec[6];
+	float		rad_spec[7];
 	t_color 	color;
 	
 	cen_buf[0] = get_points(description[i + 1]);
@@ -193,6 +194,7 @@ t_object 	*multiple_spheres(char **description, int i)
 	rad_spec[3] = ftoi(get_coordinates(description[i + 7]));
 	rad_spec[4] = ftoi(get_coordinates(description[i + 8]));
 	rad_spec[5] = ftoi(get_coordinates(description[i + 9]));
+	rad_spec[6] = ftoi(get_coordinates(description[i + 10]));
 	sphere = new_sphere(cen_buf[0], rad_spec, color, rotation);
 	return (sphere);
 }

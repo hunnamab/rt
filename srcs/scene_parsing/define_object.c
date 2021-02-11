@@ -6,7 +6,7 @@
 /*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 13:54:29 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/07 20:33:40 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/11 22:13:04 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 
 void	get_parameters(char *name, char **description, t_scene *scene, int *snmi)
 {
-	t_object	*obj;
-
-	obj = NULL;
 	if (ft_strequ(name, "\t\"sphere\":"))
 		get_sphere(description, scene, snmi);
 	else if (ft_strequ(name, "\t\"triangle\":"))
@@ -47,7 +44,7 @@ void	one_argument_triangle(char **description, t_scene *scene, int *snmi, float 
 	cl_float3	vertex[3];
 	t_color		color;
 	cl_float3	buf;
-	float		rotation[7];
+	float		rotation[8];
 
 	vertex[0] = get_points(description[1]);
 	vertex[1] = get_points(description[2]);
@@ -62,9 +59,10 @@ void	one_argument_triangle(char **description, t_scene *scene, int *snmi, float 
 	rotation[4] = ftoi(get_coordinates(description[8]));
 	rotation[5] = ftoi(get_coordinates(description[9]));
 	rotation[6] = ftoi(get_coordinates(description[10]));
+	rotation[7] = ftoi(get_coordinates(description[11]));
 	triangle = new_triangle(vertex, specular, color, rotation);
-	triangle->text = tex_new_bmp(get_file(description[11]));
-	triangle->normal_text = tex_new_bmp(get_file(description[12]));
+	triangle->text = tex_new_bmp(get_file(description[12]));
+	triangle->normal_text = tex_new_bmp(get_file(description[13]));
 	scene->objs[snmi[1]] = triangle;
 	snmi[1]++;
 }
@@ -75,7 +73,7 @@ t_object 	*multiple_triangles(char **description, int i, float specular)
 	cl_float3	vertex[3];
 	t_color		color;
 	cl_float3	buf;
-	float		rotation[7];
+	float		rotation[8];
 	
 	vertex[0] = get_points(description[i + 1]);
 	vertex[1] = get_points(description[i + 2]);
@@ -90,6 +88,7 @@ t_object 	*multiple_triangles(char **description, int i, float specular)
 	rotation[4] = ftoi(get_coordinates(description[i + 8]));
 	rotation[5] = ftoi(get_coordinates(description[i + 9]));
 	rotation[6] = ftoi(get_coordinates(description[i + 10]));
+	rotation[7] = ftoi(get_coordinates(description[i + 11]));
 	triangle = new_triangle(vertex, specular, color, rotation);
 	return (triangle);
 }
