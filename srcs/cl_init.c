@@ -6,7 +6,7 @@
 /*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 13:48:55 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/11 14:29:02 by hunnamab         ###   ########.fr       */
+/*   Updated: 2021/02/12 14:01:34 by hunnamab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -462,6 +462,22 @@ int    cl_init(t_scene *scene)
 		printf("не собрана программа 1, error %d get_reflection_ray_cl\n", err);
 	ft_strdel(&get_reflection_ray_cl);
 	close(fd17);
+
+	int		ret18;
+	char	*get_fresnel_coeff_cl;
+	int fd18 = open("./kernels/get_fresnel_coeff_cl.cl", O_RDONLY);
+	get_fresnel_coeff_cl = protected_malloc(sizeof(char), 256000);
+	ret18 = read(fd18, get_fresnel_coeff_cl, 64000);
+	get_fresnel_coeff_cl[ret18] = '\0';
+	
+	if ((scene->cl_data.programs[17] = clCreateProgramWithSource(scene->cl_data.context, 1, (const char **)&get_fresnel_coeff_cl, NULL, &err)))
+		printf("cоздана программа get_fresnel_coeff_cl\n");
+	if ((clBuildProgram(scene->cl_data.programs[17], 0, NULL, "-I includes", NULL, &err)))
+		printf("собрана программа get_fresnel_coeff_cl\n");
+	if (!(scene->cl_data.kernels[17] = clCreateKernel(scene->cl_data.programs[17], "get_fresnel_coeff_cl", &err)))
+		printf("не собрана программа 1, error %d get_fresnel_coeff_cl\n", err);
+	ft_strdel(&get_fresnel_coeff_cl);
+	close(fd18);
 
 	//Создание буферов на гпу
 	scene->cl_data.scene.ray_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, NULL);

@@ -834,9 +834,16 @@ __kernel void get_frame_buf_cl(__global t_color *frame_buf, \
 		buf = reflection_color(frame_buf, ray_buf, intersection_buf, \
 										normal_buf, index_buf, material_buf, \
 										obj, light, light_nmb, i, obj_nmb, bounce_cnt, prev_material_buf);
-	frame_buf[i].red = frame_buf[i].red / 2 + buf.red / 2;
+/* 		frame_buf[i].red = 255;
+		frame_buf[i].green = 0;
+		frame_buf[i].blue = 0;
+		frame_buf[i].alpha = 255; */
+		frame_buf[i].red = frame_buf[i].red / 2 + buf.red / 2;
 		frame_buf[i].green = frame_buf[i].green / 2 + buf.green / 2;
 		frame_buf[i].blue = frame_buf[i].blue / 2 + buf.blue / 2;
+/* 		frame_buf[i].red = (1 - prev_material_buf[i].reflection) * buf.red + prev_material_buf[i].reflection * frame_buf[i].red;
+		frame_buf[i].green = (1 - prev_material_buf[i].reflection) * buf.green + prev_material_buf[i].reflection * frame_buf[i].green;
+		frame_buf[i].blue = (1 - prev_material_buf[i].reflection) * buf.blue + prev_material_buf[i].reflection * frame_buf[i].blue; */
 	}
 	else if (j != -1 && bounce_cnt > 0 && is_refractive)
 	{

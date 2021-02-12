@@ -77,11 +77,9 @@ __kernel void intersect_ray_sphere_cl(__global float3 *ray_arr, \
 		return ;
 	}
 	if (bounce_cnt > 0 || is_refractive)
-    	ray = camera_start[i] + ray_arr[i] * 0.001f;
-	else
-		ray = camera_start[i];
+    	camera_start[i] = camera_start[i] + ray_arr[i] * 0.00001f;
 	if ((bounce_cnt == 0 && !is_refractive) || (bounce_cnt == 0 && is_refractive && material_buf[i].refraction > 0.0) || material_buf[i].reflection > 0.0)
-		result = sphere_intersection(sphere, ray, ray_arr[i]);
+		result = sphere_intersection(sphere, camera_start[i], ray_arr[i]);
 	else
 		return ;
     if (result > 0.001 && result < depth_buf[i])

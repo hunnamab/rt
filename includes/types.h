@@ -6,7 +6,7 @@
 /*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/08 16:33:03 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/11 14:20:09 by hunnamab         ###   ########.fr       */
+/*   Updated: 2021/02/12 13:58:58 by hunnamab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,7 @@ typedef	struct			s_material
 	float				reflection;
 	float				refraction;
 	float				transparency;
+	float				kr; //fresnel
 }						t_material;
 
 typedef	struct			s_ellipsoid
@@ -357,6 +358,7 @@ struct					s_scene
 	int					mode; // 0 - default, 1 - normal, 2 - depth, 3 - flat_light
 	int					max_bounces;
 	int					bounce_cnt;
+	int					has_refraction;
 	void				(*init[4])(struct s_scene *);
 	void				(*draw[4])(t_sdl *, struct s_scene *);
 	void				(*filter[10])(t_filter_data *);

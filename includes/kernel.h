@@ -6,7 +6,7 @@
 /*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/08 16:32:50 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/11 14:32:41 by hunnamab         ###   ########.fr       */
+/*   Updated: 2021/02/12 13:58:34 by hunnamab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef	struct		s_material
 	float			reflection;
 	float			refraction;
 	float			transparency;
+	float			kr; //fresnel
 }					t_material;
 
 typedef struct		s_sphere

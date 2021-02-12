@@ -6,7 +6,7 @@
 /*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:38:29 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/10 21:02:29 by hunnamab         ###   ########.fr       */
+/*   Updated: 2021/02/12 13:48:33 by hunnamab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	get_closest_points(t_scene *scene, float t, int is_refractive)
 	int x = -1;
 	int i = 0;
 	x = -1;
-	if (is_refractive != 1)
+	if (is_refractive != 1 && scene->bounce_cnt == 0)
 	{
 		clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.index_buf, scene->cl_data.scene.exception_buf, 0, 0, sizeof(int) * global, 0, NULL, NULL);
 	}
@@ -52,6 +52,8 @@ void	get_closest_points(t_scene *scene, float t, int is_refractive)
 	clFinish(scene->cl_data.commands);
 	while (i < scene->obj_nmb)
 	{
+		if (scene->objs[i]->refraction > 0.0)
+			scene->has_refraction = 1;
 		scene->objs[i]->intersect(scene, i, is_refractive);
 		clFinish(scene->cl_data.commands);
 		i++;

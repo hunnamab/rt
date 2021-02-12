@@ -6,7 +6,7 @@
 /*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 00:18:09 by npetrell          #+#    #+#             */
-/*   Updated: 2021/02/11 14:58:41 by hunnamab         ###   ########.fr       */
+/*   Updated: 2021/02/12 14:07:40 by hunnamab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	get_refraction_ray(t_scene *scene)
 	get_closest_points(scene, 0, 1);
 	get_intersection_buf(scene);
 	get_normal_buf(scene);
-	//clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.material_buf, scene->cl_data.scene.prev_material_buf, 0, 0, sizeof(t_material) * WID * HEI, 0, NULL, NULL);
+	clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.material_buf, scene->cl_data.scene.prev_material_buf, 0, 0, sizeof(t_material) * WID * HEI, 0, NULL, NULL);
 	get_material_buf(scene);
 	get_frame_buf(scene, 1);
 }
@@ -52,6 +52,19 @@ void	get_reflection_ray(t_scene *scene, cl_mem swap_pointer)
 	clFinish(scene->cl_data.commands);
 }
 
+void	get_fresnel_coeff(t_scene *scene)
+{
+	size_t global = WID * HEI;
+	size_t local;
+	
+	clSetKernelArg(scene->cl_data.kernels[17], 0, sizeof(cl_mem), &scene->cl_data.scene.ray_buf);
+	clSetKernelArg(scene->cl_data.kernels[17], 1, sizeof(cl_mem), &scene->cl_data.scene.normal_buf);
+	clSetKernelArg(scene->cl_data.kernels[17], 2, sizeof(cl_mem), &scene->cl_data.scene.material_buf);
+	clGetKernelWorkGroupInfo(scene->cl_data.kernels[17], scene->cl_data.device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
+	clEnqueueNDRangeKernel(scene->cl_data.commands, scene->cl_data.kernels[17], 1, NULL, &global, &local, 0, NULL, NULL);
+	clFinish(scene->cl_data.commands);
+}
+
 void	draw_scene(t_sdl *sdl, t_scene *scene)
 {
 	register int		x;
@@ -67,6 +80,7 @@ void	draw_scene(t_sdl *sdl, t_scene *scene)
 	i = 0;
 	scene->bounce_cnt = 0;
 	scene->max_bounces = 1;
+	scene->has_refraction = 0;
 	size_t local;
 	get_viewport(scene);
 	get_rays_arr(scene);
@@ -74,7 +88,7 @@ void	draw_scene(t_sdl *sdl, t_scene *scene)
 	while (++x < WID * HEI)
 		transform(&scene->ray_buf[x], matrix, 1);
 	matr_free(matrix, 4);
-	clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.ray_buf, CL_FALSE, 0, sizeof(cl_float3) * WID * HEI, scene->ray_buf, 0, NULL, NULL);
+	clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.ray_buf, CL_FALSE, 0, sizeof(cl_float3) * global, scene->ray_buf, 0, NULL, NULL);
 	while (j < WID * HEI)
 	{
 		scene->intersection_buf[j] = scene->camera.position;
@@ -86,16 +100,22 @@ void	draw_scene(t_sdl *sdl, t_scene *scene)
 		get_closest_points(scene, 0, 0);
 		get_intersection_buf(scene);
 		get_normal_buf(scene);
-		clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.material_buf, scene->cl_data.scene.prev_material_buf, 0, 0, sizeof(t_material) * WID * HEI, 0, NULL, NULL);
-		clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.index_buf, scene->cl_data.scene.orig_index_buf, 0, 0, sizeof(int) * WID * HEI, 0, NULL, NULL);
+		clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.material_buf, scene->cl_data.scene.prev_material_buf, 0, 0, sizeof(t_material) * global, 0, NULL, NULL);
+		clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.index_buf, scene->cl_data.scene.orig_index_buf, 0, 0, sizeof(int) * global, 0, NULL, NULL);
 		get_material_buf(scene);
-		clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.normal_buf, scene->cl_data.scene.copy_normal_buf, 0, 0, sizeof(cl_float3) * WID * HEI, 0, NULL, NULL);
-		clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.intersection_buf, scene->cl_data.scene.copy_intersec_buf, 0, 0, sizeof(cl_float3) * WID * HEI, 0, NULL, NULL);
+		clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.normal_buf, scene->cl_data.scene.copy_normal_buf, 0, 0, sizeof(cl_float3) * global, 0, NULL, NULL);
+		clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.intersection_buf, scene->cl_data.scene.copy_intersec_buf, 0, 0, sizeof(cl_float3) * global, 0, NULL, NULL);
 		swap_pointer = scene->cl_data.scene.ray_buf;
 		get_frame_buf(scene, 0);
-		get_refraction_ray(scene);
 		if (scene->max_bounces > 1)
+		{
+			if (scene->has_refraction)
+			{
+				get_fresnel_coeff(scene);
+				get_refraction_ray(scene);
+			}
 			get_reflection_ray(scene, swap_pointer);
+		}
 		clFinish(scene->cl_data.commands);
 		scene->bounce_cnt++;
 	}
