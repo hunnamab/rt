@@ -6,61 +6,11 @@
 /*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/06 13:38:13 by pmetron           #+#    #+#             */
-/*   Updated: 2021/02/12 21:43:13 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/12 21:50:06 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
-
-void	camera_left(t_scene *scene)
-{
-	scene->camera.rotation[1] -= 0.1;
-}
-
-void	camera_right(t_scene *scene)
-{
-	scene->camera.rotation[1] += 0.1;
-}
-
-void	camera_down(t_scene *scene)
-{
-	scene->camera.rotation[0] += 0.1;
-}
-
-void	camera_up(t_scene *scene)
-{
-	scene->camera.rotation[0] -= 0.1;
-}
-
-void	camera_forward(t_scene *scene)
-{
-	scene->camera.position.z -= 0.4;
-}
-
-void	camera_backward(t_scene *scene)
-{
-	scene->camera.position.z += 0.4;
-}
-
-void	camera_move_right(t_scene *scene)
-{
-	scene->camera.position.x -= 0.4;
-}
-
-void	camera_move_left(t_scene *scene)
-{
-	scene->camera.position.x += 0.4;
-}
-
-void	camera_move_up(t_scene *scene)
-{
-	scene->camera.position.y -= 0.4;
-}
-
-void	camera_move_down(t_scene *scene)
-{
-	scene->camera.position.y += 0.4;
-}
 
 uint8_t	*copy_frame_buf(t_scene *scene, uint8_t *frame_buf)
 {

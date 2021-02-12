@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:34 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/11 13:59:06 by hunnamab         ###   ########.fr       */
+/*   Updated: 2021/02/12 21:52:29 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,5 +220,21 @@ t_cutting_surface	new_srf(cl_float3 *param, int *obj_neg, cl_float param3, char 
 void				one_srf(char **description, t_scene *scene, int * snmi);
 t_cutting_surface	many_srfs(char **description, int i);
 void				get_surface(char **description, t_scene *scene, int *snmi);
+void				init_music();
+void				draw_ui(SDL_Renderer *renderer, t_ui *rt_ui);
+void				init_ui(t_sdl *sdl, t_scene *scene);
+void				click(t_sdl *sdl, t_scene *scene);
+void				screen_png(t_scene *scene);
+void				camera_left(t_scene *scene);
+void				camera_right(t_scene *scene);
+void				camera_up(t_scene *scene);
+void				camera_down(t_scene *scene);
+void				camera_forward(t_scene *scene);
+void				camera_backward(t_scene *scene);
+void				camera_move_right(t_scene *scene);
+void				camera_move_left(t_scene *scene);
+void				camera_move_up(t_scene *scene);
+void				camera_move_down(t_scene *scene);
+
 
 #endif
