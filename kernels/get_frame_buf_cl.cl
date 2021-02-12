@@ -853,3 +853,26 @@ __kernel void get_frame_buf_cl(__global t_color *frame_buf, \
 		frame_buf[i].alpha = 255;
 	}
 }
+
+/* frame_buf[i].red = frame_buf[i].red;
+		frame_buf[i].blue = frame_buf[i].blue;
+		frame_buf[i].green = frame_buf[i].green; */
+		//float check = refl_buf[i].red * material_buf[i].kr + refr_buf[i].red * (1.0 - material_buf[i].kr);
+/* 		frame_buf[i].red = check > 255 ? 255 : check;
+		check = refl_buf[i].green * material_buf[i].kr + refr_buf[i].green * (1.0 - material_buf[i].kr);
+		frame_buf[i].green = check > 255 ? 255 : check;
+		check = refl_buf[i].blue * material_buf[i].kr + refr_buf[i].blue * (1.0 - material_buf[i].kr);
+		frame_buf[i].blue = check > 255 ? 255 : check; */
+		/* if (obj[orig_index_buf[i]].refraction > 0.0f)
+		{
+			printf("asldk");
+			/* frame_buf[i].red = refl_buf[i].red;
+			frame_buf[i].blue = refl_buf[i].blue;
+			frame_buf[i].green = refl_buf[i].green;
+		} */
+		/* check = color.red * 0.2 * frame_buf[i].red;
+		frame_buf[i].red = check > 255 ? 255 : check;
+		check =	color.green * 0.2 * frame_buf[i].green;
+		frame_buf[i].green = check > 255 ? 255 : check;
+		check =	color.blue * 0.2 * frame_buf[i].blue;
+		frame_buf[i].blue = check > 255 ? 255 : check; */
