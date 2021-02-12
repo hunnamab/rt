@@ -6,7 +6,7 @@
 /*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/08 16:33:03 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/12 13:58:58 by hunnamab         ###   ########.fr       */
+/*   Updated: 2021/02/12 16:30:10 by hunnamab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ typedef struct			s_scene_device
 	cl_mem				material_buf;
 	cl_mem				prev_material_buf;
 	cl_mem				frame_buf;
+	cl_mem				frame_buf_refl;
+	cl_mem				frame_buf_refr;
 	cl_mem				obj;
 	cl_mem				light;
 	cl_mem				textures;

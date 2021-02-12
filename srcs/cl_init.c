@@ -6,7 +6,7 @@
 /*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 13:48:55 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/12 14:01:34 by hunnamab         ###   ########.fr       */
+/*   Updated: 2021/02/12 16:32:37 by hunnamab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -483,14 +483,15 @@ int    cl_init(t_scene *scene)
 	scene->cl_data.scene.ray_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, NULL);
 	scene->cl_data.scene.viewport = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, NULL);
 	scene->cl_data.scene.intersection_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, NULL);
-	scene->cl_data.scene.copy_intersec_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, NULL);
+	//scene->cl_data.scene.copy_intersec_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, NULL);
 	scene->cl_data.scene.index_buf = clCreateBuffer(scene->cl_data.context,  0,  sizeof(int) * count, NULL, NULL);
-	scene->cl_data.scene.orig_index_buf = clCreateBuffer(scene->cl_data.context,  0,  sizeof(int) * count, NULL, NULL);
+	//scene->cl_data.scene.orig_index_buf = clCreateBuffer(scene->cl_data.context,  0,  sizeof(int) * count, NULL, NULL);
 	scene->cl_data.scene.exception_buf = clCreateBuffer(scene->cl_data.context,  0,  sizeof(int) * count, NULL, NULL);
 	scene->cl_data.scene.depth_buf = clCreateBuffer(scene->cl_data.context,  0,  sizeof(float) * count, NULL, NULL);
 	scene->cl_data.scene.normal_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, NULL);
-	scene->cl_data.scene.copy_normal_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, NULL);
 	scene->cl_data.scene.frame_buf = clCreateBuffer(scene->cl_data.context, CL_MEM_READ_WRITE, sizeof(t_color) * count, NULL, NULL);
+	scene->cl_data.scene.frame_buf_refl = clCreateBuffer(scene->cl_data.context, CL_MEM_READ_WRITE, sizeof(t_color) * count, NULL, NULL);
+	scene->cl_data.scene.frame_buf_refr = clCreateBuffer(scene->cl_data.context, CL_MEM_READ_WRITE, sizeof(t_color) * count, NULL, NULL);
 	scene->cl_data.scene.light = clCreateBuffer(scene->cl_data.context, CL_MEM_READ_ONLY |
 		CL_MEM_HOST_WRITE_ONLY | CL_MEM_COPY_HOST_PTR, sizeof(t_light) * scene->light_nmb, scene->light, NULL);
 	scene->cl_data.scene.material_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(t_material) * count, NULL, NULL);

@@ -4,7 +4,7 @@ float3 refract(float3 I, float3 N, float refr)
 {
 	float3 Nrefr = N;
 	float NdotI = dot(Nrefr, I);
-	float etai = 1;
+	float etai = 1.0;
 	float etat = refr;
 	float swap;
 	if (NdotI < 0)

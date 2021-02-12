@@ -6,7 +6,7 @@
 /*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 00:18:09 by npetrell          #+#    #+#             */
-/*   Updated: 2021/02/12 14:07:40 by hunnamab         ###   ########.fr       */
+/*   Updated: 2021/02/12 16:41:17 by hunnamab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,16 +101,17 @@ void	draw_scene(t_sdl *sdl, t_scene *scene)
 		get_intersection_buf(scene);
 		get_normal_buf(scene);
 		clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.material_buf, scene->cl_data.scene.prev_material_buf, 0, 0, sizeof(t_material) * global, 0, NULL, NULL);
-		clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.index_buf, scene->cl_data.scene.orig_index_buf, 0, 0, sizeof(int) * global, 0, NULL, NULL);
+		scene->cl_data.scene.orig_index_buf = scene->cl_data.scene.index_buf;
 		get_material_buf(scene);
-		clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.normal_buf, scene->cl_data.scene.copy_normal_buf, 0, 0, sizeof(cl_float3) * global, 0, NULL, NULL);
-		clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.intersection_buf, scene->cl_data.scene.copy_intersec_buf, 0, 0, sizeof(cl_float3) * global, 0, NULL, NULL);
+		scene->cl_data.scene.copy_normal_buf = scene->cl_data.scene.normal_buf;
+		scene->cl_data.scene.copy_intersec_buf = scene->cl_data.scene.intersection_buf;
 		swap_pointer = scene->cl_data.scene.ray_buf;
 		get_frame_buf(scene, 0);
 		if (scene->max_bounces > 1)
 		{
 			if (scene->has_refraction)
 			{
+				printf("*************has refraction\n************");
 				get_fresnel_coeff(scene);
 				get_refraction_ray(scene);
 			}
