@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   types.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/08 16:33:03 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/12 16:30:10 by hunnamab         ###   ########.fr       */
+/*   Updated: 2021/02/12 20:53:44 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,6 +243,7 @@ typedef	struct			s_ui
 	t_butt				fault;
 	t_butt				negative;
 	t_butt				magic;
+	t_butt				sound;
 	int					filt;
 	int 				i;
 }						t_ui;
@@ -361,6 +362,7 @@ struct					s_scene
 	int					max_bounces;
 	int					bounce_cnt;
 	int					has_refraction;
+	int					m_flag;
 	void				(*init[4])(struct s_scene *);
 	void				(*draw[4])(t_sdl *, struct s_scene *);
 	void				(*filter[10])(t_filter_data *);

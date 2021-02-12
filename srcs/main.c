@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 00:17:47 by npetrell          #+#    #+#             */
-/*   Updated: 2021/02/08 20:51:51 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/12 21:17:53 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ void	args_check(t_scene *scene, char **argv, int args)
 	}
 }
 
-void			init_music(void)
+void			init_music()
 {
-	Mix_Music	*mus;
+	Mix_Music 	*mus;
 	int			result;
 	int			flags;
 
@@ -94,6 +94,8 @@ void			draw_ui(SDL_Renderer *renderer, t_ui *rt_ui)
 	SDL_RenderCopy(renderer, rt_ui->left.text, NULL, &rt_ui->left.rect);
 	SDL_RenderCopy(renderer, rt_ui->right.text, NULL, &rt_ui->right.rect);
 	SDL_RenderCopy(renderer, rt_ui->filters.text, NULL, &rt_ui->filters.rect);
+	SDL_RenderCopy(renderer, rt_ui->sound.text, NULL, &rt_ui->sound.rect);
+	SDL_RenderCopy(renderer, rt_ui->fault.text, NULL, &rt_ui->fault.rect);
 	if (rt_ui->filt == 3)
 		SDL_RenderCopy(renderer, rt_ui->gauss.text, NULL, &rt_ui->gauss.rect);
 	if (rt_ui->filt == 1)
@@ -125,7 +127,7 @@ void	init_ui(t_sdl *sdl, t_scene *scene)
 {
 	scene->rt_ui = (t_ui *)protected_malloc(sizeof(t_ui), 1);
 	scene->rt_ui->save_png = init_save_butt(sdl->renderer, make_rect(1345, 10, 70, 70), "rt_ui/icon.png");
-	scene->rt_ui->ambiance = init_save_butt(sdl->renderer, make_rect(1355, 100, 200, 70), "rt_ui/ambiance.png");
+	scene->rt_ui->ambiance = init_save_butt(sdl->renderer, make_rect(1355, 120, 200, 50), "rt_ui/ambiance.png");
 	scene->rt_ui->am_plus = init_save_butt(sdl->renderer, make_rect(1355, 200, 50, 50), "rt_ui/plus.png");
 	scene->rt_ui->am_minus = init_save_butt(sdl->renderer, make_rect(1505, 200, 50, 50), "rt_ui/minus.png");
 	scene->rt_ui->modes = init_save_butt(sdl->renderer, make_rect(1355, 300, 200, 60), "rt_ui/modes.png");
@@ -136,14 +138,14 @@ void	init_ui(t_sdl *sdl, t_scene *scene)
 	scene->rt_ui->back = init_save_butt(sdl->renderer, make_rect(1280, 0, 350, 720), "rt_ui/black.png");
 	scene->rt_ui->left = init_save_butt(sdl->renderer, make_rect(1355, 600, 45, 45), "rt_ui/left.png");
 	scene->rt_ui->right = init_save_butt(sdl->renderer, make_rect(1515, 600, 45, 45), "rt_ui/right.png");
-	scene->rt_ui->filters = init_save_butt(sdl->renderer, make_rect(1355, 500, 200, 70), "rt_ui/filters.png");
+	scene->rt_ui->filters = init_save_butt(sdl->renderer, make_rect(1355, 520, 200, 50), "rt_ui/filters.png");
 	scene->rt_ui->gauss = init_save_butt(sdl->renderer, make_rect(1405, 600, 100, 40), "rt_ui/gauss.png");
 	scene->rt_ui->sepia = init_save_butt(sdl->renderer, make_rect(1410, 600, 100, 40), "rt_ui/sepia.png");
 	scene->rt_ui->grey = init_save_butt(sdl->renderer, make_rect(1410, 600, 100, 40), "rt_ui/grey.png");
 	scene->rt_ui->fault = init_save_butt(sdl->renderer, make_rect(1410, 600, 100, 40), "rt_ui/default.png");
 	scene->rt_ui->negative = init_save_butt(sdl->renderer, make_rect(1410, 600, 100, 40), "rt_ui/negative.png");
 	scene->rt_ui->magic = init_save_butt(sdl->renderer, make_rect(1410, 600, 100, 40), "rt_ui/magic.png");
-	scene->rt_ui->filt = 0;
+	scene->rt_ui->sound = init_save_butt(sdl->renderer, make_rect(1485, 10, 70, 70), "rt_ui/sound.png");
 	scene->rt_ui->i = 7;
 }
 

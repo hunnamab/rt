@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   keyboard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/06 13:38:13 by pmetron           #+#    #+#             */
-/*   Updated: 2021/02/11 13:49:31 by hunnamab         ###   ########.fr       */
+/*   Updated: 2021/02/12 21:00:02 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,11 +200,27 @@ void	draw_filters(t_scene *scene, int i)
 	//scene->filter[scene->rt_ui->filt](scene);
 	//refresh_scene(scene);
 }
+void	music_control(t_scene *scene)
+{
+	if (scene->m_flag == 0)
+	{
+		scene->m_flag = 1;
+		Mix_ResumeMusic();
+		return ;
+	}
+	else
+	{
+		scene->m_flag = 0;
+		Mix_PauseMusic();
+	}
+}
 
 void	click(t_sdl *sdl, t_scene *scene)
 {
 	if (check_rect(scene->rt_ui->save_png.rect, sdl->event))
 		screen_png(scene);
+	/*if (check_rect(scene->rt_ui->sound.rect, sdl->event))
+		music_control(scene);*/
 	if (check_rect(scene->rt_ui->am_plus.rect, sdl->event))
 		am_plus(scene);
 	if (check_rect(scene->rt_ui->am_minus.rect, sdl->event))

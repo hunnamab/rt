@@ -6,7 +6,7 @@
 /*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 14:21:11 by pmetron           #+#    #+#             */
-/*   Updated: 2021/02/06 23:20:15 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/12 20:36:47 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,5 @@ void	init_scene(t_scene *scene)
 	scene->depth_buf = NULL;
 	scene->init[scene->mode](scene);
 	scene->scrshot_nmb = 1;
+	scene->m_flag = 1;
 }
