@@ -6,7 +6,7 @@
 /*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:38:29 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/12 16:34:46 by hunnamab         ###   ########.fr       */
+/*   Updated: 2021/02/12 22:32:42 by hunnamab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ void get_frame_buf(t_scene *scene, int is_refractive)
 	clSetKernelArg(scene->cl_data.kernels[9], 12, sizeof(cl_int), (void *)&is_refractive);
 	clSetKernelArg(scene->cl_data.kernels[9], 13, sizeof(cl_mem), &scene->cl_data.scene.frame_buf_refl);
 	clSetKernelArg(scene->cl_data.kernels[9], 14, sizeof(cl_mem), &scene->cl_data.scene.frame_buf_refr);
+	clSetKernelArg(scene->cl_data.kernels[9], 15, sizeof(cl_mem), &scene->cl_data.scene.orig_index_buf);
 	clGetKernelWorkGroupInfo(scene->cl_data.kernels[9], scene->cl_data.device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
 	clEnqueueNDRangeKernel(scene->cl_data.commands, scene->cl_data.kernels[9], 1, NULL, &global, &local, 0, NULL, NULL);
 	clFinish(scene->cl_data.commands);

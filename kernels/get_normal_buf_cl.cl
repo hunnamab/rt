@@ -484,5 +484,6 @@ __kernel void get_normal_buf_cl(__global t_object_d *obj, \
 		}
 	}
 	else
-		normal_buf[i] = 0;
+		normal_buf[i] = (float3)(0.0f, 0.0f, 0.0f);
+
 }

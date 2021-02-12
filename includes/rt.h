@@ -6,7 +6,7 @@
 /*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:34 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/11 13:59:06 by hunnamab         ###   ########.fr       */
+/*   Updated: 2021/02/12 22:33:47 by hunnamab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ void				get_intersection_buf(t_scene *scene);
 void				get_closest_points(t_scene *scene, float t, int is_refractive);
 void 				get_frame_buf(t_scene *scene, int is_refractive);
 // buffers_material_buf.c
-void				get_material_buf(t_scene *scene);
+void				get_material_buf(t_scene *scene, int is_refractive);
 // normal.c
 void				get_sphere_normal(t_scene *scene, int index, int obj_num);
 void				get_plane_normal(t_scene *scene, int index, int obj_num);

@@ -148,7 +148,8 @@ __kernel void    get_material_buf_cl(__global uchar *texture_data,\
                                     __global int *index_buf, \
                                     __global float3 *intersection_buf,\
                                     __global t_material *material_buf, \
-									int bounce_cnt, __global int *orig_index_buf)
+									int bounce_cnt, __global int *orig_index_buf, \
+									int is_refractive)
 {
     int i = get_global_id(0);
 	float3 t;
@@ -163,7 +164,9 @@ __kernel void    get_material_buf_cl(__global uchar *texture_data,\
 			material_buf[i].color = obj[index_buf[i]].color;
 		material_buf[i].specular = obj[index_buf[i]].specular;
 		material_buf[i].reflection = obj[orig_index_buf[i]].reflection;
-		material_buf[i].refraction = obj[index_buf[i]].refraction; // ???
+		if (bounce_cnt == 0 && !is_refractive)
+			material_buf[i].refraction = obj[orig_index_buf[i]].refraction; // ???
+		material_buf[i].transparency = obj[index_buf[i]].transparency;
     }
  	else
 	{
@@ -176,8 +179,10 @@ __kernel void    get_material_buf_cl(__global uchar *texture_data,\
 			material_buf[i].specular = -1;
 			material_buf[i].reflection = 0.0;
 			material_buf[i].refraction = 0.0;
+			material_buf[i].transparency = 0.0;
 		}
 		material_buf[i].reflection = 0.0;
-		material_buf[i].refraction = 0.0;
+		//material_buf[i].refraction = 0.0;
+		material_buf[i].transparency = 0.0;
 	}
 }

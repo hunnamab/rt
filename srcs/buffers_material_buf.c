@@ -6,14 +6,14 @@
 /*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 13:48:43 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/11 13:48:44 by hunnamab         ###   ########.fr       */
+/*   Updated: 2021/02/12 22:32:22 by hunnamab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 #include "types.h"
 
-void	get_material_buf(t_scene *scene)
+void	get_material_buf(t_scene *scene, int is_refractive)
 {
 	size_t global;
 	size_t local;
@@ -26,6 +26,7 @@ void	get_material_buf(t_scene *scene)
 	clSetKernelArg(scene->cl_data.kernels[10], 4, sizeof(cl_mem), &scene->cl_data.scene.material_buf);
 	clSetKernelArg(scene->cl_data.kernels[10], 5, sizeof(cl_int), (void*)&scene->bounce_cnt);
 	clSetKernelArg(scene->cl_data.kernels[10], 6, sizeof(cl_mem), &scene->cl_data.scene.orig_index_buf);
+	clSetKernelArg(scene->cl_data.kernels[10], 7, sizeof(cl_int), (void *)&is_refractive);
     clGetKernelWorkGroupInfo(scene->cl_data.kernels[10], scene->cl_data.device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
 	printf("local get material buf == %ld\n", local);
     clEnqueueNDRangeKernel(scene->cl_data.commands, scene->cl_data.kernels[10], 1, NULL, &global, &local, 0, NULL, NULL);

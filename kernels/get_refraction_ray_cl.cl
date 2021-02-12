@@ -33,13 +33,14 @@ __kernel void get_refraction_ray_cl(__global float3 *ray_arr, \
                                 __global int *index_buf, \
                                 __global float3 *normal_buf, \
 								__global int *exception_buf, \
-                                __global t_object_d *obj)
+                                __global t_object_d *obj, \
+								__global t_material *material_buf)
 {
     int i = get_global_id(0);
 	
 	if (index_buf[i] != -1)
 	{
-		if (obj[index_buf[i]].refraction > 0.0)
+		if (obj[index_buf[i]].refraction > 0.0 && material_buf[i].kr < 1.0)
 		{
 			normal_buf[i] = refract(ray_arr[i], normal_buf[i], obj[index_buf[i]].refraction);
 			exception_buf[i] = index_buf[i];

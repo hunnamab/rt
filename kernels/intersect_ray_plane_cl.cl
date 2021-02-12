@@ -66,7 +66,7 @@ __kernel void intersect_ray_plane_cl(__global float3 *ray_arr, \
 	}
     if (bounce_cnt > 0 || is_refractive)
     	camera_start[i] = camera_start[i] + ray_arr[i] * 0.00001f;
-	if ((bounce_cnt == 0 && !is_refractive) || (bounce_cnt == 0 && is_refractive && material_buf[i].refraction > 0.0) || material_buf[i].reflection > 0.0)
+	if ((bounce_cnt == 0 && !is_refractive) || (bounce_cnt == 0 && is_refractive && material_buf[i].refraction > 0.0 && material_buf[i].kr < 1.0) || material_buf[i].reflection > 0.0)
 		k1 = plane_intersection(plane, camera_start[i], ray_arr[i]);
 	else
 		return ;

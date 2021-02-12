@@ -93,7 +93,7 @@
 			"color": [37, 193, 149, 255],
 			"specular": 200,
 			"reflection": 0.2,
-			"refraction": 0.0,
+			"refraction": 1.5,
 			"transparency": 0.0,
 			"t_scale": 3,
 			"surface_id": 0,

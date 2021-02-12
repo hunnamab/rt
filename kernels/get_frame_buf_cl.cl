@@ -809,7 +809,7 @@ __kernel void get_frame_buf_cl(__global t_color *frame_buf, \
 							int obj_nmb, int bounce_cnt, \
 							__global t_material *prev_material_buf, \
 							int is_refractive, __global t_color *refl_buf, \
-							__global t_color *refr_buf)
+							__global t_color *refr_buf, __global int *orig_index_buf)
 {
     int i = get_global_id(0);
 	int j = index_buf[i];
@@ -822,20 +822,18 @@ __kernel void get_frame_buf_cl(__global t_color *frame_buf, \
 	}
 	else if (j != -1 && bounce_cnt == 0 && is_refractive)
 	{
-		buf = reflection_color(frame_buf, ray_buf, intersection_buf, \
+		refr_buf[i] = reflection_color(frame_buf, ray_buf, intersection_buf, \
 										normal_buf, index_buf, material_buf, \
 										obj, light, light_nmb, i, obj_nmb, bounce_cnt, prev_material_buf);
-		refr_buf[i] = buf;
 	}
 	else if (j != -1 && bounce_cnt > 0 && !is_refractive)
 	{
 		buf = reflection_color(frame_buf, ray_buf, intersection_buf, \
 										normal_buf, index_buf, material_buf, \
 										obj, light, light_nmb, i, obj_nmb, bounce_cnt, prev_material_buf);
-		refl_buf[i] = buf;
-/* 		frame_buf[i].red = (1 - prev_material_buf[i].reflection) * buf.red + prev_material_buf[i].reflection * frame_buf[i].red;
+		frame_buf[i].red = (1 - prev_material_buf[i].reflection) * buf.red + prev_material_buf[i].reflection * frame_buf[i].red;
 		frame_buf[i].green = (1 - prev_material_buf[i].reflection) * buf.green + prev_material_buf[i].reflection * frame_buf[i].green;
-		frame_buf[i].blue = (1 - prev_material_buf[i].reflection) * buf.blue + prev_material_buf[i].reflection * frame_buf[i].blue; */
+		frame_buf[i].blue = (1 - prev_material_buf[i].reflection) * buf.blue + prev_material_buf[i].reflection * frame_buf[i].blue;
 	}
 /* 	else if (j != -1 && bounce_cnt > 0 && is_refractive)
 	{
