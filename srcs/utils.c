@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 21:37:58 by pmetron           #+#    #+#             */
-/*   Updated: 2020/11/10 13:17:56 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/13 00:14:54 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,18 @@ void		get_viewport(t_scene *scene)
 	{
 		while (x < WID)
 		{
+			
 			scene->viewport[y * WID + x].y = -(y - (float)HEI / 2) *\
 			(1 / (float)HEI) + scene->camera.position.y;
 			scene->viewport[y * WID + x].x = (x - (float)WID / 2) *\
 			(k / (float)WID) + scene->camera.position.x;
 			scene->viewport[y * WID + x].z = scene->camera.position.z + 1;
 			x++;
+		}
+		if(x == 1280 && y == 0)
+		{
+			printf("viewport_point (%f,%f,%f)\n", scene->viewport[x].x, scene->viewport[x].y, scene->viewport[x].z);
+			printf("x == %d y == %d\n", x, y);
 		}
 		x = 0;
 		y++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sphere.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 22:45:20 by pmetron           #+#    #+#             */
-/*   Updated: 2021/02/11 21:32:58 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/13 02:40:16 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,12 +116,6 @@ void		intersect_ray_sphere(t_scene *scene, int index, int is_refractive)
 	cl_mem cs;
 	if (scene->objs[index]->cs_nmb > 0)
 	{
-		/*printf("PLANE D %f\n", scene->objs[0]->cutting_surfaces[0].param3);
-	scene->objs[0]->cutting_surfaces[0].param3 = -scene->objs[0]->cutting_surfaces[0].param1.x * scene->objs[0]->cutting_surfaces[0].param2.x -\
-												scene->objs[0]->cutting_surfaces[0].param1.y * scene->objs[0]->cutting_surfaces[0].param2.y - 
-												-scene->objs[0]->cutting_surfaces[0].param1.z * scene->objs[0]->cutting_surfaces[0].param2.z;
-	printf("PLANE D %f\n", scene->objs[0]->cutting_surfaces[0].param3);*/
-		printf("\n\n\n%f%f%f\n\n\n", scene->objs[0]->cutting_surfaces->param1.x, scene->objs[0]->cutting_surfaces->param1.y,scene->objs[0]->cutting_surfaces->param1.z);
 		cs = clCreateBuffer(scene->cl_data.context, CL_MEM_READ_ONLY |
 		CL_MEM_HOST_WRITE_ONLY | CL_MEM_COPY_HOST_PTR, sizeof(t_cutting_surface) * scene->objs[index]->cs_nmb, scene->objs[index]->cutting_surfaces, NULL);
 	}
@@ -142,7 +136,6 @@ void		intersect_ray_sphere(t_scene *scene, int index, int is_refractive)
 	clSetKernelArg(scene->cl_data.kernels[1], 12, sizeof(cl_float), (void*)&scene->objs[index]->refraction);
 	clSetKernelArg(scene->cl_data.kernels[1], 13, sizeof(cl_mem), &scene->cl_data.scene.exception_buf);
     clGetKernelWorkGroupInfo(scene->cl_data.kernels[1], scene->cl_data.device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
-	printf("sphere local == max work group size == %ld\n", local);
     clEnqueueNDRangeKernel(scene->cl_data.commands, scene->cl_data.kernels[1], 1, NULL, &global, &local, 0, NULL, NULL);
 }
 

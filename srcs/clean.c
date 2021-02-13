@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 17:32:12 by pmetron           #+#    #+#             */
-/*   Updated: 2021/02/02 23:35:43 by npetrell         ###   ########.fr       */
+/*   Updated: 2021/02/13 04:52:12 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,21 @@ void	clean_scene(t_scene *scene)
 	ft_memdel((void **)&scene->viewport);
 	ft_memdel((void **)&scene->index_buf);
 	ft_memdel((void **)&scene->depth_buf);
-	clReleaseMemObject(scene->cl_data.scene.ray_buf);
+ 	clReleaseMemObject(scene->cl_data.scene.ray_buf);
     clReleaseMemObject(scene->cl_data.scene.intersection_buf);
-	clReleaseMemObject(scene->cl_data.scene.viewport);
 	clReleaseMemObject(scene->cl_data.scene.index_buf);
 	clReleaseMemObject(scene->cl_data.scene.depth_buf);
 	clReleaseMemObject(scene->cl_data.scene.normal_buf);
 	clReleaseMemObject(scene->cl_data.scene.frame_buf);
+	clReleaseMemObject(scene->cl_data.scene.copy_normal_buf);
+	clReleaseMemObject(scene->cl_data.scene.prev_material_buf);
+	clReleaseMemObject(scene->cl_data.scene.frame_buf_refl);
+	clReleaseMemObject(scene->cl_data.scene.frame_buf_refr);
+	clReleaseMemObject(scene->cl_data.scene.copy_intersec_buf);
+	clReleaseMemObject(scene->cl_data.scene.orig_index_buf);
+	clReleaseMemObject(scene->cl_data.scene.exception_buf);
 	clReleaseMemObject(scene->cl_data.scene.obj);
-	while (i < 14)
+	while (i < 19)
 	{
 		clReleaseProgram(scene->cl_data.programs[i]);
 		clReleaseKernel(scene->cl_data.kernels[i]);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   keyboard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/06 13:38:13 by pmetron           #+#    #+#             */
-/*   Updated: 2021/02/12 21:50:06 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/13 03:13:18 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ uint8_t	*copy_frame_buf(t_scene *scene, uint8_t *frame_buf)
 	int y;
 	int i;
 	int j;
-
 	y = -1;
 	j = 0;
 	frame_buf = (uint8_t *)malloc(WID * HEI * 4);

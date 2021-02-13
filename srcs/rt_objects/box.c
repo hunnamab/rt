@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   box.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 13:44:57 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/12 13:46:49 by hunnamab         ###   ########.fr       */
+/*   Updated: 2021/02/13 02:39:50 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,6 @@ void        intersect_ray_box(t_scene *scene, int index, int is_refractive)
 	clSetKernelArg(scene->cl_data.kernels[11], 7, sizeof(cl_mem), &cs);
 	clSetKernelArg(scene->cl_data.kernels[11], 8, sizeof(cl_int), (void*)&scene->objs[index]->cs_nmb);
 	clSetKernelArg(scene->cl_data.kernels[11], 9, sizeof(cl_mem), &scene->cl_data.scene.material_buf);
-
     clGetKernelWorkGroupInfo(scene->cl_data.kernels[11], scene->cl_data.device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
     clEnqueueNDRangeKernel(scene->cl_data.commands, scene->cl_data.kernels[11], 1, NULL, &global, &local, 0, NULL, NULL);
 }

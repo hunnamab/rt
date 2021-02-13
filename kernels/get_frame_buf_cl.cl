@@ -826,15 +826,18 @@ __kernel void get_frame_buf_cl(__global t_color *frame_buf, \
 										normal_buf, index_buf, material_buf, \
 										obj, light, light_nmb, i, obj_nmb, bounce_cnt, prev_material_buf);
 	}
-	else if (j != -1 && bounce_cnt > 0 && !is_refractive)
+	 else if (j != -1 && bounce_cnt > 0 && !is_refractive)
 	{
 		buf = reflection_color(frame_buf, ray_buf, intersection_buf, \
 										normal_buf, index_buf, material_buf, \
 										obj, light, light_nmb, i, obj_nmb, bounce_cnt, prev_material_buf);
-		frame_buf[i].red = (1 - prev_material_buf[i].reflection) * buf.red + prev_material_buf[i].reflection * frame_buf[i].red;
-		frame_buf[i].green = (1 - prev_material_buf[i].reflection) * buf.green + prev_material_buf[i].reflection * frame_buf[i].green;
-		frame_buf[i].blue = (1 - prev_material_buf[i].reflection) * buf.blue + prev_material_buf[i].reflection * frame_buf[i].blue;
-	}
+		float check = (1.0f - prev_material_buf[i].reflection) * buf.red + prev_material_buf[i].reflection * frame_buf[i].red;
+ 		frame_buf[i].red = check > 255 ? 255 : check;
+		check = (1.0f - prev_material_buf[i].reflection) * buf.green + prev_material_buf[i].reflection * frame_buf[i].green;
+		frame_buf[i].green = check > 255 ? 255 : check;
+		check  = (1.0f - prev_material_buf[i].reflection) * buf.blue + prev_material_buf[i].reflection * frame_buf[i].blue;
+		frame_buf[i].blue = check > 255 ? 255 : check; 
+	} 
 /* 	else if (j != -1 && bounce_cnt > 0 && is_refractive)
 	{
 		// второй случай

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+         #
+#    By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/07 15:39:13 by hunnamab          #+#    #+#              #
-#    Updated: 2021/02/12 21:52:51 by ldeirdre         ###   ########.fr        #
+#    Updated: 2021/02/13 01:50:00 by pmetron          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,7 @@ SRC_NAME = ../matrix_lib/matr_add_matr.c ../matrix_lib/create_matrix.c \
 	scene_parsing/light_parameters.c scene_parsing/parameters_utils.c \
 	scene_parsing/camera_parameters.c scene_parsing/define_object.c \
 	scene_parsing/scenes_reader_util.c scene_parsing/surfaces.c \
-	rt_textures/textures.c rt_textures/texture_mapping.c \
+	rt_textures/textures.c \
 	rt_textures/texture_loading.c \
 	rt_objects/sphere.c rt_objects/triangle.c rt_objects/plane.c \
 	rt_objects/cylinder.c rt_objects/cone.c \

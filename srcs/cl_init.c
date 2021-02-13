@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cl_init.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 13:48:55 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/12 23:05:58 by hunnamab         ###   ########.fr       */
+/*   Updated: 2021/02/13 02:58:45 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -478,12 +478,25 @@ int    cl_init(t_scene *scene)
 		printf("не собрана программа 1, error %d get_fresnel_coeff_cl\n", err);
 	ft_strdel(&get_fresnel_coeff_cl);
 	close(fd18);
-
+	
+	int		ret19;
+	char	*init_buffers;
+	int fd19 = open("./kernels/init_buffers.cl", O_RDONLY);
+	init_buffers = protected_malloc(sizeof(char), 256000);
+	ret19 = read(fd19, init_buffers, 64000);
+	init_buffers[ret19] = '\0';
+	
+	if ((scene->cl_data.programs[18] = clCreateProgramWithSource(scene->cl_data.context, 1, (const char **)&init_buffers, NULL, &err)))
+		printf("cоздана программа init_buffers\n");
+	if ((clBuildProgram(scene->cl_data.programs[18], 0, NULL, "-I includes", NULL, &err)))
+		printf("собрана программа init_buffers\n");
+	if (!(scene->cl_data.kernels[18] = clCreateKernel(scene->cl_data.programs[18], "init_buffers", &err)))
+		printf("не собрана программа 1, error %d init_buffers\n", err);
+	ft_strdel(&init_buffers);
+	close(fd19);
 	//Создание буферов на гпу
 	scene->cl_data.scene.ray_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, &err);
 	printf("\n\n\n BUFFER DEGUG \n\n\n");
-	printf("%d\n", err);
-	scene->cl_data.scene.viewport = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, &err);
 	printf("%d\n", err);
 	scene->cl_data.scene.intersection_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, &err);
 	printf("%d\n", err);

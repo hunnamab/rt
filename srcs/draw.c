@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 00:18:09 by npetrell          #+#    #+#             */
-/*   Updated: 2021/02/12 23:06:31 by hunnamab         ###   ########.fr       */
+/*   Updated: 2021/02/13 06:00:24 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	get_refraction_ray(t_scene *scene)
 	size_t global = WID * HEI;
 	size_t local;
 	cl_mem swap_pointer;
-
 	clSetKernelArg(scene->cl_data.kernels[15], 0, sizeof(cl_mem), &scene->cl_data.scene.ray_buf);
 	clSetKernelArg(scene->cl_data.kernels[15], 1, sizeof(cl_mem), &scene->cl_data.scene.index_buf);
 	clSetKernelArg(scene->cl_data.kernels[15], 2, sizeof(cl_mem), &scene->cl_data.scene.normal_buf);
@@ -39,16 +38,20 @@ void	get_refraction_ray(t_scene *scene)
 	clFinish(scene->cl_data.commands);
 }
 
-void	get_reflection_ray(t_scene *scene, cl_mem swap_pointer)
+void	get_reflection_ray(t_scene *scene)
 {
 	size_t global = WID * HEI;
 	size_t local;
 	cl_mem swap;
-	scene->cl_data.scene.ray_buf = scene->cl_data.scene.copy_normal_buf;
+	cl_mem swap2;
+	cl_mem swap_pointer = scene->cl_data.scene.ray_buf;
+	swap2 = scene->cl_data.scene.normal_buf;
+ 	scene->cl_data.scene.ray_buf = scene->cl_data.scene.copy_normal_buf;
 	scene->cl_data.scene.normal_buf = swap_pointer;
-	swap = scene->cl_data.scene.intersection_buf;
+	scene->cl_data.scene.copy_normal_buf = swap2;
+ 	swap = scene->cl_data.scene.intersection_buf;
 	scene->cl_data.scene.intersection_buf = scene->cl_data.scene.copy_intersec_buf;
-	scene->cl_data.scene.copy_intersec_buf = swap;
+	scene->cl_data.scene.copy_intersec_buf = swap; 
 	clSetKernelArg(scene->cl_data.kernels[16], 0, sizeof(cl_mem), &scene->cl_data.scene.ray_buf);
 	clSetKernelArg(scene->cl_data.kernels[16], 1, sizeof(cl_mem), &scene->cl_data.scene.normal_buf);
 	clGetKernelWorkGroupInfo(scene->cl_data.kernels[16], scene->cl_data.device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
@@ -85,36 +88,25 @@ void	draw_scene(t_sdl *sdl, t_scene *scene)
 	scene->bounce_cnt = 0;
 	scene->max_bounces = 2;
 	scene->has_refraction = 0;
+	scene->init_flag = 1;
 	size_t local;
-	get_viewport(scene);
 	get_rays_arr(scene);
-	matrix = get_rotation_matrix(scene->camera.rotation);
-	while (++x < WID * HEI)
-		transform(&scene->ray_buf[x], matrix, 1);
-	matr_free(matrix, 4);
-	clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.ray_buf, CL_FALSE, 0, sizeof(cl_float3) * global, scene->ray_buf, 0, NULL, NULL);
-	while (j < WID * HEI)
-	{
-		scene->intersection_buf[j] = scene->camera.position;
-		j++;
-	}
-	clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.intersection_buf, CL_FALSE, 0, sizeof(cl_float3) * global, scene->intersection_buf, 0, NULL, NULL);
 	while (scene->bounce_cnt < scene->max_bounces)
 	{
 		get_closest_points(scene, 0, 0);
+		scene->init_flag = 0;
 		get_intersection_buf(scene);
-		get_normal_buf(scene);
-		clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.material_buf, scene->cl_data.scene.prev_material_buf, 0, 0, sizeof(t_material) * global, 0, NULL, NULL);
-		if (scene->bounce_cnt == 0)
-			clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.index_buf, scene->cl_data.scene.orig_index_buf, 0, 0, sizeof(int) * global, 0, NULL, NULL);
+		get_normal_buf(scene);		
 		get_material_buf(scene, 0);
-		//scene->cl_data.scene.copy_normal_buf = scene->cl_data.scene.normal_buf;
+		if (scene->bounce_cnt == 0)
+		{
+			clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.index_buf, scene->cl_data.scene.orig_index_buf, 0, 0, sizeof(int) * global, 0, NULL, NULL);
+		}
+		clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.material_buf, scene->cl_data.scene.prev_material_buf, 0, 0, sizeof(t_material) * global, 0, NULL, NULL);
 		clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.normal_buf, scene->cl_data.scene.copy_normal_buf, 0, 0, sizeof(cl_float3) * global, 0, NULL, NULL);
-		//scene->cl_data.scene.copy_intersec_buf = scene->cl_data.scene.intersection_buf;
 		clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.intersection_buf, scene->cl_data.scene.copy_intersec_buf, 0, 0, sizeof(cl_float3) * global, 0, NULL, NULL);
-		swap_pointer = scene->cl_data.scene.ray_buf;
 		get_frame_buf(scene, 0);
-		if (scene->max_bounces > 1)
+ 		if (scene->max_bounces > 1)
 		{
 			if (scene->has_refraction && scene->bounce_cnt == 0)
 			{
@@ -122,7 +114,7 @@ void	draw_scene(t_sdl *sdl, t_scene *scene)
 				get_fresnel_coeff(scene);
 				get_refraction_ray(scene);
 			}
-			get_reflection_ray(scene, swap_pointer);
+			get_reflection_ray(scene);
 		}
 		clFinish(scene->cl_data.commands);
 		scene->bounce_cnt++;
@@ -150,7 +142,6 @@ void	draw_normal_buf(t_sdl *sdl, t_scene *scene)
 {
 	int		xyi[3];
 	t_color	color;
-	float				**matrix;
 	register int		x;
 	register int		y;
 	register int		i;
@@ -160,19 +151,7 @@ void	draw_normal_buf(t_sdl *sdl, t_scene *scene)
 	y = -1;
 	i = 0;
 	scene->bounce_cnt = 0;
-	get_viewport(scene);
 	get_rays_arr(scene);
-	matrix = get_rotation_matrix(scene->camera.rotation);
-	while (++x < WID * HEI)
-		transform(&scene->ray_buf[x], matrix, 1);
-	matr_free(matrix, 4);
-	clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.ray_buf, CL_FALSE, 0, sizeof(cl_float3) * WID * HEI, scene->ray_buf, 0, NULL, NULL);
-	while (j < WID * HEI)
-	{
-		scene->intersection_buf[j] = scene->camera.position;
-		j++;
-	}
-	clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.intersection_buf, CL_FALSE, 0, sizeof(cl_float3) * WID * HEI, scene->intersection_buf, 0, NULL, NULL);
 	clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.ray_buf, scene->cl_data.scene.normal_buf, 0, 0, sizeof(cl_float3) * WID * HEI, 0, NULL, NULL);
 	get_closest_points(scene, 0, 0);
 	get_intersection_buf(scene);
@@ -208,7 +187,6 @@ void	draw_deepth_buf(t_sdl *sdl, t_scene *scene)
 {
 	int		xyi[3];
 	t_color	color;
-	float				**matrix;
 	register int		x;
 	register int		y;
 	register int		i;
@@ -217,49 +195,28 @@ void	draw_deepth_buf(t_sdl *sdl, t_scene *scene)
 	x = -1;
 	y = -1;
 	i = 0;
-	
-	scene->bounce_cnt = 0;
-	get_viewport(scene);
-	get_rays_arr(scene);
-	matrix = get_rotation_matrix(scene->camera.rotation);
-	while (++x < WID * HEI)
-		transform(&scene->ray_buf[x], matrix, 1);
-	matr_free(matrix, 4);
-	err = clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.ray_buf, CL_FALSE, 0, sizeof(cl_float3) * WID * HEI, scene->ray_buf, 0, NULL, NULL);
-	while (j < WID * HEI)
-	{
-		scene->intersection_buf[j] = scene->camera.position;
-		j++;
-	}
-	clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.intersection_buf, CL_FALSE, 0, sizeof(cl_float3) * WID * HEI, scene->intersection_buf, 0, NULL, NULL);
-	clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.ray_buf, scene->cl_data.scene.normal_buf, 0, 0, sizeof(cl_float3) * WID * HEI, 0, NULL, NULL);
-	get_closest_points(scene, 0, 0);
-	clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.index_buf, CL_FALSE, 0, sizeof(int) * (WID * HEI), scene->index_buf, 0, NULL, NULL);
-	clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.depth_buf, CL_FALSE, 0, sizeof(float) * WID * HEI, scene->depth_buf, 0, NULL, NULL);
-	clFinish(scene->cl_data.commands);
-	xyi[1] = -1;
-	while (++xyi[1] < HEI)
-	{
-		xyi[0] = -1;
-		while (++xyi[0] < WID)
+		scene->bounce_cnt = 0;
+		get_rays_arr(scene);
+		get_closest_points(scene, 0, 0);
+		clEnqueueReadBuffer(scene->cl_data.commands, scene->cl_data.scene.depth_buf, CL_FALSE, 0, sizeof(float) * WID * HEI, scene->depth_buf, 0, NULL, NULL);
+		clFinish(scene->cl_data.commands);
+		xyi[1] = -1;
+		while (++xyi[1] < HEI)
 		{
-			xyi[2] = xyi[1] * WID + xyi[0];
-			if (scene->index_buf[xyi[2]] != -1)
+			xyi[0] = -1;
+			while (++xyi[0] < WID)
 			{
+				xyi[2] = xyi[1] * WID + xyi[0];
 				color.red = scene->depth_buf[xyi[2]] > 255 ? \
-				255 : scene->depth_buf[xyi[2]];
-				color.green = color.red;
-				color.blue = color.red;
+					255 : scene->depth_buf[xyi[2]];
+					color.green = color.red;
+					color.blue = color.red;
+				SDL_SetRenderDrawColor(sdl->renderer, color.red, color.green, color.blue, 255);
+				SDL_RenderDrawPoint(sdl->renderer, xyi[0], xyi[1]);
 			}
-			else
-				set_color_zero(&color);
-			SDL_SetRenderDrawColor(sdl->renderer, \
-			color.red, color.green, color.blue, 255);
-			SDL_RenderDrawPoint(sdl->renderer, xyi[0], xyi[1]);
 		}
-	}
-	draw_ui(sdl->renderer, scene->rt_ui);
-	SDL_RenderPresent(sdl->renderer);
+		draw_ui(sdl->renderer, scene->rt_ui);
+		SDL_RenderPresent(sdl->renderer);	
 }
 
 void	draw_raycast(t_sdl *sdl, t_scene *scene)
@@ -273,19 +230,7 @@ void	draw_raycast(t_sdl *sdl, t_scene *scene)
 	size_t global = WID * HEI;
 	
 	scene->bounce_cnt = 0;
-	get_viewport(scene);
 	get_rays_arr(scene);
-	matrix = get_rotation_matrix(scene->camera.rotation);
-	while (++x < WID * HEI)
-		transform(&scene->ray_buf[x], matrix, 1);
-	matr_free(matrix, 4);
-	clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.ray_buf, CL_FALSE, 0, sizeof(cl_float3) * WID * HEI, scene->ray_buf, 0, NULL, NULL);
-	while (j < WID * HEI)
-	{
-		scene->intersection_buf[j] = scene->camera.position;
-		j++;
-	}
-	clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.intersection_buf, CL_FALSE, 0, sizeof(cl_float3) * global, scene->intersection_buf, 0, NULL, NULL);
 	get_closest_points(scene, 0, 0);
 	get_intersection_buf(scene);
 	get_normal_buf(scene);
