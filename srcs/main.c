@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 00:17:47 by npetrell          #+#    #+#             */
-/*   Updated: 2021/02/12 22:06:01 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/15 22:37:10 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,34 +63,138 @@ int		main(int args, char **argv)
 	SDL_Init(SDL_INIT_EVERYTHING);
 	SDL_CreateWindowAndRenderer(WID + 350, HEI, 0, &sdl.win, &sdl.renderer);
 	SDL_RenderClear(sdl.renderer);
+	printf("light pos (%f,%f,%f) dir (%f,%f,%f)\n", scene->light[0].position.x, scene->light[0].position.y,scene->light[0].position.z,scene->light[0].direction.z,scene->light[0].direction.y,scene->light[0].direction.z);
+	scene->light[0].direction.z = -1;
 	scene->filter_type = DEFAULT;
-/* 	scene->obj_nmb += 1;
-	scene->objs[scene->obj_nmb - 1] = new_hyperboloid(get_point(0,0,0), 1, 1, 1,set_color(0,0,255,255)); */
-	//scene->obj_nmb += 1;
-	/* cl_float3 *buf = malloc(sizeof(cl_float3) * 2);
-	buf[0] = get_point(0,0,0);
-	buf[1] = get_point(10,10,10);
-	scene->objs[scene->obj_nmb - 1] = new_box(buf, set_color(0,0,255,255), 100); */
-	//scene->objs[scene->obj_nmb - 1] = new_paraboloid(get_point(0,0,5), 50, set_color(255,0,0,255), get_point(0,0,0), 100);
-	/*инициализация секущих поверхностей
-	в будущем должна производиться из фаила*/
-/* 	scene->objs[0]->cs_nmb = 1;
-  	scene->objs[0]->cutting_surfaces = malloc(sizeof(t_cutting_surface) * scene->objs[0]->cs_nmb); */
-/* 	scene->objs[0]->cutting_surfaces->is_negative = 0;
-	scene->objs[0]->cutting_surfaces[0].primitive.plane.normal = get_point(0,1,0);
-	scene->objs[0]->cutting_surfaces[0].primitive.plane.point = get_point(0,0,0);
-	scene->objs[0]->cutting_surfaces[0].primitive.plane.d = -scene->objs[0]->cutting_surfaces[0].primitive.plane.normal.x * scene->objs[0]->cutting_surfaces[0].primitive.plane.point.x - scene->objs[0]->cutting_surfaces[0].primitive.plane.\
-	normal.y * scene->objs[0]->cutting_surfaces[0].primitive.plane.point.y - scene->objs[0]->cutting_surfaces[0].primitive.plane.normal.z * scene->objs[0]->cutting_surfaces[0].primitive.plane.point.z;
-	scene->objs[0]->cutting_surfaces[0].type = PLANE; */
-/* 	scene->objs[0]->cutting_surfaces[0].is_negative = 1;
-	scene->objs[0]->cutting_surfaces[0].primitive.sphere.center = get_point(0,0,0);
-	scene->objs[0]->cutting_surfaces[0].primitive.sphere.radius = 10;
-	scene->objs[0]->cutting_surfaces[0].type = SPHERE; */
-/* 	scene->objs[0]->cutting_surfaces[1].primitive.plane.normal = get_point(0,1,0);
-	scene->objs[0]->cutting_surfaces[1].primitive.plane.point = get_point(0,0,0);
-	scene->objs[0]->cutting_surfaces[1].primitive.plane.d = -scene->objs[0]->cutting_surfaces[1].primitive.plane.normal.x * scene->objs[0]->cutting_surfaces[1].primitive.plane.point.x - scene->objs[0]->cutting_surfaces[1].primitive.plane.\
-	normal.y * scene->objs[0]->cutting_surfaces[1].primitive.plane.point.y - scene->objs[0]->cutting_surfaces[1].primitive.plane.normal.z * scene->objs[0]->cutting_surfaces[1].primitive.plane.point.z;
-	scene->objs[0]->cutting_surfaces[1].type = PLANE; */
+	/***************BOX_CREATION***********/
+/* 	cl_float3	pn[3];
+	cl_float3	srfp[2];
+	int			srfp2[3];
+	float		size;
+	cl_float3	position;
+	size = 5;
+	position = get_point(1,2,3);
+	srfp2[0] = 0;
+	srfp2[1] = 0;
+	srfp2[2] = 0;
+	float		parameters[6];
+	parameters[0] = 100;
+	parameters[1] = 0;
+	parameters[2] = 0;
+	parameters[3] = 0;
+	parameters[4] = 10;
+	parameters[5] = 0;
+	scene->objs = malloc(sizeof(t_object *) * 6);
+	scene->obj_nmb = 6;
+	pn[0] = get_point(position.x + size / 2, position.y ,position.z);
+	pn[1] = get_point(1,0,0);
+	pn[2] = get_point(0,0,0);
+	scene->objs[0] = new_plane(pn, parameters, set_color(0,255,0,0));
+	scene->objs[0]->cs_nmb = 4;
+	scene->objs[0]->cutting_surfaces = malloc(sizeof(t_cutting_surface) * 4);
+	srfp[0] = get_point(0,1,0);
+	srfp[1] = get_point(position.x + size / 2, position.y + size / 2, position.z);
+	scene->objs[0]->cutting_surfaces[0] = new_srf(srfp, srfp2, 0, "\"plane\",");
+	srfp[0] = get_point(0,-1,0);
+	srfp[1] = get_point(position.x + size / 2, position.y - size / 2, position.z);
+	scene->objs[0]->cutting_surfaces[1] = new_srf(srfp, srfp2, 0, "\"plane\",");
+	srfp[0] = get_point(0,0,1);
+	srfp[1] = get_point(position.x + size / 2, position.y , position.z + size / 2);
+	scene->objs[0]->cutting_surfaces[2] = new_srf(srfp, srfp2, 0, "\"plane\",");
+	srfp[0] = get_point(0,0,-1);
+	srfp[1] = get_point(position.x + size / 2, position.y, position.z - size / 2);
+	srfp2[2] = 0;
+	scene->objs[0]->cutting_surfaces[3] = new_srf(srfp, srfp2, 0, "\"plane\",");
+	//second plane
+	pn[0] = get_point(position.x - size / 2, position.y, position.z);
+	pn[1] = get_point(-1,0,0);
+	scene->objs[1] = new_plane(pn, parameters, set_color(0,255,0,0));
+	scene->objs[1]->cs_nmb = 4;
+	scene->objs[1]->cutting_surfaces = malloc(sizeof(t_cutting_surface) * 4);
+	srfp[0] = get_point(0,1,0);
+	srfp[1] = get_point(position.x - size / 2, position.y + size / 2, position.z);
+	scene->objs[1]->cutting_surfaces[0] = new_srf(srfp, srfp2, 0, "\"plane\",");
+	srfp[0] = get_point(0,-1,0);
+	srfp[1] = get_point(position.x - size / 2, position.y - size / 2, position.z);
+	scene->objs[1]->cutting_surfaces[1] = new_srf(srfp, srfp2, 0, "\"plane\",");
+	srfp[0] = get_point(0,0,1);
+	srfp[1] = get_point(position.x - size / 2, position.y, position.z + size / 2);
+	scene->objs[1]->cutting_surfaces[2] = new_srf(srfp, srfp2, 0, "\"plane\",");
+	srfp[0] = get_point(0,0,-1);
+	srfp[1] = get_point(position.x - size / 2, position.y, position.z - size / 2);
+	scene->objs[1]->cutting_surfaces[3] = new_srf(srfp, srfp2, 0, "\"plane\",");
+	//third plane
+	pn[0] = get_point(position.x, position.y, position.z + size / 2);
+	pn[1] = get_point(0,0,1);
+	scene->objs[2] = new_plane(pn, parameters, set_color(0,255,0,0));
+	scene->objs[2]->cs_nmb = 4;
+	scene->objs[2]->cutting_surfaces = malloc(sizeof(t_cutting_surface) * 4);
+	srfp[0] = get_point(0,1,0);
+	srfp[1] = get_point(position.x, position.y + size / 2, position.z);
+	scene->objs[2]->cutting_surfaces[0] = new_srf(srfp, srfp2, 0, "\"plane\",");
+	srfp[0] = get_point(0,-1,0);
+	srfp[1] = get_point(position.x, position.y - size / 2, position.z);
+	scene->objs[2]->cutting_surfaces[1] = new_srf(srfp, srfp2, 0, "\"plane\",");
+	srfp[0] = get_point(1,0,0);
+	srfp[1] = get_point(position.x + size / 2, position.y, position.z);
+	scene->objs[2]->cutting_surfaces[2] = new_srf(srfp, srfp2, 0, "\"plane\",");
+	srfp[0] = get_point(-1,0,0);
+	srfp[1] = get_point(position.x - size / 2, position.y, position.z);
+	scene->objs[2]->cutting_surfaces[3] = new_srf(srfp, srfp2, 0, "\"plane\",");
+	//fourth plane
+	pn[0] = get_point(position.x, position.y + size / 2, position.z);
+	pn[1] = get_point(0,1,0);
+	scene->objs[3] = new_plane(pn, parameters, set_color(0,255,0,0));
+	scene->objs[3]->cs_nmb = 4;
+	scene->objs[3]->cutting_surfaces = malloc(sizeof(t_cutting_surface) * 4);
+	srfp[0] = get_point(0,0,1);
+	srfp[1] = get_point(position.x + size / 2, position.y, position.z + size / 2);
+	scene->objs[3]->cutting_surfaces[0] = new_srf(srfp, srfp2, 0, "\"plane\",");
+	srfp[0] = get_point(0,0,-1);
+	srfp[1] = get_point(position.x - size / 2, position.y, position.z - size / 2);
+	scene->objs[3]->cutting_surfaces[1] = new_srf(srfp, srfp2, 0, "\"plane\",");
+	srfp[0] = get_point(1,0,0);
+	srfp[1] = get_point(position.x + size / 2, position.y, position.z);
+	scene->objs[3]->cutting_surfaces[2] = new_srf(srfp, srfp2, 0, "\"plane\",");
+	srfp[0] = get_point(-1,0,0);
+	srfp[1] = get_point(position.x - size / 2, position.y, position.z);
+	scene->objs[3]->cutting_surfaces[3] = new_srf(srfp, srfp2, 0, "\"plane\",");
+	//fifth plane
+	pn[0] = get_point(position.x, position.y - size / 2, position.z);
+	pn[1] = get_point(0,-1,0);
+	scene->objs[4] = new_plane(pn, parameters, set_color(0,255,0,0));
+	scene->objs[4]->cs_nmb = 4;
+	scene->objs[4]->cutting_surfaces = malloc(sizeof(t_cutting_surface) * 4);
+	srfp[0] = get_point(0,0,1);
+	srfp[1] = get_point(position.x + size / 2, position.y, position.z + size / 2);
+	scene->objs[4]->cutting_surfaces[0] = new_srf(srfp, srfp2, 0, "\"plane\",");
+	srfp[0] = get_point(0,0,-1);
+	srfp[1] = get_point(position.x - size / 2, position.y, position.z - size / 2);
+	scene->objs[4]->cutting_surfaces[1] = new_srf(srfp, srfp2, 0, "\"plane\",");
+	srfp[0] = get_point(1,0,0);
+	srfp[1] = get_point(position.x + size / 2, position.y, position.z);
+	scene->objs[4]->cutting_surfaces[2] = new_srf(srfp, srfp2, 0, "\"plane\",");
+	srfp[0] = get_point(-1,0,0);
+	srfp[1] = get_point(position.x - size / 2, position.y, position.z);
+	scene->objs[4]->cutting_surfaces[3] = new_srf(srfp, srfp2, 0, "\"plane\",");
+	//last
+	pn[0] = get_point(position.x, position.y, position.z - size / 2);
+	pn[1] = get_point(0,0,-1);
+	scene->objs[5] = new_plane(pn, parameters, set_color(0,255,0,0));
+	scene->objs[5]->cs_nmb = 4;
+	scene->objs[5]->cutting_surfaces = malloc(sizeof(t_cutting_surface) * 4);
+	srfp[0] = get_point(0,1,0);
+	srfp[1] = get_point(position.x, position.y + size / 2, position.z);
+	scene->objs[5]->cutting_surfaces[0] = new_srf(srfp, srfp2, 0, "\"plane\",");
+	srfp[0] = get_point(0,-1,0);
+	srfp[1] = get_point(position.x, position.y - size / 2, position.z);
+	scene->objs[5]->cutting_surfaces[1] = new_srf(srfp, srfp2, 0, "\"plane\",");
+	srfp[0] = get_point(1,0,0);
+	srfp[1] = get_point(position.x + size / 2, position.y, position.z);
+	scene->objs[5]->cutting_surfaces[2] = new_srf(srfp, srfp2, 0, "\"plane\",");
+	srfp[0] = get_point(-1,0,0);
+	srfp[1] = get_point(position.x - size / 2, position.y, position.z);
+	scene->objs[5]->cutting_surfaces[3] = new_srf(srfp, srfp2, 0, "\"plane\","); */
 	/***********************************/
 	cl_init(scene); // cl_init.c, инициализируем кернели для дальнейшей работы
 	init_scene(scene);

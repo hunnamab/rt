@@ -131,7 +131,7 @@ __kernel void get_ray_arr(__global float3   *ray_arr, \
     int x = i - y * wid;
     float k = (float)wid / (float)hei;
     viewport_point.y = -(y - (float)hei / 2.0f) * (1.0f / (float)hei) + camera_start.y;
-	viewport_point.x = (x - (float)hei / 2.0f) * (k / (float)wid) + camera_start.x;
+	viewport_point.x = (x - (float)wid / 2.0f) * (k / (float)wid) + camera_start.x;
 	viewport_point.z = camera_start.z + 1.0f;
     float4 buf;
     buf.x = viewport_point.x - camera_start.x;

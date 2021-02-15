@@ -54,12 +54,12 @@
 	"light": [ 
 		{
 			"type": "point",
-			"position": [100, 10, -20],
+			"position": [1, 2, 3],
 			"intensity": 0.4
 		},
 		{
 			"type": "point",
-			"position": [0, 2, 85],
+			"position": [1, 2, -7],
 			"intensity": 0.4
 		},
 		{
@@ -68,7 +68,7 @@
 		}
 	],
 	"camera": {
-		"position": [0, 0, -40],
+		"position": [1, 2, 3],
 		"rotation": [0, 0, 0]
 	}
 }
