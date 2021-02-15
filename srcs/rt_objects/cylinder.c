@@ -3,17 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   cylinder.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:11:46 by pmetron           #+#    #+#             */
-/*   Updated: 2021/02/13 01:38:24 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/15 22:09:00 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 #include "types.h"
 
-t_object	*new_cylinder(cl_float3 *pos_vec, float *rad_spec, t_color color)
+t_object		*new_cylinder(cl_float3 *pos_vec, float *rad_spec,
+															t_color color)
 {
 	t_cylinder	*new_cylinder;
 	t_object	*new_object;
@@ -51,42 +52,56 @@ t_object	*new_cylinder(cl_float3 *pos_vec, float *rad_spec, t_color color)
 	return (new_object);
 }
 
-void		intersect_ray_cylinder(t_scene *scene, int index, int is_refractive)
+void			intersect_ray_cylinder(t_scene *scene, int index,
+													int is_refractive)
 {
-	size_t global = WID * HEI;
-	size_t local;
-	cl_mem cs;
+	size_t		global;
+	size_t		local;
+	cl_mem		cs;
+
+	global = WID * HEI;
 	if (scene->objs[index]->cs_nmb > 0)
-	{
-		cs = clCreateBuffer(scene->cl_data.context, CL_MEM_READ_ONLY |
-		CL_MEM_HOST_WRITE_ONLY | CL_MEM_COPY_HOST_PTR, sizeof(t_cutting_surface) * scene->objs[index]->cs_nmb, scene->objs[index]->cutting_surfaces, NULL);
-	}
+		cs = clCreateBuffer(scene->cl_data.context, CL_MEM_READ_ONLY | \
+	CL_MEM_HOST_WRITE_ONLY | CL_MEM_COPY_HOST_PTR, sizeof(t_cutting_surface) \
+	* scene->objs[index]->cs_nmb, scene->objs[index]->cutting_surfaces, NULL);
 	else
 		cs = NULL;
-	clSetKernelArg(scene->cl_data.kernels[3], 0, sizeof(cl_mem), &scene->cl_data.scene.ray_buf);
-	clSetKernelArg(scene->cl_data.kernels[3], 1, sizeof(cl_mem), &scene->cl_data.scene.intersection_buf);
-	clSetKernelArg(scene->cl_data.kernels[3], 2, sizeof(cl_mem), &scene->cl_data.scene.depth_buf);
-	clSetKernelArg(scene->cl_data.kernels[3], 3, sizeof(t_cylinder), scene->objs[index]->data);
-	clSetKernelArg(scene->cl_data.kernels[3], 4, sizeof(cl_mem), &scene->cl_data.scene.index_buf);
-	clSetKernelArg(scene->cl_data.kernels[3], 5, sizeof(cl_int), (void*)&index);
-	clSetKernelArg(scene->cl_data.kernels[3], 6, sizeof(cl_int), (void*)&scene->bounce_cnt);
+	clSetKernelArg(scene->cl_data.kernels[3], 0, sizeof(cl_mem),
+										&scene->cl_data.scene.ray_buf);
+	clSetKernelArg(scene->cl_data.kernels[3], 1, sizeof(cl_mem),
+										&scene->cl_data.scene.intersection_buf);
+	clSetKernelArg(scene->cl_data.kernels[3], 2, sizeof(cl_mem),
+										&scene->cl_data.scene.depth_buf);
+	clSetKernelArg(scene->cl_data.kernels[3], 3, sizeof(t_cylinder),
+										scene->objs[index]->data);
+	clSetKernelArg(scene->cl_data.kernels[3], 4, sizeof(cl_mem),
+										&scene->cl_data.scene.index_buf);
+	clSetKernelArg(scene->cl_data.kernels[3], 5, sizeof(cl_int),
+										(void*)&index);
+	clSetKernelArg(scene->cl_data.kernels[3], 6, sizeof(cl_int),
+										(void*)&scene->bounce_cnt);
 	clSetKernelArg(scene->cl_data.kernels[3], 7, sizeof(cl_mem), &cs);
-	clSetKernelArg(scene->cl_data.kernels[3], 8, sizeof(cl_int), (void*)&scene->objs[index]->cs_nmb);
-	clSetKernelArg(scene->cl_data.kernels[3], 9, sizeof(cl_mem), &scene->cl_data.scene.material_buf);
-	
-    clGetKernelWorkGroupInfo(scene->cl_data.kernels[3], scene->cl_data.device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
-	printf("local == max work group size == %ld\n", local);
-    clEnqueueNDRangeKernel(scene->cl_data.commands, scene->cl_data.kernels[3], 1, NULL, &global, &local, 0, NULL, NULL);
+	clSetKernelArg(scene->cl_data.kernels[3], 8, sizeof(cl_int),
+										(void*)&scene->objs[index]->cs_nmb);
+	clSetKernelArg(scene->cl_data.kernels[3], 9, sizeof(cl_mem),
+										&scene->cl_data.scene.material_buf);
+	clGetKernelWorkGroupInfo(scene->cl_data.kernels[3],
+					scene->cl_data.device_id,
+					CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
+	ft_printf("local == max work group size == %ld\n", local);
+	clEnqueueNDRangeKernel(scene->cl_data.commands, scene->cl_data.kernels[3],
+									1, NULL, &global, &local, 0, NULL, NULL);
 }
 
-void	one_argument_cylinder(char **description, t_scene *scene, int *snmi)
+void			one_argument_cylinder(char **description,
+										t_scene *scene, int *snmi)
 {
 	t_object	*cylinder;
 	t_color		color;
 	cl_float3	pos_vec_buf[3];
 	float		rotation[3];
 	float		rad_spec[7];
-	
+
 	pos_vec_buf[0] = get_points(description[1]);
 	rad_spec[0] = ftoi(get_coordinates(description[2]));
 	pos_vec_buf[1] = get_points(description[3]);
@@ -105,14 +120,14 @@ void	one_argument_cylinder(char **description, t_scene *scene, int *snmi)
 	snmi[1]++;
 }
 
-t_object 	*multiple_cylinders(char **description, int i)
+t_object		*multiple_cylinders(char **description, int i)
 {
 	t_object	*cylinder;
 	t_color		color;
 	cl_float3	pos_vec_buf[3];
 	float		rotation[3];
 	float		rad_spec[7];
-	
+
 	pos_vec_buf[0] = get_points(description[i + 1]);
 	rad_spec[0] = ftoi(get_coordinates(description[i + 2]));
 	pos_vec_buf[1] = get_points(description[i + 3]);

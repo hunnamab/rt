@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   box.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 13:44:57 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/13 02:39:50 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/15 21:52:44 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-void	one_argument_box(char **description, t_scene *scene, int *snmi)
+void			one_argument_box(char **description, t_scene *scene, int *snmi)
 {
 	t_object	*box;
 	cl_float3	cen_buf[3];
@@ -39,14 +39,14 @@ void	one_argument_box(char **description, t_scene *scene, int *snmi)
 	snmi[1]++;
 }
 
-t_object 	*multiple_boxes(char **description, int i)
+t_object		*multiple_boxes(char **description, int i)
 {
 	t_object	*box;
 	cl_float3	cen_buf[3];
 	float		rotation[3];
 	float		specular[4];
-	t_color 	color;
-	int surface_id;
+	t_color		color;
+	int			surface_id;
 
 	cen_buf[0] = get_points(description[i + 1]);
 	cen_buf[1] = get_points(description[i + 2]);
@@ -64,18 +64,16 @@ t_object 	*multiple_boxes(char **description, int i)
 	return (box);
 }
 
-void	get_box(char **description, t_scene *scene, int *snmi)
+void			get_box(char **description, t_scene *scene, int *snmi)
 {
 	t_object	*box;
-	int i;
+	int			i;
 
 	i = 1;
-	//printf("center %c\n", description[0][0]);
 	if (description[0][0] == '[')
 	{
 		while (description[i][1] != ']')
 		{
-			//printf("text %c\n", description[i][2]);
 			if (description[i][2] == '{')
 			{
 				box = multiple_boxes(description, i);
@@ -92,16 +90,16 @@ void	get_box(char **description, t_scene *scene, int *snmi)
 		output_error(6);
 }
 
-t_object    *new_box(cl_float3 *buf, t_color color, float *specular, int surface_id)
+t_object		*new_box(cl_float3 *buf, t_color color,
+							float *specular, int surface_id)
 {
-    t_box *box;
+	t_box		*box;
 	t_object	*new_object;
-	float		**matrix;
 
 	new_object = malloc(sizeof(t_object));
 	box = malloc(sizeof(t_box));
 	box->a = buf[0];
-    box->b = buf[1];
+	box->b = buf[1];
 	new_object->rotation[0] = buf[2].x;
 	new_object->rotation[1] = buf[2].y;
 	new_object->rotation[2] = buf[2].z;
@@ -118,33 +116,48 @@ t_object    *new_box(cl_float3 *buf, t_color color, float *specular, int surface
 	new_object->surface_id = surface_id;
 	new_object->cutting_surfaces = NULL;
 	new_object->intersect = &intersect_ray_box;
-	//new_object->get_normal = &get_box_normal;
 	new_object->clear_obj = &clear_default;
 	return (new_object);
 }
 
-void        intersect_ray_box(t_scene *scene, int index, int is_refractive)
+void			intersect_ray_box(t_scene *scene, int index, int is_refractive)
 {
-    size_t global = WID * HEI;
-	size_t local;
-	cl_mem cs;
+	size_t		global;
+	size_t		local;
+	cl_mem		cs;
+
+	global = WID * HEI;
 	if (scene->objs[index]->cs_nmb > 0)
 	{
 		cs = clCreateBuffer(scene->cl_data.context, CL_MEM_READ_ONLY |
-		CL_MEM_HOST_WRITE_ONLY | CL_MEM_COPY_HOST_PTR, sizeof(t_cutting_surface) * scene->objs[index]->cs_nmb, scene->objs[index]->cutting_surfaces, NULL);
+		CL_MEM_HOST_WRITE_ONLY | CL_MEM_COPY_HOST_PTR,
+					sizeof(t_cutting_surface) * scene->objs[index]->cs_nmb,
+							scene->objs[index]->cutting_surfaces, NULL);
 	}
 	else
 		cs = NULL;
-	clSetKernelArg(scene->cl_data.kernels[11], 0, sizeof(cl_mem), &scene->cl_data.scene.ray_buf);
-	clSetKernelArg(scene->cl_data.kernels[11], 1, sizeof(cl_mem), &scene->cl_data.scene.intersection_buf);
-    clSetKernelArg(scene->cl_data.kernels[11], 2, sizeof(cl_mem), &scene->cl_data.scene.obj);
-	clSetKernelArg(scene->cl_data.kernels[11], 3, sizeof(cl_mem), &scene->cl_data.scene.depth_buf);
-	clSetKernelArg(scene->cl_data.kernels[11], 4, sizeof(cl_mem), &scene->cl_data.scene.index_buf);
-	clSetKernelArg(scene->cl_data.kernels[11], 5, sizeof(cl_int), (void*)&index);
-	clSetKernelArg(scene->cl_data.kernels[11], 6, sizeof(cl_int), (void*)&scene->bounce_cnt);
+	clSetKernelArg(scene->cl_data.kernels[11], 0, sizeof(cl_mem),
+										&scene->cl_data.scene.ray_buf);
+	clSetKernelArg(scene->cl_data.kernels[11], 1, sizeof(cl_mem),
+										&scene->cl_data.scene.intersection_buf);
+	clSetKernelArg(scene->cl_data.kernels[11], 2, sizeof(cl_mem),
+										&scene->cl_data.scene.obj);
+	clSetKernelArg(scene->cl_data.kernels[11], 3, sizeof(cl_mem),
+										&scene->cl_data.scene.depth_buf);
+	clSetKernelArg(scene->cl_data.kernels[11], 4, sizeof(cl_mem),
+										&scene->cl_data.scene.index_buf);
+	clSetKernelArg(scene->cl_data.kernels[11], 5, sizeof(cl_int),
+													(void*)&index);
+	clSetKernelArg(scene->cl_data.kernels[11], 6, sizeof(cl_int),
+										(void*)&scene->bounce_cnt);
 	clSetKernelArg(scene->cl_data.kernels[11], 7, sizeof(cl_mem), &cs);
-	clSetKernelArg(scene->cl_data.kernels[11], 8, sizeof(cl_int), (void*)&scene->objs[index]->cs_nmb);
-	clSetKernelArg(scene->cl_data.kernels[11], 9, sizeof(cl_mem), &scene->cl_data.scene.material_buf);
-    clGetKernelWorkGroupInfo(scene->cl_data.kernels[11], scene->cl_data.device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
-    clEnqueueNDRangeKernel(scene->cl_data.commands, scene->cl_data.kernels[11], 1, NULL, &global, &local, 0, NULL, NULL);
+	clSetKernelArg(scene->cl_data.kernels[11], 8, sizeof(cl_int),
+										(void*)&scene->objs[index]->cs_nmb);
+	clSetKernelArg(scene->cl_data.kernels[11], 9, sizeof(cl_mem),
+										&scene->cl_data.scene.material_buf);
+	clGetKernelWorkGroupInfo(scene->cl_data.kernels[11],
+		scene->cl_data.device_id, CL_KERNEL_WORK_GROUP_SIZE,
+				sizeof(local), &local, NULL);
+	clEnqueueNDRangeKernel(scene->cl_data.commands,
+		scene->cl_data.kernels[11], 1, NULL, &global, &local, 0, NULL, NULL);
 }

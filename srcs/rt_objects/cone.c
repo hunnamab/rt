@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   cone.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:38:39 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/13 01:38:02 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/15 22:01:49 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-t_object	*new_cone(cl_float3 *pos_vec, float *ang_spec, t_color color, \
+t_object		*new_cone(cl_float3 *pos_vec, float *ang_spec, t_color color, \
 						float *rotation)
 {
 	t_cone		*new_cone;
@@ -52,12 +52,12 @@ t_object	*new_cone(cl_float3 *pos_vec, float *ang_spec, t_color color, \
 	return (new_object);
 }
 
-void		get_cone_normal(t_scene *scene, int index, int obj_num)
+void			get_cone_normal(t_scene *scene, int index, int obj_num)
 {
-	t_cone	*cone;
-	float	m;
+	t_cone		*cone;
+	float		m;
 	cl_float3	*normal;
-	cl_float3 buf;
+	cl_float3	buf;
 
 	normal = &scene->normal_buf[index];
 	cone = (t_cone *)scene->objs[obj_num]->data;
@@ -74,42 +74,57 @@ void		get_cone_normal(t_scene *scene, int index, int obj_num)
 		*normal = vector_scale(normal, -1);
 }
 
-void		intersect_ray_cone(t_scene *scene, int index, int is_refractive)
+void			intersect_ray_cone(t_scene *scene, int index, int is_refractive)
 {
-	size_t global = WID * HEI;
-	size_t local;
-	cl_mem cs;
+	size_t		global;
+	size_t		local;
+	cl_mem		cs;
+
+	global = WID * HEI;
 	if (scene->objs[index]->cs_nmb > 0)
 	{
 		cs = clCreateBuffer(scene->cl_data.context, CL_MEM_READ_ONLY |
-		CL_MEM_HOST_WRITE_ONLY | CL_MEM_COPY_HOST_PTR, sizeof(t_cutting_surface) * scene->objs[index]->cs_nmb, scene->objs[index]->cutting_surfaces, NULL);
+		CL_MEM_HOST_WRITE_ONLY | CL_MEM_COPY_HOST_PTR,
+			sizeof(t_cutting_surface) * scene->objs[index]->cs_nmb,
+						scene->objs[index]->cutting_surfaces, NULL);
 	}
 	else
 		cs = NULL;
-	clSetKernelArg(scene->cl_data.kernels[2], 0, sizeof(cl_mem), &scene->cl_data.scene.ray_buf);
-	clSetKernelArg(scene->cl_data.kernels[2], 1,sizeof(cl_mem), &scene->cl_data.scene.intersection_buf);
-	clSetKernelArg(scene->cl_data.kernels[2], 2, sizeof(cl_mem), &scene->cl_data.scene.depth_buf);
-	clSetKernelArg(scene->cl_data.kernels[2], 3, sizeof(t_cone), scene->objs[index]->data);
-	clSetKernelArg(scene->cl_data.kernels[2], 4, sizeof(cl_mem), &scene->cl_data.scene.index_buf);
-	clSetKernelArg(scene->cl_data.kernels[2], 5, sizeof(cl_int), (void*)&index);
-	clSetKernelArg(scene->cl_data.kernels[2], 6, sizeof(cl_int), (void*)&scene->bounce_cnt);
+	clSetKernelArg(scene->cl_data.kernels[2], 0, sizeof(cl_mem),
+									&scene->cl_data.scene.ray_buf);
+	clSetKernelArg(scene->cl_data.kernels[2], 1, sizeof(cl_mem),
+									&scene->cl_data.scene.intersection_buf);
+	clSetKernelArg(scene->cl_data.kernels[2], 2, sizeof(cl_mem),
+									&scene->cl_data.scene.depth_buf);
+	clSetKernelArg(scene->cl_data.kernels[2], 3, sizeof(t_cone),
+									scene->objs[index]->data);
+	clSetKernelArg(scene->cl_data.kernels[2], 4, sizeof(cl_mem),
+									&scene->cl_data.scene.index_buf);
+	clSetKernelArg(scene->cl_data.kernels[2], 5, sizeof(cl_int),
+									(void*)&index);
+	clSetKernelArg(scene->cl_data.kernels[2], 6, sizeof(cl_int),
+									(void*)&scene->bounce_cnt);
 	clSetKernelArg(scene->cl_data.kernels[2], 7, sizeof(cl_mem), &cs);
-	clSetKernelArg(scene->cl_data.kernels[2], 8, sizeof(cl_int), (void*)&scene->objs[index]->cs_nmb);
-	clSetKernelArg(scene->cl_data.kernels[2], 9, sizeof(cl_mem), &scene->cl_data.scene.material_buf);
-	
-    clGetKernelWorkGroupInfo(scene->cl_data.kernels[2], scene->cl_data.device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
-	printf("local == max work group size == %ld\n", local);
-    clEnqueueNDRangeKernel(scene->cl_data.commands, scene->cl_data.kernels[2], 1, NULL, &global, &local, 0, NULL, NULL);
+	clSetKernelArg(scene->cl_data.kernels[2], 8, sizeof(cl_int),
+									(void*)&scene->objs[index]->cs_nmb);
+	clSetKernelArg(scene->cl_data.kernels[2], 9, sizeof(cl_mem),
+									&scene->cl_data.scene.material_buf);
+	clGetKernelWorkGroupInfo(scene->cl_data.kernels[2],
+	scene->cl_data.device_id, CL_KERNEL_WORK_GROUP_SIZE,
+					sizeof(local), &local, NULL);
+	ft_printf("local == max work group size == %ld\n", local);
+	clEnqueueNDRangeKernel(scene->cl_data.commands, scene->cl_data.kernels[2],
+									1, NULL, &global, &local, 0, NULL, NULL);
 }
 
-void	one_argument_cone(char **description, t_scene *scene, int *snmi)
+void			one_argument_cone(char **description, t_scene *scene, int *snmi)
 {
 	t_object	*cone;
 	t_color		color;
 	cl_float3	pos_vec_buf[3];
 	float		rotation[3];
 	float		ang_spec[7];
-	
+
 	pos_vec_buf[0] = get_points(description[1]);
 	pos_vec_buf[1] = get_points(description[2]);
 	ang_spec[0] = ftoi(get_coordinates(description[3]));
@@ -131,7 +146,7 @@ void	one_argument_cone(char **description, t_scene *scene, int *snmi)
 	snmi[1]++;
 }
 
-t_object 	*multiple_cones(char **description, int i)
+t_object		*multiple_cones(char **description, int i)
 {
 	t_object	*cone;
 	t_color		color;

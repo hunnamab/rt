@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ellipsoid.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 13:45:06 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/13 01:38:27 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/15 22:20:25 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,7 @@ t_object    *new_ellipsoid(cl_float3 *buf, t_color color, float *specular, int s
 	new_object->data = (void *)el;
 	new_object->type = ELLIPSOID;
 	new_object->intersect = &intersect_ray_ellipsoid;
-	//new_object->get_normal = &get_ellipsoid_normal;
 	new_object->clear_obj = &clear_default;
-    //printf("abc == (%f,%f,%f)\n", el->abc.x,el->abc.y,el->abc.z);
 	return (new_object);
 }
 
@@ -101,12 +99,10 @@ void	get_ellipsoid(char **description, t_scene *scene, int *snmi)
 	int i;
 
 	i = 1;
-	//printf("center %c\n", description[0][0]);
 	if (description[0][0] == '[')
 	{
 		while (description[i][1] != ']')
 		{
-			//printf("text %c\n", description[i][2]);
 			if (description[i][2] == '{')
 			{
 				ellipsoid = multiple_ellipsoids(description, i);
@@ -147,6 +143,6 @@ void        intersect_ray_ellipsoid(t_scene *scene, int index, int is_refractive
 	clSetKernelArg(scene->cl_data.kernels[8], 9, sizeof(cl_mem), &scene->cl_data.scene.material_buf);
 
     clGetKernelWorkGroupInfo(scene->cl_data.kernels[8], scene->cl_data.device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
-	printf("ellipsoid local == %ld\n", local);
+	ft_printf("ellipsoid local == %ld\n", local);
     clEnqueueNDRangeKernel(scene->cl_data.commands, scene->cl_data.kernels[8], 1, NULL, &global, &local, 0, NULL, NULL);
 }
