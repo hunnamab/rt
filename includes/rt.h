@@ -27,6 +27,7 @@
 # include <fcntl.h>
 # include <stdint.h>
 # include "libft.h"
+# include "../ft_printf/includes/ft_printf.h"
 # include <unistd.h>
 # include "../matrix_lib/matrix.h"
 # include "types.h"
