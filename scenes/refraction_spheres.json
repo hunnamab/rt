@@ -102,8 +102,8 @@
 		}
 	],
 	"camera": {
-		"position": [0, 1, -25],
-		"rotation": [0, -0.2, 0]
+		"position": [-10, 1, -25],
+		"rotation": [0, 0, 0]
 	},
 	"light": [
 		{

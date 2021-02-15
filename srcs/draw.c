@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 00:18:09 by npetrell          #+#    #+#             */
-/*   Updated: 2021/02/13 06:00:24 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/15 18:17:16 by hunnamab         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	draw_scene(t_sdl *sdl, t_scene *scene)
 	y = -1;
 	i = 0;
 	scene->bounce_cnt = 0;
-	scene->max_bounces = 2;
+	scene->max_bounces = 1;
 	scene->has_refraction = 0;
 	scene->init_flag = 1;
 	size_t local;
@@ -99,9 +99,7 @@ void	draw_scene(t_sdl *sdl, t_scene *scene)
 		get_normal_buf(scene);		
 		get_material_buf(scene, 0);
 		if (scene->bounce_cnt == 0)
-		{
 			clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.index_buf, scene->cl_data.scene.orig_index_buf, 0, 0, sizeof(int) * global, 0, NULL, NULL);
-		}
 		clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.material_buf, scene->cl_data.scene.prev_material_buf, 0, 0, sizeof(t_material) * global, 0, NULL, NULL);
 		clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.normal_buf, scene->cl_data.scene.copy_normal_buf, 0, 0, sizeof(cl_float3) * global, 0, NULL, NULL);
 		clEnqueueCopyBuffer(scene->cl_data.commands, scene->cl_data.scene.intersection_buf, scene->cl_data.scene.copy_intersec_buf, 0, 0, sizeof(cl_float3) * global, 0, NULL, NULL);

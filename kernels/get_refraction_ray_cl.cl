@@ -40,7 +40,7 @@ __kernel void get_refraction_ray_cl(__global float3 *ray_arr, \
 	
 	if (index_buf[i] != -1)
 	{
-		if (obj[index_buf[i]].refraction > 0.0 && material_buf[i].kr < 1.0)
+		if (obj[index_buf[i]].refraction > 0.0f && material_buf[i].kr < 1.0f)
 		{
 			normal_buf[i] = refract(ray_arr[i], normal_buf[i], obj[index_buf[i]].refraction);
 			exception_buf[i] = index_buf[i];
