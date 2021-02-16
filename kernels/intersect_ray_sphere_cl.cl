@@ -23,6 +23,15 @@ int cut(float3 point, __global t_cutting_surface *cs, int cs_nmb)
 			if(result <= cs[i].param3 && cs[i].is_negative)
 				return(0);
 		}
+        if(cs[i].type == CYLINDER)
+        {
+            result = (point.x * point.x - 2 * point.x * cs[i].param1.x + cs[i].param1.x * cs[i].param1.x) / cs[i].param3 + \
+            (point.y * point.y - 2 * point.y * cs[i].param1.y + cs[i].param1.y * cs[i].param1.y) / cs[i].param3 - 1;
+            if (result > 0 && cs[i].is_negative)
+                return(0);
+            if (result < 0)
+                return(0);
+        }
         i++;
     }
     return (1);

@@ -15,10 +15,10 @@
 		},
 	"surface": {
 				"object": 1,
-				"type": "sphere",
+				"type": "cylinder",
 				"is_negative": 1,
-				"is local": 1,
-				"param_one": [0, 0, -7],
+				"is local": 0,
+				"param_one": [0, 0, 0],
 				"param_two": [0, 0, 0],
 				"param_three": 5
 			},
