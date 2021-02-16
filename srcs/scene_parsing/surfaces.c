@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 13:48:30 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/16 18:47:28 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/16 21:34:01 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ t_cutting_surface		new_srf(cl_float3 *param, int *obj_neg, cl_float param3, char
 	t_cutting_surface new_srf;
 	new_srf.type = choose_type(type);
 	new_srf.object = obj_neg[0];
-	new_srf.is_local = obj_neg[1];
-	new_srf.is_negative = obj_neg[2];
+	new_srf.is_negative = obj_neg[1];
+	new_srf.is_local = obj_neg[2];
 	new_srf.param1 = param[0];
 	new_srf.param2 = param[1];
 	new_srf.param3 = param3;

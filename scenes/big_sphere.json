@@ -16,11 +16,11 @@
 	"surface": {
 				"object": 1,
 				"type": "cylinder",
-				"is_negative": 1,
+				"is_negative": 0,
 				"is local": 0,
 				"param_one": [0, 0, 0],
-				"param_two": [0, 0, 0],
-				"param_three": 5
+				"param_two": [0, 1, 0],
+				"param_three": 10
 			},
 	"light": [
 		{
