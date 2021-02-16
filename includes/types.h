@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/08 16:33:03 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/13 01:52:35 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/16 17:57:22 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -278,6 +278,7 @@ typedef	struct			s_object3d
 	void				*data;
 	const char			*tag;
 	float				rotation[3];
+	cl_float3			position;
 	t_color				color;
 	float				specular;
 	float				reflection;

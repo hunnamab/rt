@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 14:22:24 by pmetron           #+#    #+#             */
-/*   Updated: 2021/02/16 17:00:24 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/16 18:08:28 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ t_object    *new_plane(cl_float3 *poi_nor, float *specular, t_color color)
     new_object->rotation[0] = poi_nor[2].x;
     new_object->rotation[1] = poi_nor[2].y;
     new_object->rotation[2] = poi_nor[2].z;
+	new_object->position = poi_nor[0];
     matrix = get_rotation_matrix(new_object->rotation);
     transform(&new_plane->normal, matrix, 1);
     matr_free(matrix, 4);

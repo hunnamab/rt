@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:34 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/16 17:16:39 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/16 18:22:49 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,6 +238,6 @@ void				camera_move_right(t_scene *scene);
 void				camera_move_left(t_scene *scene);
 void				camera_move_up(t_scene *scene);
 void				camera_move_down(t_scene *scene);
-
+void    			local_cutting(t_scene *scene);
 
 #endif

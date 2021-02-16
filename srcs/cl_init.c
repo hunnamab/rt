@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 13:48:55 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/13 02:58:45 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/16 17:45:16 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,14 +79,6 @@ void	device_objects_init(t_scene *scene)
 			buf[i].primitive.ellipsoid.b = el->b;
 			buf[i].primitive.ellipsoid.c = el->c;
 		}
-		if (scene->objs[i]->type == BOX)
-		{
-			t_box *box;
-			box = (t_box *)scene->objs[i]->data;
-			buf[i].type = BOX;
-			buf[i].primitive.box.a = box->a;
-			buf[i].primitive.box.b = box->b;
-		}
 		if (scene->objs[i]->type == PARABOLOID)
 		{
 			t_paraboloid *parab;
@@ -157,6 +149,7 @@ void	device_objects_init(t_scene *scene)
 	}
 	scene->cl_data.scene.obj = clCreateBuffer(scene->cl_data.context, CL_MEM_READ_ONLY |
 		CL_MEM_HOST_WRITE_ONLY | CL_MEM_COPY_HOST_PTR, sizeof(t_object_d) * scene->obj_nmb, buf, NULL);
+	free(buf);
 	printf("t_object_d host = %lu\n", sizeof(t_object_d));
 }
 

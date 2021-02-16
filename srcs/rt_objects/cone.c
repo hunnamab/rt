@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cone.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:38:39 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/15 22:01:49 by npetrell         ###   ########.fr       */
+/*   Updated: 2021/02/16 18:07:37 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ t_object		*new_cone(cl_float3 *pos_vec, float *ang_spec, t_color color, \
 	new_object->refraction = ang_spec[3];
 	new_object->transparency = ang_spec[4];
 	new_object->t_scale = ang_spec[5];
+	new_object->position = pos_vec[0];
 	new_object->cs_nmb = 0;
 	new_object->cutting_surfaces = NULL;
 	new_object->surface_id = ang_spec[6];

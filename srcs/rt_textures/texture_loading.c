@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture_loading.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 13:45:38 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/11 13:46:22 by hunnamab         ###   ########.fr       */
+/*   Updated: 2021/02/16 18:02:22 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,5 +142,8 @@ void	load_textures(t_scene *scene)
 			scene->cl_data.scene.textures = clCreateBuffer(scene->cl_data.context, CL_MEM_READ_ONLY |
 				CL_MEM_HOST_WRITE_ONLY | CL_MEM_COPY_HOST_PTR, sizeoftextures, texture_buf, &err);
 		printf("загрузка текстур в видеопамять %d\n", err);
+		scene->obj_nmb > 0 ? free(shift_buf) : 0;
+		scene->obj_nmb > 0 ? free(index_buf) : 0;
+		sizeoftextures > 0 ? free(texture_buf) : 0;
 	} 
 }

@@ -13,6 +13,15 @@
 		"texture": "textures/helper.jpg",
 		"normal_map": "no"
 		},
+	"surface": {
+				"object": 1,
+				"type": "sphere",
+				"is_negative": 1,
+				"is local": 1,
+				"param_one": [0, 0, -7],
+				"param_two": [0, 0, 0],
+				"param_three": 5
+			},
 	"light": [
 		{
 			"type": "point",
@@ -25,7 +34,7 @@
 		}
 	],
 	"camera": {
-		"position": [1, 2, 3],
+		"position": [0, 0, -35],
 		"rotation": [0, 0, 0]
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 00:17:47 by npetrell          #+#    #+#             */
-/*   Updated: 2021/02/16 17:20:48 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/16 18:53:20 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,15 @@ int		main(int args, char **argv)
 
 	k = 1;
 	scene = (t_scene *)protected_malloc(sizeof(t_scene), 1);
-	args_check(scene, argv, args);
+		args_check(scene, argv, args);
 	SDL_Init(SDL_INIT_EVERYTHING);
 	SDL_CreateWindowAndRenderer(WID + 350, HEI, 0, &sdl.win, &sdl.renderer);
 	SDL_RenderClear(sdl.renderer);
 	scene->filter_type = DEFAULT;
-	test_box(scene);
+	//test_box(scene);
 	cl_init(scene); // cl_init.c, инициализируем кернели для дальнейшей работы
 	init_scene(scene);
+	local_cutting(scene);
 	init_ui(&sdl, scene);
 	filters_init(&scene->filter_data);
 	scene->draw[scene->mode](&sdl, scene);

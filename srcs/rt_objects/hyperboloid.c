@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 13:45:13 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/13 01:38:29 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/16 18:08:09 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ t_object    *new_hyperboloid(cl_float3 *cen_buf, float *specular, t_color color,
 	new_object->rotation[0] = cen_buf[1].x;
 	new_object->rotation[1] = cen_buf[1].y;
 	new_object->rotation[2] = cen_buf[1].z;
+	new_object->position = cen_buf[0];
 	new_object->specular = specular[3];
 	new_object->reflection = specular[4];
 	new_object->refraction = specular[5];

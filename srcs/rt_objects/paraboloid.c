@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 13:45:19 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/13 01:38:31 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/16 18:08:14 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ t_object    *new_paraboloid(cl_float3 *cen_buf, t_color color, float *specular, 
 	new_object->rotation[0] = cen_buf[2].x;
 	new_object->rotation[1] = cen_buf[2].y;
 	new_object->rotation[2] = cen_buf[2].z;
+	new_object->position = cen_buf[0];
 	new_object->specular = specular[1];
 	new_object->reflection = specular[2];
 	new_object->refraction = specular[3];

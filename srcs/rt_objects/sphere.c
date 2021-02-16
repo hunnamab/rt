@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 22:45:20 by pmetron           #+#    #+#             */
-/*   Updated: 2021/02/13 02:40:16 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/16 18:08:52 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ t_object	*new_sphere(cl_float3 center, float *rad_spec, t_color color, \
 	new_object->refraction = rad_spec[3];
 	new_object->transparency = rad_spec[4];
 	new_object->t_scale = rad_spec[5];
+	new_object->position = center;
 	new_object->color = color;
 	new_object->cs_nmb = 0;
 	new_object->surface_id = rad_spec[6];

@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 21:42:26 by pmetron           #+#    #+#             */
-/*   Updated: 2021/02/13 01:38:40 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/16 18:11:41 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ t_object	*new_triangle(cl_float3 *vertex, float specular, t_color color, \
 	new_object->refraction = rotation[4];
 	new_object->transparency = rotation[5];
 	new_object->t_scale = rotation[6];
+	//new_object->position = ; уравнение поиска центра треугольника
 	new_object->text = NULL;
 	new_object->surface_id = rotation[7];
 	new_object->color = color;

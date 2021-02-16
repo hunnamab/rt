@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 13:44:57 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/16 17:19:37 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/16 18:07:06 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,7 @@ void		new_box(cl_float3 position, t_color color,
 	pn[1] = get_point(1,0,0);
 	pn[2] = get_point(0,0,0);
 	scene->objs[(int)parameters[7]] = new_plane(pn, parameters, color);
+	scene->objs[(int)parameters[7]]->position = position;
 	scene->objs[(int)parameters[7]]->cs_nmb = 4;
 	scene->objs[(int)parameters[7]]->cutting_surfaces = malloc(sizeof(t_cutting_surface) * 4);
 	srfp[0] = get_point(0,1,0);
@@ -173,6 +174,7 @@ void		new_box(cl_float3 position, t_color color,
 	pn[0] = get_point(position.x - parameters[6] / 2, position.y, position.z);
 	pn[1] = get_point(-1,0,0);
 	scene->objs[(int)parameters[7] + 1] = new_plane(pn, parameters, color);
+	scene->objs[(int)parameters[7] + 1]->position = position;
 	scene->objs[(int)parameters[7] + 1]->cs_nmb = 4;
 	scene->objs[(int)parameters[7] + 1]->cutting_surfaces = malloc(sizeof(t_cutting_surface) * 4);
 	srfp[0] = get_point(0,1,0);
@@ -191,6 +193,7 @@ void		new_box(cl_float3 position, t_color color,
 	pn[0] = get_point(position.x, position.y, position.z + parameters[6] / 2);
 	pn[1] = get_point(0,0,1);
 	scene->objs[(int)parameters[7] + 2] = new_plane(pn, parameters, color);
+	scene->objs[(int)parameters[7] + 2]->position = position;
 	scene->objs[(int)parameters[7] + 2]->cs_nmb = 4;
 	scene->objs[(int)parameters[7] + 2]->cutting_surfaces = malloc(sizeof(t_cutting_surface) * 4);
 	srfp[0] = get_point(0,1,0);
@@ -209,6 +212,7 @@ void		new_box(cl_float3 position, t_color color,
 	pn[0] = get_point(position.x, position.y + parameters[6] / 2, position.z);
 	pn[1] = get_point(0,1,0);
 	scene->objs[(int)parameters[7] + 3] = new_plane(pn, parameters, color);
+	scene->objs[(int)parameters[7] + 3]->position = position;
 	scene->objs[(int)parameters[7] + 3]->cs_nmb = 4;
 	scene->objs[(int)parameters[7] + 3]->cutting_surfaces = malloc(sizeof(t_cutting_surface) * 4);
 	srfp[0] = get_point(0,0,1);
@@ -227,6 +231,7 @@ void		new_box(cl_float3 position, t_color color,
 	pn[0] = get_point(position.x, position.y - parameters[6] / 2, position.z);
 	pn[1] = get_point(0,-1,0);
 	scene->objs[(int)parameters[7] + 4] = new_plane(pn, parameters, color);
+	scene->objs[(int)parameters[7] + 4]->position = position;
 	scene->objs[(int)parameters[7] + 4]->cs_nmb = 4;
 	scene->objs[(int)parameters[7] + 4]->cutting_surfaces = malloc(sizeof(t_cutting_surface) * 4);
 	srfp[0] = get_point(0,0,1);
@@ -245,6 +250,7 @@ void		new_box(cl_float3 position, t_color color,
 	pn[0] = get_point(position.x, position.y, position.z - parameters[6] / 2);
 	pn[1] = get_point(0,0,-1);
 	scene->objs[(int)parameters[7] + 5] = new_plane(pn, parameters, color);
+	scene->objs[(int)parameters[7] + 5]->position = position;
 	scene->objs[(int)parameters[7] + 5]->cs_nmb = 4;
 	scene->objs[(int)parameters[7] + 5]->cutting_surfaces = malloc(sizeof(t_cutting_surface) * 4);
 	srfp[0] = get_point(0,1,0);

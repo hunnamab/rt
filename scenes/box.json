@@ -1,23 +1,23 @@
 {
-	"box": [
-		{
-			"a": [0, 0, 20],
-			"b": [20, 20, 50],
-			"rotation": [0, 0, 0],
-			"color": [255, 0, 0, 255],
-			"specular": 100,
-			"reflection": 0.0,
-			"refraction": 0,
-			"transparency": 0,
-			"surface_id": 0,
-			"texture": "no"
-		}
-	],
+	"sphere": {
+		"center": [0, 0, 1000],
+		"radius": 10,
+		"rotation": [0, 0, 0],
+		"color": [255, 0, 0, 255],
+		"specular": 100,
+		"reflection": 0.4,
+		"refraction": 0,
+		"transparency": 0,
+		"t_scale": 10,
+		"surface_id": 1,
+		"texture": "textures/helper.jpg",
+		"normal_map": "no"
+		},
 	"light": [
 		{
 			"type": "point",
-			"position": [-100, 10, -100],
-			"intensity": 0.8
+			"position": [1, 2, -10],
+			"intensity": 0.4
 		},
 		{
 			"type": "ambient",
@@ -25,7 +25,7 @@
 		}
 	],
 	"camera": {
-		"position": [30, 0, -40],
+		"position": [1, 2, -10],
 		"rotation": [0, 0, 0]
 	}
 }

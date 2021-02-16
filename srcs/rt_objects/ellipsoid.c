@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ellipsoid.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 13:45:06 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/15 22:20:25 by npetrell         ###   ########.fr       */
+/*   Updated: 2021/02/16 18:07:59 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ t_object    *new_ellipsoid(cl_float3 *buf, t_color color, float *specular, int s
 	new_object->rotation[0] = buf[1].x;
 	new_object->rotation[1] = buf[1].y;
 	new_object->rotation[2] = buf[1].z;
+	new_object->position = buf[0];
 	new_object->specular = specular[3];
 	new_object->reflection = specular[4];
 	new_object->refraction = specular[5];

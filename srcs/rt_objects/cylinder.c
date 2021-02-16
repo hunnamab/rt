@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cylinder.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:11:46 by pmetron           #+#    #+#             */
-/*   Updated: 2021/02/15 22:09:00 by npetrell         ###   ########.fr       */
+/*   Updated: 2021/02/16 18:07:43 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ t_object		*new_cylinder(cl_float3 *pos_vec, float *rad_spec,
 	new_object->refraction = rad_spec[3];
 	new_object->transparency = rad_spec[4];
 	new_object->t_scale = rad_spec[5];
+	new_object->position = pos_vec[0];
 	new_object->rotation[0] = pos_vec[2].x;
 	new_object->rotation[1] = pos_vec[2].y;
 	new_object->rotation[2] = pos_vec[2].z;
