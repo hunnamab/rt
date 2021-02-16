@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:34 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/15 21:49:17 by npetrell         ###   ########.fr       */
+/*   Updated: 2021/02/16 17:16:39 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,8 +187,11 @@ void				intersect_ray_ellipsoid(t_scene *scene, int index, int is_refractive);
 //t_object			*new_ellipsoid(cl_float3 center, cl_float3 abc, t_color color, cl_float3 rotation, float specular);
 //box
 void				intersect_ray_box(t_scene *scene, int index, int is_refractive);
-//t_object			*new_box(cl_float3 a, cl_float3 b, t_color color, cl_float3 rotation, float specular);
-
+/* новые функции создания куба*/
+void				new_box(cl_float3 position, t_color color,
+							float *parameters, t_scene *scene);
+void				test_box(t_scene *scene);
+/*****************************/
 void				device_objects_init(t_scene *scene);
 t_basis				get_default(t_basis basis);
 t_basis				get_basis(t_basis basis, float 	*rot);
@@ -205,7 +208,6 @@ t_object    		*new_ellipsoid(cl_float3 *buf, t_color color, float *specular, int
 t_object    		*new_torus(cl_float3 *cen_buf, t_color color, float *specular, int surface_id);
 void        		intersect_ray_torus(t_scene *scene, int index, int is_refractive);
 
-t_object    		*new_box(cl_float3 *buf, t_color color, float *specular, int surface_id);
 void				get_box(char **description, t_scene *scene, int *snmi);
 
 t_object    		*new_hyperboloid(cl_float3 *cen_buf, float *specular, t_color color, int surface_id);

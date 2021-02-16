@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   box.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 13:44:57 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/15 21:52:44 by npetrell         ###   ########.fr       */
+/*   Updated: 2021/02/16 17:19:37 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void			one_argument_box(char **description, t_scene *scene, int *snmi)
 	t_color		color;
 	int			surface_id;
 
-	cen_buf[0] = get_points(description[1]);
+/* 	cen_buf[0] = get_points(description[1]);
 	cen_buf[1] = get_points(description[2]);
 	cen_buf[2] = get_points(description[3]);
 	rotation[0] = cen_buf[2].x;
@@ -36,7 +36,7 @@ void			one_argument_box(char **description, t_scene *scene, int *snmi)
 	box = new_box(cen_buf, color, specular, surface_id);
 	box->text = tex_new_bmp(get_file(description[10]));
 	scene->objs[snmi[1]] = box;
-	snmi[1]++;
+	snmi[1]++; */
 }
 
 t_object		*multiple_boxes(char **description, int i)
@@ -48,7 +48,7 @@ t_object		*multiple_boxes(char **description, int i)
 	t_color		color;
 	int			surface_id;
 
-	cen_buf[0] = get_points(description[i + 1]);
+/* 	cen_buf[0] = get_points(description[i + 1]);
 	cen_buf[1] = get_points(description[i + 2]);
 	cen_buf[2] = get_points(description[i + 3]);
 	rotation[0] = cen_buf[2].x;
@@ -60,7 +60,7 @@ t_object		*multiple_boxes(char **description, int i)
 	specular[2] = ftoi(get_coordinates(description[i + 7]));
 	specular[3] = ftoi(get_coordinates(description[i + 8]));
 	surface_id = ftoi(get_coordinates(description[i + 9]));
-	box = new_box(cen_buf, color, specular, surface_id);
+	box = new_box(cen_buf, color, specular, surface_id); */
 	return (box);
 }
 
@@ -90,7 +90,7 @@ void			get_box(char **description, t_scene *scene, int *snmi)
 		output_error(6);
 }
 
-t_object		*new_box(cl_float3 *buf, t_color color,
+/* t_object		*new_box(cl_float3 *buf, t_color color,
 							float *specular, int surface_id)
 {
 	t_box		*box;
@@ -118,8 +118,148 @@ t_object		*new_box(cl_float3 *buf, t_color color,
 	new_object->intersect = &intersect_ray_box;
 	new_object->clear_obj = &clear_default;
 	return (new_object);
+} */
+/* так бля, список параметров 0)specular, 1)reflection 2)refraction 3)transperansy 4)t_scale 5)surface_id 
+								6)size (это длина стороны куба) 7)objs_id
+	 при создании куба нужно знать его id в общем объектном указателе, выделить по этому id сразу 6 объектов
+	 для каждой плоскости куба, во все эти объекты добавить необходимые секущие поверхности/негативные фигуры*/
+void		test_box(t_scene *scene)
+{
+	cl_float3 pos = get_point(1,2,3);
+	t_color color = set_color(0,255,0,255);
+	float	parameters[8];
+	scene->obj_nmb += 6;
+	parameters[0] = 100;
+	parameters[1] = 0;
+	parameters[2] = 0;
+	parameters[3] = 0;
+	parameters[4] = 10;
+	parameters[5] = 0;
+	parameters[6] = 5;
+	parameters[7] = 1;
+	new_box(pos, color,parameters,scene);
 }
-
+void		new_box(cl_float3 position, t_color color,
+							float *parameters, t_scene *scene)
+{
+	cl_float3	pn[3];
+	cl_float3	srfp[2];
+	int			srfp2[3];
+	position = get_point(1,2,3);
+	srfp2[0] = 0;
+	srfp2[1] = 0;
+	srfp2[2] = -1;
+	srfp2[0] = 0;
+	pn[0] = get_point(position.x + parameters[6] / 2, position.y ,position.z);
+	pn[1] = get_point(1,0,0);
+	pn[2] = get_point(0,0,0);
+	scene->objs[(int)parameters[7]] = new_plane(pn, parameters, color);
+	scene->objs[(int)parameters[7]]->cs_nmb = 4;
+	scene->objs[(int)parameters[7]]->cutting_surfaces = malloc(sizeof(t_cutting_surface) * 4);
+	srfp[0] = get_point(0,1,0);
+	srfp[1] = get_point(position.x + parameters[6] / 2, position.y + parameters[6] / 2, position.z);
+	scene->objs[(int)parameters[7]]->cutting_surfaces[0] = new_srf(srfp, srfp2, 0, "\"plane\",");
+	srfp[0] = get_point(0,-1,0);
+	srfp[1] = get_point(position.x + parameters[6] / 2, position.y - parameters[6] / 2, position.z);
+	scene->objs[(int)parameters[7]]->cutting_surfaces[1] = new_srf(srfp, srfp2, 0, "\"plane\",");
+	srfp[0] = get_point(0,0,1);
+	srfp[1] = get_point(position.x + parameters[6] / 2, position.y , position.z + parameters[6] / 2);
+	scene->objs[(int)parameters[7]]->cutting_surfaces[2] = new_srf(srfp, srfp2, 0, "\"plane\",");
+	srfp[0] = get_point(0,0,-1);
+	srfp[1] = get_point(position.x + parameters[6] / 2, position.y, position.z - parameters[6] / 2);
+	srfp2[2] = 0;
+	scene->objs[(int)parameters[7]]->cutting_surfaces[3] = new_srf(srfp, srfp2, 0, "\"plane\",");
+	//second plane
+	pn[0] = get_point(position.x - parameters[6] / 2, position.y, position.z);
+	pn[1] = get_point(-1,0,0);
+	scene->objs[(int)parameters[7] + 1] = new_plane(pn, parameters, color);
+	scene->objs[(int)parameters[7] + 1]->cs_nmb = 4;
+	scene->objs[(int)parameters[7] + 1]->cutting_surfaces = malloc(sizeof(t_cutting_surface) * 4);
+	srfp[0] = get_point(0,1,0);
+	srfp[1] = get_point(position.x - parameters[6] / 2, position.y + parameters[6] / 2, position.z);
+	scene->objs[(int)parameters[7] + 1]->cutting_surfaces[0] = new_srf(srfp, srfp2, 0, "\"plane\",");
+	srfp[0] = get_point(0,-1,0);
+	srfp[1] = get_point(position.x - parameters[6] / 2, position.y - parameters[6] / 2, position.z);
+	scene->objs[(int)parameters[7] + 1]->cutting_surfaces[1] = new_srf(srfp, srfp2, 0, "\"plane\",");
+	srfp[0] = get_point(0,0,1);
+	srfp[1] = get_point(position.x - parameters[6] / 2, position.y, position.z + parameters[6] / 2);
+	scene->objs[(int)parameters[7] + 1]->cutting_surfaces[2] = new_srf(srfp, srfp2, 0, "\"plane\",");
+	srfp[0] = get_point(0,0,-1);
+	srfp[1] = get_point(position.x - parameters[6] / 2, position.y, position.z - parameters[6] / 2);
+	scene->objs[(int)parameters[7] + 1]->cutting_surfaces[3] = new_srf(srfp, srfp2, 0, "\"plane\",");
+	//third plane
+	pn[0] = get_point(position.x, position.y, position.z + parameters[6] / 2);
+	pn[1] = get_point(0,0,1);
+	scene->objs[(int)parameters[7] + 2] = new_plane(pn, parameters, color);
+	scene->objs[(int)parameters[7] + 2]->cs_nmb = 4;
+	scene->objs[(int)parameters[7] + 2]->cutting_surfaces = malloc(sizeof(t_cutting_surface) * 4);
+	srfp[0] = get_point(0,1,0);
+	srfp[1] = get_point(position.x, position.y + parameters[6] / 2, position.z);
+	scene->objs[(int)parameters[7] + 2]->cutting_surfaces[0] = new_srf(srfp, srfp2, 0, "\"plane\",");
+	srfp[0] = get_point(0,-1,0);
+	srfp[1] = get_point(position.x, position.y - parameters[6] / 2, position.z);
+	scene->objs[(int)parameters[7] + 2]->cutting_surfaces[1] = new_srf(srfp, srfp2, 0, "\"plane\",");
+	srfp[0] = get_point(1,0,0);
+	srfp[1] = get_point(position.x + parameters[6] / 2, position.y, position.z);
+	scene->objs[(int)parameters[7] + 2]->cutting_surfaces[2] = new_srf(srfp, srfp2, 0, "\"plane\",");
+	srfp[0] = get_point(-1,0,0);
+	srfp[1] = get_point(position.x - parameters[6] / 2, position.y, position.z);
+	scene->objs[(int)parameters[7] + 2]->cutting_surfaces[3] = new_srf(srfp, srfp2, 0, "\"plane\",");
+	//fourth plane
+	pn[0] = get_point(position.x, position.y + parameters[6] / 2, position.z);
+	pn[1] = get_point(0,1,0);
+	scene->objs[(int)parameters[7] + 3] = new_plane(pn, parameters, color);
+	scene->objs[(int)parameters[7] + 3]->cs_nmb = 4;
+	scene->objs[(int)parameters[7] + 3]->cutting_surfaces = malloc(sizeof(t_cutting_surface) * 4);
+	srfp[0] = get_point(0,0,1);
+	srfp[1] = get_point(position.x + parameters[6] / 2, position.y, position.z + parameters[6] / 2);
+	scene->objs[(int)parameters[7] + 3]->cutting_surfaces[0] = new_srf(srfp, srfp2, 0, "\"plane\",");
+	srfp[0] = get_point(0,0,-1);
+	srfp[1] = get_point(position.x - parameters[6] / 2, position.y, position.z - parameters[6] / 2);
+	scene->objs[(int)parameters[7] + 3]->cutting_surfaces[1] = new_srf(srfp, srfp2, 0, "\"plane\",");
+	srfp[0] = get_point(1,0,0);
+	srfp[1] = get_point(position.x + parameters[6] / 2, position.y, position.z);
+	scene->objs[(int)parameters[7] + 3]->cutting_surfaces[2] = new_srf(srfp, srfp2, 0, "\"plane\",");
+	srfp[0] = get_point(-1,0,0);
+	srfp[1] = get_point(position.x - parameters[6] / 2, position.y, position.z);
+	scene->objs[(int)parameters[7] + 3]->cutting_surfaces[3] = new_srf(srfp, srfp2, 0, "\"plane\",");
+	//fifth plane
+	pn[0] = get_point(position.x, position.y - parameters[6] / 2, position.z);
+	pn[1] = get_point(0,-1,0);
+	scene->objs[(int)parameters[7] + 4] = new_plane(pn, parameters, color);
+	scene->objs[(int)parameters[7] + 4]->cs_nmb = 4;
+	scene->objs[(int)parameters[7] + 4]->cutting_surfaces = malloc(sizeof(t_cutting_surface) * 4);
+	srfp[0] = get_point(0,0,1);
+	srfp[1] = get_point(position.x + parameters[6] / 2, position.y, position.z + parameters[6] / 2);
+	scene->objs[(int)parameters[7] + 4]->cutting_surfaces[0] = new_srf(srfp, srfp2, 0, "\"plane\",");
+	srfp[0] = get_point(0,0,-1);
+	srfp[1] = get_point(position.x - parameters[6] / 2, position.y, position.z - parameters[6] / 2);
+	scene->objs[(int)parameters[7] + 4]->cutting_surfaces[1] = new_srf(srfp, srfp2, 0, "\"plane\",");
+	srfp[0] = get_point(1,0,0);
+	srfp[1] = get_point(position.x + parameters[6] / 2, position.y, position.z);
+	scene->objs[(int)parameters[7] + 4]->cutting_surfaces[2] = new_srf(srfp, srfp2, 0, "\"plane\",");
+	srfp[0] = get_point(-1,0,0);
+	srfp[1] = get_point(position.x - parameters[6] / 2, position.y, position.z);
+	scene->objs[(int)parameters[7] + 4]->cutting_surfaces[3] = new_srf(srfp, srfp2, 0, "\"plane\",");
+	//last
+	pn[0] = get_point(position.x, position.y, position.z - parameters[6] / 2);
+	pn[1] = get_point(0,0,-1);
+	scene->objs[(int)parameters[7] + 5] = new_plane(pn, parameters, color);
+	scene->objs[(int)parameters[7] + 5]->cs_nmb = 4;
+	scene->objs[(int)parameters[7] + 5]->cutting_surfaces = malloc(sizeof(t_cutting_surface) * 4);
+	srfp[0] = get_point(0,1,0);
+	srfp[1] = get_point(position.x, position.y + parameters[6] / 2, position.z);
+	scene->objs[(int)parameters[7] + 5]->cutting_surfaces[0] = new_srf(srfp, srfp2, 0, "\"plane\",");
+	srfp[0] = get_point(0,-1,0);
+	srfp[1] = get_point(position.x, position.y - parameters[6] / 2, position.z);
+	scene->objs[(int)parameters[7] + 5]->cutting_surfaces[1] = new_srf(srfp, srfp2, 0, "\"plane\",");
+	srfp[0] = get_point(1,0,0);
+	srfp[1] = get_point(position.x + parameters[6] / 2, position.y, position.z);
+	scene->objs[(int)parameters[7] + 5]->cutting_surfaces[2] = new_srf(srfp, srfp2, 0, "\"plane\",");
+	srfp[0] = get_point(-1,0,0);
+	srfp[1] = get_point(position.x - parameters[6] / 2, position.y, position.z);
+	scene->objs[(int)parameters[7] + 5]->cutting_surfaces[3] = new_srf(srfp, srfp2, 0, "\"plane\","); 
+}
 void			intersect_ray_box(t_scene *scene, int index, int is_refractive)
 {
 	size_t		global;
