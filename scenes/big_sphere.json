@@ -13,20 +13,12 @@
 		"texture": "textures/helper.jpg",
 		"normal_map": "no"
 		},
-	"surface": {
-				"object": 1,
-				"type": "cylinder",
-				"is_negative": 0,
-				"is local": 0,
-				"param_one": [0, 0, 0],
-				"param_two": [0, 1, 0],
-				"param_three": 10
-			},
 	"light": [
 		{
-			"type": "point",
-			"position": [1, 2, 3],
-			"intensity": 0.8
+			"type": "directional",
+			"position": [0, 0, -35],
+			"intensity": 0.2,
+			"direction": [0, 0, -1]
 		},
 		{
 			"type": "ambient",
