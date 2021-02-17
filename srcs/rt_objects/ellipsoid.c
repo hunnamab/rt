@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ellipsoid.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 13:45:06 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/16 18:07:59 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/17 22:45:23 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ t_object    *new_ellipsoid(cl_float3 *buf, t_color color, float *specular, int s
 	new_object->normal_text = NULL;
 	new_object->data = (void *)el;
 	new_object->type = ELLIPSOID;
+	new_object->tag = "ellipsoid";
 	new_object->intersect = &intersect_ray_ellipsoid;
 	new_object->clear_obj = &clear_default;
 	return (new_object);

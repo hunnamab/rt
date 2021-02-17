@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   paraboloid.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 13:45:19 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/16 18:08:14 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/17 22:46:05 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ t_object    *new_paraboloid(cl_float3 *cen_buf, t_color color, float *specular, 
 	new_object->normal_text = NULL;
 	new_object->data = (void *)parab;
 	new_object->type = PARABOLOID;
+	new_object->tag = "paraboloid";
 	new_object->intersect = &intersect_ray_paraboloid;
 	//new_object->get_normal = &get_paraboloid_normal;
 	new_object->clear_obj = &clear_default;

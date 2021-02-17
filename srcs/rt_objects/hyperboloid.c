@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hyperboloid.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 13:45:13 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/17 17:31:57 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/17 22:45:45 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ t_object    *new_hyperboloid(cl_float3 *cen_buf, float *specular, t_color color,
 	new_object->normal_text = NULL;
 	new_object->data = (void *)hyper;
 	new_object->type = HYPERBOLOID;
+	new_object->type = "hyperboloid";
 	new_object->intersect = &intersect_ray_hyperboloid;
 	//new_object->get_normal = &get_hyperboloid_normal;
 	new_object->clear_obj = &clear_default;
