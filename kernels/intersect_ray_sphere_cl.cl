@@ -196,8 +196,6 @@ __kernel void intersect_ray_sphere_cl(__global float3 *ray_arr, \
     int i = get_global_id(0);
     float result;
     float3 ray;
-	float buf;
-	float3 buf2;
     float t1, t2;
     int cut1, cut2;
 	if (exception_buf[i] == index)

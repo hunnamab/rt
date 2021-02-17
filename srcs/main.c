@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 00:17:47 by npetrell          #+#    #+#             */
-/*   Updated: 2021/02/16 21:55:11 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/17 16:44:49 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ int		main(int args, char **argv)
 	SDL_CreateWindowAndRenderer(WID + 350, HEI, 0, &sdl.win, &sdl.renderer);
 	SDL_RenderClear(sdl.renderer);
 	scene->filter_type = DEFAULT;
-	printf("\n\n%d\n\n", scene->objs[0]->cutting_surfaces[0].is_negative);
 	//test_box(scene);
 	cl_init(scene); // cl_init.c, инициализируем кернели для дальнейшей работы
 	init_scene(scene);
