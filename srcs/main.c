@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 00:17:47 by npetrell          #+#    #+#             */
-/*   Updated: 2021/02/16 18:53:20 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/17 17:26:37 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,12 @@ int		main(int args, char **argv)
 	k = 1;
 	scene = (t_scene *)protected_malloc(sizeof(t_scene), 1);
 		args_check(scene, argv, args);
+
+	/* шум перлина, там ток над текстурам присвоить функцию calc_perlin()
+	/*t_texture  *hm = calc_perlin();
+	printf("%d %d\n", scene->texts[0]->width,  scene->texts[0]->l_size);
+	scene->texts[0] = hm;
+	scene->objs[0]->text = hm;*/
 	SDL_Init(SDL_INIT_EVERYTHING);
 	SDL_CreateWindowAndRenderer(WID + 350, HEI, 0, &sdl.win, &sdl.renderer);
 	SDL_RenderClear(sdl.renderer);
