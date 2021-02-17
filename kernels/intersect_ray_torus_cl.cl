@@ -1,5 +1,48 @@
 #include "kernel.h"
 
+int cut(float3 point, __global t_cutting_surface *cs, int cs_nmb)
+{
+    int i;
+    float result;
+    i = 0;
+    while(i < cs_nmb)
+    {
+        if (cs[i].type == PLANE)
+        {
+            result = cs[i].param1.x * point.x + cs[i].param1.y * point.y + cs[i].param1.z * point.z + cs[i].param3;
+            if (result >= 0)
+                return (0);
+        }
+		if(cs[i].type == SPHERE)
+		{
+			float3 buf;
+			buf = point - cs[i].param1;
+			result = length(buf);
+			if (result >= cs[i].param3 && !cs[i].is_negative)
+				return(0);
+			if(result <= cs[i].param3 && cs[i].is_negative)
+				return(0);
+		}
+        if(cs[i].type == CYLINDER)
+        {
+            float4 buf_point;
+            buf_point.x = point.x;
+            buf_point.y = point.y;
+            buf_point.z = point.z;
+            buf_point.w = 1;
+            get_rotation_matrix(cs[i].param2, &buf_point);
+            result = (buf_point.x * buf_point.x - 2 * buf_point.x * cs[i].param1.x + cs[i].param1.x * cs[i].param1.x) / cs[i].param3 + \
+            (buf_point.y * buf_point.y - 2 * buf_point.y * cs[i].param1.y + cs[i].param1.y * cs[i].param1.y) / cs[i].param3 - 1;
+            if (result < 0 && cs[i].is_negative)
+                return(0);
+            if (result > 0 && !cs[i].is_negative)
+                return(0);
+        }
+        i++;
+    }
+    return (1);
+}
+
 float2		swap(float2 ab)
 {
 	float tmp;

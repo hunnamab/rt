@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 13:44:57 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/16 18:07:06 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/16 21:42:13 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,7 @@ void		test_box(t_scene *scene)
 	parameters[7] = 1;
 	new_box(pos, color,parameters,scene);
 }
+
 void		new_box(cl_float3 position, t_color color,
 							float *parameters, t_scene *scene)
 {
@@ -266,6 +267,7 @@ void		new_box(cl_float3 position, t_color color,
 	srfp[1] = get_point(position.x - parameters[6] / 2, position.y, position.z);
 	scene->objs[(int)parameters[7] + 5]->cutting_surfaces[3] = new_srf(srfp, srfp2, 0, "\"plane\","); 
 }
+
 void			intersect_ray_box(t_scene *scene, int index, int is_refractive)
 {
 	size_t		global;
