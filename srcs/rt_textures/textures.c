@@ -6,7 +6,7 @@
 /*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/17 18:09:19 by ldeirdre          #+#    #+#             */
-/*   Updated: 2021/02/12 22:26:04 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/17 22:11:23 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,10 @@ t_texture			*tex_new_bmp(char *file)
 		file = ft_strsub(file, 1, (ft_strlen(file) - 2));
 	if ((s = IMG_Load(file)) == NULL)
 		return (NULL);
-	return (tex_new_surface(s));
+	if (ft_strstr(file, "perlin_"))
+		return (calc_perlin());
+	else
+		return (tex_new_surface(s));
 }
 
 t_texture			*tex_new_surface(SDL_Surface *s)
