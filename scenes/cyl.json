@@ -10,9 +10,18 @@
 		"refraction": 0,
 		"transparency": 0,
 		"t_scale": 30,
-		"surface_id": 0,
+		"surface_id": 1,
 		"texture": "no",
 		"normal_map": "no"
+	},
+	"surface": {
+		"object": 1,
+		"type": "plane",
+		"is_negative": 0,
+		"is_local": 1,
+		"param_one": [0, 1, 0],
+		"param_two": [0, 0, 0],
+		"param_three": 5
 	},
 	"light": [
 		{

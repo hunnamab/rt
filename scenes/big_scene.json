@@ -9,7 +9,7 @@
 		"refraction": 0,
 		"transparency": 0,
 		"t_scale": 10,
-		"surface_id": 0,
+		"surface_id": 1,
 		"texture": "textures/helper.jpg",
 		"normal_map": "textures/test.png"
 	},
@@ -25,7 +25,7 @@
 			"refraction": 0,
 			"transparency": 0,
 			"t_scale": 20,
-			"surface_id": 0,
+			"surface_id": 1,
 			"texture": "textures/helper.jpg",
 			"normal_map": "textures/test.png"
 		},
@@ -40,7 +40,7 @@
 			"refraction": 0,
 			"transparency": 0,
 			"t_scale": 20,
-			"surface_id": 0,
+			"surface_id": 3,
 			"texture": "textures/test2.png",
 			"normal_map": "textures/bump04.jpg"
 		}
@@ -57,7 +57,7 @@
 			"refraction": 0,
 			"transparency": 0,
 			"t_scale": 1000,
-			"surface_id": 0,
+			"surface_id": 4,
 			"texture": "textures/helper.jpg",
 			"normal_map": "no"
 		},
@@ -72,7 +72,7 @@
 			"refraction": 0,
 			"transparency": 0,
 			"t_scale": 1000,
-			"surface_id": 0,
+			"surface_id": 5,
 			"texture": "textures/test2.png",
 			"normal_map": "textures/test.png"
 		}
@@ -171,17 +171,44 @@
 		{
 			"object": 1,
 			"type": "plane",
-			"is_negative": 1,
-			"is local": 0,
+			"is_negative": 0,
+			"is local": 1,
 			"param_one": [1, 0, 0],
 			"param_two": [0, 0, 0],
 			"param_three": 5
 		},
 		{
-			"object": 1,
+			"object": 2,
 			"type": "plane",
-			"is_negative": 1,
-			"is local": 0,
+			"is_negative": 0,
+			"is local": 1,
+			"param_one": [1, 0, 0],
+			"param_two": [0, 0, 0],
+			"param_three": 5
+		},
+		{
+			"object": 3,
+			"type": "plane",
+			"is_negative": 0,
+			"is local": 1,
+			"param_one": [1, 0, 0],
+			"param_two": [0, 0, 0],
+			"param_three": 5
+		},
+		{
+			"object": 4,
+			"type": "plane",
+			"is_negative": 0,
+			"is local": 1,
+			"param_one": [1, 0, 0],
+			"param_two": [0, 0, 0],
+			"param_three": 5
+		},
+		{
+			"object": 5,
+			"type": "plane",
+			"is_negative": 0,
+			"is local": 1,
 			"param_one": [1, 0, 0],
 			"param_two": [0, 0, 0],
 			"param_three": 5

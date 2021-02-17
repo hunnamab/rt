@@ -11,10 +11,19 @@
 			"reflection": 0.0,
 			"refraction": 0,
 			"transparency": 0,
-			"surface_id": 0,
+			"surface_id": 1,
 			"texture": "no"
 		}
 	],
+	"surface": {
+		"object": 1,
+		"type": "plane",
+		"is_negative": 0,
+		"is_local": 0,
+		"param_one": [0, 1, 0],
+		"param_two": [0, 0, 0],
+		"param_three": 5
+	},
 	"light": [
 		{
 			"type": "point",

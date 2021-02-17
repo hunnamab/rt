@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 13:45:13 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/16 18:08:09 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/17 17:31:57 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,6 @@ void        intersect_ray_hyperboloid(t_scene *scene, int index, int is_refracti
 	}
 	else
 		cs = NULL;
-    printf("\n\n%hhu\n\n", scene->objs[index]->color.red);
 	clSetKernelArg(scene->cl_data.kernels[14], 0, sizeof(cl_mem), &scene->cl_data.scene.ray_buf);
 	clSetKernelArg(scene->cl_data.kernels[14], 1, sizeof(cl_mem), &scene->cl_data.scene.intersection_buf);
     clSetKernelArg(scene->cl_data.kernels[14], 2, sizeof(t_hyperboloid), scene->objs[index]->data);
