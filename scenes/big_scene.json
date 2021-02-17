@@ -25,7 +25,7 @@
 			"refraction": 0,
 			"transparency": 0,
 			"t_scale": 20,
-			"surface_id": 1,
+			"surface_id": 2,
 			"texture": "textures/helper.jpg",
 			"normal_map": "textures/test.png"
 		},
@@ -89,7 +89,7 @@
 			"refraction": 0,
 			"transparency": 0,
 			"t_scale": 2,
-			"surface_id": 0,
+			"surface_id": 5,
 			"texture": "textures/test2.png",
 			"normal_map": "textures/test.png"
 		},
@@ -104,7 +104,7 @@
 			"refraction": 0,
 			"transparency": 0,
 			"t_scale": 4,
-			"surface_id": 0,
+			"surface_id": 5,
 			"texture": "textures/test2.png",
 			"normal_map": "textures/test.png"
 		}
@@ -120,7 +120,7 @@
 			"refraction": 0,
 			"transparency": 0,
 			"t_scale": 8,
-			"surface_id": 0,
+			"surface_id": 5,
 			"texture": "textures/test2.png",
 			"normal_map": "textures/test.png"
 		},
@@ -134,7 +134,7 @@
 			"refraction": 0,
 			"transparency": 0,
 			"t_scale": 3,
-			"surface_id": 0,
+			"surface_id": 5,
 			"texture": "textures/test2.png",
 			"normal_map": "textures/test.png"
 		},
@@ -148,7 +148,7 @@
 			"refraction": 0,
 			"transparency": 0,
 			"t_scale": 3,
-			"surface_id": 0,
+			"surface_id": 5,
 			"texture": "textures/test2.png",
 			"normal_map": "textures/test.png"
 		},
@@ -162,7 +162,7 @@
 			"refraction": 0,
 			"transparency": 0,
 			"t_scale": 10,
-			"surface_id": 0,
+			"surface_id": 5,
 			"texture": "textures/test2.png",
 			"normal_map": "textures/test.png"
 		}
@@ -182,7 +182,7 @@
 			"type": "plane",
 			"is_negative": 0,
 			"is local": 1,
-			"param_one": [1, 0, 0],
+			"param_one": [0, 1, 0],
 			"param_two": [0, 0, 0],
 			"param_three": 5
 		},

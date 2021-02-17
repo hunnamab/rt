@@ -11,8 +11,37 @@
 		"t_scale": 10,
 		"surface_id": 1,
 		"texture": "textures/helper.jpg",
-		"normal_map": "no"
+		"normal_map": "textures/test.png"
 		},
+	"surface": [
+		{
+			"object": 1,
+			"type": "sphere",
+			"is_negative": 1,
+			"is local": 1,
+			"param_one": [-8, 0, 0],
+			"param_two": [0, 0, 0],
+			"param_three": 7
+		},
+		{
+			"object": 1,
+			"type": "cylinder",
+			"is_negative": 1,
+			"is local": 1,
+			"param_one": [0, 0, 0],
+			"param_two": [0, 0, 0],
+			"param_three": 7
+		},
+		{
+			"object": 1,
+			"type": "plane",
+			"is_negative": 1,
+			"is local": 1,
+			"param_one": [0, 1, 0],
+			"param_two": [0, 0, 0],
+			"param_three": 7
+		}
+	],
 	"light": [
 		{
 			"type": "directional",

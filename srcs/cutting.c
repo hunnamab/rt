@@ -7,7 +7,6 @@ void    local_cutting(t_scene *scene)
     float **matrix;
     j = 0;
     i = 0; 
-   // scene->objs[0]->cutting_surfaces[0].is_local = 1;
     while(i < scene->obj_nmb)
     {
         while(j < scene->objs[i]->cs_nmb)
@@ -16,7 +15,6 @@ void    local_cutting(t_scene *scene)
             {
                 if(scene->objs[i]->cutting_surfaces[j].type == PLANE)
                 {
-                    printf("\n\nlul\n\n");
                     scene->objs[i]->cutting_surfaces[j].param2 = \
                     vector_sub(&scene->objs[i]->position, &scene->objs[i]->cutting_surfaces[j].param2);
                     matrix = get_rotation_matrix(scene->objs[i]->rotation);
@@ -27,12 +25,21 @@ void    local_cutting(t_scene *scene)
                 }
                 if(scene->objs[i]->cutting_surfaces[j].type == SPHERE)
                 {
-                    scene->objs[i]->cutting_surfaces[j].param2 = \
-                    vector_sub(&scene->objs[i]->position, &scene->objs[i]->cutting_surfaces[j].param2);
+                    scene->objs[i]->cutting_surfaces[j].param1 = \
+                    vector_sub(&scene->objs[i]->position, &scene->objs[i]->cutting_surfaces[j].param1);
+                }
+                if(scene->objs[i]->cutting_surfaces[j].type == CYLINDER)
+                {
+                    scene->objs[i]->cutting_surfaces[j].param1 = \
+                    vector_sub(&scene->objs[i]->position, &scene->objs[i]->cutting_surfaces[j].param1);
+                    scene->objs[i]->cutting_surfaces[j].param2.x += scene->objs[i]->rotation[0];
+                    scene->objs[i]->cutting_surfaces[j].param2.y += scene->objs[i]->rotation[1];
+                    scene->objs[i]->cutting_surfaces[j].param1.z += scene->objs[i]->rotation[2];
                 }
             }
             j++;
         }
+        j = 0;
         i++;
     }
 }
