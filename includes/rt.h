@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:34 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/16 18:22:49 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/16 23:29:24 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,5 +239,6 @@ void				camera_move_left(t_scene *scene);
 void				camera_move_up(t_scene *scene);
 void				camera_move_down(t_scene *scene);
 void    			local_cutting(t_scene *scene);
+t_texture			*calc_perlin();
 
 #endif
