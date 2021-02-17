@@ -6,7 +6,7 @@
 /*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 14:44:06 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/09 23:24:34 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/17 23:04:45 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,9 @@ static void split_surface(int *scij, t_scene *scene,char *buf)
 void		split_objects(int len, t_scene *scene, char *buf)
 {
 	char	*obj_name;
-	int		scij[4]; // start, camera, i, j
+	int		scij[4];
+	 // start, camera, i, j
+	int i = 0;
 
 	init_norme(scij);
 	while (++scij[2] < len)
@@ -153,6 +155,8 @@ void		split_objects(int len, t_scene *scene, char *buf)
 				split_light(scij, scene, buf);
 			if (ft_strequ(obj_name, "\t\"surface\"") || ft_strequ(obj_name, "{\n\t\"surface\""))
 				split_surface(scij, scene, buf);
+			if (ft_strequ(obj_name, "\t\"box\"") || ft_strequ(obj_name, "{\n\t\"box\""))
+				scene->box_nmb++;
 			if (ft_strequ(obj_name, "\t\"camera\"") || ft_strequ(obj_name, "{\n\t\"camera\""))
 				scij[1]++;
 			ft_memdel((void **)&obj_name);
@@ -161,7 +165,8 @@ void		split_objects(int len, t_scene *scene, char *buf)
 			scij[3]++;
 		}
 	}
-	scene->obj_nmb = scene->obj_nmb - scene->light_nmb - scene->srf_nmb - scij[1];
+	scene->box_nmb *= 5;
+	scene->obj_nmb = scene->obj_nmb - scene->light_nmb - scene->srf_nmb - scij[1] + scene->box_nmb;
 	if (scene->obj_nmb < 1 || scene->light_nmb < 1 || scij[1] != 1)
 		output_error(0);
 }

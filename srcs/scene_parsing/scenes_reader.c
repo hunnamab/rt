@@ -6,7 +6,7 @@
 /*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:43 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/17 22:46:32 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/17 23:04:54 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static void	get_objects(char *buf, t_scene *scene, int len)
 	scene->obj_nmb = count_objects(len, buf);
 	split_objects(len, scene, buf);
 	scene->srfs = protected_malloc(sizeof(t_cutting_surface), scene->srf_nmb);
-	scene->objs = protected_malloc(sizeof(t_object *), scene->obj_nmb + 6);
+	scene->objs = protected_malloc(sizeof(t_object *), scene->obj_nmb + scene->box_nmb);
 	scene->light = protected_malloc(sizeof(t_light), scene->light_nmb);
 	while (snmi[3] < len)
 	{

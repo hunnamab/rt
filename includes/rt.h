@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:34 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/16 23:29:24 by npetrell         ###   ########.fr       */
+/*   Updated: 2021/02/17 23:07:22 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,7 +188,7 @@ void				intersect_ray_ellipsoid(t_scene *scene, int index, int is_refractive);
 //box
 void				intersect_ray_box(t_scene *scene, int index, int is_refractive);
 /* новые функции создания куба*/
-void				new_box(cl_float3 position, t_color color,
+void				new_box(cl_float3 *position, t_color color,
 							float *parameters, t_scene *scene);
 void				test_box(t_scene *scene);
 /*****************************/

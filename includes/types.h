@@ -6,7 +6,7 @@
 /*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/08 16:33:03 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/16 22:09:48 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/17 23:02:47 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -358,6 +358,7 @@ struct					s_scene
 	t_cutting_surface	*srfs;
 	int					init_flag;
 	int					srf_nmb;
+	int					box_nmb;
 	int					scrshot_nmb;
 	int					filter_type;
 	int					mode; // 0 - default, 1 - normal, 2 - depth, 3 - flat_light
