@@ -809,7 +809,8 @@ __kernel void get_frame_buf_cl(__global t_color *frame_buf, \
 							int obj_nmb, int bounce_cnt, \
 							__global t_material *prev_material_buf, \
 							int is_refractive, __global t_color *refl_buf, \
-							__global t_color *refr_buf, __global int *orig_index_buf)
+							__global t_color *refr_buf, __global int *orig_index_buf, \
+							int has_refraction)
 {
     int i = get_global_id(0);
 	int j = index_buf[i];
@@ -827,17 +828,20 @@ __kernel void get_frame_buf_cl(__global t_color *frame_buf, \
 										obj, light, light_nmb, i, obj_nmb, bounce_cnt, prev_material_buf);
 		//frame_buf[i] = refr_buf[i];
 	}
-	 else if (j != -1 && bounce_cnt > 0 && !is_refractive && obj[orig_index_buf[i]].reflection > 0.0f)
+	else if (j != -1 && bounce_cnt > 0 && !is_refractive && obj[orig_index_buf[i]].reflection > 0.0f)
 	{
 		refl_buf[i] = reflection_color(frame_buf, ray_buf, intersection_buf, \
 										normal_buf, index_buf, material_buf, \
 										obj, light, light_nmb, i, obj_nmb, bounce_cnt, prev_material_buf);
-		/* float check = (1.0f - prev_material_buf[i].reflection) * refl_buf[i].red + prev_material_buf[i].reflection * frame_buf[i].red;
- 		frame_buf[i].red = check > 255 ? 255 : check;
-		check = (1.0f - prev_material_buf[i].reflection) * refl_buf[i].green + prev_material_buf[i].reflection * frame_buf[i].green;
-		frame_buf[i].green = check > 255 ? 255 : check;
-		check  = (1.0f - prev_material_buf[i].reflection) * refl_buf[i].blue + prev_material_buf[i].reflection * frame_buf[i].blue;
-		frame_buf[i].blue = check > 255 ? 255 : check;  */
+		if (has_refraction == 0)
+		{
+			float check = (1.0f - obj[orig_index_buf[i]].reflection) * refl_buf[i].red + obj[orig_index_buf[i]].reflection * frame_buf[i].red;
+ 			frame_buf[i].red = check > 255 ? 255 : check;
+			check = (1.0f - obj[orig_index_buf[i]].reflection) * refl_buf[i].green + obj[orig_index_buf[i]].reflection * frame_buf[i].green;
+			frame_buf[i].green = check > 255 ? 255 : check;
+			check  = (1.0f - obj[orig_index_buf[i]].reflection) * refl_buf[i].blue + obj[orig_index_buf[i]].reflection * frame_buf[i].blue;
+			frame_buf[i].blue = check > 255 ? 255 : check;
+		}
 	} 
 /* 	else if (j != -1 && bounce_cnt > 0 && is_refractive)
 	{
@@ -859,19 +863,22 @@ __kernel void get_frame_buf_cl(__global t_color *frame_buf, \
 	if (bounce_cnt > 0 && obj[orig_index_buf[i]].refraction > 0.0f)
 	{
 		//printf("kr = %f\n", material_buf[i].kr);
-		float check = refl_buf[i].red * material_buf[i].kr + refr_buf[i].red * (1.0f - material_buf[i].kr);
-		frame_buf[i].red = check > 255 ? 255 : check;
-		check = refl_buf[i].green * material_buf[i].kr + refr_buf[i].green * (1.0f - material_buf[i].kr);
-		frame_buf[i].green = check > 255 ? 255 : check;
-		check = refl_buf[i].blue * material_buf[i].kr + refr_buf[i].blue * (1.0f - material_buf[i].kr);
-		frame_buf[i].blue = check > 255 ? 255 : check;
+		float check = refl_buf[i].red * material_buf[i].kr + refr_buf[i].red * (1.0 - material_buf[i].kr);
+		buf.red = check > 255 ? 255 : check;
+		check = refl_buf[i].green  * material_buf[i].kr + refr_buf[i].green * (1.0 - material_buf[i].kr);
+		buf.green = check > 255 ? 255 : check;
+		check = refl_buf[i].blue * material_buf[i].kr + refr_buf[i].blue * (1.0 - material_buf[i].kr);
+		buf.blue = check > 255 ? 255 : check;
 		
-		/* check = buf.red * 11.2;
+		//check = (buf.red ) * 0;
+		check = buf.red + frame_buf[i].red * material_buf[i].kr;
 		frame_buf[i].red = check > 255 ? 255 : check;
-		check =	buf.green * 11.2;
+		//check =	(buf.green) * 0;
+		check = buf.green + frame_buf[i].green * material_buf[i].kr;
 		frame_buf[i].green = check > 255 ? 255 : check;
-		check =	buf.blue * 11.2;
-		frame_buf[i].blue = check > 255 ? 255 : check; */
+		//check =	(buf.blue)* 0;
+		check = buf.blue + frame_buf[i].blue * material_buf[i].kr;
+		frame_buf[i].blue = check > 255 ? 255 : check;
 	}
 }
 
