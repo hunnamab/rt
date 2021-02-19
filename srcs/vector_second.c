@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector_second.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 21:41:08 by pmetron           #+#    #+#             */
-/*   Updated: 2020/11/09 13:07:38 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/19 07:26:05 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 cl_float3		vector_add(const cl_float3 *v1, const cl_float3 *v2)
 {
-	cl_float3 res;
+	cl_float3	res;
 
 	res.x = v1->x + v2->x;
 	res.y = v1->y + v2->y;
@@ -24,7 +24,7 @@ cl_float3		vector_add(const cl_float3 *v1, const cl_float3 *v2)
 
 cl_float3		vector_scale(cl_float3 *v, float c)
 {
-	cl_float3 res;
+	cl_float3	res;
 
 	res.x = v->x * c;
 	res.y = v->y * c;
@@ -34,7 +34,7 @@ cl_float3		vector_scale(cl_float3 *v, float c)
 
 cl_float3		vector_sub(cl_float3 *v1, cl_float3 *v2)
 {
-	cl_float3 res;
+	cl_float3	res;
 
 	res.x = v1->x - v2->x;
 	res.y = v1->y - v2->y;
@@ -42,7 +42,7 @@ cl_float3		vector_sub(cl_float3 *v1, cl_float3 *v2)
 	return (res);
 }
 
-float		vector_dot(cl_float3 *v1, cl_float3 *v2)
+float			vector_dot(cl_float3 *v1, cl_float3 *v2)
 {
 	return (v1->x * v2->x + v1->y * v2->y + v1->z * v2->z);
 }

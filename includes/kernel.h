@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   kernel.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/08 16:32:50 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/17 17:12:04 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/19 06:58:32 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef KERNEL_H
 # define KERNEL_H
 
-enum 				object_type 
+enum				e_object_type
 {
 	SPHERE,
 	CONE,
@@ -27,7 +27,7 @@ enum 				object_type
 	TORUS
 };
 
-enum 				light_type
+enum				e_light_type
 {
 	POINT,
 	AMBIENT,
@@ -64,7 +64,7 @@ typedef	struct		s_material
 	float			reflection;
 	float			refraction;
 	float			transparency;
-	float			kr; //fresnel
+	float			kr;
 }					t_material;
 
 typedef struct		s_sphere
@@ -138,7 +138,7 @@ typedef struct		s_hyperboloid
 	float			c;
 }					t_hyperboloid;
 
-typedef	union		primitive
+typedef	union		u_primitive
 {
 	t_cylinder		cylinder;
 	t_cone			cone;
@@ -146,13 +146,13 @@ typedef	union		primitive
 	t_plane			plane;
 	t_triangle		triangle;
 	t_ellipsoid		ellipsoid;
-	t_hyperboloid   hyperboloid;
+	t_hyperboloid	hyperboloid;
 	t_paraboloid	paraboloid;
 	t_box			box;
 	t_torus			torus;
 }					t_primitive;
 
-typedef	struct		 s_cutting_surface
+typedef	struct		s_cutting_surface
 {
 	float3			param1;
 	float3			param2;
@@ -182,7 +182,7 @@ typedef struct		s_object3d_d
 	int				texture_width;
 	int				texture_height;
 	int				l_size;
-	int				normal_map_id; //разметка частей текстурного буфера для поиска карты нормалей
+	int				normal_map_id;
 	int				texture_size_nm;
 	int				texture_width_nm;
 	int				texture_height_nm;

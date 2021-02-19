@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
+/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/08 15:30:38 by pmetron           #+#    #+#             */
-/*   Updated: 2020/11/10 13:38:41 by hunnamab         ###   ########.fr       */
+/*   Updated: 2021/02/19 06:51:21 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,6 @@ int				get_last_digit(long long int num, int precision);
 char			*ft_strcpy_alloc(char *dst, char *src);
 void			ft_memdel_float(void **p);
 int				brackets(char *str);
-float	        ftoi(char *str);
+float			ftoi(char *str);
 
 #endif

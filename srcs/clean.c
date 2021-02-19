@@ -3,26 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   clean.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 17:32:12 by pmetron           #+#    #+#             */
-/*   Updated: 2021/02/17 22:03:28 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/19 10:21:37 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-void	clear_default(t_object *obj)
+void		clear_default(t_object *obj)
 {
 	free(obj->data);
 	free(obj);
 }
 
-void	clean_scene(t_scene *scene)
+static void	cl_release(t_scene *scene)
 {
-	int i;
-
-	i = 0;
 	ft_memdel((void **)&scene->normal_buf);
 	ft_memdel((void **)&scene->material_buf);
 	ft_memdel((void **)&scene->intersection_buf);
@@ -30,8 +27,8 @@ void	clean_scene(t_scene *scene)
 	ft_memdel((void **)&scene->viewport);
 	ft_memdel((void **)&scene->index_buf);
 	ft_memdel((void **)&scene->depth_buf);
- 	clReleaseMemObject(scene->cl_data.scene.ray_buf);
-    clReleaseMemObject(scene->cl_data.scene.intersection_buf);
+	clReleaseMemObject(scene->cl_data.scene.ray_buf);
+	clReleaseMemObject(scene->cl_data.scene.intersection_buf);
 	clReleaseMemObject(scene->cl_data.scene.index_buf);
 	clReleaseMemObject(scene->cl_data.scene.depth_buf);
 	clReleaseMemObject(scene->cl_data.scene.normal_buf);
@@ -44,22 +41,25 @@ void	clean_scene(t_scene *scene)
 	clReleaseMemObject(scene->cl_data.scene.orig_index_buf);
 	clReleaseMemObject(scene->cl_data.scene.exception_buf);
 	clReleaseMemObject(scene->cl_data.scene.obj);
-	while (i < 19)
+}
+
+void		clean_scene(t_scene *scene)
+{
+	int		i;
+
+	i = -1;
+	cl_release(scene);
+	while (++i < 19)
 	{
 		clReleaseProgram(scene->cl_data.programs[i]);
 		clReleaseKernel(scene->cl_data.kernels[i]);
-		i++;	
 	}
-    clReleaseCommandQueue(scene->cl_data.commands);
-    clReleaseContext(scene->cl_data.context);
+	clReleaseCommandQueue(scene->cl_data.commands);
+	clReleaseContext(scene->cl_data.context);
 	ft_memdel((void **)&scene->cl_data.kernels);
 	ft_memdel((void **)&scene->cl_data.programs);
-	while (i < scene->obj_nmb)
-	{
+	while (++i < scene->obj_nmb)
 		scene->objs[i]->clear_obj(scene->objs[i]);
-		i++;
-	}
-	i = 0;
 	free(scene->light);
 	free(scene->objs);
 	ft_memdel((void **)&scene);

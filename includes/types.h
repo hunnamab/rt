@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   types.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/08 16:33:03 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/17 23:02:47 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/19 07:23:43 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 # define FILTERS_NUM 5
 # include <stdint.h>
 
-typedef	struct			s_scene t_scene;
+typedef	struct s_scene	t_scene;
 
-enum object_type {
+enum					e_object_type {
 	SPHERE,
 	CONE,
 	TRIANGLE,
@@ -30,7 +30,7 @@ enum object_type {
 	TORUS
 };
 
-enum light_type{
+enum					e_light_type {
 	POINT,
 	AMBIENT,
 	DIRECTIONAL
@@ -60,11 +60,11 @@ typedef struct			s_scene_device
 
 typedef	struct			s_cl_data
 {
-	cl_device_id		device_id; // compute device id
-	cl_context			context; // compute context
-	cl_command_queue	commands; // compute command queue
+	cl_device_id		device_id;
+	cl_context			context;
+	cl_command_queue	commands;
 	cl_program			*programs;
-	cl_kernel 			*kernels; // compute kernel
+	cl_kernel			*kernels;
 	t_scene_device		scene;
 }						t_cl_data;
 
@@ -150,7 +150,7 @@ typedef	struct			s_material
 	float				reflection;
 	float				refraction;
 	float				transparency;
-	float				kr; //fresnel
+	float				kr;
 }						t_material;
 
 typedef	struct			s_ellipsoid
@@ -209,9 +209,9 @@ typedef	struct			s_texture
 
 typedef struct			s_basis
 {
-    cl_float3			u;
-    cl_float3			v;
-    cl_float3			w;
+	cl_float3			u;
+	cl_float3			v;
+	cl_float3			w;
 }						t_basis;
 
 typedef struct			s_butt
@@ -224,7 +224,7 @@ typedef struct			s_butt
 
 typedef	struct			s_ui
 {
-	t_butt 				save_png;
+	t_butt				save_png;
 	t_butt				ambiance;
 	t_butt				am_plus;
 	t_butt				am_minus;
@@ -245,10 +245,10 @@ typedef	struct			s_ui
 	t_butt				magic;
 	t_butt				sound;
 	int					filt;
-	int 				i;
+	int					i;
 }						t_ui;
 
-typedef	union			primitive
+typedef	union			u_primitive
 {
 	t_cylinder			cylinder;
 	t_cone				cone;
@@ -256,13 +256,13 @@ typedef	union			primitive
 	t_plane				plane;
 	t_triangle			triangle;
 	t_ellipsoid			ellipsoid;
-	t_hyperboloid   	hyperboloid;
+	t_hyperboloid		hyperboloid;
 	t_box				box;
 	t_paraboloid		paraboloid;
 	t_torus				torus;
 }						t_primitive;
 
-typedef	struct		 	s_cutting_surface
+typedef	struct			s_cutting_surface
 {
 	cl_float3			param1;
 	cl_float3			param2;
@@ -287,20 +287,20 @@ typedef	struct			s_object3d
 	t_texture			*text;
 	t_texture			*normal_text;
 	t_basis				basis;
-	int 				type;
+	int					type;
 	int					t_scale;
 	int					texture_id;
 	int					surface_id;
 	int					normal_map_id;
 	t_cutting_surface	*cutting_surfaces;
-	int					cs_nmb; /*количество секущих поверхностей*/
+	int					cs_nmb;
 	void				(*get_normal)(struct s_scene *, int, int);
 	void				(*intersect)(t_scene *, int, int);
 	void				(*clear_obj)(struct s_object3d *);
 }						t_object;
 
 typedef struct			s_object3d_d
-{	
+{
 	t_primitive			primitive;
 	t_basis				basis;
 	cl_float3			rotation;
@@ -318,28 +318,26 @@ typedef struct			s_object3d_d
 	cl_int				texture_width;
 	cl_int				texture_height;
 	cl_int				l_size;
-	cl_int				normal_map_id; //разметка частей текстурного буфера для поиска карты нормалей
+	cl_int				normal_map_id;
 	cl_int				texture_size_nm;
 	cl_int				texture_width_nm;
 	cl_int				texture_height_nm;
 	cl_int				l_size_nm;
 }						t_object_d;
-
-
 typedef struct			s_filter_data
 {
-    cl_program			*programs;
-    cl_kernel			*kernels;
-    cl_context			context;
+	cl_program			*programs;
+	cl_kernel			*kernels;
+	cl_context			context;
 	cl_command_queue	commands;
-    cl_device_id		device_id;
-    cl_mem				pixels;/* указатель на буфер типа t_color на девайсе*/
+	cl_device_id		device_id;
+	cl_mem				pixels;
 }						t_filter_data;
 
 struct					s_scene
 {
 	t_cl_data			cl_data;
-	t_object			**objs;	
+	t_object			**objs;
 	int					obj_nmb;
 	t_ui				*rt_ui;
 	cl_float3			*normal_buf;
@@ -361,7 +359,7 @@ struct					s_scene
 	int					box_nmb;
 	int					scrshot_nmb;
 	int					filter_type;
-	int					mode; // 0 - default, 1 - normal, 2 - depth, 3 - flat_light
+	int					mode;
 	int					max_bounces;
 	int					bounce_cnt;
 	int					has_refraction;

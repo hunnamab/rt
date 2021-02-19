@@ -6,7 +6,7 @@
 #    By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/07 15:39:13 by hunnamab          #+#    #+#              #
-#    Updated: 2021/02/16 23:31:48 by npetrell         ###   ########.fr        #
+#    Updated: 2021/02/19 10:20:22 by npetrell         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,8 +44,8 @@ SRC_NAME = ../matrix_lib/matr_add_matr.c ../matrix_lib/create_matrix.c \
 	../matrix_lib/matr_sub_scalar.c ../matrix_lib/matr_to_line.c \
 	../matrix_lib/matr_trace.c ../matrix_lib/matr_transpose.c \
 	../matrix_lib/matrix_identity.c \
-	main.c vector.c utils.c transform.c light.c draw.c \
-	buffers.c scene.c color.c vector_second.c transform_matrix.c \
+	main.c vector.c utils.c transform.c light.c \
+	buffers.c buffers_part_2.c scene.c color.c vector_second.c transform_matrix.c \
 	keyboard.c clean.c errors_management.c \
 	cl_init.c buffers_material_buf.c \
 	scene_parsing/objects_parameters.c scene_parsing/scenes_reader.c \
@@ -59,7 +59,11 @@ SRC_NAME = ../matrix_lib/matr_add_matr.c ../matrix_lib/create_matrix.c \
 	rt_objects/cylinder.c rt_objects/cone.c \
 	rt_objects/ellipsoid.c rt_objects/box.c rt_objects/paraboloid.c \
 	rt_objects/torus.c rt_objects/hyperboloid.c \
-	filters/filters.c scene_parsing/surfaces.c rt_ui.c mouse_click.c \
+	filters/filters.c scene_parsing/surfaces.c rt_ui.c rt_ui_part_2.c \
+	draw/draw_raycast.c draw/get_refraction_ray.c draw/draw_scene.c \
+	draw/draw_normal_buf.c draw/draw_deepth_buf.c draw/get_fresnel_coeff.c \
+	draw/get_reflection_ray.c \
+	mouse_click.c mouse_click_part_2.c\
 	camera_move.c camera_move2.c cutting.c
 
 OBJ_NAME = $(SRC_NAME:.c=.o)
@@ -85,6 +89,7 @@ $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c
 				@mkdir $(OBJ_PATH)/rt_textures 2> /dev/null || true
 				@mkdir $(OBJ_PATH)/scene_parsing 2> /dev/null || true
 				@mkdir $(OBJ_PATH)/filters 2> /dev/null || true
+				@mkdir $(OBJ_PATH)/draw 2> /dev/null || true
 				@$(CC) $(C_FLAGS) -c $< $(LIB_FLAGS) $(PRINT_FLAG) -o $@
 		
 clean:
@@ -95,6 +100,7 @@ clean:
 	@rmdir $(OBJ_PATH)/rt_textures 2> /dev/null || true
 	@rmdir $(OBJ_PATH)/scene_parsing 2> /dev/null || true
 	@rmdir $(OBJ_PATH)/filters 2> /dev/null || true
+	@rmdir $(OBJ_PATH)/draw 2> /dev/null || true
 	@rmdir $(OBJ_PATH) 2> /dev/null || true
 	
 fclean: clean

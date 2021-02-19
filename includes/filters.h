@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   filters.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
+/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/08 16:32:34 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/08 16:33:34 by hunnamab         ###   ########.fr       */
+/*   Updated: 2021/02/19 06:53:47 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 # include "rt.h"
 # include "types.h"
 
-enum	filters
+enum	e_filters
 {
 	SEPIA,
 	GAUSS,

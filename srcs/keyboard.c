@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   keyboard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/06 13:38:13 by pmetron           #+#    #+#             */
-/*   Updated: 2021/02/13 03:13:18 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/19 08:10:17 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-uint8_t	*copy_frame_buf(t_scene *scene, uint8_t *frame_buf)
+uint8_t			*copy_frame_buf(t_scene *scene, uint8_t *frame_buf)
 {
-	int x;
-	int y;
-	int i;
-	int j;
+	int			x;
+	int			y;
+	int			j;
+
 	y = -1;
 	j = 0;
 	frame_buf = (uint8_t *)malloc(WID * HEI * 4);
@@ -26,24 +26,22 @@ uint8_t	*copy_frame_buf(t_scene *scene, uint8_t *frame_buf)
 		x = -1;
 		while (++x < WID)
 		{
-			i = y * WID + x;
-			frame_buf[j] = scene->frame_buf[i].blue;
+			frame_buf[j] = scene->frame_buf[y * WID + x].blue;
 			j++;
-			frame_buf[j] = scene->frame_buf[i].green;
+			frame_buf[j] = scene->frame_buf[y * WID + x].green;
 			j++;
-			frame_buf[j] = scene->frame_buf[i].red;
+			frame_buf[j] = scene->frame_buf[y * WID + x].red;
 			j++;
-			frame_buf[j] = scene->frame_buf[i].alpha;
+			frame_buf[j] = scene->frame_buf[y * WID + x].alpha;
 			j++;
 		}
-		i++;
 	}
 	return (frame_buf);
 }
 
-static	char *get_name(int nmb)
+static char		*get_name(int nmb)
 {
-	char	*tmp;
+	char		*tmp;
 
 	tmp = ft_itoa(nmb);
 	tmp = ft_strjoin(tmp, "_screenshot.png");
@@ -52,12 +50,12 @@ static	char *get_name(int nmb)
 	return (tmp);
 }
 
-void	screen_png(t_scene *scene)
+void			screen_png(t_scene *scene)
 {
-	SDL_Surface *srf;
-	char *name;
+	SDL_Surface	*srf;
+	char		*name;
 
-	srf = SDL_CreateRGBSurface(0, WID , HEI, 32, 0, 0, 0, 0);
+	srf = SDL_CreateRGBSurface(0, WID, HEI, 32, 0, 0, 0, 0);
 	srf->pixels = copy_frame_buf(scene, (uint8_t *)srf->pixels);
 	name = get_name(scene->scrshot_nmb);
 	IMG_SavePNG(srf, name);
@@ -68,7 +66,24 @@ void	screen_png(t_scene *scene)
 	SDL_FreeSurface(srf);
 }
 
-int		keyboard(t_sdl *sdl, t_scene *scene)
+static void		key_down_event(t_sdl *sdl, t_scene *scene)
+{
+	SDL_RenderClear(sdl->renderer);
+	SDLK_RIGHT == sdl->event.key.keysym.sym ? camera_right(scene) : 0;
+	SDLK_LEFT == sdl->event.key.keysym.sym ? camera_left(scene) : 0;
+	SDLK_UP == sdl->event.key.keysym.sym ? camera_up(scene) : 0;
+	SDLK_DOWN == sdl->event.key.keysym.sym ? camera_down(scene) : 0;
+	SDLK_w == sdl->event.key.keysym.sym ? camera_forward(scene) : 0;
+	SDLK_s == sdl->event.key.keysym.sym ? camera_backward(scene) : 0;
+	SDLK_a == sdl->event.key.keysym.sym ? camera_move_left(scene) : 0;
+	SDLK_d == sdl->event.key.keysym.sym ? camera_move_right(scene) : 0;
+	SDLK_q == sdl->event.key.keysym.sym ? camera_move_up(scene) : 0;
+	SDLK_e == sdl->event.key.keysym.sym ? camera_move_down(scene) : 0;
+	SDLK_SPACE == sdl->event.key.keysym.sym ? screen_png(scene) : 0;
+	scene->draw[scene->mode](sdl, scene);
+}
+
+int				keyboard(t_sdl *sdl, t_scene *scene)
 {
 	if (SDL_PollEvent(&sdl->event))
 	{
@@ -76,30 +91,16 @@ int		keyboard(t_sdl *sdl, t_scene *scene)
 		sdl->event.key.keysym.sym && sdl->event.type == SDL_KEYDOWN))
 			return (0);
 		else if (sdl->event.type == SDL_KEYDOWN)
-		{
-			SDL_RenderClear(sdl->renderer);
-			SDLK_RIGHT == sdl->event.key.keysym.sym ? camera_right(scene) : 0;
-			SDLK_LEFT == sdl->event.key.keysym.sym ? camera_left(scene) : 0;
-			SDLK_UP == sdl->event.key.keysym.sym ? camera_up(scene) : 0;
-			SDLK_DOWN == sdl->event.key.keysym.sym ? camera_down(scene) : 0;
-			SDLK_w ==  sdl->event.key.keysym.sym ? camera_forward(scene) : 0;
-			SDLK_s ==  sdl->event.key.keysym.sym ? camera_backward(scene) : 0;
-			SDLK_a ==  sdl->event.key.keysym.sym ? camera_move_left(scene) : 0;
-			SDLK_d ==  sdl->event.key.keysym.sym ? camera_move_right(scene) : 0;
-			SDLK_q ==  sdl->event.key.keysym.sym ? camera_move_up(scene) : 0;
-			SDLK_e ==  sdl->event.key.keysym.sym ? camera_move_down(scene) : 0;
-			SDLK_SPACE == sdl->event.key.keysym.sym ? screen_png(scene): 0;
-			scene->draw[scene->mode](sdl, scene);
-			
-		}
+			key_down_event(sdl, scene);
 		else if (sdl->event.type == SDL_MOUSEBUTTONDOWN)
 		{
 			SDL_RenderClear(sdl->renderer);
 			click(sdl, scene);
-			clEnqueueWriteBuffer(scene->cl_data.commands, scene->cl_data.scene.light, 0, 0, sizeof(t_light) * scene->light_nmb, scene->light, 0, NULL, NULL);
+			clEnqueueWriteBuffer(scene->cl_data.commands, \
+								scene->cl_data.scene.light, 0, 0, \
+			sizeof(t_light) * scene->light_nmb, scene->light, 0, NULL, NULL);
 			scene->draw[scene->mode](sdl, scene);
 		}
 	}
 	return (1);
 }
-

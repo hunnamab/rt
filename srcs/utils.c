@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 21:37:58 by pmetron           #+#    #+#             */
-/*   Updated: 2021/02/13 00:14:54 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/19 07:27:25 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-void		*protected_malloc(unsigned int size, unsigned int nmb)
+void			*protected_malloc(unsigned int size, unsigned int nmb)
 {
-	void *result;
+	void		*result;
 
 	if (!(result = malloc(size * nmb)))
 	{
@@ -26,7 +26,7 @@ void		*protected_malloc(unsigned int size, unsigned int nmb)
 
 cl_float3		get_point(float x, float y, float z)
 {
-	cl_float3 result;
+	cl_float3	result;
 
 	result.x = x;
 	result.y = y;
@@ -34,16 +34,16 @@ cl_float3		get_point(float x, float y, float z)
 	return (result);
 }
 
-void		copy_point(cl_float3 *dst, cl_float3 *src)
+void			copy_point(cl_float3 *dst, cl_float3 *src)
 {
 	dst->x = src->x;
 	dst->y = src->y;
 	dst->z = src->z;
 }
 
-float		choose_t(float t0, float t1)
+float			choose_t(float t0, float t1)
 {
-	float result;
+	float		result;
 
 	result = 0;
 	if ((t1 < t0 && t1 > 0) || (t0 < 0 && t1 >= 0))
@@ -53,35 +53,4 @@ float		choose_t(float t0, float t1)
 	if (t0 == t1 && t0 >= 0)
 		result = t0;
 	return (result);
-}
-
-void		get_viewport(t_scene *scene)
-{
-	int		x;
-	int		y;
-	float	k;
-
-	k = (float)WID / (float)HEI;
-	x = 0;
-	y = 0;
-	while (y < HEI)
-	{
-		while (x < WID)
-		{
-			
-			scene->viewport[y * WID + x].y = -(y - (float)HEI / 2) *\
-			(1 / (float)HEI) + scene->camera.position.y;
-			scene->viewport[y * WID + x].x = (x - (float)WID / 2) *\
-			(k / (float)WID) + scene->camera.position.x;
-			scene->viewport[y * WID + x].z = scene->camera.position.z + 1;
-			x++;
-		}
-		if(x == 1280 && y == 0)
-		{
-			printf("viewport_point (%f,%f,%f)\n", scene->viewport[x].x, scene->viewport[x].y, scene->viewport[x].z);
-			printf("x == %d y == %d\n", x, y);
-		}
-		x = 0;
-		y++;
-	}
 }

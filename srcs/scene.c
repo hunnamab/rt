@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scene.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 14:21:11 by pmetron           #+#    #+#             */
-/*   Updated: 2021/02/17 23:03:13 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/19 07:29:00 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,24 @@ void	init_default(t_scene *scene)
 	scene->material_buf = protected_malloc(sizeof(t_material), WID * HEI);
 	scene->intersection_buf = protected_malloc(sizeof(cl_float3), WID * HEI);
 	scene->index_buf = protected_malloc(sizeof(int), WID * HEI);
-	scene->depth_buf = protected_malloc(sizeof(float), WID * HEI);	
+	scene->depth_buf = protected_malloc(sizeof(float), WID * HEI);
 	scene->frame_buf = protected_malloc(sizeof(t_color), (WID * HEI));
 }
 
-void	refresh_scene(t_scene *scene)
+void	init_scene_2(t_scene *scene)
 {
-	//scene->draw[scene->mode](sdl, scene);
+	scene->normal_buf = NULL;
+	scene->material_buf = NULL;
+	scene->intersection_buf = NULL;
+	scene->ray_buf = NULL;
+	scene->viewport = NULL;
+	scene->index_buf = NULL;
+	scene->depth_buf = NULL;
+	scene->init[scene->mode](scene);
+	scene->scrshot_nmb = 1;
+	scene->m_flag = 1;
+	scene->init_flag = 1;
+	scene->box_nmb = 0;
 }
 
 void	init_scene(t_scene *scene)
@@ -49,16 +60,5 @@ void	init_scene(t_scene *scene)
 	scene->filter[NEGATIVE] = &negative;
 	scene->filter[SHARPEN] = &sharpen_filter;
 	scene->filter[MAGIC] = &magic_filter;
-	scene->normal_buf = NULL;
-	scene->material_buf = NULL;
-	scene->intersection_buf = NULL;
-	scene->ray_buf = NULL;
-	scene->viewport = NULL;
-	scene->index_buf = NULL;
-	scene->depth_buf = NULL;
-	scene->init[scene->mode](scene);
-	scene->scrshot_nmb = 1;
-	scene->m_flag = 1;
-	scene->init_flag = 1;
-	scene->box_nmb = 0;
+	init_scene_2(scene);
 }
