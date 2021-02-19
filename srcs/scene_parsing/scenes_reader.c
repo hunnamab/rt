@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scenes_reader.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:43 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/17 23:04:54 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/18 22:46:08 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ static void	get_objects(char *buf, t_scene *scene, int len)
 		}
 		j++;
 	}
-	ft_memdel((void **)&buf);
+	free(buf);
 }
 
 static void associate_obj_with_srf(t_scene *scene, int id, int i)

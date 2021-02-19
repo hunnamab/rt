@@ -1,0 +1,30 @@
+{
+	"box": {
+			"position":[0, 0, 0],
+			"rotation": [0, 0, 0],
+			"color": [255, 0, 0, 255],
+			"specular": 100,
+			"reflection": 0.4,
+			"refraction": 0,
+			"transparency": 0,
+			"t_scale": 10,
+			"surface_id": 0,
+			"size": 10,
+			"objs_id": 0
+		},
+	"light": [
+		{
+			"type": "point",
+			"position": [1, 2, -10],
+			"intensity": 0.4
+		},
+		{
+			"type": "ambient",
+			"intensity": 0.2
+		}
+	],
+	"camera": {
+		"position": [10, 5, -25],
+		"rotation": [0, -0.6, 0]
+	}
+}

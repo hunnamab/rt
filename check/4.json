@@ -1,0 +1,36 @@
+{
+	"plane": {
+		"point": [0, 1, 0],
+		"normal": [0, 1, 0],
+		"rotation": [0, 0, 0],
+		"color": [123, 33, 56, 255],
+		"specular": -1,
+		"reflection": 0.0,
+		"refraction": 0,
+		"transparency": 0,
+		"t_scale": 10,
+		"surface_id": 1,
+		"texture": "textures/helper.jpg",
+		"normal_map": "no"
+	},
+	"light": [
+		{
+			"type": "point",
+			"position": [1, 2, 3],
+			"intensity": 0.4
+		},
+		{
+			"type": "point",
+			"position": [1, 2, -7],
+			"intensity": 0.4
+		},
+		{
+			"type": "ambient",
+			"intensity": 0.2
+		}
+	],
+	"camera": {
+		"position": [1, 2, -30],
+		"rotation": [0, 0, 0]
+	}
+}

@@ -1,0 +1,32 @@
+{
+	"paraboloid": [
+		{
+			"center": [0, 0, 10],
+			"vec": [1, 0, 1],
+			"k": 10,
+			"rotation": [0, 0, 1],
+			"color": [255, 0, 0, 255],
+			"specular": 100,
+			"reflection": 0.0,
+			"refraction": 0,
+			"transparency": 0,
+			"surface_id": 1,
+			"texture": "no"
+		}
+	],
+	"light": [
+		{
+			"type": "point",
+			"position": [10, 100, 10],
+			"intensity": 0.8
+		},
+		{
+			"type": "ambient",
+			"intensity": 0.2
+		}
+	],
+	"camera": {
+		"position": [0, 0, -100],
+		"rotation": [0, 0, 0]
+	}
+}

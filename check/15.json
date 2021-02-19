@@ -1,0 +1,31 @@
+{
+	"ellipsoid": {
+			"center_one": [0, 0, 0],
+			"a": 2,
+			"b": 3,
+			"c": 4,
+			"rotation": [0, 0, 0],
+			"color": [255, 0, 0, 255],
+			"specular": 100,
+			"reflection": 0,
+			"refraction": 0,
+			"transparency": 0,
+			"surface_id": 1,
+			"texture": "no"
+		},
+	"light": [
+		{
+			"type": "point",
+			"position": [30, 0, 0],
+			"intensity": 0.8
+		},
+		{
+			"type": "ambient",
+			"intensity": 0.2
+		}
+	],
+	"camera": {
+		"position": [0, 0, -40],
+		"rotation": [0, 0, 0]
+	}
+}

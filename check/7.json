@@ -1,0 +1,61 @@
+{
+	"cylinder": {
+		"position": [20, 0, 10],
+		"radius": 11,
+		"vector": [0, 1, 0],
+		"rotation": [0, 0, 0],
+		"color": [170, 10, 98, 255],
+		"specular": 60,
+		"reflection": 0.0,
+		"refraction": 0,
+		"transparency": 0,
+		"t_scale": 11,
+		"surface_id": 1,
+		"texture": "textures/helper.jpg",
+		"normal_map": "no"
+	},
+	"surface": [
+		{
+			"object": 1,
+			"type": "plane",
+			"is_negative": 0,
+			"is local": 1,
+			"param_one": [1, 0, 0],
+			"param_two": [0, 0, 0],
+			"param_three": 5
+		},
+		{
+			"object": 1,
+			"type": "plane",
+			"is_negative": 0,
+			"is local": 1,
+			"param_one": [0, 1, 0],
+			"param_two": [0, 0, 0],
+			"param_three": 5
+		},
+		{
+			"object": 1,
+			"type": "plane",
+			"is_negative": 0,
+			"is local": 1,
+			"param_one": [0, 0, 1],
+			"param_two": [0, 0, 0],
+			"param_three": 5
+		}
+	],
+	"light": [
+		{
+			"type": "point",
+			"position": [10, 10, -20],
+			"intensity": 0.4
+		},
+		{
+			"type": "ambient",
+			"intensity": 0.2
+		}
+	],
+	"camera": {
+		"position": [0, 0, -100],
+		"rotation": [0, 0, 0]
+	}
+}

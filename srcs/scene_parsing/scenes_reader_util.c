@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scenes_reader_util.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 14:44:06 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/17 23:04:45 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/18 22:10:59 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,7 @@ void		split_objects(int len, t_scene *scene, char *buf)
 	}
 	scene->box_nmb *= 5;
 	scene->obj_nmb = scene->obj_nmb - scene->light_nmb - scene->srf_nmb - scij[1] + scene->box_nmb;
+	printf("\n\nobj_nmb %d srf_nmb %d\n\n", scene->obj_nmb, scene->srf_nmb);
 	if (scene->obj_nmb < 1 || scene->light_nmb < 1 || scij[1] != 1)
 		output_error(0);
 }

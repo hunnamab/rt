@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 13:48:55 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/16 17:45:16 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/18 22:45:24 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,89 +23,23 @@ void	device_objects_init(t_scene *scene)
 	while (i < scene->obj_nmb)
 	{
 		if (scene->objs[i]->type == SPHERE)
-		{
-			t_sphere *s;
-			s = (t_sphere *)scene->objs[i]->data;
-			buf[i].type = SPHERE;
-			buf[i].primitive.sphere.center = s->center;
-			buf[i].primitive.sphere.radius = s->radius;
-		}
+			ft_memcpy(&buf[i].primitive.sphere, scene->objs[i]->data, sizeof(t_sphere)); 
 		if (scene->objs[i]->type == CONE)
-		{
-			t_cone *cone;
-			cone = (t_cone *)scene->objs[i]->data;
-			buf[i].type = CONE;
-			buf[i].primitive.cone.angle = cone->angle;
-			buf[i].primitive.cone.position = cone->position;
-			buf[i].primitive.cone.vec = cone->vec;
-		}
+			ft_memcpy(&buf[i].primitive.cone, scene->objs[i]->data, sizeof(t_cone));
 		if (scene->objs[i]->type == CYLINDER)
-		{
-			t_cylinder *cyl;
-			cyl = (t_cylinder *)scene->objs[i]->data;
-			buf[i].type = CYLINDER;
-			buf[i].primitive.cylinder.position.x = cyl->position.x;
-			buf[i].primitive.cylinder.position.y = cyl->position.y;
-			buf[i].primitive.cylinder.position.z = cyl->position.z;
-			buf[i].primitive.cylinder.radius = cyl->radius;
-			buf[i].primitive.cylinder.vec = cyl->vec;
-		}
+			ft_memcpy(&buf[i].primitive.cylinder, scene->objs[i]->data, sizeof(t_cylinder)); 
 		if (scene->objs[i]->type == TRIANGLE)
-		{
-			t_triangle *t;
-			t = (t_triangle *)scene->objs[i]->data;
-			buf[i].type = TRIANGLE;
-			buf[i].primitive.triangle.normal = t->normal;
-			buf[i].primitive.triangle.vertex[0] = t->vertex[0];
-			buf[i].primitive.triangle.vertex[1] = t->vertex[1];
-			buf[i].primitive.triangle.vertex[2] = t->vertex[2];
-		}
+			ft_memcpy(&buf[i].primitive.triangle, scene->objs[i]->data, sizeof(t_triangle));
 		if (scene->objs[i]->type == PLANE)
-		{
-			t_plane *p;
-			p = (t_plane *)scene->objs[i]->data;
-			buf[i].type = PLANE;
-			buf[i].primitive.plane.normal = p->normal;
-			buf[i].primitive.plane.point = p->point;
-			buf[i].primitive.plane.d = p->d;
-		}
+			ft_memcpy(&buf[i].primitive.plane, scene->objs[i]->data, sizeof(t_plane));
 		if (scene->objs[i]->type == ELLIPSOID)
-		{
-			t_ellipsoid *el;
-			el = (t_ellipsoid *)scene->objs[i]->data;
-			buf[i].type = ELLIPSOID;
-			buf[i].primitive.ellipsoid.center = el->center;
-			buf[i].primitive.ellipsoid.a = el->a;
-			buf[i].primitive.ellipsoid.b = el->b;
-			buf[i].primitive.ellipsoid.c = el->c;
-		}
+			ft_memcpy(&buf[i].primitive.ellipsoid, scene->objs[i]->data, sizeof(t_ellipsoid));
 		if (scene->objs[i]->type == PARABOLOID)
-		{
-			t_paraboloid *parab;
-			parab = (t_paraboloid *)scene->objs[i]->data;
-			buf[i].type = PARABOLOID;
-			buf[i].primitive.paraboloid.center = parab->center;
-			buf[i].primitive.paraboloid.k = parab->k;
-		}
+			ft_memcpy(&buf[i].primitive.paraboloid, scene->objs[i]->data, sizeof(t_paraboloid));
 		if (scene->objs[i]->type == TORUS)
-		{
-			t_torus	*torus;
-			torus = (t_torus *)scene->objs[i]->data;
-			buf[i].type = TORUS;
-			buf[i].primitive.torus.center = torus->center;
-			buf[i].primitive.torus.radius1 = torus->radius1;
-			buf[i].primitive.torus.radius2 = torus->radius2;
-		}
+			ft_memcpy(&buf[i].primitive.torus, scene->objs[i]->data, sizeof(t_torus));
 		if (scene->objs[i]->type == HYPERBOLOID)
-		{
-			t_hyperboloid	*hyperboloid;
-			hyperboloid = (t_hyperboloid *)scene->objs[i]->data;
-			buf[i].type = HYPERBOLOID;
-			buf[i].primitive.hyperboloid.center = hyperboloid->center;
-			buf[i].primitive.hyperboloid.a = hyperboloid->a;
-			buf[i].primitive.hyperboloid.b = hyperboloid->b;
-			buf[i].primitive.hyperboloid.c = hyperboloid->c;
-		}
+			ft_memcpy(&buf[i].primitive.hyperboloid, scene->objs[i]->data, sizeof(t_hyperboloid));
 		if (scene->objs[i]->text != NULL)
         {
 			buf[i].texture_id = scene->objs[i]->texture_id;
@@ -132,6 +66,7 @@ void	device_objects_init(t_scene *scene)
 			buf[i].normal_map_id = -1;
 			buf[i].texture_size_nm = -1;
 		}
+		buf[i].type = scene->objs[i]->type;
 		buf[i].rotation = get_point(0,0,0);
 		buf[i].specular = scene->objs[i]->specular;
 		buf[i].color = scene->objs[i]->color;
@@ -150,7 +85,6 @@ void	device_objects_init(t_scene *scene)
 	scene->cl_data.scene.obj = clCreateBuffer(scene->cl_data.context, CL_MEM_READ_ONLY |
 		CL_MEM_HOST_WRITE_ONLY | CL_MEM_COPY_HOST_PTR, sizeof(t_object_d) * scene->obj_nmb, buf, NULL);
 	free(buf);
-	printf("t_object_d host = %lu\n", sizeof(t_object_d));
 }
 
 int    cl_init(t_scene *scene)
@@ -489,37 +423,21 @@ int    cl_init(t_scene *scene)
 	close(fd19);
 	//Создание буферов на гпу
 	scene->cl_data.scene.ray_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, &err);
-	printf("\n\n\n BUFFER DEGUG \n\n\n");
-	printf("%d\n", err);
 	scene->cl_data.scene.intersection_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, &err);
-	printf("%d\n", err);
 	scene->cl_data.scene.copy_intersec_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, &err);
-	printf("%d\n", err);
 	scene->cl_data.scene.index_buf = clCreateBuffer(scene->cl_data.context,  0,  sizeof(int) * count, NULL, &err);
-	printf("%d\n", err);
 	scene->cl_data.scene.orig_index_buf = clCreateBuffer(scene->cl_data.context,  0,  sizeof(int) * count, NULL, &err);
-	printf("%d\n", err);
 	scene->cl_data.scene.exception_buf = clCreateBuffer(scene->cl_data.context,  0,  sizeof(int) * count, NULL, &err);
-	printf("%d\n", err);
 	scene->cl_data.scene.depth_buf = clCreateBuffer(scene->cl_data.context,  0,  sizeof(float) * count, NULL, &err);
-	printf("%d\n", err);
 	scene->cl_data.scene.normal_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, &err);
-	printf("%d\n", err);
 	scene->cl_data.scene.copy_normal_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(cl_float3) * count, NULL, &err);
-	printf("%d\n", err);
 	scene->cl_data.scene.frame_buf = clCreateBuffer(scene->cl_data.context, CL_MEM_READ_WRITE, sizeof(t_color) * count, NULL, &err);
-	printf("%d\n", err);
 	scene->cl_data.scene.frame_buf_refl = clCreateBuffer(scene->cl_data.context, CL_MEM_READ_WRITE, sizeof(t_color) * count, NULL, &err);
-	printf("%d\n", err);
 	scene->cl_data.scene.frame_buf_refr = clCreateBuffer(scene->cl_data.context, CL_MEM_READ_WRITE, sizeof(t_color) * count, NULL, &err);
-	printf("%d\n", err);
 	scene->cl_data.scene.light = clCreateBuffer(scene->cl_data.context, CL_MEM_READ_ONLY |
 		CL_MEM_HOST_WRITE_ONLY | CL_MEM_COPY_HOST_PTR, sizeof(t_light) * scene->light_nmb, scene->light, &err);
-	printf("%d\n", err);
 	scene->cl_data.scene.material_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(t_material) * count, NULL, &err);
-	printf("%d\n", err);
 	scene->cl_data.scene.prev_material_buf = clCreateBuffer(scene->cl_data.context,  CL_MEM_READ_WRITE,  sizeof(t_material) * count, NULL, &err);
-	printf("%d\n", err);
 	//передача указателей на переменные опенсл в тип, отвечающий за фильтры
 	scene->filter_data.commands = scene->cl_data.commands;
 	scene->filter_data.device_id = scene->cl_data.device_id;

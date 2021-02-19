@@ -24,13 +24,13 @@
 		"transparency": 0,
 		"t_scale": 10,
 		"surface_id": 0,
-		"texture": "textures/helper.jpg",
-		"normal_map": "no"
+		"texture": "textures/asphalt.jpg",
+		"normal_map": "textures/asphalt_norm.png"
 	},
 	"light": [
 		{
 			"type": "point",
-			"position": [100, 10, -20],
+			"position": [0, 5, -20],
 			"intensity": 0.4
 		},
 		{

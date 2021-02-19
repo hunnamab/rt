@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 13:45:29 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/16 18:09:03 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/18 22:50:48 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,25 +127,29 @@ void        intersect_ray_torus(t_scene *scene, int index, int is_refractive)
     size_t global = WID * HEI;
 	size_t local;
 	cl_int err = 0;
-	t_torus *t;
-	t = scene->objs[index]->data;
-	printf("torus radius host (%f,%f)\n", t->radius1, t->radius2);
-    err = clSetKernelArg(scene->cl_data.kernels[13], 0, sizeof(cl_mem), &scene->cl_data.scene.normal_buf);
-	printf("%d", err);
-	err = clSetKernelArg(scene->cl_data.kernels[13], 1, sizeof(cl_mem), &scene->cl_data.scene.intersection_buf);
-	printf("%d", err);
-    err = clSetKernelArg(scene->cl_data.kernels[13], 2, sizeof(t_torus), scene->objs[index]->data);
-	printf("%d", err);
-	err = clSetKernelArg(scene->cl_data.kernels[13], 3, sizeof(cl_mem), &scene->cl_data.scene.depth_buf);
-	printf("%d", err);
-	err = clSetKernelArg(scene->cl_data.kernels[13], 4, sizeof(cl_mem), &scene->cl_data.scene.index_buf);
-	printf("%d", err);
-	err = clSetKernelArg(scene->cl_data.kernels[13], 5, sizeof(cl_int), (void*)&index);
-	printf("%d", err);
-	clSetKernelArg(scene->cl_data.kernels[13], 6, sizeof(cl_int), (void*)&scene->bounce_cnt);
-	clSetKernelArg(scene->cl_data.kernels[13], 7, sizeof(cl_mem), &scene->cl_data.scene.material_buf);
+	cl_mem cs;
+	if (scene->objs[index]->cs_nmb > 0)
+	{
+		cs = clCreateBuffer(scene->cl_data.context, CL_MEM_READ_ONLY |
+		CL_MEM_HOST_WRITE_ONLY | CL_MEM_COPY_HOST_PTR, sizeof(t_cutting_surface) * scene->objs[index]->cs_nmb, scene->objs[index]->cutting_surfaces, NULL);
+	}
+	else
+		cs = NULL;
+    clSetKernelArg(scene->cl_data.kernels[13], 0, sizeof(cl_mem), &scene->cl_data.scene.ray_buf);
+	clSetKernelArg(scene->cl_data.kernels[13], 1, sizeof(cl_mem), &scene->cl_data.scene.intersection_buf);
+	clSetKernelArg(scene->cl_data.kernels[13], 2, sizeof(t_torus), scene->objs[index]->data);
+	clSetKernelArg(scene->cl_data.kernels[13], 3, sizeof(cl_mem), &scene->cl_data.scene.depth_buf);
+	clSetKernelArg(scene->cl_data.kernels[13], 4, sizeof(cl_mem), &scene->cl_data.scene.index_buf);
+	clSetKernelArg(scene->cl_data.kernels[13], 5, sizeof(cl_int), (void*)&index);
+	clSetKernelArg(scene->cl_data.kernels[13], 6, sizeof(cl_mem), &cs);
+	clSetKernelArg(scene->cl_data.kernels[13], 7, sizeof(cl_int), (void*)&scene->objs[index]->cs_nmb);
+	clSetKernelArg(scene->cl_data.kernels[13], 8, sizeof(cl_int), (void*)&scene->bounce_cnt);
+	clSetKernelArg(scene->cl_data.kernels[13], 9, sizeof(cl_mem), &scene->cl_data.scene.material_buf);
+	clSetKernelArg(scene->cl_data.kernels[13], 10, sizeof(cl_int), (void*)&is_refractive);
+	clSetKernelArg(scene->cl_data.kernels[13], 11, sizeof(cl_mem), &scene->cl_data.scene.normal_buf);
+	clSetKernelArg(scene->cl_data.kernels[13], 12, sizeof(cl_float), (void*)&scene->objs[index]->refraction);
+	clSetKernelArg(scene->cl_data.kernels[13], 13, sizeof(cl_mem), &scene->cl_data.scene.exception_buf);
     clGetKernelWorkGroupInfo(scene->cl_data.kernels[13], scene->cl_data.device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
-	printf("torus local == %ld\n", local);
     err = clEnqueueNDRangeKernel(scene->cl_data.commands, scene->cl_data.kernels[13], 1, NULL, &global, &local, 0, NULL, NULL);
 	printf("%d\n", err);
 }

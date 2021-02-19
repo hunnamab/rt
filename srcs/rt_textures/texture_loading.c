@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 13:45:38 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/16 18:02:22 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/18 21:51:54 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ int		is_copy(t_scene *scene, int index) /*возвращает индекс те
 	int j;
 
 	j = 0;
-	i = 0;
-	while (i < index)
+	i = -1;
+	while (++i < index)
 	{
 		if (scene->texts[i] && scene->texts[i]->size == scene->texts[index]->size)
 		{
@@ -34,11 +34,8 @@ int		is_copy(t_scene *scene, int index) /*возвращает индекс те
 				}
 			}
 			if (j > 0)
-			{
 				return (i);
-			}
 		}
-		i++;
 	}
 	return (-1);
 }

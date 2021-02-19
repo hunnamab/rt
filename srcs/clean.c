@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 17:32:12 by pmetron           #+#    #+#             */
-/*   Updated: 2021/02/13 04:52:12 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/17 22:03:28 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,6 @@ void	clean_scene(t_scene *scene)
 		i++;
 	}
 	i = 0;
-/* 	while (i < scene->light_nmb)
-	{
-		ft_memdel((void **)&scene->light[i]);
-		i++;
-	} */
 	free(scene->light);
 	free(scene->objs);
 	ft_memdel((void **)&scene);

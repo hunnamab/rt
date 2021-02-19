@@ -1,0 +1,32 @@
+{
+	"sphere": {
+		"center": [0, 0, 0],
+		"radius": 10,
+		"rotation": [0, 0, 0],
+		"color": [255, 0, 0, 255],
+		"specular": 100,
+		"reflection": 0,
+		"refraction": 0,
+		"transparency": 0,
+		"t_scale": 10,
+		"surface_id": 1,
+		"texture": "textures/perlin_n.jpg",
+		"normal_map": "no"
+		},
+	"light": [
+		{
+			"type": "directional",
+			"position": [0, 0, -35],
+			"intensity": 1,
+			"direction": [0, 0, -1]
+		},
+		{
+			"type": "ambient",
+			"intensity": 0.2
+		}
+	],
+	"camera": {
+		"position": [0, 0, -30],
+		"rotation": [0, 0, 0]
+	}
+}

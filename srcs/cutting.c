@@ -18,7 +18,6 @@ void    local_cutting(t_scene *scene)
                     scene->objs[i]->cutting_surfaces[j].param2 = \
                     vector_sub(&scene->objs[i]->position, &scene->objs[i]->cutting_surfaces[j].param2);
                     matrix = get_rotation_matrix(scene->objs[i]->rotation);
-                    printf("param2 (%f,%f,%f)\n", scene->objs[i]->cutting_surfaces[j].param2.x, scene->objs[i]->cutting_surfaces[j].param2.y, scene->objs[i]->cutting_surfaces[j].param2.z);
                     transform(&scene->objs[i]->cutting_surfaces[j].param1, matrix, 1);
                     matr_free(matrix, 4);
                     scene->objs[i]->cutting_surfaces[j].param3 = -(scene->objs[i]->cutting_surfaces[j].param1.x * scene->objs[i]->cutting_surfaces[j].param2.x) - scene->objs[i]->cutting_surfaces[j].param1.y * scene->objs[i]->cutting_surfaces[j].param2.y - scene->objs[i]->cutting_surfaces[j].param1.z * scene->objs[i]->cutting_surfaces[j].param2.z;

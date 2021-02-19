@@ -5,48 +5,19 @@
 		"rotation": [0, 0, 0],
 		"color": [255, 0, 0, 255],
 		"specular": 100,
-		"reflection": 0.4,
+		"reflection": 0,
 		"refraction": 0,
 		"transparency": 0,
-		"t_scale": 10,
+		"t_scale": 7,
 		"surface_id": 1,
-		"texture": "textures/helper.jpg",
-		"normal_map": "textures/test.png"
+		"texture": "textures/eye.jpg",
+		"normal_map": "no"
 		},
-	"surface": [
-		{
-			"object": 1,
-			"type": "sphere",
-			"is_negative": 1,
-			"is local": 1,
-			"param_one": [-8, 0, 0],
-			"param_two": [0, 0, 0],
-			"param_three": 7
-		},
-		{
-			"object": 1,
-			"type": "cylinder",
-			"is_negative": 1,
-			"is local": 1,
-			"param_one": [0, 0, 0],
-			"param_two": [0, 0, 0],
-			"param_three": 7
-		},
-		{
-			"object": 1,
-			"type": "plane",
-			"is_negative": 1,
-			"is local": 1,
-			"param_one": [0, 1, 0],
-			"param_two": [0, 0, 0],
-			"param_three": 7
-		}
-	],
 	"light": [
 		{
 			"type": "directional",
 			"position": [0, 0, -35],
-			"intensity": 0.2,
+			"intensity": 0.4,
 			"direction": [0, 0, -1]
 		},
 		{
@@ -55,7 +26,7 @@
 		}
 	],
 	"camera": {
-		"position": [0, 0, -35],
+		"position": [0, 0, -30],
 		"rotation": [0, 0, 0]
 	}
 }

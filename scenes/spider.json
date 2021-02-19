@@ -41,7 +41,7 @@
 			"refraction": 0,
 			"transparency": 0,
 			"t_scale": 0.8,
-			"surface_id": 0,
+			"surface_id": 1,
 			"texture": "textures/helper.jpg",
 			"normal_map": "no"
 		},
@@ -56,7 +56,7 @@
 			"refraction": 0,
 			"transparency": 0,
 			"t_scale": 0.8,
-			"surface_id": 0,
+			"surface_id": 2,
 			"texture": "textures/helper.jpg",
 			"normal_map": "no"
 		},
@@ -71,7 +71,7 @@
 			"refraction": 0,
 			"transparency": 0,
 			"t_scale": 0.8,
-			"surface_id": 0,
+			"surface_id": 3,
 			"texture": "textures/helper.jpg",
 			"normal_map": "no"
 		},
@@ -86,41 +86,47 @@
 			"refraction": 0,
 			"transparency": 0,
 			"t_scale": 0.8,
-			"surface_id": 0,
+			"surface_id": 4,
 			"texture": "textures/helper.jpg",
 			"normal_map": "no"
 		}
 	],
-	"triangle": [
+	"surface": [
 		{
-			"ver_one": [-25, -15, 20],
-			"ver_two": [40, 30, 140],
-			"ver_three": [-50, 40, 140],
-			"rotation": [0, 0.5, 0],
-			"color": [45, 205, 10, 255],
-			"specular": 50,
-			"reflection": 0.0,
-			"refraction": 0,
-			"transparency": 0,
-			"t_scale": 1000,
-			"surface_id": 0,
-			"texture": "textures/helper.jpg",
-			"normal_map": "no"
+			"object": 1,
+			"type": "plane",
+			"is_negative": 0,
+			"is local": 0,
+			"param_one": [0, 1, 0],
+			"param_two": [0, 1, 0],
+			"param_three": 5
 		},
 		{
-			"ver_one": [0, 10, 0],
-			"ver_two": [0, -15, 0],
-			"ver_three": [10, -10, 0],
-			"rotation": [0, 0, 0],
-			"color": [210, 205, 10, 255],
-			"specular": 50,
-			"reflection": 0.0,
-			"refraction": 0,
-			"transparency": 0,
-			"t_scale": 1000,
-			"surface_id": 0,
-			"texture": "textures/helper.jpg",
-			"normal_map": "no"
+			"object": 4,
+			"type": "plane",
+			"is_negative": 0,
+			"is local": 1,
+			"param_one": [0, 1, 0],
+			"param_two": [0, 0, 0],
+			"param_three": 5
+		},
+		{
+			"object": 5,
+			"type": "plane",
+			"is_negative": 0,
+			"is local": 1,
+			"param_one": [0, 1, 0],
+			"param_two": [0, 0, 0],
+			"param_three": 5
+		},
+		{
+			"object": 6,
+			"type": "plane",
+			"is_negative": 0,
+			"is local": 1,
+			"param_one": [0, 1, 0],
+			"param_two": [0, 0, 0],
+			"param_three": 5
 		}
 	],
 	"light": [
@@ -131,7 +137,7 @@
 		},
 		{
 			"type": "ambient",
-			"intensity": 0.2
+			"intensity": 0.8
 		}
 	],
 	"camera": {
