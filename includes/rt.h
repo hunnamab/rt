@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:34 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/19 08:34:04 by npetrell         ###   ########.fr       */
+/*   Updated: 2021/02/20 22:27:11 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ void				get_cone(char **description, t_scene *scene, int *snmi);
 ** light_parameters.c
 */
 void				get_light(char **description, t_scene *scene, int *snmi);
+t_light				many_lights(char **description, int *snmi, int i, char *type);
 
 /*
 ** camera_parameters.c

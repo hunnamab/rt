@@ -14,35 +14,15 @@
 		"texture": "textures/helper.jpg",
 		"normal_map": "no"
 	},
-	"surface": [
-		{
-			"object": 1,
+	"surface": {
+			"object": 9,
 			"type": "plane",
-			"is_negative": 0,
-			"is local": 1,
-			"param_one": [1, 0, 0],
+			"is_negative": 8,
+			"is local": 7,
+			"param_one": [0, 0, 0],
 			"param_two": [0, 0, 0],
 			"param_three": 5
 		},
-		{
-			"object": 1,
-			"type": "plane",
-			"is_negative": 0,
-			"is local": 1,
-			"param_one": [0, 1, 0],
-			"param_two": [0, 0, 0],
-			"param_three": 5
-		},
-		{
-			"object": 1,
-			"type": "plane",
-			"is_negative": 0,
-			"is local": 1,
-			"param_one": [0, 0, 1],
-			"param_two": [0, 0, 0],
-			"param_three": 5
-		}
-	],
 	"light": [
 		{
 			"type": "point",

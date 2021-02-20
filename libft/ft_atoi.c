@@ -6,13 +6,13 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/19 13:43:40 by pmetron           #+#    #+#             */
-/*   Updated: 2019/09/19 19:01:11 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/20 22:31:06 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_atoi(const char *str)
+int		ft_atoi(char *str)
 {
 	size_t	i;
 	int		n;

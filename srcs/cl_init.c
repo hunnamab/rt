@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 13:48:55 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/18 22:45:24 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/20 21:36:30 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ int    cl_init(t_scene *scene)
     str = malloc(sizeof(char) * size);
     clGetPlatformInfo(pfs, CL_PLATFORM_NAME, size, str, NULL);
     printf("%s\n", str);
+	free(str);
 	err = clGetDeviceIDs(NULL, CL_DEVICE_TYPE_GPU, 1, &scene->cl_data.device_id, NULL);
 
 	// выделение памяти

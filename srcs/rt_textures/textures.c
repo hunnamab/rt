@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   textures.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/17 18:09:19 by ldeirdre          #+#    #+#             */
-/*   Updated: 2021/02/17 22:11:23 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/20 21:41:32 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,18 +38,32 @@ t_texture			*tex_new_bmp(char *file)
 {
 	SDL_Surface		*s;
 	int				i;
-
+	char			*buf;
+	
+	buf = file;
 	i = ft_strlen(file);
 	if (ft_strequ(&file[i - 1], ","))
-		file = ft_strsub(file, 1, (ft_strlen(file) - 3));
+		buf = ft_strsub(file, 1, (ft_strlen(file) - 3));
 	else
-		file = ft_strsub(file, 1, (ft_strlen(file) - 2));
-	if ((s = IMG_Load(file)) == NULL)
+		buf = ft_strsub(file, 1, (ft_strlen(file) - 2));
+	if ((s = IMG_Load(buf)) == NULL)
+	{
+		free(file);
+		free(buf);
 		return (NULL);
+	}
 	if (ft_strstr(file, "perlin_"))
+	{
+		free(file);
+		free(buf);
 		return (calc_perlin());
+	}
 	else
+	{
+		free(buf);
+		free(file);
 		return (tex_new_surface(s));
+	}
 }
 
 t_texture			*tex_new_surface(SDL_Surface *s)

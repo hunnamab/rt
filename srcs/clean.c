@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 17:32:12 by pmetron           #+#    #+#             */
-/*   Updated: 2021/02/20 18:44:08 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/20 22:47:35 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 
 void		clear_default(t_object *obj)
 {
-	free(obj->data);
-	obj->text != NULL ? ft_memdel((void **)obj->text) : NULL;
-	obj->normal_text != NULL ? ft_memdel((void **)obj->normal_text) : NULL;
 	free(obj);
 }
 
@@ -59,16 +56,6 @@ void		clean_scene(t_scene *scene)
 	clReleaseContext(scene->cl_data.context);
 	ft_memdel((void **)&scene->cl_data.kernels);
 	ft_memdel((void **)&scene->cl_data.programs);
-/* 	i = -1;
-	while(++i < 6)
-	{
-		clReleaseProgram(scene->filter_data.programs[i]);
-		clReleaseKernel(scene->filter_data.kernels[i]);
-	} */
-	i = -1;
-	while (++i < scene->obj_nmb)
-		scene->objs[i]->clear_obj(scene->objs[i]);
-	i = -1;
 	free(scene->light);
 	free(scene->objs);
 	free(scene->texts);
