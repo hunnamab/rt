@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 13:48:30 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/20 21:47:34 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/20 22:47:45 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ t_cutting_surface		new_srf(cl_float3 *param, int *obj_neg, cl_float param3, char
 	if(new_srf.type == PLANE)
 	{
 		new_srf.param3 = -(new_srf.param1.x * new_srf.param2.x) - new_srf.param1.y * new_srf.param2.y - new_srf.param1.z * new_srf.param2.z;
-		printf("new_srf d == %f\n", new_srf.param3);
 	}
 	return (new_srf);
 }
@@ -53,13 +52,19 @@ void	one_srf(char **description, t_scene *scene, int * snmi)
 	int			obj_neg[3];
 	char		*type;
 	
-	obj_neg[0] = ft_atoi(get_coordinates(description[1]));
-	type = get_light_type(description[2]);
-	obj_neg[1] = ft_atoi(get_coordinates(description[3]));
-	obj_neg[2] = ft_atoi(get_coordinates(description[4]));
+	type = get_coordinates(description[1]);
+	obj_neg[0] = ft_atoi(type);
+	free(type);
+	type = get_coordinates(description[3]);
+	obj_neg[1] = ft_atoi(type);
+	free(type);
+	type = get_coordinates(description[4]);
+	obj_neg[2] = ft_atoi(type);
+	free(type);
 	param[0] = get_points(description[5]);
 	param[1] = get_points(description[6]);
 	param3 = ftoi(get_coordinates(description[7]));
+	type = get_light_type(description[2]);
 	srf = new_srf(param, obj_neg, param3, type);
 	scene->srfs[snmi[4]] = srf;
 	snmi[4]++;
@@ -73,14 +78,20 @@ t_cutting_surface		many_srfs(char **description, int i)
 	cl_float	param3;
 	int			obj_neg[3];
 	char		*type;
-
-	obj_neg[0] = ft_atoi(get_coordinates(description[i + 1]));
-	type = get_light_type(description[i + 2]);
-	obj_neg[1] = ft_atoi(get_coordinates(description[i + 3]));
-	obj_neg[2] = ft_atoi(get_coordinates(description[i + 4]));
+	
+	type = get_coordinates(description[i + 1]);
+	obj_neg[0] = ft_atoi(type);
+	free(type);
+	type = get_coordinates(description[i + 3]);
+	obj_neg[1] = ft_atoi(type);
+	free(type);
+	type = get_coordinates(description[i + 4]);
+	obj_neg[2] = ft_atoi(type);
+	free(type);
 	param[0] = get_points(description[i + 5]);
 	param[1] = get_points(description[i + 6]);
 	param3 = ftoi(get_coordinates(description[i + 7]));
+	type = get_light_type(description[i + 2]);
 	srf = new_srf(param, obj_neg, param3, type);
 	free(type);
 	return (srf);
