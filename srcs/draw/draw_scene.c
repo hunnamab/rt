@@ -6,7 +6,7 @@
 /*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 08:14:31 by npetrell          #+#    #+#             */
-/*   Updated: 2021/02/19 08:52:12 by npetrell         ###   ########.fr       */
+/*   Updated: 2021/02/20 20:09:34 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void				draw_scene(t_sdl *sdl, t_scene *scene)
 
 	global = WID * HEI;
 	scene->bounce_cnt = 0;
-	scene->max_bounces = 3;
+	//scene->max_bounces = 3;
 	scene->has_refraction = 0;
 	scene->init_flag = 1;
 	get_rays_arr(scene);

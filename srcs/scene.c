@@ -6,7 +6,7 @@
 /*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 14:21:11 by pmetron           #+#    #+#             */
-/*   Updated: 2021/02/19 07:29:00 by npetrell         ###   ########.fr       */
+/*   Updated: 2021/02/20 20:23:34 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	init_scene(t_scene *scene)
 	scene->init[1] = &init_default;
 	scene->init[2] = &init_default;
 	scene->init[3] = &init_default;
+	scene->max_bounces = 1;
 	scene->draw[0] = &draw_scene;
 	scene->draw[1] = &draw_normal_buf;
 	scene->draw[2] = &draw_deepth_buf;
