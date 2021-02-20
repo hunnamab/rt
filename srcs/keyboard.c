@@ -6,7 +6,7 @@
 /*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/06 13:38:13 by pmetron           #+#    #+#             */
-/*   Updated: 2021/02/19 08:10:17 by npetrell         ###   ########.fr       */
+/*   Updated: 2021/02/20 20:22:12 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,9 @@ static void		key_down_event(t_sdl *sdl, t_scene *scene)
 	SDLK_q == sdl->event.key.keysym.sym ? camera_move_up(scene) : 0;
 	SDLK_e == sdl->event.key.keysym.sym ? camera_move_down(scene) : 0;
 	SDLK_SPACE == sdl->event.key.keysym.sym ? screen_png(scene) : 0;
+	SDLK_m == sdl->event.key.keysym.sym ? scene->max_bounces++ : 0;
+	if (scene->max_bounces > 1)
+		SDLK_n == sdl->event.key.keysym.sym ? scene->max_bounces-- : 0;
 	scene->draw[scene->mode](sdl, scene);
 }
 
