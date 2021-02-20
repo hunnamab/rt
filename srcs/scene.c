@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scene.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 14:21:11 by pmetron           #+#    #+#             */
-/*   Updated: 2021/02/19 07:29:00 by npetrell         ###   ########.fr       */
+/*   Updated: 2021/02/20 18:48:30 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	init_default(t_scene *scene)
 	int		x;
 
 	x = -1;
-	scene->viewport = protected_malloc(sizeof(cl_float3), (WID * HEI));
 	scene->ray_buf = protected_malloc(sizeof(cl_float3), (WID * HEI));
 	scene->normal_buf = protected_malloc(sizeof(cl_float3), WID * HEI);
 	scene->material_buf = protected_malloc(sizeof(t_material), WID * HEI);
@@ -34,7 +33,6 @@ void	init_scene_2(t_scene *scene)
 	scene->material_buf = NULL;
 	scene->intersection_buf = NULL;
 	scene->ray_buf = NULL;
-	scene->viewport = NULL;
 	scene->index_buf = NULL;
 	scene->depth_buf = NULL;
 	scene->init[scene->mode](scene);

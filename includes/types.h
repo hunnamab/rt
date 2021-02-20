@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   types.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/08 16:33:03 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/19 07:23:43 by npetrell         ###   ########.fr       */
+/*   Updated: 2021/02/20 18:32:46 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -348,7 +348,6 @@ struct					s_scene
 	t_light				*light;
 	int					light_nmb;
 	t_camera			camera;
-	cl_float3			*viewport;
 	int					*index_buf;
 	float				*depth_buf;
 	t_texture			**texts;

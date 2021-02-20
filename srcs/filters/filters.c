@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   filters.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 13:44:37 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/11 13:44:49 by hunnamab         ###   ########.fr       */
+/*   Updated: 2021/02/20 18:41:46 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	filters_init(t_filter_data *data)
 	close(fd);
 	ft_memset(str, 0, 64001);
 	fd = open("./srcs/filters/negative.cl", O_RDONLY);
-	str = protected_malloc(sizeof(char), 64001);
 	ret = read(fd, str, 64000);
 	str[ret] = '\0';
 	data->programs[NEGATIVE] = clCreateProgramWithSource( data->context, 1, (const char **)&str, NULL, &err);
@@ -45,9 +44,8 @@ void	filters_init(t_filter_data *data)
 	err != 0 ? printf("filter negative program build error %d\n", err) : 0;
 	data->kernels[NEGATIVE] = clCreateKernel( data->programs[NEGATIVE], "negative", &err);
 	err != 0 ? printf("filter negative kernel compile error %d\n", err) : printf("negative kernel created\n");
-	 ft_memset(str, 0, 64001);
+	ft_memset(str, 0, 64001);
 	fd = open("./srcs/filters/grayscale.cl", O_RDONLY);
-	str = protected_malloc(sizeof(char), 64001);
 	ret = read(fd, str, 64000);
 	str[ret] = '\0';
 	data->programs[GRAYSCALE] = clCreateProgramWithSource( data->context, 1, (const char **)&str, NULL, &err);
@@ -59,7 +57,6 @@ void	filters_init(t_filter_data *data)
 	ft_memset(str, 0, 64001);
 	close(fd);
 	fd = open("./srcs/filters/gauss.cl", O_RDONLY);
-	str = protected_malloc(sizeof(char), 64001);
 	ret = read(fd, str, 64000);
 	str[ret] = '\0';
 	data->programs[GAUSS] = clCreateProgramWithSource( data->context, 1, (const char **)&str, NULL, &err);
@@ -72,7 +69,6 @@ void	filters_init(t_filter_data *data)
 	close(fd);
 	
 	fd = open("./srcs/filters/sharpen.cl", O_RDONLY);
-	str = protected_malloc(sizeof(char), 64001);
 	ret = read(fd, str, 64000);
 	str[ret] = '\0';
 	data->programs[SHARPEN] = clCreateProgramWithSource( data->context, 1, (const char **)&str, NULL, &err);
@@ -85,7 +81,6 @@ void	filters_init(t_filter_data *data)
 	close(fd);
 
 	fd = open("./srcs/filters/magic.cl", O_RDONLY);
-	str = protected_malloc(sizeof(char), 64001);
 	ret = read(fd, str, 64000);
 	str[ret] = '\0';
 	data->programs[MAGIC] = clCreateProgramWithSource( data->context, 1, (const char **)&str, NULL, &err);
@@ -96,6 +91,7 @@ void	filters_init(t_filter_data *data)
 	err != 0 ? printf("filter magic kernel compile error %d\n", err) : printf("magic kernel created\n");
 	ft_memset(str, 0, 64001);
 	close(fd);
+	free(str);
 }
 
 void	sepia_filter(t_filter_data *data)

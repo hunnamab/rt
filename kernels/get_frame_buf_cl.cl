@@ -815,6 +815,7 @@ __kernel void get_frame_buf_cl(__global t_color *frame_buf, \
     int i = get_global_id(0);
 	int j = index_buf[i];
 	t_color buf;
+	float check;
 	if (j != -1 && bounce_cnt == 0 && !is_refractive)
 	{
 		frame_buf[i] = reflection_color(frame_buf, ray_buf, intersection_buf, \
@@ -835,7 +836,7 @@ __kernel void get_frame_buf_cl(__global t_color *frame_buf, \
 										obj, light, light_nmb, i, obj_nmb, bounce_cnt, prev_material_buf);
 		if (has_refraction == 0)
 		{
-			float check = (1.0f - obj[orig_index_buf[i]].reflection) * refl_buf[i].red + obj[orig_index_buf[i]].reflection * frame_buf[i].red;
+			check = (1.0f - obj[orig_index_buf[i]].reflection) * refl_buf[i].red + obj[orig_index_buf[i]].reflection * frame_buf[i].red;
  			frame_buf[i].red = check > 255 ? 255 : check;
 			check = (1.0f - obj[orig_index_buf[i]].reflection) * refl_buf[i].green + obj[orig_index_buf[i]].reflection * frame_buf[i].green;
 			frame_buf[i].green = check > 255 ? 255 : check;
@@ -863,22 +864,23 @@ __kernel void get_frame_buf_cl(__global t_color *frame_buf, \
 	if (bounce_cnt > 0 && obj[orig_index_buf[i]].refraction > 0.0f)
 	{
 		//printf("kr = %f\n", material_buf[i].kr);
-		float check = refl_buf[i].red * material_buf[i].kr + refr_buf[i].red * (1.0 - material_buf[i].kr);
+		float check = refl_buf[i].red * material_buf[i].kr + refr_buf[i].red * (1.0 - material_buf[i].kr) * obj[orig_index_buf[i]].transparency;
 		buf.red = check > 255 ? 255 : check;
-		check = refl_buf[i].green  * material_buf[i].kr + refr_buf[i].green * (1.0 - material_buf[i].kr);
+		check = refl_buf[i].green  * material_buf[i].kr + refr_buf[i].green * (1.0 - material_buf[i].kr) * obj[orig_index_buf[i]].transparency;
 		buf.green = check > 255 ? 255 : check;
-		check = refl_buf[i].blue * material_buf[i].kr + refr_buf[i].blue * (1.0 - material_buf[i].kr);
+		check = refl_buf[i].blue * material_buf[i].kr + refr_buf[i].blue * (1.0 - material_buf[i].kr) * obj[orig_index_buf[i]].transparency;
 		buf.blue = check > 255 ? 255 : check;
 		
 		//check = (buf.red ) * 0;
-		check = buf.red + frame_buf[i].red * material_buf[i].kr;
+		check = buf.red + frame_buf[i].red * material_buf[i].kr * (1.0f - obj[orig_index_buf[i]].transparency);
 		frame_buf[i].red = check > 255 ? 255 : check;
 		//check =	(buf.green) * 0;
-		check = buf.green + frame_buf[i].green * material_buf[i].kr;
+		check = buf.green + frame_buf[i].green * material_buf[i].kr * (1.0f - obj[orig_index_buf[i]].transparency);
 		frame_buf[i].green = check > 255 ? 255 : check;
 		//check =	(buf.blue)* 0;
-		check = buf.blue + frame_buf[i].blue * material_buf[i].kr;
+		check = buf.blue + frame_buf[i].blue * material_buf[i].kr * (1.0f - obj[orig_index_buf[i]].transparency);
 		frame_buf[i].blue = check > 255 ? 255 : check;
+		
 	}
 }
 

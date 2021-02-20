@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   box.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 13:44:57 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/17 23:08:27 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/20 16:47:46 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void			one_argument_box(char **description, t_scene *scene, int *snmi)
 	specular[4] = ftoi(get_coordinates(description[8]));
 	specular[5] = ftoi(get_coordinates(description[9]));
 	specular[6] = ftoi(get_coordinates(description[10]));
-	specular[7] = ftoi(get_coordinates(description[11]));
+	specular[7] = snmi[1];
 	new_box(cen_buf, color, specular, scene);
 	/*box->text = tex_new_bmp(get_file(description[12]));
 	box->normal_text = tex_new_bmp(get_file(description[13]));
@@ -144,7 +144,8 @@ void		new_box(cl_float3 *position, t_color color,
 	srfp2[1] = 0;
 	srfp2[2] = -1;
 	srfp2[0] = 0;
-	printf("(%f,%f,%f)\n", position[0].x, position[0].y, position[0].z);
+	for(int p = 0; p < 8; p++)
+		printf("%d == %f\n", p, parameters[p]);
 	pn[0] = get_point(position[0].x + parameters[6] / 2, position[0].y ,position[0].z);
 	pn[1] = get_point(1,0,0);
 	pn[2] = get_point(0,0,0);

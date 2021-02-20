@@ -5,13 +5,13 @@
 		"rotation": [0, 0, 0],
 		"color": [0, 0, 0, 255],
 		"specular": 100,
-		"reflection": 0.5,
+		"reflection": 0.8,
 		"refraction": 0,
 		"transparency": 0,
 		"t_scale": 5,
 		"surface_id": 1,
-		"texture": "no",
-		"normal_map": "no"
+		"texture": "textures/white_marble.tga",
+		"normal_map":  "no"
 		},
 	"plane": [
 		{
@@ -25,7 +25,7 @@
 			"transparency": 0.0,
 			"t_scale": 10,
 			"surface_id": 0,
-			"texture": "textures/red.jpg",
+			"texture": "textures/white_marble.tga",
 			"normal_map": "no"
 		},
 		{
@@ -40,7 +40,7 @@
 			"t_scale": 10,
 			"surface_id": 0,
 			"texture": "textures/white_marble.tga",
-			"normal_map": "no"
+			"normal_map": "textures/white_marple_normal.tga"
 		},
 		{
 			"point": [0, 20, 0],
