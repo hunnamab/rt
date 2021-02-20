@@ -1,31 +1,4 @@
 {
-	"sphere": {
-		"center": [0, 0, 100],
-		"radius": 10,
-		"rotation": [0, 0, 0],
-		"color": [255, 0, 0, 255],
-		"specular": 100,
-		"reflection": 0.4,
-		"refraction": 0,
-		"transparency": 0,
-		"t_scale": 10,
-		"surface_id": 1,
-		"texture": "no",
-		"normal_map": "no"
-		},
-	"box": {
-		"position":[0, 0, 0],
-		"rotation": [0, 0, 0],
-		"color": [255, 0, 0, 255],
-		"specular": 100,
-		"reflection": 0.4,
-		"refraction": 0,
-		"transparency": 0,
-		"t_scale": 10,
-		"surface_id": 0,
-		"size": 10,
-		"objs_id": 12
-		},
 	"cone": {
 		"position": [0, 0, 100],
 		"vector": [0, 1, 0],
@@ -41,6 +14,19 @@
 		"texture": "textures/helper.jpg",
 		"normal_map": "no"
 	},
+	"box": {
+		"position":[0, 0, 0],
+		"rotation": [0, 0, 0],
+		"color": [255, 0, 0, 255],
+		"specular": 100,
+		"reflection": 0.4,
+		"refraction": 0,
+		"transparency": 0,
+		"t_scale": 10,
+		"surface_id": 0,
+		"size": 10,
+		"objs_id": 1124
+		},
 	"light": [
 		{
 			"type": "point",

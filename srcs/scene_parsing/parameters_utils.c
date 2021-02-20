@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parameters_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 12:02:06 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/09 23:05:30 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/20 21:08:38 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ char		*get_coordinates(char *description)
 	int		i;
 	int		len;
 
-printf("lol");
 	if (!description)
 		output_error(5);
 	i = 0;

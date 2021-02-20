@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 13:48:30 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/16 21:34:01 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/20 21:47:34 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,10 @@ void	one_srf(char **description, t_scene *scene, int * snmi)
 	int			obj_neg[3];
 	char		*type;
 	
-	obj_neg[0] = atoi(get_coordinates(description[1]));
+	obj_neg[0] = ft_atoi(get_coordinates(description[1]));
 	type = get_light_type(description[2]);
-	obj_neg[1] = atoi(get_coordinates(description[3]));
-	obj_neg[2] = atoi(get_coordinates(description[4]));
+	obj_neg[1] = ft_atoi(get_coordinates(description[3]));
+	obj_neg[2] = ft_atoi(get_coordinates(description[4]));
 	param[0] = get_points(description[5]);
 	param[1] = get_points(description[6]);
 	param3 = ftoi(get_coordinates(description[7]));
@@ -74,10 +74,10 @@ t_cutting_surface		many_srfs(char **description, int i)
 	int			obj_neg[3];
 	char		*type;
 
-	obj_neg[0] = atoi(get_coordinates(description[i + 1]));
+	obj_neg[0] = ft_atoi(get_coordinates(description[i + 1]));
 	type = get_light_type(description[i + 2]);
-	obj_neg[1] = atoi(get_coordinates(description[i + 3]));
-	obj_neg[2] = atoi(get_coordinates(description[i + 4]));
+	obj_neg[1] = ft_atoi(get_coordinates(description[i + 3]));
+	obj_neg[2] = ft_atoi(get_coordinates(description[i + 4]));
 	param[0] = get_points(description[i + 5]);
 	param[1] = get_points(description[i + 6]);
 	param3 = ftoi(get_coordinates(description[i + 7]));

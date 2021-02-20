@@ -6,7 +6,7 @@
 		"color": [0, 0, 0, 255],
 		"specular": 100,
 		"reflection": 0,
-		"refraction": 0,
+		"refraction": 1.5,
 		"transparency": 0.5,
 		"t_scale": 5,
 		"surface_id": 1,

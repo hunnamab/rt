@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 17:32:12 by pmetron           #+#    #+#             */
-/*   Updated: 2021/02/20 18:44:08 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/20 21:50:42 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,16 +59,9 @@ void		clean_scene(t_scene *scene)
 	clReleaseContext(scene->cl_data.context);
 	ft_memdel((void **)&scene->cl_data.kernels);
 	ft_memdel((void **)&scene->cl_data.programs);
-/* 	i = -1;
-	while(++i < 6)
-	{
-		clReleaseProgram(scene->filter_data.programs[i]);
-		clReleaseKernel(scene->filter_data.kernels[i]);
-	} */
 	i = -1;
 	while (++i < scene->obj_nmb)
 		scene->objs[i]->clear_obj(scene->objs[i]);
-	i = -1;
 	free(scene->light);
 	free(scene->objs);
 	free(scene->texts);
