@@ -6,13 +6,13 @@
 /*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:43 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/20 21:22:54 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/20 22:57:04 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-static void	scene_objects(int *snmi, t_scene *scene, char *buf)
+static void		scene_objects(int *snmi, t_scene *scene, char *buf)
 {
 	char		*obj_name;
 	char		**obj_desc;
@@ -41,29 +41,59 @@ static void	scene_objects(int *snmi, t_scene *scene, char *buf)
 		while (buf[snmi[3]] != ']')
 		{
 			snmi[3]++;
-			if (buf[snmi[3]] == ']' && ft_isdigit(buf[snmi[3]- 1]))
+			if (buf[snmi[3]] == ']' && ft_isdigit(buf[snmi[3] - 1]))
 				snmi[3]++;
 		}
 	snmi[0] = snmi[3] + 3;
 }
 
-static void	get_objects(char *buf, t_scene *scene, int len)
+static void	init_norme_2(int *snmi)
 {
-	int snmi[5];
-	char c;
-	int i = 0;
-	int txt_nmb = 0;
-
 	snmi[0] = 2;
 	snmi[1] = 0;
 	snmi[2] = 0;
 	snmi[3] = 0;
 	snmi[4] = 0;
-	//if (!brackets(buf))
-	//	output_error(6);
+}
+
+static	void	texts_n_objects(t_scene *scene, int txt_nmb)
+{
+	int i;
+	int j;
+	
+	scene->texts = protected_malloc(sizeof(t_texture *), txt_nmb + 1);
+	j = 0;
+	i = 0;
+	while (j < scene->obj_nmb)
+	{
+		if (scene->objs[j]->text != NULL)
+		{
+			scene->texts[i] = scene->objs[j]->text;
+			scene->objs[j]->texture_id = i;
+			i++;
+		}
+		if (scene->objs[j]->normal_text != NULL)
+		{
+			scene->texts[i] = scene->objs[j]->normal_text;
+			scene->objs[j]->normal_map_id = i;
+			i++;
+		}
+		j++;
+	}
+}
+
+static void		get_objects(char *buf, t_scene *scene, int len)
+{
+	int 		snmi[5];
+	char		c;
+	int			i;
+	int			txt_nmb;
+
+	txt_nmb = 0;
+	i = 0;
+	init_norme_2(snmi);
 	scene->obj_nmb = count_objects(len, buf);
 	split_objects(len, scene, buf);
-	printf("OBJ_NMB\n%d\n", scene->obj_nmb);
 	scene->srfs = protected_malloc(sizeof(t_cutting_surface), scene->srf_nmb);
 	scene->objs = protected_malloc(sizeof(t_object *), scene->obj_nmb);
 	scene->light = protected_malloc(sizeof(t_light), scene->light_nmb);
@@ -84,11 +114,11 @@ static void	get_objects(char *buf, t_scene *scene, int len)
 			txt_nmb++;
 		i++;
 	}
-	scene->texts = protected_malloc(sizeof(t_texture *), txt_nmb + 1);
-	int j = 0;
+	texts_n_objects(scene, txt_nmb);
+	/*scene->texts = protected_malloc(sizeof(t_texture *), txt_nmb + 1);
+	j = 0;
 	i = 0;
 	while (j < scene->obj_nmb)
-	{
 		if (scene->objs[j]->text != NULL)
 		{
 			scene->texts[i] = scene->objs[j]->text;
@@ -102,33 +132,36 @@ static void	get_objects(char *buf, t_scene *scene, int len)
 			i++;
 		}
 		j++;
-	}
+	}*/
 	free(buf);
 }
 
-static void associate_obj_with_srf(t_scene *scene, int id, int i)
+static void		associate_obj_with_srf(t_scene *scene, int id, int i)
 {
-	int srf_one_obj = 0;
-	int n = 0;
-	int j = 0;
+	int			srf_one_obj;
+	int			n;
+	int			j;
+
+	srf_one_obj = 0;
+	n = 0;
+	j = 0;
 	while (n < scene->srf_nmb)
 	{
 		if (scene->srfs[n].object == id)
-		{
 			srf_one_obj++;
-		}
 		n++;
 	}
-	scene->objs[i]->cutting_surfaces = protected_malloc(sizeof(t_cutting_surface), srf_one_obj);
+	scene->objs[i]->cutting_surfaces =
+			protected_malloc(sizeof(t_cutting_surface), srf_one_obj);
 	n = 0;
 	while (n < scene->srf_nmb)
 	{
 		if (scene->srfs[n].object == id)
 		{
-			ft_memcpy(&scene->objs[i]->cutting_surfaces[j], &scene->srfs[n], sizeof(t_cutting_surface));
+			ft_memcpy(&scene->objs[i]->cutting_surfaces[j],
+					&scene->srfs[n], sizeof(t_cutting_surface));
 			scene->objs[i]->cs_nmb++;
 			j++;
-			printf("CS_NMB %s\n", scene->objs[i]->tag);
 		}
 		n++;
 	}
@@ -138,8 +171,9 @@ void		read_scene(int fd, t_scene *scene)
 {
 	int		ret;
 	char	*buf;
-	int i = 0;
+	int 	i;
 
+	i = 0;
 	buf = protected_malloc(sizeof(char), 256000);
 	ret = read(fd, buf, 64000);
 	if (ret < 0)

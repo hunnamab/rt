@@ -6,19 +6,18 @@
 /*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 12:02:06 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/09 23:05:30 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/20 22:42:42 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-char		*get_coordinates(char *description)
+char			*get_coordinates(char *description)
 {
-	char	*coordinates;
-	int		i;
-	int		len;
+	char		*coordinates;
+	int			i;
+	int			len;
 
-printf("lol");
 	if (!description)
 		output_error(5);
 	i = 0;
@@ -26,8 +25,8 @@ printf("lol");
 	printf("descrition cor buf !!!! %s\n", description);
 	while (!(ft_isdigit(description[i])) && description[i] != '-')
 	{
-		if (description[i + 1] == '\0'){
-			output_error(5);}
+		if (description[i + 1] == '\0')
+			output_error(5);
 		i++;
 	}
 	if (description[len - 2] == ']')
@@ -42,11 +41,11 @@ printf("lol");
 	return (coordinates);
 }
 
-t_color		get_color(char *description)
+t_color			get_color(char *description)
 {
-	char	*coord_buf;
-	char	**coordinates;
-	t_color	color;
+	char		*coord_buf;
+	char		**coordinates;
+	t_color		color;
 
 	if (!description)
 		output_error(5);
@@ -67,8 +66,8 @@ t_color		get_color(char *description)
 
 cl_float3		get_points(char *description)
 {
-	char	*coord_buf;
-	char	**coordinates;
+	char		*coord_buf;
+	char		**coordinates;
 	cl_float3	points;
 
 	if (!description)
@@ -80,7 +79,8 @@ cl_float3		get_points(char *description)
 	free(coord_buf);
 	if (!coordinates[0] || !coordinates[1] || !coordinates[2])
 		output_error(5);
-	printf("points (%s,%s,%s)\n", coordinates[0],coordinates[1],coordinates[2]);
+	printf("points (%s,%s,%s)\n", coordinates[0],
+				coordinates[1], coordinates[2]);
 	points.x = ftoi(ft_strtrim(coordinates[0]));
 	printf("x = %f\n", points.x);
 	points.y = ftoi(ft_strtrim(coordinates[1]));
