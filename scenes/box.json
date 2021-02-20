@@ -13,19 +13,34 @@
 		"texture": "no",
 		"normal_map": "no"
 		},
-	"box": {
-		"position":[0, 0, 0],
-		"rotation": [0, 0, 0],
-		"color": [255, 0, 0, 255],
-		"specular": 100,
-		"reflection": 0.4,
-		"refraction": 0,
-		"transparency": 0,
-		"t_scale": 10,
-		"surface_id": 0,
-		"size": 10,
-		"objs_id": 12
+	"box": [
+		{
+			"position":[0, 2, 0],
+			"rotation": [0, 0, 0],
+			"color": [255, 0, 0, 255],
+			"specular": 100,
+			"reflection": 0.4,
+			"refraction": 0,
+			"transparency": 0,
+			"t_scale": 10,
+			"surface_id": 0,
+			"size": 10,
+			"objs_id": 1
 		},
+		{
+			"position":[3, 0, 5],
+			"rotation": [0, 0, 0],
+			"color": [255, 0, 0, 255],
+			"specular": 100,
+			"reflection": 0.4,
+			"refraction": 0,
+			"transparency": 0,
+			"t_scale": 10,
+			"surface_id": 0,
+			"size": 10,
+			"objs_id": 1
+		}
+	],
 	"cone": {
 		"position": [0, 0, 100],
 		"vector": [0, 1, 0],

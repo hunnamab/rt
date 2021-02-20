@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   box.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 13:44:57 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/20 16:47:46 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/20 21:50:32 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,14 @@ void			one_argument_box(char **description, t_scene *scene, int *snmi)
 	specular[6] = ftoi(get_coordinates(description[10]));
 	specular[7] = snmi[1];
 	new_box(cen_buf, color, specular, scene);
-	/*box->text = tex_new_bmp(get_file(description[12]));
+	snmi[1] += 6;
+		/*box->text = tex_new_bmp(get_file(description[12]));
 	box->normal_text = tex_new_bmp(get_file(description[13]));
 	scene->objs[snmi[1]] = box;
 	snmi[1]++;*/
 }
 
-t_object		*multiple_boxes(char **description, int i, t_scene *scene)
+void	multiple_boxes(char **description, int i, t_scene *scene, int *snmi)
 {
 	cl_float3	cen_buf[2];
 	float		specular[8];
@@ -54,7 +55,7 @@ t_object		*multiple_boxes(char **description, int i, t_scene *scene)
 	specular[4] = ftoi(get_coordinates(description[i + 8]));
 	specular[5] = ftoi(get_coordinates(description[i + 9]));
 	specular[6] = ftoi(get_coordinates(description[i + 10]));
-	specular[7] = ftoi(get_coordinates(description[i + 11]));
+	specular[7] = snmi[1];
 	new_box(cen_buf, color, specular, scene);
 }
 
@@ -70,12 +71,11 @@ void			get_box(char **description, t_scene *scene, int *snmi)
 		{
 			if (description[i][2] == '{')
 			{
-				box = multiple_boxes(description, i, scene);
+				multiple_boxes(description, i, scene, snmi);
+				snmi[1] += 6;
 				/*box->text = tex_new_bmp(get_file(description[i + 10]));
 				box->normal_text = tex_new_bmp(get_file(description[i + 11]));*/
-				scene->objs[snmi[1]] = box;
-				snmi[1]++;
-				i += 12;
+				i += 13;
 			}
 		}
 	}

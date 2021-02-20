@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scenes_reader.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:43 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/20 18:50:52 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/20 21:22:54 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,9 @@ static void	get_objects(char *buf, t_scene *scene, int len)
 	//	output_error(6);
 	scene->obj_nmb = count_objects(len, buf);
 	split_objects(len, scene, buf);
+	printf("OBJ_NMB\n%d\n", scene->obj_nmb);
 	scene->srfs = protected_malloc(sizeof(t_cutting_surface), scene->srf_nmb);
-	scene->objs = protected_malloc(sizeof(t_object *), scene->obj_nmb + scene->box_nmb);
+	scene->objs = protected_malloc(sizeof(t_object *), scene->obj_nmb);
 	scene->light = protected_malloc(sizeof(t_light), scene->light_nmb);
 	while (snmi[3] < len)
 	{
