@@ -13,18 +13,12 @@
 		"texture": "textures/shrek.jpe",
 		"normal_map": "no"
 		},
-	"light": [
-		{
-			"type": "directional",
-			"position": [0, 0, -35],
-			"intensity": 0.8,
-			"direction": [0, 0, -1]
-		},
-		{
-			"type": "ambient",
-			"intensity": 0.2
-		}
-	],
+	"light": {
+		"type": "directional",
+		"position": [0, 0, -35],
+		"intensity": 0.8,
+		"direction": [0, 0, -1]
+	},
 	"camera": {
 		"position": [0, 0, -30],
 		"rotation": [0, 0, 0]

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   light_parameters_2.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 22:22:20 by ldeirdre          #+#    #+#             */
-/*   Updated: 2021/02/21 15:02:11 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/21 19:05:43 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,26 @@ void				new_directional_light(char **description,
 	light = new_light(pos_dir, new_type, intensity);
 	scene->light[snmi[2]] = light;
 	snmi[2]++;
+}
+
+char				*get_light_type(char *description)
+{
+	char			*type;
+	char			*buf;
+	int				i;
+	int				len;
+
+	if (!description)
+		output_error(5);
+	i = 0;
+	len = ft_strlen(description);
+	if (len < 6)
+		output_error(5);
+	while (description[i] != ':' && description[i] != '\0')
+		i++;
+	i++;
+	type = ft_strsub(description, i, len - i);
+	buf = ft_strtrim(type);
+	free(type);
+	return (buf);
 }
