@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cylinder.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: baylak <baylak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:11:46 by pmetron           #+#    #+#             */
-/*   Updated: 2021/02/17 00:10:18 by npetrell         ###   ########.fr       */
+/*   Updated: 2021/02/22 01:02:42 by baylak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ void			intersect_ray_cylinder(t_scene *scene, int index,
 	cl_mem		cs;
 
 	global = WID * HEI;
+	is_refractive = 0;
 	if (scene->objs[index]->cs_nmb > 0)
 		cs = clCreateBuffer(scene->cl_data.context, CL_MEM_READ_ONLY | \
 	CL_MEM_HOST_WRITE_ONLY | CL_MEM_COPY_HOST_PTR, sizeof(t_cutting_surface) \
@@ -100,7 +101,6 @@ void			one_argument_cylinder(char **description,
 	t_object	*cylinder;
 	t_color		color;
 	cl_float3	pos_vec_buf[3];
-	float		rotation[3];
 	float		rad_spec[7];
 
 	pos_vec_buf[0] = get_points(description[1]);
@@ -126,7 +126,6 @@ t_object		*multiple_cylinders(char **description, int i)
 	t_object	*cylinder;
 	t_color		color;
 	cl_float3	pos_vec_buf[3];
-	float		rotation[3];
 	float		rad_spec[7];
 
 	pos_vec_buf[0] = get_points(description[i + 1]);

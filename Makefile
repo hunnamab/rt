@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+         #
+#    By: baylak <baylak@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/07 15:39:13 by hunnamab          #+#    #+#              #
-#    Updated: 2021/02/21 19:58:00 by npetrell         ###   ########.fr        #
+#    Updated: 2021/02/22 02:48:57 by baylak           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,10 +56,18 @@ SRC_NAME = ../matrix_lib/matr_add_matr.c ../matrix_lib/create_matrix.c \
 	rt_textures/texture_loading.c \
 	rt_textures/perlin_noise/perlin_noise.c  rt_textures/perlin_noise/perlin_noise_utils.c\
 	rt_textures/perlin_noise/noise2d.c \
-	rt_objects/sphere.c rt_objects/triangle.c rt_objects/plane.c \
-	rt_objects/cylinder.c rt_objects/cone.c \
-	rt_objects/ellipsoid.c rt_objects/box.c rt_objects/paraboloid.c \
-	rt_objects/torus.c rt_objects/hyperboloid.c \
+	rt_objects/sphere/sphere.c rt_objects/sphere/sphere_rotate.c rt_objects/sphere/sphere_utils.c\
+	rt_objects/triangle/triangle.c rt_objects/triangle/triangle_utils.c\
+	rt_objects/plane/plane.c rt_objects/plane/plane_utils.c \
+	rt_objects/cylinder.c \
+	rt_objects/cone/cone.c rt_objects/cone/cone_init.c\
+	rt_objects/ellipsoid/ellipsoid.c rt_objects/ellipsoid/ellipsoid_init.c\
+	rt_objects/paraboloid/paraboloid.c rt_objects/paraboloid/paraboloid_init.c\
+	rt_objects/box/box.c rt_objects/box/box_plane_12.c \
+	rt_objects/box/box_plane_34.c rt_objects/box/box_plane_56.c \
+	rt_objects/box/box_utils.c \
+	rt_objects/torus/torus.c rt_objects/torus/torus_utils.c\
+	rt_objects/hyperboloid/hyperboloid.c rt_objects/hyperboloid/hyperboloid_init.c\
 	filters/filters.c scene_parsing/surfaces.c rt_ui.c rt_ui_part_2.c \
 	draw/draw_raycast.c draw/get_refraction_ray.c draw/draw_scene.c \
 	draw/draw_normal_buf.c draw/draw_deepth_buf.c draw/get_fresnel_coeff.c \
@@ -88,6 +96,15 @@ $(NAME): $(OBJ) $(LIBRARY)
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c
 				@mkdir $(OBJ_PATH) 2> /dev/null || true
 				@mkdir $(OBJ_PATH)/rt_objects 2> /dev/null || true
+				@mkdir $(OBJ_PATH)/rt_objects/box 2> /dev/null || true
+				@mkdir $(OBJ_PATH)/rt_objects/cone 2> /dev/null || true
+				@mkdir $(OBJ_PATH)/rt_objects/ellipsoid 2> /dev/null || true
+				@mkdir $(OBJ_PATH)/rt_objects/hyperboloid 2> /dev/null || true
+				@mkdir $(OBJ_PATH)/rt_objects/paraboloid 2> /dev/null || true
+				@mkdir $(OBJ_PATH)/rt_objects/plane 2> /dev/null || true
+				@mkdir $(OBJ_PATH)/rt_objects/sphere 2> /dev/null || true
+				@mkdir $(OBJ_PATH)/rt_objects/torus 2> /dev/null || true
+				@mkdir $(OBJ_PATH)/rt_objects/triangle 2> /dev/null || true
 				@mkdir $(OBJ_PATH)/rt_textures 2> /dev/null || true
 				@mkdir $(OBJ_PATH)/rt_textures/perlin_noise 2> /dev/null || true
 				@mkdir $(OBJ_PATH)/scene_parsing 2> /dev/null || true
@@ -100,6 +117,15 @@ clean:
 	@make -C libft clean
 	@make -C $(FT_PRINTF) clean
 	@rmdir $(OBJ_PATH)/rt_objects 2> /dev/null || true
+	@rmdir $(OBJ_PATH)/rt_objects/box 2> /dev/null || true
+	@rmdir $(OBJ_PATH)/rt_objects/cone 2> /dev/null || true
+	@rmdir $(OBJ_PATH)/rt_objects/ellipsoid 2> /dev/null || true
+	@rmdir $(OBJ_PATH)/rt_objects/hyperboloid 2> /dev/null || true
+	@rmdir $(OBJ_PATH)/rt_objects/paraboloid 2> /dev/null || true
+	@rmdir $(OBJ_PATH)/rt_objects/plane 2> /dev/null || true
+	@rmdir $(OBJ_PATH)/rt_objects/sphere 2> /dev/null || true
+	@rmdir $(OBJ_PATH)/rt_objects/torus 2> /dev/null || true
+	@rmdir $(OBJ_PATH)/rt_objects/triangle 2> /dev/null || true
 	@rmdir $(OBJ_PATH)/rt_textures 2> /dev/null || true
 	@rmdir $(OBJ_PATH)/rt_textures/perlin_noise 2> /dev/null || true
 	@rmdir $(OBJ_PATH)/scene_parsing 2> /dev/null || true

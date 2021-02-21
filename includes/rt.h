@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: baylak <baylak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:34 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/21 20:55:09 by npetrell         ###   ########.fr       */
+/*   Updated: 2021/02/22 02:50:43 by baylak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -315,5 +315,45 @@ float				noise2d(float x, float y);
 void				new_directional_light(char **description,
 						t_scene *scene, int *snmi);
 int					add_count(char *type, int i);
-
+void				init_srfp2(int (*srfp2)[3]);
+void				first_plane(cl_float3 *position, t_color color,
+							float *parameters, t_scene *scene);
+void				second_plane(cl_float3 *position, t_color color,
+							float *parameters, t_scene *scene);
+void				third_plane(cl_float3 *position, t_color color,
+							float *parameters, t_scene *scene);
+void				fourth_plane(cl_float3 *position, t_color color,
+							float *parameters, t_scene *scene);
+void				fifth_plane(cl_float3 *position, t_color color,
+							float *parameters, t_scene *scene);
+void				sixth_plane(cl_float3 *position, t_color color,
+							float *parameters, t_scene *scene);
+void				one_argument_box(char **description, \
+									t_scene *scene, int *snmi);
+void				multiple_boxes(char **description, int i, \
+									t_scene *scene, int *snmi);
+void				init_objects(t_object *new_object, cl_float3 *pos_vec, \
+											float *ang_spec, t_color color);
+void				init_ell(t_object *new_object, cl_float3 *buf, \
+					t_color color, int surface_id);
+void				hyperboloid_init(t_object *new_object, cl_float3 *cen_buf,
+								t_color color, int surface_id);
+void				paraboloid_init(t_object *new_object, cl_float3 *cen_buf, \
+							t_color color, int surface_id);
+t_basis				get_plane_default(t_basis basis, cl_float3 normal);
+void				plane_init(t_object *new_object, cl_float3 *poi_nor, \
+									float *specular, t_color color);
+void				set_arg_plane(t_scene *scene, int index);
+void				set_arg2_plane(t_scene *scene, int index, \
+												int is_refractive, cl_mem cs);
+void				set_arg_sphere(t_scene *scene, int index, cl_mem cs);
+void				set_arg2_sphere(t_scene *scene, int index, int is_refractive);
+void				set_arg_torus(t_scene *scene, int index, \
+						cl_mem cs);
+void				set_arg2_torus(t_scene *scene, int index, \
+						int is_refractive);
+t_basis				get_basis_tr(t_basis basis, cl_float3 *vert);
+cl_float3			cross(cl_float3 u, cl_float3 v);
+cl_float3			normalize_tr(cl_float3 vec);
+void				init_norme_triangle(float *r, cl_float3 *v, float *rt, cl_float3 *vt);
 #endif
