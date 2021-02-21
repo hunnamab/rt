@@ -6,7 +6,7 @@
 /*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:34 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/20 22:27:11 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/21 14:56:42 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -325,5 +325,9 @@ void				draw_scene(t_sdl *sdl, t_scene *scene);
 void				draw_normal_buf(t_sdl *sdl, t_scene *scene);
 void				draw_deepth_buf(t_sdl *sdl, t_scene *scene);
 void				get_fresnel_coeff(t_scene *scene);
+void				get_objects(char *buf, t_scene *scene, int len);
+void				scene_objects(int *snmi, t_scene *scene, char *buf);
+void 				split_box(int *scij, t_scene *scene,char *buf);
+void				strequal(char *obn, int *scij, t_scene *scene, char *buf);
 
 #endif

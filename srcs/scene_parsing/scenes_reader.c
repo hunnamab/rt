@@ -6,34 +6,14 @@
 /*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:43 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/20 22:57:04 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/21 14:48:16 by ldeirdre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-static void		scene_objects(int *snmi, t_scene *scene, char *buf)
+static void			do_scene_objects(char *buf, int *snmi)
 {
-	char		*obj_name;
-	char		**obj_desc;
-
-	obj_name = ft_strsub(buf, snmi[0], (snmi[3] - snmi[0]));
-	obj_desc = get_description(buf, snmi[3] + 2);
-	if (!(ft_strequ(obj_name, "\t\"camera\":")) && \
-		!(ft_strequ(obj_name, "\t\"light\":")) && snmi[1] < scene->obj_nmb)
-	{
-		get_parameters(obj_name, obj_desc, scene, snmi);
-	}
-	else if ((ft_strequ(obj_name, "\t\"camera\":")))
-		get_camera(obj_desc, scene);
-	else if ((ft_strequ(obj_name, "\t\"surface\":")) && snmi[4] < scene->srf_nmb)
-		get_surface(obj_desc, scene, snmi);
-	else if ((ft_strequ(obj_name, "\t\"light\":")) && snmi[2] < scene->light_nmb)
-		get_light(obj_desc, scene, snmi);
-	else
-		output_error(6);
-	ft_memdel((void **)&obj_name);
-	ft_memdel_float((void **)obj_desc);
 	if (buf[snmi[3] + 1] == '{')
 		while (buf[snmi[3]] != '}')
 			snmi[3]++;
@@ -47,110 +27,59 @@ static void		scene_objects(int *snmi, t_scene *scene, char *buf)
 	snmi[0] = snmi[3] + 3;
 }
 
-static void	init_norme_2(int *snmi)
+void				scene_objects(int *snmi, t_scene *scene, char *buf)
 {
-	snmi[0] = 2;
-	snmi[1] = 0;
-	snmi[2] = 0;
-	snmi[3] = 0;
-	snmi[4] = 0;
+	char			*obj_name;
+	char			**obj_desc;
+
+	obj_name = ft_strsub(buf, snmi[0], (snmi[3] - snmi[0]));
+	obj_desc = get_description(buf, snmi[3] + 2);
+	if (!(ft_strequ(obj_name, "\t\"camera\":")) && \
+		!(ft_strequ(obj_name, "\t\"light\":")) && snmi[1] < scene->obj_nmb)
+	{
+		get_parameters(obj_name, obj_desc, scene, snmi);
+	}
+	else if ((ft_strequ(obj_name, "\t\"camera\":")))
+		get_camera(obj_desc, scene);
+	else if ((ft_strequ(obj_name, "\t\"surface\":"))
+					&& snmi[4] < scene->srf_nmb)
+		get_surface(obj_desc, scene, snmi);
+	else if ((ft_strequ(obj_name, "\t\"light\":"))
+					&& snmi[2] < scene->light_nmb)
+		get_light(obj_desc, scene, snmi);
+	else
+		output_error(6);
+	ft_memdel((void **)&obj_name);
+	ft_memdel_float((void **)obj_desc);
+	do_scene_objects(buf, snmi);
 }
 
-static	void	texts_n_objects(t_scene *scene, int txt_nmb)
+static int			count_srfs(t_scene *scene, int id)
 {
-	int i;
-	int j;
-	
-	scene->texts = protected_malloc(sizeof(t_texture *), txt_nmb + 1);
-	j = 0;
-	i = 0;
-	while (j < scene->obj_nmb)
+	int				n;
+	int				res;
+
+	n = 0;
+	res = 0;
+	while (n < scene->srf_nmb)
 	{
-		if (scene->objs[j]->text != NULL)
-		{
-			scene->texts[i] = scene->objs[j]->text;
-			scene->objs[j]->texture_id = i;
-			i++;
-		}
-		if (scene->objs[j]->normal_text != NULL)
-		{
-			scene->texts[i] = scene->objs[j]->normal_text;
-			scene->objs[j]->normal_map_id = i;
-			i++;
-		}
-		j++;
+		if (scene->srfs[n].object == id)
+			res++;
+		n++;
 	}
+	return (res);
 }
 
-static void		get_objects(char *buf, t_scene *scene, int len)
+static void			associate_obj_with_srf(t_scene *scene, int id, int i)
 {
-	int 		snmi[5];
-	char		c;
-	int			i;
-	int			txt_nmb;
-
-	txt_nmb = 0;
-	i = 0;
-	init_norme_2(snmi);
-	scene->obj_nmb = count_objects(len, buf);
-	split_objects(len, scene, buf);
-	scene->srfs = protected_malloc(sizeof(t_cutting_surface), scene->srf_nmb);
-	scene->objs = protected_malloc(sizeof(t_object *), scene->obj_nmb);
-	scene->light = protected_malloc(sizeof(t_light), scene->light_nmb);
-	while (snmi[3] < len)
-	{
-		if (buf[snmi[3] + 1] == '{' || buf[snmi[3] + 1] == '[')
-		{
-			c = buf[snmi[3] + 1];
-			scene_objects(snmi, scene, buf);
-		}
-		snmi[3]++;
-	}
-	while (i < scene->obj_nmb)
-	{
-		if (scene->objs[i]->text != NULL)
-			txt_nmb++;
-		if (scene->objs[i]->normal_text != NULL)
-			txt_nmb++;
-		i++;
-	}
-	texts_n_objects(scene, txt_nmb);
-	/*scene->texts = protected_malloc(sizeof(t_texture *), txt_nmb + 1);
-	j = 0;
-	i = 0;
-	while (j < scene->obj_nmb)
-		if (scene->objs[j]->text != NULL)
-		{
-			scene->texts[i] = scene->objs[j]->text;
-			scene->objs[j]->texture_id = i;
-			i++;
-		}
-		if (scene->objs[j]->normal_text != NULL)
-		{
-			scene->texts[i] = scene->objs[j]->normal_text;
-			scene->objs[j]->normal_map_id = i;
-			i++;
-		}
-		j++;
-	}*/
-	free(buf);
-}
-
-static void		associate_obj_with_srf(t_scene *scene, int id, int i)
-{
-	int			srf_one_obj;
-	int			n;
-	int			j;
+	int				srf_one_obj;
+	int				n;
+	int				j;
 
 	srf_one_obj = 0;
 	n = 0;
 	j = 0;
-	while (n < scene->srf_nmb)
-	{
-		if (scene->srfs[n].object == id)
-			srf_one_obj++;
-		n++;
-	}
+	srf_one_obj = count_srfs(scene, id);
 	scene->objs[i]->cutting_surfaces =
 			protected_malloc(sizeof(t_cutting_surface), srf_one_obj);
 	n = 0;
@@ -167,11 +96,11 @@ static void		associate_obj_with_srf(t_scene *scene, int id, int i)
 	}
 }
 
-void		read_scene(int fd, t_scene *scene)
+void				read_scene(int fd, t_scene *scene)
 {
-	int		ret;
-	char	*buf;
-	int 	i;
+	int				ret;
+	char			*buf;
+	int				i;
 
 	i = 0;
 	buf = protected_malloc(sizeof(char), 256000);

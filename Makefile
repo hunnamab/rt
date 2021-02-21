@@ -6,7 +6,7 @@
 #    By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/07 15:39:13 by hunnamab          #+#    #+#              #
-#    Updated: 2021/02/20 22:27:55 by ldeirdre         ###   ########.fr        #
+#    Updated: 2021/02/21 14:50:56 by ldeirdre         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,7 +64,8 @@ SRC_NAME = ../matrix_lib/matr_add_matr.c ../matrix_lib/create_matrix.c \
 	draw/draw_normal_buf.c draw/draw_deepth_buf.c draw/get_fresnel_coeff.c \
 	draw/get_reflection_ray.c scene_parsing/light_parameters_2.c\
 	mouse_click.c mouse_click_part_2.c\
-	camera_move.c camera_move2.c cutting.c
+	camera_move.c camera_move2.c cutting.c scene_parsing/scenes_reader_help.c \
+	scene_parsing/scenes_reader_util_2.c
 
 OBJ_NAME = $(SRC_NAME:.c=.o)
 
