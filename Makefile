@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+         #
+#    By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/07 15:39:13 by hunnamab          #+#    #+#              #
-#    Updated: 2021/02/21 14:50:56 by ldeirdre         ###   ########.fr        #
+#    Updated: 2021/02/21 19:58:00 by npetrell         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,7 +54,8 @@ SRC_NAME = ../matrix_lib/matr_add_matr.c ../matrix_lib/create_matrix.c \
 	scene_parsing/scenes_reader_util.c scene_parsing/surfaces.c \
 	rt_textures/textures.c \
 	rt_textures/texture_loading.c \
-	rt_textures/perlin_noise.c \
+	rt_textures/perlin_noise/perlin_noise.c  rt_textures/perlin_noise/perlin_noise_utils.c\
+	rt_textures/perlin_noise/noise2d.c \
 	rt_objects/sphere.c rt_objects/triangle.c rt_objects/plane.c \
 	rt_objects/cylinder.c rt_objects/cone.c \
 	rt_objects/ellipsoid.c rt_objects/box.c rt_objects/paraboloid.c \
@@ -88,6 +89,7 @@ $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c
 				@mkdir $(OBJ_PATH) 2> /dev/null || true
 				@mkdir $(OBJ_PATH)/rt_objects 2> /dev/null || true
 				@mkdir $(OBJ_PATH)/rt_textures 2> /dev/null || true
+				@mkdir $(OBJ_PATH)/rt_textures/perlin_noise 2> /dev/null || true
 				@mkdir $(OBJ_PATH)/scene_parsing 2> /dev/null || true
 				@mkdir $(OBJ_PATH)/filters 2> /dev/null || true
 				@mkdir $(OBJ_PATH)/draw 2> /dev/null || true
@@ -99,6 +101,7 @@ clean:
 	@make -C $(FT_PRINTF) clean
 	@rmdir $(OBJ_PATH)/rt_objects 2> /dev/null || true
 	@rmdir $(OBJ_PATH)/rt_textures 2> /dev/null || true
+	@rmdir $(OBJ_PATH)/rt_textures/perlin_noise 2> /dev/null || true
 	@rmdir $(OBJ_PATH)/scene_parsing 2> /dev/null || true
 	@rmdir $(OBJ_PATH)/filters 2> /dev/null || true
 	@rmdir $(OBJ_PATH)/draw 2> /dev/null || true

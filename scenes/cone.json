@@ -11,7 +11,7 @@
 		"transparency": 0,
 		"t_scale": 20,
 		"surface_id": 1,
-		"texture": "textures/helper.jpg",
+		"texture": "textures/perlin_n.jpg",
 		"normal_map": "no"
 	},
 	"surface": [
