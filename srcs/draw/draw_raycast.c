@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_raycast.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 00:18:09 by npetrell          #+#    #+#             */
-/*   Updated: 2021/02/19 08:57:09 by npetrell         ###   ########.fr       */
+/*   Updated: 2021/02/21 18:19:40 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ static void	all_frame_loop_raycast(t_sdl *sdl, t_scene *scene)
 void		draw_raycast(t_sdl *sdl, t_scene *scene)
 {
 	scene->bounce_cnt = 0;
+	scene->has_refraction = 0;
+	scene->init_flag = 1;
 	get_rays_arr(scene);
 	get_closest_points(scene, 0, 0);
 	get_intersection_buf(scene);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:34 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/21 14:56:42 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/21 18:08:44 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -329,5 +329,7 @@ void				get_objects(char *buf, t_scene *scene, int len);
 void				scene_objects(int *snmi, t_scene *scene, char *buf);
 void 				split_box(int *scij, t_scene *scene,char *buf);
 void				strequal(char *obn, int *scij, t_scene *scene, char *buf);
+void				split_surface(int *scij, t_scene *scene, char *buf);
+void				split_light(int *scij, t_scene *scene, char *buf);
 
 #endif

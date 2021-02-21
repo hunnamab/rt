@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/17 18:09:19 by ldeirdre          #+#    #+#             */
-/*   Updated: 2021/02/20 21:41:32 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/20 23:22:10 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ t_texture			*tex_new_bmp(char *file)
 	int				i;
 	char			*buf;
 	
-	buf = file;
 	i = ft_strlen(file);
 	if (ft_strequ(&file[i - 1], ","))
 		buf = ft_strsub(file, 1, (ft_strlen(file) - 3));

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scenes_reader_util.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 14:44:06 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/21 14:58:46 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/21 18:08:38 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void			init_norme(int *norme)
 	norme[3] = 0;
 }
 
-static void			split_light(int *scij, t_scene *scene, char *buf)
+void				split_light(int *scij, t_scene *scene, char *buf)
 {
 	if (buf[scij[2] + 1] == '[')
 	{
@@ -55,7 +55,7 @@ static void			split_else(int *scij, char *buf)
 	}
 }
 
-static void			split_surface(int *scij, t_scene *scene, char *buf)
+void				split_surface(int *scij, t_scene *scene, char *buf)
 {
 	if (buf[scij[2] + 1] == '[')
 	{

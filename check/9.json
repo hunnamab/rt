@@ -10,7 +10,7 @@
 		"transparency": 0,
 		"t_scale": 10,
 		"surface_id": 1,
-		"texture": "no",
+		"texture": "textures/perlin_n.jpg",
 		"normal_map": "no"
 		},
 	"light": [

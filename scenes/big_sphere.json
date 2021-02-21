@@ -8,16 +8,16 @@
 		"reflection": 0,
 		"refraction": 0,
 		"transparency": 0,
-		"t_scale": 7,
+		"t_scale": 10,
 		"surface_id": 1,
-		"texture": "textures/eye.jpg",
+		"texture": "textures/shrek.jpe",
 		"normal_map": "no"
 		},
 	"light": [
 		{
 			"type": "directional",
 			"position": [0, 0, -35],
-			"intensity": 0.4,
+			"intensity": 0.8,
 			"direction": [0, 0, -1]
 		},
 		{
