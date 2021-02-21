@@ -312,5 +312,8 @@ float				fade(float t);
 float				lerp(float t, float a1, float a2);
 cl_float2			get_constant_vector(float x);
 float				noise2d(float x, float y);
+void				new_directional_light(char **description,
+						t_scene *scene, int *snmi);
+int					add_count(char *type, int i);
 
 #endif

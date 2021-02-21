@@ -12,17 +12,6 @@
 
 #include "rt.h"
 
-int					add_count(char *type, int i)
-{
-	if (ft_strequ(type, "\"point\","))
-		i += 5;
-	else if (ft_strequ(type, "\"directional\","))
-		i += 6;
-	else
-		i += 4;
-	return (i);
-}
-
 void				new_directional_light(char **description,
 		t_scene *scene, int *snmi)
 {
@@ -38,6 +27,17 @@ void				new_directional_light(char **description,
 	light = new_light(pos_dir, new_type, intensity);
 	scene->light[snmi[2]] = light;
 	snmi[2]++;
+}
+
+int					add_count(char *type, int i)
+{
+	if (ft_strequ(type, "\"point\","))
+		i += 5;
+	else if (ft_strequ(type, "\"directional\","))
+		i += 6;
+	else
+		i += 4;
+	return (i);
 }
 
 char				*get_light_type(char *description)
