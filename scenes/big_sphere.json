@@ -10,8 +10,8 @@
 		"transparency": 0,
 		"t_scale": 10,
 		"surface_id": 1,
-		"texture": "textures/shrek.jpe",
-		"normal_map": "no"
+		"texture": "textures/white_marble.tga",
+		"normal_map": "textures/white_marple_normal.tga"
 		},
 	"light": {
 		"type": "directional",

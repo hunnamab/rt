@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   types.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/08 16:33:03 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/21 19:37:44 by npetrell         ###   ########.fr       */
+/*   Updated: 2021/02/21 20:47:49 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -361,6 +361,7 @@ struct					s_scene
 	t_texture			**texts;
 	t_color				*frame_buf;
 	t_cutting_surface	*srfs;
+	cl_int2 			*shift_buf;
 	int					init_flag;
 	int					srf_nmb;
 	int					box_nmb;
