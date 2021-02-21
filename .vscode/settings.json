@@ -4,6 +4,7 @@
         "vector": "c",
         "iosfwd": "c",
         "iterator": "c",
-        "*.cuh": "c"
+        "*.cuh": "c",
+        "rt.h": "c"
     }
 }

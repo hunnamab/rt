@@ -6,7 +6,7 @@
 /*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/08 16:33:03 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/21 20:03:44 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/21 20:47:49 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,14 @@
 # include <stdint.h>
 
 typedef	struct s_scene	t_scene;
+
+
+typedef struct			s_vector2
+{
+    float				x;
+	float				y;
+}						t_vector2;
+
 
 enum					e_object_type {
 	SPHERE,

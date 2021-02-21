@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:34 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/21 18:08:44 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/21 20:22:15 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -331,5 +331,12 @@ void 				split_box(int *scij, t_scene *scene,char *buf);
 void				strequal(char *obn, int *scij, t_scene *scene, char *buf);
 void				split_surface(int *scij, t_scene *scene, char *buf);
 void				split_light(int *scij, t_scene *scene, char *buf);
+float				dot(cl_float2 vector1, cl_float2 vector2);
+int					*shuffle(int perlin_arr[512]);
+int					*make_permutation(int perlin_arr[512]);
+float 				fade(float t);
+float				lerp(float t, float a1, float a2);
+cl_float2			get_constant_vector(float x);
+float				noise2d(float x, float y);
 
 #endif
