@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   box.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 13:44:57 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/20 21:50:32 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/21 20:49:46 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,6 @@ void			one_argument_box(char **description, t_scene *scene, int *snmi)
 	specular[7] = snmi[1];
 	new_box(cen_buf, color, specular, scene);
 	snmi[1] += 6;
-		/*box->text = tex_new_bmp(get_file(description[12]));
-	box->normal_text = tex_new_bmp(get_file(description[13]));
-	scene->objs[snmi[1]] = box;
-	snmi[1]++;*/
 }
 
 void	multiple_boxes(char **description, int i, t_scene *scene, int *snmi)
@@ -84,55 +80,6 @@ void			get_box(char **description, t_scene *scene, int *snmi)
 	else
 		output_error(6);
 }
-/* t_object		*new_box(cl_float3 *buf, t_color color,
-							float *specular, int surface_id)
-{
-	t_box		*box;
-	t_object	*new_object;
-
-	new_object = malloc(sizeof(t_object));
-	box = malloc(sizeof(t_box));
-	box->a = buf[0];
-	box->b = buf[1];
-	new_object->rotation[0] = buf[2].x;
-	new_object->rotation[1] = buf[2].y;
-	new_object->rotation[2] = buf[2].z;
-	new_object->specular = specular[0];
-	new_object->reflection = specular[1];
-	new_object->refraction = specular[2];
-	new_object->transparency = specular[3];
-	new_object->color = color;
-	new_object->text = NULL;
-	new_object->normal_text = NULL;
-	new_object->data = (void *)box;
-	new_object->type = BOX;
-	new_object->cs_nmb = 0;
-	new_object->surface_id = surface_id;
-	new_object->cutting_surfaces = NULL;
-	new_object->intersect = &intersect_ray_box;
-	new_object->clear_obj = &clear_default;
-	return (new_object);
-} */
-/* так бля, список параметров 0)specular, 1)reflection 2)refraction 3)transperansy 4)t_scale 5)surface_id 
-								6)size (это длина стороны куба) 7)objs_id
-	 при создании куба нужно знать его id в общем объектном указателе, выделить по этому id сразу 6 объектов
-	 для каждой плоскости куба, во все эти объекты добавить необходимые секущие поверхности/негативные фигуры*/
-/*void		test_box(t_scene *scene)
-{
-	cl_float3 pos = get_point(1,2,3);
-	t_color color = set_color(0,255,0,255);
-	float	parameters[8];
-	scene->obj_nmb += 6;
-	parameters[0] = 100;
-	parameters[1] = 0;
-	parameters[2] = 0;
-	parameters[3] = 0;
-	parameters[4] = 10;
-	parameters[5] = 0;
-	parameters[6] = 5;
-	parameters[7] = 1;
-	new_box(pos, color,parameters,scene);
-}*/
 
 void		new_box(cl_float3 *position, t_color color,
 							float *parameters, t_scene *scene)
