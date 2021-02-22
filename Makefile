@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+         #
+#    By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/07 15:39:13 by hunnamab          #+#    #+#              #
-#    Updated: 2021/02/21 19:58:00 by npetrell         ###   ########.fr        #
+#    Updated: 2021/02/22 17:34:27 by pmetron          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,7 +66,7 @@ SRC_NAME = ../matrix_lib/matr_add_matr.c ../matrix_lib/create_matrix.c \
 	draw/get_reflection_ray.c scene_parsing/light_parameters_2.c\
 	mouse_click.c mouse_click_part_2.c\
 	camera_move.c camera_move2.c cutting.c scene_parsing/scenes_reader_help.c \
-	scene_parsing/scenes_reader_util_2.c
+	scene_parsing/scenes_reader_util_2.c rt_textures/texture_loading_second.c
 
 OBJ_NAME = $(SRC_NAME:.c=.o)
 

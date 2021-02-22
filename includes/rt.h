@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:34 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/21 20:55:09 by npetrell         ###   ########.fr       */
+/*   Updated: 2021/02/22 17:33:47 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -312,5 +312,7 @@ float				fade(float t);
 float				lerp(float t, float a1, float a2);
 cl_float2			get_constant_vector(float x);
 float				noise2d(float x, float y);
-
+void				get_texture_buf(t_scene *scene, cl_int4 *index_buf, \
+					unsigned char *texture_buf, long long int *ijiss);
+					
 #endif
