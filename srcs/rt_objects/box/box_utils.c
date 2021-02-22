@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   box_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baylak <baylak@student.42.fr>              +#+  +:+       +#+        */
+/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 00:26:41 by baylak            #+#    #+#             */
-/*   Updated: 2021/02/22 00:27:16 by baylak           ###   ########.fr       */
+/*   Updated: 2021/02/22 16:46:04 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void			init_srfp2(int (*srfp2)[3])
 {
 	(*srfp2)[0] = 0;
 	(*srfp2)[1] = 0;
-	(*srfp2)[2] = -1;
+	(*srfp2)[2] = 0;
 }
 
 void			new_box(cl_float3 *position, t_color color,

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   plane_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baylak <baylak@student.42.fr>              +#+  +:+       +#+        */
+/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 02:00:56 by baylak            #+#    #+#             */
-/*   Updated: 2021/02/22 02:10:24 by baylak           ###   ########.fr       */
+/*   Updated: 2021/02/22 16:35:47 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void		plane_init(t_object *new_object, cl_float3 *poi_nor, \
 	new_object->surface_id = specular[5];
 	new_object->cutting_surfaces = NULL;
 	new_object->color = color;
-	new_object->data = (void *)new_plane;
 	new_object->tag = "plane";
 	new_object->type = PLANE;
 	new_object->text = NULL;
@@ -50,6 +49,7 @@ t_object	*new_plane(cl_float3 *poi_nor, float *specular, t_color color)
 	new_plane->normal = poi_nor[1];
 	normalize_vector(&new_plane->normal);
 	new_plane->point = poi_nor[0];
+	new_object->data = (void *)new_plane;
 	plane_init(new_object, poi_nor, specular, color);
 	matrix = get_rotation_matrix(new_object->rotation);
 	transform(&new_plane->normal, matrix, 1);

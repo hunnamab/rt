@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cone_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baylak <baylak@student.42.fr>              +#+  +:+       +#+        */
+/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 00:39:21 by baylak            #+#    #+#             */
-/*   Updated: 2021/02/22 00:41:06 by baylak           ###   ########.fr       */
+/*   Updated: 2021/02/22 16:32:49 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void		init_objects(t_object *new_object, cl_float3 *pos_vec, \
 	new_object->color = color;
 	new_object->text = NULL;
 	new_object->normal_text = NULL;
-	new_object->data = (void *)new_cone;
 	new_object->tag = "cone";
 	new_object->type = CONE;
 	new_object->intersect = &intersect_ray_cone;
@@ -56,5 +55,6 @@ t_object	*new_cone(cl_float3 *pos_vec, float *ang_spec, t_color color, \
 	transform(&new_cone->vec, matrix, 1);
 	matr_free(matrix, 4);
 	init_objects(new_object, pos_vec, ang_spec, color);
+	new_object->data = (void *)new_cone;
 	return (new_object);
 }

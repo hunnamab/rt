@@ -1,33 +1,7 @@
 {
 	"box": [
 		{
-			"position":[0, 2, 0],
-			"rotation": [0, 0, 0],
-			"color": [255, 0, 0, 255],
-			"specular": 100,
-			"reflection": 0.4,
-			"refraction": 0,
-			"transparency": 0,
-			"t_scale": 10,
-			"surface_id": 0,
-			"size": 10,
-			"objs_id": 1
-		},
-		{
-			"position":[3, 0, 5],
-			"rotation": [0, 0, 0],
-			"color": [255, 0, 0, 255],
-			"specular": 100,
-			"reflection": 0.4,
-			"refraction": 0,
-			"transparency": 0,
-			"t_scale": 10,
-			"surface_id": 0,
-			"size": 10,
-			"objs_id": 1
-		},
-		{
-			"position":[-3, 0, 5],
+			"position":[5, 5, 5],
 			"rotation": [0, 0, 0],
 			"color": [255, 0, 0, 255],
 			"specular": 100,
@@ -40,21 +14,6 @@
 			"objs_id": 1
 		}
 	],
-	"cone": {
-		"position": [0, 0, 100],
-		"vector": [0, 1, 0],
-		"angle": 0.3,
-		"rotation": [0, 0, 0],
-		"color": [200, 50, 60, 255],
-		"specular": 100,
-		"reflection": 0.0,
-		"refraction": 0,
-		"transparency": 0,
-		"t_scale": 20,
-		"surface_id": 1,
-		"texture": "textures/helper.jpg",
-		"normal_map": "no"
-		},
 	"light": [
 		{
 			"type": "point",
@@ -67,7 +26,7 @@
 		}
 	],
 	"camera": {
-		"position": [1, 2, -100],
+		"position": [1, 2, -50],
 		"rotation": [0, 0, 0]
 	}
 }

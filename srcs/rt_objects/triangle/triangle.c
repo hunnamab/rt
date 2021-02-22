@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   triangle.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baylak <baylak@student.42.fr>              +#+  +:+       +#+        */
+/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 21:42:26 by pmetron           #+#    #+#             */
-/*   Updated: 2021/02/22 02:50:37 by baylak           ###   ########.fr       */
+/*   Updated: 2021/02/22 16:37:27 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void			triangle_init(t_object *new_object, float specular, \
 	new_object->text = NULL;
 	new_object->surface_id = rotation[7];
 	new_object->color = color;
-	new_object->data = (void *)new_triangle;
 	new_object->tag = "triangle";
 	new_object->type = TRIANGLE;
 	new_object->cs_nmb = 0;
@@ -53,6 +52,7 @@ t_object		*new_triangle(cl_float3 *vertex, float specular, \
 	matr_free(matrix, 4);
 	edge1 = vector_sub(&new_triangle->vertex[0], &new_triangle->vertex[1]);
 	edge2 = vector_sub(&new_triangle->vertex[1], &new_triangle->vertex[2]);
+	new_object->data = (void *)new_triangle;
 	new_triangle->normal = vector_cross(&edge1, &edge2);
 	normalize_vector(&new_triangle->normal);
 	triangle_init(new_object, specular, rotation, color);

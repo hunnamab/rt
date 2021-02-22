@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sphere_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baylak <baylak@student.42.fr>              +#+  +:+       +#+        */
+/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 02:19:52 by baylak            #+#    #+#             */
-/*   Updated: 2021/02/22 02:21:05 by baylak           ###   ########.fr       */
+/*   Updated: 2021/02/22 16:36:01 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void			sphere_init(t_object *new_object, float *rotation, \
 	new_object->cs_nmb = 0;
 	new_object->text = NULL;
 	new_object->normal_text = NULL;
-	new_object->data = (void *)new_sphere;
 	new_object->tag = "sphere";
 	new_object->type = SPHERE;
 	new_object->intersect = &intersect_ray_sphere;
@@ -52,6 +51,7 @@ t_object		*new_sphere(cl_float3 center, float *rad_spec, \
 	new_object->t_scale = rad_spec[5];
 	new_object->surface_id = rad_spec[6];
 	sphere_init(new_object, rotation, color, center);
+	new_object->data = (void *)new_sphere;
 	ft_printf("new sphere radius %f\n", new_sphere->radius);
 	return (new_object);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scene.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baylak <baylak@student.42.fr>              +#+  +:+       +#+        */
+/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 14:21:11 by pmetron           #+#    #+#             */
-/*   Updated: 2021/02/22 05:08:52 by baylak           ###   ########.fr       */
+/*   Updated: 2021/02/22 17:14:04 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	init_scene(t_scene *scene)
 	scene->init[1] = &init_default;
 	scene->init[2] = &init_default;
 	scene->init[3] = &init_default;
-	scene->max_bounces = 2;
+	scene->max_bounces = 1;
 	scene->draw[0] = &draw_scene;
 	scene->draw[1] = &draw_normal_buf;
 	scene->draw[2] = &draw_deepth_buf;

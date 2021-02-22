@@ -6,7 +6,7 @@
 /*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 08:17:06 by npetrell          #+#    #+#             */
-/*   Updated: 2021/02/21 20:31:13 by npetrell         ###   ########.fr       */
+/*   Updated: 2021/02/22 17:15:26 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ static void				all_frame_loop_deepth(t_sdl *sdl, t_scene *scene)
 void					draw_deepth_buf(t_sdl *sdl, t_scene *scene)
 {
 	scene->bounce_cnt = 0;
+	scene->has_refraction = 0;
+	scene->init_flag = 1;
 	get_rays_arr(scene);
 	get_closest_points(scene, 0, 0);
 	clEnqueueReadBuffer(scene->cl_data.commands, \
