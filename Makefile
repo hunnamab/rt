@@ -6,7 +6,7 @@
 #    By: baylak <baylak@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/07 15:39:13 by hunnamab          #+#    #+#              #
-#    Updated: 2021/02/22 02:48:57 by baylak           ###   ########.fr        #
+#    Updated: 2021/02/22 04:15:22 by baylak           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,7 +47,11 @@ SRC_NAME = ../matrix_lib/matr_add_matr.c ../matrix_lib/create_matrix.c \
 	main.c vector.c utils.c transform.c light.c \
 	buffers.c buffers_part_2.c scene.c color.c vector_second.c transform_matrix.c \
 	keyboard.c clean.c errors_management.c \
-	cl_init.c buffers_material_buf.c \
+	cl_init/cl_init.c cl_init/copy_memory_obj.c cl_init/init_buf.c\
+	cl_init/device_objects_init.c \
+	cl_init/fd12345.c cl_init/fd6789_10.c cl_init/fd11_12_13_14_15.c\
+	cl_init/fd16_17_18_19.c cl_init/create_buf_gpu.c \
+	buffers_material_buf.c \
 	scene_parsing/objects_parameters.c scene_parsing/scenes_reader.c \
 	scene_parsing/light_parameters.c scene_parsing/parameters_utils.c \
 	scene_parsing/camera_parameters.c scene_parsing/define_object.c \
@@ -109,6 +113,7 @@ $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c
 				@mkdir $(OBJ_PATH)/rt_textures/perlin_noise 2> /dev/null || true
 				@mkdir $(OBJ_PATH)/scene_parsing 2> /dev/null || true
 				@mkdir $(OBJ_PATH)/filters 2> /dev/null || true
+				@mkdir $(OBJ_PATH)/cl_init 2> /dev/null || true
 				@mkdir $(OBJ_PATH)/draw 2> /dev/null || true
 				@$(CC) $(C_FLAGS) -c $< $(LIB_FLAGS) $(PRINT_FLAG) -o $@
 		
@@ -130,6 +135,7 @@ clean:
 	@rmdir $(OBJ_PATH)/rt_textures/perlin_noise 2> /dev/null || true
 	@rmdir $(OBJ_PATH)/scene_parsing 2> /dev/null || true
 	@rmdir $(OBJ_PATH)/filters 2> /dev/null || true
+	@rmdir $(OBJ_PATH)/cl_init 2> /dev/null || true
 	@rmdir $(OBJ_PATH)/draw 2> /dev/null || true
 	@rmdir $(OBJ_PATH) 2> /dev/null || true
 	

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   textures.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: baylak <baylak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/17 18:09:19 by ldeirdre          #+#    #+#             */
-/*   Updated: 2021/02/20 23:22:10 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/22 02:59:27 by baylak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,9 @@ char				*get_file(char *description)
 t_texture			*tex_new_bmp(char *file)
 {
 	SDL_Surface		*s;
-	int				i;
 	char			*buf;
-	
-	i = ft_strlen(file);
-	if (ft_strequ(&file[i - 1], ","))
+
+	if (ft_strequ(&file[ft_strlen(file) - 1], ","))
 		buf = ft_strsub(file, 1, (ft_strlen(file) - 3));
 	else
 		buf = ft_strsub(file, 1, (ft_strlen(file) - 2));
