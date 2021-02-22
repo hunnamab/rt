@@ -6,7 +6,7 @@
 /*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:34 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/21 20:22:15 by npetrell         ###   ########.fr       */
+/*   Updated: 2021/02/21 20:55:09 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ void				intersect_ray_triangle(t_scene *scene, \
 t_object			*new_triangle(cl_float3 *vertex, \
 								float specular, t_color color, float *rotation);
 void				clear_triangle(t_object *obj);
-
 /*
 ** plane.c
 */
@@ -94,7 +93,6 @@ void				intersect_ray_plane(t_scene *scene, \
 												int index, int is_refractive);
 t_object			*new_plane(cl_float3 *poi_nor, \
 											float *specular, t_color color);
-
 /*
 ** cylinder.c
 */
@@ -102,7 +100,6 @@ void				intersect_ray_cylinder(t_scene *scene, \
 												int index, int is_refractive);
 t_object			*new_cylinder(cl_float3 *pos_vec, \
 												float *rad_spec, t_color color);
-
 /*
 ** cone.c
 */
@@ -110,32 +107,28 @@ void				intersect_ray_cone(t_scene *scene, \
 												int index, int is_refractive);
 t_object			*new_cone(cl_float3 *pos_vec, \
 							float *ang_spec, t_color color, float *rotation);
-
 void				get_sphere(char **description, t_scene *scene, int *snmi);
 void				get_triangle(char **description, \
 								float specular, t_scene *scene, int *snmi);
 void				get_plane(char **description, t_scene *scene, int *snmi);
 void				get_cylinder(char **description, t_scene *scene, int *snmi);
 void				get_cone(char **description, t_scene *scene, int *snmi);
-
 /*
 ** light_parameters.c
 */
 void				get_light(char **description, t_scene *scene, int *snmi);
-t_light				many_lights(char **description, int *snmi, int i, char *type);
-
+t_light				many_lights(char **description, int *snmi, int i, \
+																char *type);
 /*
 ** camera_parameters.c
 */
 void				get_camera(char **description, t_scene *scene);
-
 /*
 ** parameters_utils.c
 */
 char				*get_coordinates(char *description);
 t_color				get_color(char *description);
 cl_float3			get_points(char *description);
-
 /*
 ** transform.c
 */
@@ -144,7 +137,6 @@ float				**get_transform_matrix(float *angle, \
 float				**get_rotation_matrix(float *angle);
 float				*get_three_floats(float x, float y, float z);
 void				transform(cl_float3 *point, float **matrix, int point_nmb);
-
 /*
 ** transform_matrix.c
 */
@@ -153,7 +145,6 @@ float				**get_scale_matrix(float *scale);
 float				**rotate_x(float x);
 float				**rotate_z(float z);
 float				**rotate_y(float y);
-
 /*
 ** buffers.c
 */
@@ -164,12 +155,10 @@ void				get_intersection_buf(t_scene *scene);
 void				get_closest_points(t_scene *scene, \
 											float t, int is_refractive);
 void				get_frame_buf(t_scene *scene, int is_refractive);
-
 /*
 ** buffers_material_buf.c
 */
 void				get_material_buf(t_scene *scene, int is_refractive);
-
 /*
 ** normal.c
 */
@@ -178,7 +167,6 @@ void				get_plane_normal(t_scene *scene, int index, int obj_num);
 void				get_triangle_normal(t_scene *scene, int index, int obj_num);
 void				get_cone_normal(t_scene *scene, int index, int obj_num);
 void				get_cylinder_normal(t_scene *scene, int index, int obj_num);
-
 /*
 ** scene.c
 */
@@ -187,7 +175,6 @@ void				init_raycast(t_scene *scene);
 void				init_default(t_scene *scene);
 void				init_deepth(t_scene *scene);
 void				refresh_scene(t_scene *scene);
-
 /*
 ** keyboard.c
 */
@@ -196,19 +183,16 @@ int					keyboard(t_sdl *sdl, t_scene *scene);
 void				camera_up(t_scene *scene);
 void				camera_right(t_scene *scene);
 void				camera_down(t_scene *scene);
-
 /*
 ** scene_clear.c
 */
 void				clean_scene(t_scene *scene);
-
 /*
 ** errors_management.c
 */
 void				output_description(void);
 void				output_error(int tag);
 int					cl_init(t_scene *scene);
-
 t_texture			*tex_new_bmp(char *file);
 t_texture			*tex_new_surface(SDL_Surface *s);
 char				*get_file(char *description);
@@ -239,21 +223,17 @@ t_object			*multiple_triangles(char **description, \
 												int i, float specular);
 void				one_argument_cone(char **description, \
 											t_scene *scene, int *snmi);
-
 /*
 **	texture_loading
 */
 void				load_textures(t_scene *scene);
 void				intersect_ray_ellipsoid(t_scene *scene, \
 										int index, int is_refractive);
-
 void				intersect_ray_box(t_scene *scene, int index, \
 													int is_refractive);
-
 void				new_box(cl_float3 *position, t_color color,
 							float *parameters, t_scene *scene);
 void				test_box(t_scene *scene);
-
 void				device_objects_init(t_scene *scene);
 t_basis				get_default(t_basis basis);
 t_basis				get_basis(t_basis basis, float *rot);
@@ -261,7 +241,6 @@ cl_float3			clvec_rot_x(cl_float3 v, double a);
 cl_float3			clvec_rot_y(cl_float3 v, double a);
 cl_float3			clvec_rot_z(cl_float3 v, double a);
 void				draw_ui(SDL_Renderer *renderer, t_ui *rt_ui);
-
 void				intersect_ray_paraboloid(t_scene *scene, \
 									int index, int is_refractive);
 t_object			*new_paraboloid(cl_float3 *cen_buf, \
@@ -270,23 +249,18 @@ void				get_ellipsoid(char **description, \
 											t_scene *scene, int *snmi);
 t_object			*new_ellipsoid(cl_float3 *buf, t_color color, \
 											float *specular, int surface_id);
-
 t_object			*new_torus(cl_float3 *cen_buf, t_color color, \
 											float *specular, int surface_id);
 void				intersect_ray_torus(t_scene *scene, int index, \
 														int is_refractive);
-
 void				get_box(char **description, t_scene *scene, int *snmi);
-
 t_object			*new_hyperboloid(cl_float3 *cen_buf, float *specular, \
 												t_color color, int surface_id);
 void				intersect_ray_hyperboloid(t_scene *scene, int index, int \
 																is_refractive);
-
 void				get_torus(char **description, t_scene *scene, int *snmi);
 void				get_paraboloid(char **description, t_scene *scene, \
 																int *snmi);
-
 char				*get_light_type(char *description);
 void				get_hyperboloid(char **description, t_scene *scene, \
 																int *snmi);
@@ -327,14 +301,14 @@ void				draw_deepth_buf(t_sdl *sdl, t_scene *scene);
 void				get_fresnel_coeff(t_scene *scene);
 void				get_objects(char *buf, t_scene *scene, int len);
 void				scene_objects(int *snmi, t_scene *scene, char *buf);
-void 				split_box(int *scij, t_scene *scene,char *buf);
+void				split_box(int *scij, t_scene *scene, char *buf);
 void				strequal(char *obn, int *scij, t_scene *scene, char *buf);
 void				split_surface(int *scij, t_scene *scene, char *buf);
 void				split_light(int *scij, t_scene *scene, char *buf);
 float				dot(cl_float2 vector1, cl_float2 vector2);
 int					*shuffle(int perlin_arr[512]);
 int					*make_permutation(int perlin_arr[512]);
-float 				fade(float t);
+float				fade(float t);
 float				lerp(float t, float a1, float a2);
 cl_float2			get_constant_vector(float x);
 float				noise2d(float x, float y);

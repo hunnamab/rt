@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cl_init.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 13:48:55 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/20 21:36:30 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/21 20:58:15 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,23 +23,32 @@ void	device_objects_init(t_scene *scene)
 	while (i < scene->obj_nmb)
 	{
 		if (scene->objs[i]->type == SPHERE)
-			ft_memcpy(&buf[i].primitive.sphere, scene->objs[i]->data, sizeof(t_sphere)); 
+			ft_memcpy(&buf[i].primitive.sphere, scene->objs[i]->data, \
+														sizeof(t_sphere)); 
 		if (scene->objs[i]->type == CONE)
-			ft_memcpy(&buf[i].primitive.cone, scene->objs[i]->data, sizeof(t_cone));
+			ft_memcpy(&buf[i].primitive.cone, scene->objs[i]->data, \
+														sizeof(t_cone));
 		if (scene->objs[i]->type == CYLINDER)
-			ft_memcpy(&buf[i].primitive.cylinder, scene->objs[i]->data, sizeof(t_cylinder)); 
+			ft_memcpy(&buf[i].primitive.cylinder, scene->objs[i]->data, \
+														sizeof(t_cylinder)); 
 		if (scene->objs[i]->type == TRIANGLE)
-			ft_memcpy(&buf[i].primitive.triangle, scene->objs[i]->data, sizeof(t_triangle));
+			ft_memcpy(&buf[i].primitive.triangle, scene->objs[i]->data, \
+														sizeof(t_triangle));
 		if (scene->objs[i]->type == PLANE)
-			ft_memcpy(&buf[i].primitive.plane, scene->objs[i]->data, sizeof(t_plane));
+			ft_memcpy(&buf[i].primitive.plane, scene->objs[i]->data, \
+														sizeof(t_plane));
 		if (scene->objs[i]->type == ELLIPSOID)
-			ft_memcpy(&buf[i].primitive.ellipsoid, scene->objs[i]->data, sizeof(t_ellipsoid));
+			ft_memcpy(&buf[i].primitive.ellipsoid, scene->objs[i]->data, \
+													sizeof(t_ellipsoid));
 		if (scene->objs[i]->type == PARABOLOID)
-			ft_memcpy(&buf[i].primitive.paraboloid, scene->objs[i]->data, sizeof(t_paraboloid));
+			ft_memcpy(&buf[i].primitive.paraboloid, scene->objs[i]->data, \
+													sizeof(t_paraboloid));
 		if (scene->objs[i]->type == TORUS)
-			ft_memcpy(&buf[i].primitive.torus, scene->objs[i]->data, sizeof(t_torus));
+			ft_memcpy(&buf[i].primitive.torus, scene->objs[i]->data, \
+													sizeof(t_torus));
 		if (scene->objs[i]->type == HYPERBOLOID)
-			ft_memcpy(&buf[i].primitive.hyperboloid, scene->objs[i]->data, sizeof(t_hyperboloid));
+			ft_memcpy(&buf[i].primitive.hyperboloid, \
+							scene->objs[i]->data, sizeof(t_hyperboloid));
 		if (scene->objs[i]->text != NULL)
         {
 			buf[i].texture_id = scene->objs[i]->texture_id;
@@ -82,18 +91,20 @@ void	device_objects_init(t_scene *scene)
 		buf[i].basis = scene->objs[i]->basis;
 		i++;
 	}
-	scene->cl_data.scene.obj = clCreateBuffer(scene->cl_data.context, CL_MEM_READ_ONLY |
-		CL_MEM_HOST_WRITE_ONLY | CL_MEM_COPY_HOST_PTR, sizeof(t_object_d) * scene->obj_nmb, buf, NULL);
+	scene->cl_data.scene.obj = clCreateBuffer(scene->cl_data.context, \
+															CL_MEM_READ_ONLY |
+		CL_MEM_HOST_WRITE_ONLY | CL_MEM_COPY_HOST_PTR, \
+							sizeof(t_object_d) * scene->obj_nmb, buf, NULL);
 	free(buf);
 }
 
 int    cl_init(t_scene *scene)
 {
 	int err;
-	unsigned int correct; // number of correct results returned
+	unsigned int correct;
 	unsigned int count = WID * HEI;
-	size_t global; // global domain size for our calculation
-	size_t local; // local domain size for our calculation
+	size_t global;
+	size_t local;
 	int i;
 	err = 0;
     cl_uint nP;
@@ -107,13 +118,15 @@ int    cl_init(t_scene *scene)
     clGetPlatformInfo(pfs, CL_PLATFORM_NAME, size, str, NULL);
     printf("%s\n", str);
 	free(str);
-	err = clGetDeviceIDs(NULL, CL_DEVICE_TYPE_GPU, 1, &scene->cl_data.device_id, NULL);
+	err = clGetDeviceIDs(NULL, CL_DEVICE_TYPE_GPU, 1, \
+									&scene->cl_data.device_id, NULL);
 
-	// выделение памяти
 	scene->cl_data.programs = malloc(sizeof(cl_program) * KERNEL_NUM);
 	scene->cl_data.kernels = malloc(sizeof(cl_kernel) * KERNEL_NUM);
-	scene->cl_data.context = clCreateContext(0, 1, &scene->cl_data.device_id, NULL, NULL, &err);
-	scene->cl_data.commands = clCreateCommandQueue(scene->cl_data.context, scene->cl_data.device_id, 0, &err);
+	scene->cl_data.context = clCreateContext(0, 1, &scene->cl_data.device_id, \
+																NULL, NULL, &err);
+	scene->cl_data.commands = clCreateCommandQueue(scene->cl_data.context, \
+												scene->cl_data.device_id, 0, &err);
 
 	int		ret1;
 	char	*get_ray_arr;
@@ -122,11 +135,15 @@ int    cl_init(t_scene *scene)
 	ret1 = read(fd1, get_ray_arr, 64000);
 	get_ray_arr[ret1] = '\0';
 
-	if ((scene->cl_data.programs[0] = clCreateProgramWithSource(scene->cl_data.context, 1, (const char **)&get_ray_arr, NULL, &err)))
+	if ((scene->cl_data.programs[0] = \
+	clCreateProgramWithSource(scene->cl_data.context, 1, \
+							(const char **)&get_ray_arr, NULL, &err)))
 		printf("created\n");
-	if ((clBuildProgram(scene->cl_data.programs[0], 1, &scene->cl_data.device_id, "-I includes", NULL, &err)))
+	if ((clBuildProgram(scene->cl_data.programs[0], 1, \
+				&scene->cl_data.device_id, "-I includes", NULL, &err)))
 		printf("built\n");
-	if (!(scene->cl_data.kernels[0] = clCreateKernel(scene->cl_data.programs[0], "get_ray_arr", &err)))
+	if (!(scene->cl_data.kernels[0] = clCreateKernel(scene->cl_data.programs[0], \
+														"get_ray_arr", &err)))
 		printf("error %d\n", err);
 	ft_strdel(&get_ray_arr);
 	close(fd1);
@@ -142,11 +159,16 @@ int    cl_init(t_scene *scene)
 	ret2 = read(fd2, intersect_ray_sphere_cl, 64000);
 	intersect_ray_sphere_cl[ret2] = '\0';
 	
-	if ((scene->cl_data.programs[1] = clCreateProgramWithSource(scene->cl_data.context, 1, (const char **)&intersect_ray_sphere_cl, NULL, &err)))
+	if ((scene->cl_data.programs[1] = \
+		clCreateProgramWithSource(scene->cl_data.context, 1, (\
+					const char **)&intersect_ray_sphere_cl, NULL, &err)))
 		printf("cоздана программа sphere\n");
-	if ((clBuildProgram(scene->cl_data.programs[1], 0, NULL, "-I includes", NULL, &err)))
+	if ((clBuildProgram(scene->cl_data.programs[1], 0, NULL, \
+											"-I includes", NULL, &err)))
 		printf("собрана программа sphere err == %lu\n", err);
-	if (!(scene->cl_data.kernels[1] = clCreateKernel(scene->cl_data.programs[1], "intersect_ray_sphere_cl", &err)))
+	if (!(scene->cl_data.kernels[1] = \
+		clCreateKernel(scene->cl_data.programs[1], \
+						"intersect_ray_sphere_cl", &err)))
 		printf("не собрана программа 1, error %d sphere\n", err);
 	ft_strdel(&intersect_ray_sphere_cl);
 	close(fd2);
@@ -158,7 +180,9 @@ int    cl_init(t_scene *scene)
 	ret3 = read(fd3, intersect_ray_cone_cl, 64000);
 	intersect_ray_cone_cl[ret3] = '\0';
 	
-	if ((scene->cl_data.programs[2] = clCreateProgramWithSource(scene->cl_data.context, 1, (const char **)&intersect_ray_cone_cl, NULL, &err)))
+	if ((scene->cl_data.programs[2] = \
+			clCreateProgramWithSource(scene->cl_data.context, 1, \
+						(const char **)&intersect_ray_cone_cl, NULL, &err)))
 		printf("cоздана программа cone\n");
 	if ((clBuildProgram(scene->cl_data.programs[2], 0, NULL, "-I includes", NULL, &err)))
 		printf("собрана программа cone\n");
