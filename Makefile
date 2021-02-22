@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+         #
+#    By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/07 15:39:13 by hunnamab          #+#    #+#              #
-#    Updated: 2021/02/22 17:58:59 by pmetron          ###   ########.fr        #
+#    Updated: 2021/02/22 18:58:48 by npetrell         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,7 +63,7 @@ SRC_NAME = ../matrix_lib/matr_add_matr.c ../matrix_lib/create_matrix.c \
 	rt_objects/sphere/sphere.c rt_objects/sphere/sphere_rotate.c rt_objects/sphere/sphere_utils.c\
 	rt_objects/triangle/triangle.c rt_objects/triangle/triangle_utils.c\
 	rt_objects/plane/plane.c rt_objects/plane/plane_utils.c \
-	rt_objects/cylinder.c \
+	rt_objects/cylinder/cylinder.c rt_objects/cylinder/cylinder_init.c\
 	rt_objects/cone/cone.c rt_objects/cone/cone_init.c\
 	rt_objects/ellipsoid/ellipsoid.c rt_objects/ellipsoid/ellipsoid_init.c\
 	rt_objects/paraboloid/paraboloid.c rt_objects/paraboloid/paraboloid_init.c\
@@ -74,14 +74,16 @@ SRC_NAME = ../matrix_lib/matr_add_matr.c ../matrix_lib/create_matrix.c \
 	rt_objects/hyperboloid/hyperboloid.c rt_objects/hyperboloid/hyperboloid_init.c \
 	filters/filters.c filters/magic_filter.c filters/sharpen_filter.c\
 	filters/gauss_filter.c filters/negative_filter.c filters/gray_scale_filter.c \
-	filters/sepia_filter.c \
+	filters/sepia_filter.c filters/fd_sepia.c filters/fd_negative.c filters/fd_gray_scale.c \
+	filters/fd_sharpen.c filters/fd_magic.c filters/fd_gauss.c \
 	scene_parsing/surfaces.c rt_ui.c rt_ui_part_2.c \
 	draw/draw_raycast.c draw/get_refraction_ray.c draw/draw_scene.c \
 	draw/draw_normal_buf.c draw/draw_deepth_buf.c draw/get_fresnel_coeff.c \
 	draw/get_reflection_ray.c scene_parsing/light_parameters_2.c\
 	mouse_click.c mouse_click_part_2.c\
 	camera_move.c camera_move2.c cutting.c scene_parsing/scenes_reader_help.c \
-	scene_parsing/scenes_reader_util_2.c rt_textures/texture_loading_second.c
+	scene_parsing/scenes_reader_util_2.c rt_textures/texture_loading_second.c \
+
 
 OBJ_NAME = $(SRC_NAME:.c=.o)
 
@@ -112,6 +114,7 @@ $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c
 				@mkdir $(OBJ_PATH)/rt_objects/sphere 2> /dev/null || true
 				@mkdir $(OBJ_PATH)/rt_objects/torus 2> /dev/null || true
 				@mkdir $(OBJ_PATH)/rt_objects/triangle 2> /dev/null || true
+				@mkdir $(OBJ_PATH)/rt_objects/cylinder 2> /dev/null || true
 				@mkdir $(OBJ_PATH)/rt_textures 2> /dev/null || true
 				@mkdir $(OBJ_PATH)/rt_textures/perlin_noise 2> /dev/null || true
 				@mkdir $(OBJ_PATH)/scene_parsing 2> /dev/null || true
@@ -134,6 +137,7 @@ clean:
 	@rmdir $(OBJ_PATH)/rt_objects/sphere 2> /dev/null || true
 	@rmdir $(OBJ_PATH)/rt_objects/torus 2> /dev/null || true
 	@rmdir $(OBJ_PATH)/rt_objects/triangle 2> /dev/null || true
+	@rmdir $(OBJ_PATH)/rt_objects/cylinder 2> /dev/null || true
 	@rmdir $(OBJ_PATH)/rt_textures 2> /dev/null || true
 	@rmdir $(OBJ_PATH)/rt_textures/perlin_noise 2> /dev/null || true
 	@rmdir $(OBJ_PATH)/scene_parsing 2> /dev/null || true

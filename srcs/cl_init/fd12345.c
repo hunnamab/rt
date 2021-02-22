@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fd12345.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baylak <baylak@student.42.fr>              +#+  +:+       +#+        */
+/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 03:26:40 by baylak            #+#    #+#             */
-/*   Updated: 2021/02/22 03:43:08 by baylak           ###   ########.fr       */
+/*   Updated: 2021/02/22 19:03:50 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,13 +79,13 @@ void	fd3(t_scene *scene)
 	if ((scene->cl_data.programs[2] = \
 			clCreateProgramWithSource(scene->cl_data.context, 1, \
 						(const char **)&intersect_ray_cone_cl, NULL, &err)))
-		printf("cоздана программа cone\n");
+		ft_printf("cоздана программа cone\n");
 	if ((clBuildProgram(scene->cl_data.programs[2], 0, NULL, \
 												"-I includes", NULL, &err)))
-		printf("собрана программа cone\n");
+		ft_printf("собрана программа cone\n");
 	if (!(scene->cl_data.kernels[2] = \
 clCreateKernel(scene->cl_data.programs[2], "intersect_ray_cone_cl", &err)))
-		printf("не собрана программа 1, error %d cone\n", err);
+		ft_printf("не собрана программа 1, error %d cone\n", err);
 	ft_strdel(&intersect_ray_cone_cl);
 	close(fd3);
 }
@@ -131,13 +131,13 @@ void	fd5(t_scene *scene)
 	if ((scene->cl_data.programs[4] = \
 	clCreateProgramWithSource(scene->cl_data.context, 1, \
 	(const char **)&intersect_ray_triangle_cl, NULL, &err)))
-		printf("cоздана программа triangle\n");
+		ft_printf("cоздана программа triangle\n");
 	if ((clBuildProgram(scene->cl_data.programs[4], 0, \
 							NULL, "-I includes", NULL, &err)))
-		printf("собрана программа triangle\n");
+		ft_printf("собрана программа triangle\n");
 	if (!(scene->cl_data.kernels[4] = \
 clCreateKernel(scene->cl_data.programs[4], "intersect_ray_triangle_cl", &err)))
-		printf("не собрана программа 1, error %d triangle\n", err);
+		ft_printf("не собрана программа 1, error %d triangle\n", err);
 	ft_strdel(&intersect_ray_triangle_cl);
 	close(fd5);
 }

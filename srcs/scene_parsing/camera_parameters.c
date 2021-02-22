@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   camera_parameters.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldeirdre <ldeirdre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 12:00:26 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/20 22:16:17 by ldeirdre         ###   ########.fr       */
+/*   Updated: 2021/02/22 19:01:49 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,6 @@ void	get_camera(char **description, t_scene *scene)
 	camera.rotation[1] = buf.y;
 	camera.rotation[2] = buf.z;
 	scene->camera = camera;
-	printf("camera (%f,%f,%f)\n", camera.rotation[0],
+	ft_printf("camera (%f,%f,%f)\n", camera.rotation[0],
 			camera.rotation[1], camera.rotation[2]);
 }

@@ -6,7 +6,7 @@
 /*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 00:09:10 by baylak            #+#    #+#             */
-/*   Updated: 2021/02/22 17:08:39 by npetrell         ###   ########.fr       */
+/*   Updated: 2021/02/22 18:54:28 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,14 @@ static void		first_plane_part2(cl_float3 *position, t_color color,
 	scene->objs[(int)parameters[7]]->cs_nmb = 4;
 	scene->objs[(int)parameters[7]]->cutting_surfaces = \
 							malloc(sizeof(t_cutting_surface) * 4);
+}
+
+void			srpf_by_fuck_norm(cl_float3 *position, \
+float *parameters, cl_float3 *srfp)
+{
+	srfp[0] = get_point(0, 0, -1);
+	srfp[1] = get_point(position[0].x + parameters[6] / 2, \
+				position[0].y, position[0].z - parameters[6] / 2);
 }
 
 void			first_plane(cl_float3 *position, t_color color,
@@ -52,9 +60,7 @@ void			first_plane(cl_float3 *position, t_color color,
 				position[0].y, position[0].z + parameters[6] / 2);
 	scene->objs[(int)parameters[7]]->cutting_surfaces[2] = \
 							new_srf(srfp, srfp2, 0, "\"plane\",");
-	srfp[0] = get_point(0, 0, -1);
-	srfp[1] = get_point(position[0].x + parameters[6] / 2, \
-				position[0].y, position[0].z - parameters[6] / 2);
+	srpf_by_fuck_norm(position, parameters, srfp);
 	srfp2[2] = 0;
 	scene->objs[(int)parameters[7]]->cutting_surfaces[3] = \
 							new_srf(srfp, srfp2, 0, "\"plane\",");

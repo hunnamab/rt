@@ -6,7 +6,7 @@
 /*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 00:20:22 by baylak            #+#    #+#             */
-/*   Updated: 2021/02/22 17:08:33 by npetrell         ###   ########.fr       */
+/*   Updated: 2021/02/22 18:53:22 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void			third_plane(cl_float3 *position, t_color color,
 	int			srfp2[3];
 
 	init_srfp2(&srfp2);
-	printf("\n\n(%d,%d,%d)\n\n", srfp2[0], srfp2[1], srfp2[2]);
 	third_plane_part2(position, color, parameters, scene);
 	srfp[0] = get_point(0, 1, 0);
 	srfp[1] = get_point(position[0].x, position[0].y + \

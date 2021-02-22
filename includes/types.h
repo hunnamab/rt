@@ -6,7 +6,7 @@
 /*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/08 16:33:03 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/21 20:55:45 by npetrell         ###   ########.fr       */
+/*   Updated: 2021/02/22 18:31:03 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,7 +245,7 @@ typedef	struct			s_ui
 	t_butt				magic;
 	t_butt				sound;
 	int					filt;
-	int					i;
+	unsigned int		i;
 }						t_ui;
 
 typedef	union			u_primitive

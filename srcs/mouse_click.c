@@ -6,7 +6,7 @@
 /*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/12 21:41:49 by ldeirdre          #+#    #+#             */
-/*   Updated: 2021/02/19 07:57:48 by npetrell         ###   ########.fr       */
+/*   Updated: 2021/02/22 18:35:29 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	click_2(t_sdl *sdl, t_scene *scene)
 	if (check_rect(scene->rt_ui->left.rect, sdl->event))
 	{
 		scene->rt_ui->i--;
+		scene->rt_ui->i = scene->rt_ui->i < 0 ? 6 : scene->rt_ui->i;
 		draw_filters(scene, scene->rt_ui->i);
 	}
 	if (check_rect(scene->rt_ui->right.rect, sdl->event))

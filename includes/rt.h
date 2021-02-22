@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:34 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/22 18:00:48 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/22 18:23:16 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -387,9 +387,12 @@ void				gauss_filter(t_filter_data *data);
 void				negative(t_filter_data *data);
 void				gray_scale(t_filter_data *data);
 void				sepia_filter(t_filter_data *data);
-/* void				fd_sepia(t_filter_data *data);
+void				fd_sepia(t_filter_data *data);
 void				fd_negative(t_filter_data *data);
-void				fd_gray_scale(t_filter_data *data); */
+void				fd_gray_scale(t_filter_data *data);
+void				fd_sharpen(t_filter_data *data);
+void				fd_magic(t_filter_data *data);
+void				fd_gauss(t_filter_data *data);
 void				get_texture_buf(t_scene *scene, cl_int4 *index_buf, \
 					unsigned char *texture_buf, long long int *ijiss);
 

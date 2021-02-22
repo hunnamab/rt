@@ -6,7 +6,7 @@
 /*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 00:24:46 by baylak            #+#    #+#             */
-/*   Updated: 2021/02/22 17:08:21 by npetrell         ###   ########.fr       */
+/*   Updated: 2021/02/22 18:46:13 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,22 +37,22 @@ void			fifth_plane(cl_float3 *position, t_color color,
 
 	init_srfp2(&srfp2);
 	fifth_plane_part2(position, color, parameters, scene);
-	srfp[0] = get_point(0,0,1);
+	srfp[0] = get_point(0, 0, 1);
 	srfp[1] = get_point(position[0].x + parameters[6] / 2, \
 			position[0].y, position[0].z + parameters[6] / 2);
 	scene->objs[(int)parameters[7] + 4]->cutting_surfaces[0] = \
 						new_srf(srfp, srfp2, 0, "\"plane\",");
-	srfp[0] = get_point(0,0,-1);
+	srfp[0] = get_point(0, 0, -1);
 	srfp[1] = get_point(position[0].x - parameters[6] / 2, \
 		position[0].y, position[0].z - parameters[6] / 2);
 	scene->objs[(int)parameters[7] + 4]->cutting_surfaces[1] = \
 					new_srf(srfp, srfp2, 0, "\"plane\",");
-	srfp[0] = get_point(1,0,0);
+	srfp[0] = get_point(1, 0, 0);
 	srfp[1] = get_point(position[0].x + parameters[6] / 2, \
 								position[0].y, position[0].z);
 	scene->objs[(int)parameters[7] + 4]->cutting_surfaces[2] = \
 							new_srf(srfp, srfp2, 0, "\"plane\",");
-	srfp[0] = get_point(-1,0,0);
+	srfp[0] = get_point(-1, 0, 0);
 	srfp[1] = get_point(position[0].x - parameters[6] / 2, \
 							position[0].y, position[0].z);
 	scene->objs[(int)parameters[7] + 4]->cutting_surfaces[3] = \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fd6789_10.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baylak <baylak@student.42.fr>              +#+  +:+       +#+        */
+/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 03:26:40 by baylak            #+#    #+#             */
-/*   Updated: 2021/02/22 03:53:55 by baylak           ###   ########.fr       */
+/*   Updated: 2021/02/22 19:03:39 by npetrell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,13 +80,13 @@ void	fd8(t_scene *scene)
 	if ((scene->cl_data.programs[7] = \
 	clCreateProgramWithSource(scene->cl_data.context, 1, \
 	(const char **)&get_normal_buf_cl, NULL, &err)))
-		printf("cоздана программа get_normal_buf_cl\n");
+		ft_printf("cоздана программа get_normal_buf_cl\n");
 	if ((clBuildProgram(scene->cl_data.programs[7], \
 	0, NULL, "-I includes", NULL, &err)))
-		printf("собрана программа get_normal_buf_cl\n");
+		ft_printf("собрана программа get_normal_buf_cl\n");
 	if (!(scene->cl_data.kernels[7] = \
 clCreateKernel(scene->cl_data.programs[7], "get_normal_buf_cl", &err)))
-		printf("не собрана программа 1, \
+		ft_printf("не собрана программа 1, \
 							error %d get_normal_buf_cl\n", err);
 	ft_strdel(&get_normal_buf_cl);
 	close(fd8);
@@ -107,13 +107,13 @@ void	fd9(t_scene *scene)
 	if ((scene->cl_data.programs[8] = \
 	clCreateProgramWithSource(scene->cl_data.context, \
 	1, (const char **)&intersect_ray_ellipsoid_cl, NULL, &err)))
-		printf("cоздана программа intersect_ray_ellipsoid_cl\n");
+		ft_printf("cоздана программа intersect_ray_ellipsoid_cl\n");
 	if ((clBuildProgram(scene->cl_data.programs[8], \
 	0, NULL, "-I includes", NULL, &err)))
-		printf("собрана программа intersect_ray_ellipsoid_cl\n");
+		ft_printf("собрана программа intersect_ray_ellipsoid_cl\n");
 	if (!(scene->cl_data.kernels[8] = \
 clCreateKernel(scene->cl_data.programs[8], "intersect_ray_ellipsoid", &err)))
-		printf("не собрана программа 1, error %d \
+		ft_printf("не собрана программа 1, error %d \
 						intersect_ray_ellipsoid_cl\n", err);
 	ft_strdel(&intersect_ray_ellipsoid_cl);
 	close(fd9);
@@ -134,13 +134,13 @@ void	fd10(t_scene *scene)
 	if ((scene->cl_data.programs[9] = \
 	clCreateProgramWithSource(scene->cl_data.context, \
 	1, (const char **)&get_frame_buf_cl, NULL, &err)))
-		printf("cоздана программа get_frame_buf_cl\n");
+		ft_printf("cоздана программа get_frame_buf_cl\n");
 	if ((clBuildProgram(scene->cl_data.programs[9], \
 	0, NULL, "-I includes", NULL, &err)))
-		printf("собрана программа get_frame_buf_cl\n");
+		ft_printf("собрана программа get_frame_buf_cl\n");
 	if (!(scene->cl_data.kernels[9] = \
 clCreateKernel(scene->cl_data.programs[9], "get_frame_buf_cl", &err)))
-		printf("не собрана программа 1, error %d \
+		ft_printf("не собрана программа 1, error %d \
 									get_frame_buf_cl\n", err);
 	ft_strdel(&get_frame_buf_cl);
 	close(fd10);
