@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baylak <baylak@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:34 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/22 05:13:10 by baylak           ###   ########.fr       */
+/*   Updated: 2021/02/22 18:00:48 by pmetron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -390,4 +390,7 @@ void				sepia_filter(t_filter_data *data);
 /* void				fd_sepia(t_filter_data *data);
 void				fd_negative(t_filter_data *data);
 void				fd_gray_scale(t_filter_data *data); */
+void				get_texture_buf(t_scene *scene, cl_int4 *index_buf, \
+					unsigned char *texture_buf, long long int *ijiss);
+
 #endif
