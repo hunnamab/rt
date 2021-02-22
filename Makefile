@@ -6,7 +6,7 @@
 #    By: baylak <baylak@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/07 15:39:13 by hunnamab          #+#    #+#              #
-#    Updated: 2021/02/22 04:15:22 by baylak           ###   ########.fr        #
+#    Updated: 2021/02/22 05:03:47 by baylak           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,9 +70,12 @@ SRC_NAME = ../matrix_lib/matr_add_matr.c ../matrix_lib/create_matrix.c \
 	rt_objects/box/box.c rt_objects/box/box_plane_12.c \
 	rt_objects/box/box_plane_34.c rt_objects/box/box_plane_56.c \
 	rt_objects/box/box_utils.c \
-	rt_objects/torus/torus.c rt_objects/torus/torus_utils.c\
-	rt_objects/hyperboloid/hyperboloid.c rt_objects/hyperboloid/hyperboloid_init.c\
-	filters/filters.c scene_parsing/surfaces.c rt_ui.c rt_ui_part_2.c \
+	rt_objects/torus/torus.c rt_objects/torus/torus_utils.c \
+	rt_objects/hyperboloid/hyperboloid.c rt_objects/hyperboloid/hyperboloid_init.c \
+	filters/filters.c filters/magic_filter.c filters/sharpen_filter.c\
+	filters/gauss_filter.c filters/negative_filter.c filters/gray_scale_filter.c \
+	filters/sepia_filter.c \
+	scene_parsing/surfaces.c rt_ui.c rt_ui_part_2.c \
 	draw/draw_raycast.c draw/get_refraction_ray.c draw/draw_scene.c \
 	draw/draw_normal_buf.c draw/draw_deepth_buf.c draw/get_fresnel_coeff.c \
 	draw/get_reflection_ray.c scene_parsing/light_parameters_2.c\

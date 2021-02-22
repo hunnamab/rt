@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   filters.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmetron <pmetron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: baylak <baylak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 13:44:37 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/20 18:41:46 by pmetron          ###   ########.fr       */
+/*   Updated: 2021/02/22 05:03:28 by baylak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,43 +28,43 @@ void	filters_init(t_filter_data *data)
 	ret = read(fd, str, 64000);
 	str[ret] = '\0';
 	data->programs[0] = clCreateProgramWithSource( data->context, 1, (const char **)&str, NULL, &err);
-	err != 0 ? printf("filter sepia program create error %d\n", err) : 0;
+	err != 0 ? ft_printf("filter sepia program create error %d\n", err) : 0;
 	clBuildProgram(data->programs[0], 1, & data->device_id, NULL, NULL, &err);
-	err != 0 ? printf("filter sepia program build error %d\n", err) : 0;
+	err != 0 ? ft_printf("filter sepia program build error %d\n", err) : 0;
 	 data->kernels[0] = clCreateKernel( data->programs[0], "sepia", &err);
-	err != 0 ? printf("filter sepia kernel compile error %d\n", err) : printf("sepia kernel created\n");
+	err != 0 ? ft_printf("filter sepia kernel compile error %d\n", err) : ft_printf("sepia kernel created\n");
 	close(fd);
 	ft_memset(str, 0, 64001);
 	fd = open("./srcs/filters/negative.cl", O_RDONLY);
 	ret = read(fd, str, 64000);
 	str[ret] = '\0';
 	data->programs[NEGATIVE] = clCreateProgramWithSource( data->context, 1, (const char **)&str, NULL, &err);
-	err != 0 ? printf("filter negative program create error %d\n", err) : 0;
+	err != 0 ? ft_printf("filter negative program create error %d\n", err) : 0;
 	clBuildProgram(data->programs[NEGATIVE], 1, & data->device_id, NULL, NULL, &err);
-	err != 0 ? printf("filter negative program build error %d\n", err) : 0;
+	err != 0 ? ft_printf("filter negative program build error %d\n", err) : 0;
 	data->kernels[NEGATIVE] = clCreateKernel( data->programs[NEGATIVE], "negative", &err);
-	err != 0 ? printf("filter negative kernel compile error %d\n", err) : printf("negative kernel created\n");
+	err != 0 ? ft_printf("filter negative kernel compile error %d\n", err) : ft_printf("negative kernel created\n");
 	ft_memset(str, 0, 64001);
 	fd = open("./srcs/filters/grayscale.cl", O_RDONLY);
 	ret = read(fd, str, 64000);
 	str[ret] = '\0';
 	data->programs[GRAYSCALE] = clCreateProgramWithSource( data->context, 1, (const char **)&str, NULL, &err);
-	err != 0 ? printf("filter grayscale program create error %d\n", err) : 0;
+	err != 0 ? ft_printf("filter grayscale program create error %d\n", err) : 0;
 	clBuildProgram(data->programs[GRAYSCALE], 1, & data->device_id, NULL, NULL, &err);
-	err != 0 ? printf("filter grayscale program build error %d\n", err) : 0;
+	err != 0 ? ft_printf("filter grayscale program build error %d\n", err) : 0;
 	data->kernels[GRAYSCALE] = clCreateKernel( data->programs[GRAYSCALE], "grayscale", &err);
-	err != 0 ? printf("filter grayscale kernel compile error %d\n", err) : printf("grayscale kernel created\n");
+	err != 0 ? ft_printf("filter grayscale kernel compile error %d\n", err) : ft_printf("grayscale kernel created\n");
 	ft_memset(str, 0, 64001);
 	close(fd);
 	fd = open("./srcs/filters/gauss.cl", O_RDONLY);
 	ret = read(fd, str, 64000);
 	str[ret] = '\0';
 	data->programs[GAUSS] = clCreateProgramWithSource( data->context, 1, (const char **)&str, NULL, &err);
-	err != 0 ? printf("filter gauss program create error %d\n", err) : 0;
+	err != 0 ? ft_printf("filter gauss program create error %d\n", err) : 0;
 	clBuildProgram(data->programs[GAUSS], 1, & data->device_id, NULL, NULL, &err);
-	err != 0 ? printf("filter gauss program build error %d\n", err) : 0;
+	err != 0 ? ft_printf("filter gauss program build error %d\n", err) : 0;
 	data->kernels[GAUSS] = clCreateKernel( data->programs[GAUSS], "gauss", &err);
-	err != 0 ? printf("filter gauss kernel compile error %d\n", err) : printf("gauss kernel created\n");
+	err != 0 ? ft_printf("filter gauss kernel compile error %d\n", err) : ft_printf("gauss kernel created\n");
 	ft_memset(str, 0, 64001);
 	close(fd);
 	
@@ -72,11 +72,11 @@ void	filters_init(t_filter_data *data)
 	ret = read(fd, str, 64000);
 	str[ret] = '\0';
 	data->programs[SHARPEN] = clCreateProgramWithSource( data->context, 1, (const char **)&str, NULL, &err);
-	err != 0 ? printf("filter sharpen program create error %d\n", err) : 0;
+	err != 0 ? ft_printf("filter sharpen program create error %d\n", err) : 0;
 	clBuildProgram(data->programs[SHARPEN], 1, & data->device_id, NULL, NULL, &err);
-	err != 0 ? printf("filter sharpen program build error %d\n", err) : 0;
+	err != 0 ? ft_printf("filter sharpen program build error %d\n", err) : 0;
 	data->kernels[SHARPEN] = clCreateKernel( data->programs[SHARPEN], "sharpen", &err);
-	err != 0 ? printf("filter sharpen kernel compile error %d\n", err) : printf("sharpen kernel created\n");
+	err != 0 ? ft_printf("filter sharpen kernel compile error %d\n", err) : ft_printf("sharpen kernel created\n");
 	ft_memset(str, 0, 64001);
 	close(fd);
 
@@ -84,110 +84,12 @@ void	filters_init(t_filter_data *data)
 	ret = read(fd, str, 64000);
 	str[ret] = '\0';
 	data->programs[MAGIC] = clCreateProgramWithSource( data->context, 1, (const char **)&str, NULL, &err);
-	err != 0 ? printf("filter magic program create error %d\n", err) : 0;
+	err != 0 ? ft_printf("filter magic program create error %d\n", err) : 0;
 	clBuildProgram(data->programs[MAGIC], 1, & data->device_id, NULL, NULL, &err);
-	err != 0 ? printf("filter magic program build error %d\n", err) : 0;
+	err != 0 ? ft_printf("filter magic program build error %d\n", err) : 0;
 	data->kernels[MAGIC] = clCreateKernel( data->programs[MAGIC], "magic", &err);
-	err != 0 ? printf("filter magic kernel compile error %d\n", err) : printf("magic kernel created\n");
+	err != 0 ? ft_printf("filter magic kernel compile error %d\n", err) : ft_printf("magic kernel created\n");
 	ft_memset(str, 0, 64001);
 	close(fd);
 	free(str);
-}
-
-void	sepia_filter(t_filter_data *data)
-{
-	size_t global = WID * HEI;
-	size_t local;
-	cl_int err;
-
-	err = clSetKernelArg(data->kernels[0], 0, sizeof(cl_mem), &data->pixels);
-	err = clGetKernelWorkGroupInfo(data->kernels[0], data->device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
-	err = clEnqueueNDRangeKernel(data->commands, data->kernels[0], 1, NULL, &global, &local, 0, NULL, NULL);
-	clFinish(data->commands);
-}
-
-void	gray_scale(t_filter_data *data)
-{
-	size_t global = WID * HEI;
-	size_t local;
-	cl_int err;
-
-	err = clSetKernelArg(data->kernels[GRAYSCALE], 0, sizeof(cl_mem), &data->pixels);
-	err = clGetKernelWorkGroupInfo(data->kernels[GRAYSCALE], data->device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
-	err = clEnqueueNDRangeKernel(data->commands, data->kernels[GRAYSCALE], 1, NULL, &global, &local, 0, NULL, NULL);
-	clFinish(data->commands);
-}
-
-void	negative(t_filter_data *data)
-{
-	size_t global = WID * HEI;
-	size_t local;
-	cl_int err;
-
-	err = clSetKernelArg(data->kernels[NEGATIVE], 0, sizeof(cl_mem), &data->pixels);
-	err = clGetKernelWorkGroupInfo(data->kernels[NEGATIVE], data->device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
-	err = clEnqueueNDRangeKernel(data->commands, data->kernels[NEGATIVE], 1, NULL, &global, &local, 0, NULL, NULL);
-	clFinish(data->commands);
-}
-
-void	gauss_filter(t_filter_data *data)
-{
-	size_t global = WID * HEI;
-	size_t local;
-	cl_int err;
-	cl_mem buffer;
-	cl_int type = 0;
-	buffer = clCreateBuffer(data->context, 0, sizeof(t_color) * WID * HEI, NULL, &err);
-	clEnqueueCopyBuffer(data->commands, data->pixels, buffer, 0, 0, sizeof(t_color) * WID * HEI, 0,0,0);
-	err = clSetKernelArg(data->kernels[GAUSS], 0, sizeof(cl_mem), &data->pixels);
-	err = clSetKernelArg(data->kernels[GAUSS], 1, sizeof(cl_mem), &buffer);
-	err = clSetKernelArg(data->kernels[GAUSS], 2, sizeof(cl_int), &type);
-	err = clGetKernelWorkGroupInfo(data->kernels[GAUSS], data->device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
-	err = clEnqueueNDRangeKernel(data->commands, data->kernels[GAUSS], 1, NULL, &global, &local, 0, NULL, NULL);
-	clFinish(data->commands);
-	type = 1;
-	clEnqueueCopyBuffer(data->commands, data->pixels, buffer, 0, 0, sizeof(t_color) * WID * HEI, 0,0,0);
-	err = clEnqueueNDRangeKernel(data->commands, data->kernels[GAUSS], 1, NULL, &global, &local, 0, NULL, NULL);
-	clFinish(data->commands);
-	clReleaseMemObject(buffer);
-}
-
-void	sharpen_filter(t_filter_data *data)
-{
-
-	size_t global = WID * HEI;
-	size_t local;
-	cl_int err;
-	cl_mem buffer;
-	int num = 0;
-	buffer = clCreateBuffer(data->context, 0, sizeof(t_color) * WID * HEI, NULL, &err);
-	clEnqueueCopyBuffer(data->commands, data->pixels, buffer, 0, 0, sizeof(t_color) * WID * HEI, 0,0,0);
-	err = clSetKernelArg(data->kernels[SHARPEN], 0, sizeof(cl_mem), &data->pixels);
-	err = clSetKernelArg(data->kernels[SHARPEN], 1, sizeof(cl_mem), &buffer);
-	err = clSetKernelArg(data->kernels[SHARPEN], 2, sizeof(cl_mem), &num);
-	err = clGetKernelWorkGroupInfo(data->kernels[SHARPEN], data->device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
-	err = clEnqueueNDRangeKernel(data->commands, data->kernels[SHARPEN], 1, NULL, &global, &local, 0, NULL, NULL);
-	clFinish(data->commands);
-	num++;
-	clEnqueueCopyBuffer(data->commands, data->pixels, buffer, 0, 0, sizeof(t_color) * WID * HEI, 0,0,0);
-	err = clEnqueueNDRangeKernel(data->commands, data->kernels[SHARPEN], 1, NULL, &global, &local, 0, NULL, NULL);
-	clFinish(data->commands);
-	clReleaseMemObject(buffer);
-}
-
-void	magic_filter(t_filter_data *data)
-{
-	size_t global = WID * HEI;
-	size_t local;
-	cl_int err;
-	cl_mem buffer;
-
-	buffer = clCreateBuffer(data->context, 0, sizeof(t_color) * WID * HEI, NULL, &err);
-	clEnqueueCopyBuffer(data->commands, data->pixels, buffer, 0, 0, sizeof(t_color) * WID * HEI, 0,0,0);
-	err = clSetKernelArg(data->kernels[MAGIC], 0, sizeof(cl_mem), &data->pixels);
-	err = clSetKernelArg(data->kernels[MAGIC], 1, sizeof(cl_mem), &buffer);
-	err = clGetKernelWorkGroupInfo(data->kernels[MAGIC], data->device_id, CL_KERNEL_WORK_GROUP_SIZE, sizeof(local), &local, NULL);
-	err = clEnqueueNDRangeKernel(data->commands, data->kernels[MAGIC], 1, NULL, &global, &local, 0, NULL, NULL);
-	clFinish(data->commands);
-	clReleaseMemObject(buffer);
 }

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hunnamab <hunnamab@student.42.fr>          +#+  +:+       +#+         #
+#    By: baylak <baylak@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/06 17:43:09 by pmetron           #+#    #+#              #
-#    Updated: 2020/11/08 20:32:25 by hunnamab         ###   ########.fr        #
+#    Updated: 2021/02/22 05:10:28 by baylak           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,9 +34,9 @@ OBJ = $(subst .c,.o,$(SRC))
 all: $(NAME)
 
 $(NAME):
-	gcc $(FLAGS) -c $(SRC)
-	ar rc $(NAME) $(OBJ)
-	ranlib $(NAME)
+	@gcc $(FLAGS) -c $(SRC)
+	@ar rc $(NAME) $(OBJ)
+	@ranlib $(NAME)
 
 clean:
 	@rm -f $(OBJ)

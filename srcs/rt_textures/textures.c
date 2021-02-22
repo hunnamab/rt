@@ -6,7 +6,7 @@
 /*   By: baylak <baylak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/17 18:09:19 by ldeirdre          #+#    #+#             */
-/*   Updated: 2021/02/22 02:59:27 by baylak           ###   ########.fr       */
+/*   Updated: 2021/02/22 05:05:34 by baylak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ t_color				get_color_tex(t_texture *texture, float x,
 	int				fx;
 	int				fy;
 
+	index = 0;
 	if (x < 0)
 		x = texture->width + x;
 	if (y < 0)

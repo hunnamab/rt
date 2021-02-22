@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   light_parameters.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: npetrell <npetrell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: baylak <baylak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 11:58:35 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/21 19:21:01 by npetrell         ###   ########.fr       */
+/*   Updated: 2021/02/22 05:08:22 by baylak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void			one_light(char **description, t_scene *scene, \
 {
 	t_light			light;
 	cl_float3		pos_dir[2];
-	double			intensity;
+	float			intensity;
 	char			*type;
 
 	type = get_light_type(description[1]);
@@ -58,11 +58,12 @@ static void			one_light(char **description, t_scene *scene, \
 t_light				many_lights(char **description, int *snmi, \
 												int i, char *type)
 {
-	t_light			light;
 	cl_float3		pos_dir[2];
-	double			intensity;
+	float			intensity;
 	int				new_type;
+	int				tmp;
 
+	tmp = *snmi;
 	init_norme(pos_dir, &intensity, &new_type);
 	if (ft_strequ(type, "\"point\","))
 	{

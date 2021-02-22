@@ -6,7 +6,7 @@
 /*   By: baylak <baylak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:39:34 by hunnamab          #+#    #+#             */
-/*   Updated: 2021/02/22 04:15:38 by baylak           ###   ########.fr       */
+/*   Updated: 2021/02/22 05:13:10 by baylak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -347,7 +347,8 @@ void				set_arg_plane(t_scene *scene, int index);
 void				set_arg2_plane(t_scene *scene, int index, \
 												int is_refractive, cl_mem cs);
 void				set_arg_sphere(t_scene *scene, int index, cl_mem cs);
-void				set_arg2_sphere(t_scene *scene, int index, int is_refractive);
+void				set_arg2_sphere(t_scene *scene, int index, \
+													int is_refractive);
 void				set_arg_torus(t_scene *scene, int index, \
 						cl_mem cs);
 void				set_arg2_torus(t_scene *scene, int index, \
@@ -355,7 +356,8 @@ void				set_arg2_torus(t_scene *scene, int index, \
 t_basis				get_basis_tr(t_basis basis, cl_float3 *vert);
 cl_float3			cross(cl_float3 u, cl_float3 v);
 cl_float3			normalize_tr(cl_float3 vec);
-void				init_norme_triangle(float *r, cl_float3 *v, float *rt, cl_float3 *vt);
+void				init_norme_triangle(float *r, cl_float3 *v, \
+											float *rt, cl_float3 *vt);
 
 void				copy_memory_objects(t_scene *scene, t_object_d *buf, int i);
 void				init_buf(t_scene *scene, t_object_d *buf, int i);
@@ -379,4 +381,13 @@ void				fd17(t_scene *scene);
 void				fd18(t_scene *scene);
 void				fd19(t_scene *scene);
 void				create_buf_gpu(t_scene *scene);
+void				magic_filter(t_filter_data *data);
+void				sharpen_filter(t_filter_data *data);
+void				gauss_filter(t_filter_data *data);
+void				negative(t_filter_data *data);
+void				gray_scale(t_filter_data *data);
+void				sepia_filter(t_filter_data *data);
+/* void				fd_sepia(t_filter_data *data);
+void				fd_negative(t_filter_data *data);
+void				fd_gray_scale(t_filter_data *data); */
 #endif
